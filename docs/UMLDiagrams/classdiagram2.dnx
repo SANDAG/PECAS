@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xtools2_universal_type_manager-->
+<?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.mmi.ui.signatures.diagram" version="7.0.0"><feature description="" name="Rational Modeling Platform (com.ibm.xtools.rmp)" url="" version="7.0.0"/></signature>?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.2/Umlnotation" xmi:id="_-SELkANrEd6NqIlP00r_1A" type="Class" name="classdiagram2.dnx">
+  <eAnnotations xmi:id="_-SELkgNrEd6NqIlP00r_1A" source="com.ibm.xtools.common.ui.reduction.editingCapabilities-disabled">
+    <details xmi:id="_-SELkwNrEd6NqIlP00r_1A" key="com.ibm.xtools.activities.javaVisualizerActivity" value="1"/>
+  </eAnnotations>
+  <children xmi:id="_-Xdo8ANrEd6NqIlP00r_1A">
+    <children xmi:id="_-XfeIANrEd6NqIlP00r_1A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_-XfeIQNrEd6NqIlP00r_1A" width="1320" height="1320"/>
+    </children>
+    <children xmi:id="_-XgFMANrEd6NqIlP00r_1A" type="Stereotype"/>
+    <children xmi:id="_-XgsQANrEd6NqIlP00r_1A" type="Name"/>
+    <children xmi:id="_-XgsQQNrEd6NqIlP00r_1A" type="Parent"/>
+    <children xmi:id="_-XhTUANrEd6NqIlP00r_1A" visible="false" type="ANNOTATION_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_-XhTUQNrEd6NqIlP00r_1A"/>
+    </children>
+    <children xmi:id="_-YFUAANrEd6NqIlP00r_1A" type="ANNOTATED_ATTRIBUTE_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_-YFUAQNrEd6NqIlP00r_1A"/>
+    </children>
+    <children xmi:id="_-YFUAgNrEd6NqIlP00r_1A" type="ANNOTATED_OPERATION_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_-YFUAwNrEd6NqIlP00r_1A"/>
+    </children>
+    <styles xmi:type="umlnotation:UMLShapeStyle" xmi:id="_-Xdo8QNrEd6NqIlP00r_1A" fontName="Segoe UI" showStereotype="Label"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=AAControl%5Bjcu%5Ename=AAControl.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-Xdo8gNrEd6NqIlP00r_1A" x="17013" y="10438"/>
+  </children>
+  <styles xmi:type="umlnotation:UMLDiagramStyle" xmi:id="_-SELkQNrEd6NqIlP00r_1A"/>
+  <element xsi:nil="true"/>
+</notation:Diagram>

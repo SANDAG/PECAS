@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--AgileJ Ltd. (http://www.agilej.com)-->
+<ajsv>
+    <diagram style="standardDiagramStyles.diagramStyle.Standard Basic Style" version="1.5.3">
+        <switch switchID="standardDiagramStyles.styleEnumSwitch.Manhattan Lines" switchValue="dependence, fields"/>
+        <switch switchID="standardDiagramStyles.styleEnumSwitch.Line Types" switchValue="field, inheritance"/>
+        <switch switchID="standardDiagramStyles.styleEnumSwitch.Signature Length" switchValue="medium"/>
+        <switch switchID="standardDiagramStyles.styleEnumSwitch.Visibility" switchValue="public, protected, package, private"/>
+        <switch switchID="standardDiagramStyles.styleEnumSwitch.Members" switchValue="fields, methods, inners, initializers"/>
+        <class className="com.hbaspecto.pecas.CommodityZUtility" project="pecas" xLocation="2667" yLocation="7"/>
+        <class className="com.hbaspecto.pecas.Commodity" project="pecas" xLocation="752" yLocation="-77"/>
+        <class className="com.hbaspecto.pecas.AggregateActivity" project="pecas" xLocation="3532" yLocation="978"/>
+        <class className="com.hbaspecto.pecas.CommodityFlowArray" project="pecas" xLocation="3538" yLocation="39"/>
+        <class className="com.hbaspecto.pecas.Exchange" project="pecas" xLocation="1694" yLocation="-24"/>
+        <class className="com.hbaspecto.pecas.AbstractCommodity" project="pecas" xLocation="970" yLocation="-518"/>
+        <class className="com.hbaspecto.pecas.PECASZone" project="pecas" xLocation="2942" yLocation="-379"/>
+        <class className="com.hbaspecto.pecas.AmountInZone" project="pecas" xLocation="1679" yLocation="1179"/>
+        <class className="com.hbaspecto.pecas.ProductionActivity" project="pecas" xLocation="2801" yLocation="888"/>
+    </diagram>
+</ajsv>

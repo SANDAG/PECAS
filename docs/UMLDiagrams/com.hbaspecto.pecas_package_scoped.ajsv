@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--AgileJ Ltd. (http://www.agilej.com)-->
+<ajsv>
+    <diagram scope="scopeElementSets.elementSet.Switchable Types In Package" style="standardDiagramStyles.diagramStyle.Standard Basic Style" version="1.5.3">
+        <switch switchID="standardDiagramStyles.styleEnumSwitch.Manhattan Lines" switchValue="dependence, fields, inheritance"/>
+        <switch switchID="standardDiagramStyles.styleEnumSwitch.Line Types" switchValue="field, inheritance"/>
+        <switch switchID="standardDiagramStyles.styleEnumSwitch.Signature Length" switchValue="medium"/>
+        <switch switchID="scopeElementSets.stylePatternSwitch.Scope Package" switchValue="com\.hbaspecto\.pecas"/>
+        <switch switchID="standardDiagramStyles.styleEnumSwitch.Visibility" switchValue="public, protected, package, private"/>
+        <switch switchID="standardDiagramStyles.styleEnumSwitch.Members" switchValue="fields"/>
+        <class className="com.hbaspecto.pecas.AAControl" project="pecas" xLocation="3040" yLocation="-259"/>
+        <class className="com.hbaspecto.pecas.TravelUtilityCalculatorInterface" project="pecas" xLocation="5061" yLocation="498"/>
+        <class className="com.hbaspecto.pecas.CommodityZUtility" project="pecas" xLocation="3739" yLocation="773"/>
+        <class className="com.hbaspecto.pecas.CommodityQuantities" project="pecas" xLocation="4270" yLocation="97"/>
+        <class className="com.hbaspecto.pecas.GridCell" project="pecas" xLocation="6361" yLocation="487"/>
+        <class className="com.hbaspecto.pecas.LogitSubstitution" project="pecas" xLocation="2940" yLocation="451"/>
+        <class className="com.hbaspecto.pecas.DevelopmentTypeInterface" project="pecas" xLocation="5543" yLocation="892"/>
+        <class className="com.hbaspecto.pecas.ModelDidntWorkException" project="pecas" xLocation="4710" yLocation="1539"/>
+        <class className="com.hbaspecto.pecas.TestLogisticPlusLinearFunction" project="pecas" xLocation="4193" yLocation="-236"/>
+        <class className="com.hbaspecto.pecas.TransportKnowledge" project="pecas" xLocation="2618" yLocation="1029"/>
+        <class className="com.hbaspecto.pecas.ExponentialPlusBaseFunction" project="pecas" xLocation="6226" yLocation="219"/>
+        <class className="com.hbaspecto.pecas.RegularActivity" project="pecas" xLocation="5527" yLocation="-43"/>
+        <class className="com.hbaspecto.pecas.EconomicUnit" project="pecas" xLocation="5074" yLocation="1644"/>
+        <class className="com.hbaspecto.pecas.ExponentialQuantities" project="pecas" xLocation="3382" yLocation="603"/>
+        <class className="com.hbaspecto.pecas.SingleParameterFunction" project="pecas" xLocation="3189" yLocation="88"/>
+        <class className="com.hbaspecto.pecas.InvalidFlowError" project="pecas" xLocation="4326" yLocation="-69"/>
+        <class className="com.hbaspecto.pecas.FixedUtilityAlternative" project="pecas" xLocation="5220" yLocation="830"/>
+        <class className="com.hbaspecto.pecas.DiscreteChoiceModel" project="pecas" xLocation="5222" yLocation="665"/>
+        <class className="com.hbaspecto.pecas.AbstractCommodity" project="pecas" xLocation="2294" yLocation="176"/>
+        <class className="com.hbaspecto.pecas.LinearFunctionOfSomeSkims" project="pecas" xLocation="5311" yLocation="1063"/>
+        <class className="com.hbaspecto.pecas.LogitTechnologyChoiceProductionFunction" project="pecas" xLocation="4322" yLocation="771"/>
+        <class className="com.hbaspecto.pecas.AbstractZone" project="pecas" xLocation="5868" yLocation="478"/>
+        <class className="com.hbaspecto.pecas.LogitTechnologyChoiceConsumptionFunction" project="pecas" xLocation="3467" yLocation="1362"/>
+        <class className="com.hbaspecto.pecas.TotalSurplusVector" project="pecas" xLocation="3967" yLocation="-49"/>
+        <class className="com.hbaspecto.pecas.PeakAutoSkims" project="pecas" xLocation="2480" yLocation="1247"/>
+        <class className="com.hbaspecto.pecas.AAPProcessor" project="pecas" xLocation="1764" yLocation="655"/>
+        <class className="com.hbaspecto.pecas.AAModel" project="pecas" xLocation="3441" yLocation="-372"/>
+        <class className="com.hbaspecto.pecas.TechnologyOption" project="pecas" xLocation="4709" yLocation="1028"/>
+        <class className="com.hbaspecto.pecas.AggregateDistribution" project="pecas" xLocation="3820" yLocation="431"/>
+        <class className="com.hbaspecto.pecas.ActivityInLocationWithLogitTechnologyChoice" project="pecas" xLocation="3239" yLocation="829"/>
+        <class className="com.hbaspecto.pecas.ProductionActivity" project="pecas" xLocation="4610" yLocation="-98"/>
+        <class className="com.hbaspecto.pecas.AmountInZone" project="pecas" xLocation="5749" yLocation="146"/>
+        <class className="com.hbaspecto.pecas.LaborProductionAndConsumption" project="pecas" xLocation="5605" yLocation="1547"/>
+        <class className="com.hbaspecto.pecas.ZoningSchemeInterface" project="pecas" xLocation="5911" yLocation="808"/>
+        <class className="com.hbaspecto.pecas.DisaggregateActivity" project="pecas" xLocation="3536" yLocation="118"/>
+        <class className="com.hbaspecto.pecas.LogitModel" project="pecas" xLocation="4800" yLocation="773"/>
+        <class className="com.hbaspecto.pecas.TimeAndDistanceTravelUtilityCalculator" project="pecas" xLocation="5297" yLocation="271"/>
+        <class className="com.hbaspecto.pecas.LinearSkimFunctionEEOverride" project="pecas" xLocation="4709" yLocation="1330"/>
+        <class className="com.hbaspecto.pecas.Commodity" project="pecas" xLocation="2862" yLocation="1242"/>
+        <class className="com.hbaspecto.pecas.AggregateActivity" project="pecas" xLocation="4816" yLocation="196"/>
+        <class className="com.hbaspecto.pecas.NoAlternativeAvailable" project="pecas" xLocation="4590" yLocation="-264"/>
+        <class className="com.hbaspecto.pecas.AveragePriceSurplusDerivativeMatrix" project="pecas" xLocation="6039" yLocation="985"/>
+        <class className="com.hbaspecto.pecas.NumericalDerivativeSingleParameterFunction" project="pecas" xLocation="5020" yLocation="4"/>
+        <class className="com.hbaspecto.pecas.NonTransportableExchange" project="pecas" xLocation="3068" yLocation="1049"/>
+        <class className="com.hbaspecto.pecas.SomeSkims" project="pecas" xLocation="5103" yLocation="1353"/>
+        <class className="com.hbaspecto.pecas.CommodityFlowArray" project="pecas" xLocation="4283" yLocation="450"/>
+        <class className="com.hbaspecto.pecas.LogisticPlusLinearFunction" project="pecas" xLocation="2817" yLocation="187"/>
+        <class className="com.hbaspecto.pecas.SellingZUtility" project="pecas" xLocation="3698" yLocation="1197"/>
+        <class className="com.hbaspecto.pecas.AggregateAlternative" project="pecas" xLocation="4442" yLocation="282"/>
+        <class className="com.hbaspecto.pecas.Alternative" project="pecas" xLocation="4815" yLocation="583"/>
+        <class className="com.hbaspecto.pecas.ChoiceModelOverflowException" project="pecas" xLocation="5272" yLocation="-208"/>
+        <class className="com.hbaspecto.pecas.ProductionFunction" project="pecas" xLocation="4134" yLocation="264"/>
+        <class className="com.hbaspecto.pecas.OverflowException" project="pecas" xLocation="4923" yLocation="-375"/>
+        <class className="com.hbaspecto.pecas.InvalidZUtilityError" project="pecas" xLocation="5260" yLocation="-381"/>
+        <class className="com.hbaspecto.pecas.AASetupWithTechnologySubstitution" project="pecas" xLocation="3525" yLocation="1571"/>
+        <class className="com.hbaspecto.pecas.TravelAttributesInterface" project="pecas" xLocation="5688" yLocation="1066"/>
+        <class className="com.hbaspecto.pecas.LogitTechnologyChoice" project="pecas" xLocation="3963" yLocation="1191"/>
+        <class className="com.hbaspecto.pecas.BuyingZUtility" project="pecas" xLocation="3433" yLocation="1129"/>
+        <class className="com.hbaspecto.pecas.ConsumptionFunction" project="pecas" xLocation="3494" yLocation="410"/>
+        <class className="com.hbaspecto.pecas.Exchange" project="pecas" xLocation="2389" yLocation="476"/>
+        <class className="com.hbaspecto.pecas.PECASZone" project="pecas" xLocation="5548" yLocation="664"/>
+        <class className="com.hbaspecto.pecas.DistanceAndTime" project="pecas" xLocation="5695" yLocation="1259"/>
+        <class className="com.hbaspecto.pecas.CommodityPriceSurplusDerivativeMatrix" project="pecas" xLocation="4101" yLocation="1651"/>
+        <class className="com.hbaspecto.pecas.UnitOfLand" project="pecas" xLocation="5017" yLocation="-161"/>
+    </diagram>
+</ajsv>

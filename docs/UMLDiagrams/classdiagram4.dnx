@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--xtools2_universal_type_manager-->
+<?com.ibm.xtools.emf.core.signature <signature id="com.ibm.xtools.mmi.ui.signatures.diagram" version="7.0.0"><feature description="" name="Rational Modeling Platform (com.ibm.xtools.rmp)" url="" version="7.0.0"/></signature>?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmlns:uml="http://www.eclipse.org/uml2/2.1.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.2/Umlnotation" xmi:id="_UWoZgANtEd6NqIlP00r_1A" type="Class" name="classdiagram4.dnx">
+  <eAnnotations xmi:id="_UWoZggNtEd6NqIlP00r_1A" source="com.ibm.xtools.common.ui.reduction.editingCapabilities">
+    <details xmi:id="_UWoZgwNtEd6NqIlP00r_1A" key="com.ibm.xtools.activities.javaVisualizerActivity" value="1"/>
+  </eAnnotations>
+  <children xmi:id="_UfKDYANtEd6NqIlP00r_1A">
+    <children xmi:id="_UfL4kANtEd6NqIlP00r_1A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_UfL4kQNtEd6NqIlP00r_1A" width="1320" height="1320"/>
+    </children>
+    <children xmi:id="_UfL4kgNtEd6NqIlP00r_1A" type="Stereotype"/>
+    <children xmi:id="_UfL4kwNtEd6NqIlP00r_1A" type="Name"/>
+    <children xmi:id="_UfMfoANtEd6NqIlP00r_1A" type="Parent"/>
+    <children xmi:id="_UfMfoQNtEd6NqIlP00r_1A" visible="false" type="ANNOTATION_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_UfMfogNtEd6NqIlP00r_1A"/>
+    </children>
+    <children xmi:id="_UfMfowNtEd6NqIlP00r_1A" type="ANNOTATED_ATTRIBUTE_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_UfMfpANtEd6NqIlP00r_1A"/>
+    </children>
+    <children xmi:id="_UfMfpQNtEd6NqIlP00r_1A" type="ANNOTATED_OPERATION_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_UfMfpgNtEd6NqIlP00r_1A"/>
+    </children>
+    <styles xmi:type="umlnotation:UMLShapeStyle" xmi:id="_UfKDYQNtEd6NqIlP00r_1A" fontName="Segoe UI" showStereotype="Label"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=LogitTechnologyChoice%5Bjcu%5Ename=LogitTechnologyChoice.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UfKDYgNtEd6NqIlP00r_1A" x="31383" y="9827"/>
+  </children>
+  <children xmi:id="_UfNGsANtEd6NqIlP00r_1A">
+    <children xmi:id="_UfNGswNtEd6NqIlP00r_1A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_UfNGtANtEd6NqIlP00r_1A" width="1320" height="1320"/>
+    </children>
+    <children xmi:id="_UfNGtQNtEd6NqIlP00r_1A" type="Stereotype"/>
+    <children xmi:id="_UfNtwANtEd6NqIlP00r_1A" type="Name"/>
+    <children xmi:id="_UfNtwQNtEd6NqIlP00r_1A" type="Parent"/>
+    <children xmi:id="_UfNtwgNtEd6NqIlP00r_1A" visible="false" type="ANNOTATION_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_UfNtwwNtEd6NqIlP00r_1A"/>
+    </children>
+    <children xmi:id="_UfNtxANtEd6NqIlP00r_1A" type="ANNOTATED_ATTRIBUTE_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_UfNtxQNtEd6NqIlP00r_1A"/>
+    </children>
+    <children xmi:id="_UfNtxgNtEd6NqIlP00r_1A" type="ANNOTATED_OPERATION_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_UfNtxwNtEd6NqIlP00r_1A"/>
+    </children>
+    <styles xmi:type="umlnotation:UMLShapeStyle" xmi:id="_UfNGsQNtEd6NqIlP00r_1A" fontName="Segoe UI" showStereotype="Label"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=AmountOfCommodity%5Bjsrctype%5Ename=LogitTechnologyChoice%5Bjcu%5Ename=LogitTechnologyChoice.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UfNGsgNtEd6NqIlP00r_1A" x="45648" y="7291"/>
+  </children>
+  <children xmi:id="_ZqHFUANtEd6NqIlP00r_1A">
+    <children xmi:id="_ZqHsYANtEd6NqIlP00r_1A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_ZqHsYQNtEd6NqIlP00r_1A" width="1320" height="1320"/>
+    </children>
+    <children xmi:id="_ZqHsYgNtEd6NqIlP00r_1A" type="Stereotype"/>
+    <children xmi:id="_ZqHsYwNtEd6NqIlP00r_1A" type="Name"/>
+    <children xmi:id="_ZqITcANtEd6NqIlP00r_1A" type="Parent"/>
+    <children xmi:id="_ZqITcQNtEd6NqIlP00r_1A" visible="false" type="ANNOTATION_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_ZqITcgNtEd6NqIlP00r_1A"/>
+    </children>
+    <children xmi:id="_ZqITcwNtEd6NqIlP00r_1A" type="ANNOTATED_ATTRIBUTE_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_ZqITdANtEd6NqIlP00r_1A"/>
+    </children>
+    <children xmi:id="_ZqITdQNtEd6NqIlP00r_1A" type="ANNOTATED_OPERATION_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_ZqITdgNtEd6NqIlP00r_1A"/>
+    </children>
+    <styles xmi:type="umlnotation:UMLShapeStyle" xmi:id="_ZqHFUQNtEd6NqIlP00r_1A" fontName="Segoe UI" showStereotype="Label"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=Commodity%5Bjcu%5Ename=Commodity.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ZqHFUgNtEd6NqIlP00r_1A" x="68155" y="3487"/>
+  </children>
+  <children xmi:id="_xZAjkANtEd6NqIlP00r_1A">
+    <children xmi:id="_xZBKoANtEd6NqIlP00r_1A" type="ImageCompartment">
+      <layoutConstraint xmi:type="notation:Size" xmi:id="_xZBKoQNtEd6NqIlP00r_1A" width="1320" height="1320"/>
+    </children>
+    <children xmi:id="_xZBKogNtEd6NqIlP00r_1A" type="Stereotype"/>
+    <children xmi:id="_xZBKowNtEd6NqIlP00r_1A" type="Name"/>
+    <children xmi:id="_xZBxsANtEd6NqIlP00r_1A" type="Parent"/>
+    <children xmi:id="_xZBxsQNtEd6NqIlP00r_1A" visible="false" type="ANNOTATION_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_xZBxsgNtEd6NqIlP00r_1A"/>
+    </children>
+    <children xmi:id="_xZBxswNtEd6NqIlP00r_1A" type="ANNOTATED_ATTRIBUTE_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_xZBxtANtEd6NqIlP00r_1A"/>
+    </children>
+    <children xmi:id="_xZBxtQNtEd6NqIlP00r_1A" type="ANNOTATED_OPERATION_COMPARTMENT">
+      <styles xmi:type="umlnotation:UMLListCompartmentStyle" xmi:id="_xZBxtgNtEd6NqIlP00r_1A"/>
+    </children>
+    <styles xmi:type="umlnotation:UMLShapeStyle" xmi:id="_xZAjkQNtEd6NqIlP00r_1A" fontName="Segoe UI" showStereotype="Label"/>
+    <element xmi:type="uml:Class" href="mmi:///#jsrctype%5Ename=LogitModel%5Bjcu%5Ename=LogitModel.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D$uml.Class"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_xZAjkgNtEd6NqIlP00r_1A" x="32968" y="-2536"/>
+  </children>
+  <styles xmi:type="umlnotation:UMLDiagramStyle" xmi:id="_UWoZgQNtEd6NqIlP00r_1A"/>
+  <element xsi:nil="true"/>
+  <edges xmi:id="_UganoANtEd6NqIlP00r_1A" type="OwnedElement" source="_UfKDYANtEd6NqIlP00r_1A" target="_UfNGsANtEd6NqIlP00r_1A">
+    <styles xmi:type="umlnotation:UMLConnectorStyle" xmi:id="_UganoQNtEd6NqIlP00r_1A" fontName="Segoe UI" lineWidth="1" showStereotype="Text"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_UganogNtEd6NqIlP00r_1A" points="[0, 0, 0, -1586]$[0, 1586, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_UgtikgNtEd6NqIlP00r_1A" id="(0.25737706,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_UgtikwNtEd6NqIlP00r_1A" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:id="_UgbOsANtEd6NqIlP00r_1A" source="_UfKDYANtEd6NqIlP00r_1A" target="_UfNGsANtEd6NqIlP00r_1A">
+    <children xmi:id="_UgbOswNtEd6NqIlP00r_1A" type="KindLabel">
+      <children xmi:id="_Ugb1wANtEd6NqIlP00r_1A" type="Stereotype"/>
+      <children xmi:id="_Ugb1wgNtEd6NqIlP00r_1A" type="Kind"/>
+      <children xmi:id="_Ugb1wQNtEd6NqIlP00r_1A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UgbOtANtEd6NqIlP00r_1A" y="-530"/>
+    </children>
+    <styles xmi:type="umlnotation:UMLConnectorStyle" xmi:id="_UgbOsQNtEd6NqIlP00r_1A" fontName="Segoe UI" lineWidth="1" showStereotype="Text"/>
+    <element xmi:type="uml:Usage" href="mmi:///#jdep%5Bjsrctype%5Ename=LogitTechnologyChoice%5Bjcu%5Ename=LogitTechnologyChoice.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=AmountOfCommodity%5Bjsrctype%5Ename=LogitTechnologyChoice%5Bjcu%5Ename=LogitTechnologyChoice.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D%5D%5D$uml.Usage"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_UgbOsgNtEd6NqIlP00r_1A" points="[0, 0, 0, -1586]$[0, 1586, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_UgtikANtEd6NqIlP00r_1A" id="(0.25737706,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_UgtikQNtEd6NqIlP00r_1A" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:id="_ZtyrcANtEd6NqIlP00r_1A" source="_UfKDYANtEd6NqIlP00r_1A" target="_ZqHFUANtEd6NqIlP00r_1A">
+    <children xmi:id="_ZtzSgANtEd6NqIlP00r_1A" type="KindLabel">
+      <children xmi:id="_ZtzSggNtEd6NqIlP00r_1A" type="Stereotype"/>
+      <children xmi:id="_ZtzShANtEd6NqIlP00r_1A" type="Kind"/>
+      <children xmi:id="_ZtzSgwNtEd6NqIlP00r_1A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ZtzSgQNtEd6NqIlP00r_1A" y="-530"/>
+    </children>
+    <styles xmi:type="umlnotation:UMLConnectorStyle" xmi:id="_ZtyrcQNtEd6NqIlP00r_1A" fontName="Segoe UI" lineWidth="1" showStereotype="Text"/>
+    <element xmi:type="uml:Usage" href="mmi:///#jdep%5Bjsrctype%5Ename=LogitTechnologyChoice%5Bjcu%5Ename=LogitTechnologyChoice.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Commodity%5Bjcu%5Ename=Commodity.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D%5D$uml.Usage"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_ZtyrcgNtEd6NqIlP00r_1A" points="[0, 0, 1, -6607]$[0, 6607, 1, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_36mBQANtEd6NqIlP00r_1A" id="(0.742623,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_36moUANtEd6NqIlP00r_1A" id="(0.499814,0.0)"/>
+  </edges>
+  <edges xmi:id="_ZtzShQNtEd6NqIlP00r_1A" source="_UfNGsANtEd6NqIlP00r_1A" target="_ZqHFUANtEd6NqIlP00r_1A">
+    <children xmi:id="_Ztz5kgNtEd6NqIlP00r_1A" type="KindLabel">
+      <children xmi:id="_Ztz5lANtEd6NqIlP00r_1A" type="Stereotype"/>
+      <children xmi:id="_Ztz5lgNtEd6NqIlP00r_1A" type="Kind"/>
+      <children xmi:id="_Ztz5lQNtEd6NqIlP00r_1A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Ztz5kwNtEd6NqIlP00r_1A" y="-530"/>
+    </children>
+    <styles xmi:type="umlnotation:UMLConnectorStyle" xmi:id="_Ztz5kANtEd6NqIlP00r_1A" fontName="Segoe UI" lineWidth="1" showStereotype="Text"/>
+    <element xmi:type="uml:Usage" href="mmi:///#jdep%5Bjsrctype%5Ename=AmountOfCommodity%5Bjsrctype%5Ename=LogitTechnologyChoice%5Bjcu%5Ename=LogitTechnologyChoice.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=Commodity%5Bjcu%5Ename=Commodity.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D%5D$uml.Usage"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Ztz5kQNtEd6NqIlP00r_1A" points="[0, 0, -2424, -1586]$[2424, 1586, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_36deYANtEd6NqIlP00r_1A" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_36eFcANtEd6NqIlP00r_1A" id="(0.24984501,0.0)"/>
+  </edges>
+  <edges xmi:id="_xcfVYANtEd6NqIlP00r_1A" source="_UfKDYANtEd6NqIlP00r_1A" target="_xZAjkANtEd6NqIlP00r_1A">
+    <children xmi:id="_xcfVYwNtEd6NqIlP00r_1A" type="KindLabel">
+      <children xmi:id="_xcf8cANtEd6NqIlP00r_1A" type="Stereotype"/>
+      <children xmi:id="_xcf8cgNtEd6NqIlP00r_1A" type="Kind"/>
+      <children xmi:id="_xcf8cQNtEd6NqIlP00r_1A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_xcfVZANtEd6NqIlP00r_1A" y="-530"/>
+    </children>
+    <styles xmi:type="umlnotation:UMLConnectorStyle" xmi:id="_xcfVYQNtEd6NqIlP00r_1A" fontName="Segoe UI" lineWidth="1" showStereotype="Text"/>
+    <element xmi:type="uml:Usage" href="mmi:///#jdep%5Bjsrctype%5Ename=LogitTechnologyChoice%5Bjcu%5Ename=LogitTechnologyChoice.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=LogitModel%5Bjcu%5Ename=LogitModel.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D%5D$uml.Usage"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_xcfVYgNtEd6NqIlP00r_1A" points="[0, 0, 0, 1586]$[0, -1586, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_36jlAANtEd6NqIlP00r_1A" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_36kMEANtEd6NqIlP00r_1A" id="(0.49992087,1.0)"/>
+  </edges>
+  <edges xmi:id="_xcf8cwNtEd6NqIlP00r_1A" source="_UfKDYANtEd6NqIlP00r_1A" target="_xZAjkANtEd6NqIlP00r_1A">
+    <children xmi:id="_xcgjgANtEd6NqIlP00r_1A" type="NameLabel">
+      <children xmi:id="_xcgjggNtEd6NqIlP00r_1A" type="Stereotype"/>
+      <children xmi:id="_xcgjgwNtEd6NqIlP00r_1A" type="Name"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_xcgjgQNtEd6NqIlP00r_1A" y="-186"/>
+    </children>
+    <styles xmi:type="umlnotation:UMLConnectorStyle" xmi:id="_xcf8dANtEd6NqIlP00r_1A" fontName="Shruti" avoidObstructions="true" lineWidth="1" showStereotype="Text"/>
+    <element xmi:type="uml:Generalization" href="mmi:///#jgen%5Bjsrctype%5Ename=LogitTechnologyChoice%5Bjcu%5Ename=LogitTechnologyChoice.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D%5D%5Bjsrctype%5Ename=LogitModel%5Bjcu%5Ename=LogitModel.java%5Bjpack%5Ename=com.hbaspecto.pecas%5Bjsrcroot%5Esrcfolder=src/java%5Bproject%5Eid=pecas%5D%5D%5D%5D%5D$uml.Generalization"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_xcf8dQNtEd6NqIlP00r_1A" points="[0, 0, 0, 1586]$[0, -1586, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_36bpMANtEd6NqIlP00r_1A" id="(0.5,0.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_36cQQANtEd6NqIlP00r_1A" id="(0.49992087,1.0)"/>
+  </edges>
+</notation:Diagram>
