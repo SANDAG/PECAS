@@ -4,6 +4,7 @@
 	<groupId>org.sandag</groupId>
 	<artifactId>pecas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+  <description>Test feature for Git Flow POC</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
