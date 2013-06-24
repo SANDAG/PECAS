@@ -27,9 +27,9 @@
 			<version>0.9.14</version>
 		</dependency>
 		<dependency>
-			<groupId>common-base</groupId>
+			<groupId>pb</groupId>
 			<artifactId>common-base</artifactId>
-			<version>1.0.0</version>
+			<version>1.0-PECAS</version>
 		</dependency>
 		<dependency>
 			<groupId>org.simpleorm</groupId>
