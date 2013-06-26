@@ -1114,7 +1114,7 @@ public abstract class AAPProcessor {
 			logger
 					.warn("No scale column in FloorspaceBuyingSizeTermI ... assuming all types are scale 1");
 		}
-		final Hashtable floorspaceGroups = new Hashtable();
+		final Hashtable<String, ZoneQuantityStorage> floorspaceGroups = new Hashtable<String, ZoneQuantityStorage>();
 		for (int row = 1; row <= floorspaceSizeTermsCalculation.getRowCount(); row++) {
 			final String groupName = floorspaceSizeTermsCalculation.getStringValueAt(
 					row, "FloorspaceGroup");
