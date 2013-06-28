@@ -8,7 +8,43 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
+  
+  <reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.10</version>
+				<configuration>
+          <failsOnError>false</failsOnError>
+					<configLocation>checkstyle.xml</configLocation>
+				</configuration>
+			</plugin>
+		</plugins>
+	</reporting>
+  
+	<!--<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.10</version>
+				<executions>
+					<execution>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<failsOnError>false</failsOnError>
+          <configLocation>checkstyle.xml</configLocation>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>-->
+  
 	<dependencies>
 		<dependency>
 			<groupId>postgresql</groupId>
@@ -47,7 +83,21 @@
 			<version>1.9</version>
 		</dependency>
 	</dependencies>
-
+  
+  <distributionManagement>
+    <snapshotRepository>
+      <id>nexus-snapshots</id>
+      <name>Snapshots</name>
+      <url>http://svn.sandag.org:8081/nexus/content/repositories/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+		<repository>
+			<id>nexus-releases</id>
+			<name>Releases</name>
+			<url>http://svn.sandag.org:8081/nexus/content/repositories/releases</url>
+		</repository>
+	</distributionManagement>
+  
 	<repositories>		
 		<repository>
 			<id>mvn-repository</id>
@@ -55,7 +105,7 @@
 			<url>http://mvnrepository.com</url>
 		</repository>
 		<repository>
-			<id>nexus</id>
+			<id>nexus-thirdparty</id>
 			<name>Sandag Nexus</name>
 			<url>http://svn.sandag.org:8081/nexus/content/repositories/thirdparty</url>
 		</repository>
