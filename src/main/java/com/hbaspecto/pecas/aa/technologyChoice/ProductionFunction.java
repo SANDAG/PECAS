@@ -17,23 +17,24 @@
 
 package com.hbaspecto.pecas.aa.technologyChoice;
 
+
 /**
  * 
- * 
+ *
  * @author J. Abraham
  */
 public interface ProductionFunction extends CommodityQuantities {
+  
+  // Attributes
 
-	// Attributes
-
-	// Associations
-	/**
+  // Associations
+  /**
  * 
  */
-	/**
+    /**
  * 
  */
-
-	// Operations
+  
+  // Operations
 
 } /* end class ConsumptionFunction */

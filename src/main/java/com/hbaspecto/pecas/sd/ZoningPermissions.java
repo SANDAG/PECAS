@@ -22,27 +22,17 @@ import org.apache.log4j.Logger;
 
 import com.hbaspecto.pecas.sd.orm.ZoningPermissions_gen;
 
-public class ZoningPermissions extends ZoningPermissions_gen {
-	protected static transient Logger logger = Logger
-			.getLogger(ZoningPermissions.class);
-	static double maxMinPercentageOfMax = 0.9;
+public class ZoningPermissions extends ZoningPermissions_gen{
+    protected static transient Logger logger = Logger.getLogger(ZoningPermissions.class);
+    static double maxMinPercentageOfMax = 0.9;
+   
+    public double get_MaxIntensityPermitted() {
+        if (super.get_MaxIntensityPermitted()<0) throw new Error("Tried to specify a negative Maximum FAR");      
+       return super.get_MaxIntensityPermitted();
+    }
 
-	@Override
-	public double get_MaxIntensityPermitted() {
-		if (super.get_MaxIntensityPermitted() < 0) {
-			throw new Error("Tried to specify a negative Maximum FAR");
-		}
-		return super.get_MaxIntensityPermitted();
-	}
-
-	@Override
-	public double get_MinIntensityPermitted() {
-		if (super.get_MinIntensityPermitted() > super.get_MaxIntensityPermitted()
-				* maxMinPercentageOfMax) {
-			throw new RuntimeException(
-					"Tried to specifiy a minimum FAR greater than "
-							+ maxMinPercentageOfMax + " times the maximum FAR");
-		}
-		return super.get_MinIntensityPermitted();
-	}
+    public double get_MinIntensityPermitted() {
+        if (super.get_MinIntensityPermitted() > super.get_MaxIntensityPermitted()*maxMinPercentageOfMax) throw new RuntimeException("Tried to specifiy a minimum FAR greater than "+maxMinPercentageOfMax+" times the maximum FAR");
+        return super.get_MinIntensityPermitted();
+    }
 }

@@ -17,23 +17,20 @@
 package com.hbaspecto.pecas.sd;
 
 import java.util.Iterator;
-
 //import com.pb.despair.ld.DevelopmentType;
+
 
 /**
  * A class that represents a the allowed zoning in a Grid Cell
- * 
  * @author John Abraham
  */
 public interface ZoningRulesIInterface {
 
-	public abstract String getName();
+    public abstract String getName();
 
-	public void noLongerAllowDevelopmentType(SpaceTypeInterface dt);
+    public void noLongerAllowDevelopmentType(SpaceTypeInterface dt);
+    public double getAllowedFAR(SpaceTypeInterface dt);
 
-	public double getAllowedFAR(SpaceTypeInterface dt);
-
-	public Iterator getAllowedSpaceTypes();
-
-	public int size();
+    public Iterator getAllowedSpaceTypes();
+    public int size();
 }

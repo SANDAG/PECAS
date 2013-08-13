@@ -23,96 +23,64 @@ import com.hbaspecto.pecas.zones.PECASZone;
 
 public class NonTransportableExchange extends Exchange {
 
-	final int myLocationIndex;
+    final int myLocationIndex;
 
-	public NonTransportableExchange(Commodity com, PECASZone zone) {
-		super(com, zone, 1);
-		myLocationIndex = zone.getZoneIndex();
-	}
+    public NonTransportableExchange(Commodity com, PECASZone zone) {
+        super(com, zone, 1);
+        myLocationIndex = zone.getZoneIndex();
+    }
 
-	@Override
-	void setFlowQuantity(int tazIndex, char selling, double quantity) {
-		if (tazIndex != myLocationIndex) {
-			throw new Error("Non transportable exchange zone for " + myCommodity
-					+ " in zone " + exchangeLocationUserID
-					+ " had an inter-zonal flow assinged: only intrazonal flows allowed");
-		}
-		if (selling == 's') {
-			if (sellingToExchangeFlows[0] == null) {
-				throw new Error("trying to set quantity for nonexistent flow " + this
-						+ " " + selling + " " + tazIndex);
-			}
-			sellingQuantities[0] = quantity;
-		}
-		else {
-			if (buyingFromExchangeFlows[0] == null) {
-				throw new Error("trying to set quantity for nonexistent flow " + this
-						+ " " + selling + " " + tazIndex);
-			}
-			buyingQuantities[0] = quantity;
-		}
-	}
+    void setFlowQuantity(int tazIndex, char selling, double quantity) {
+        if (tazIndex != myLocationIndex) throw new Error("Non transportable exchange zone for " + myCommodity + " in zone " + exchangeLocationUserID + " had an inter-zonal flow assinged: only intrazonal flows allowed");
+        if (selling == 's') {
+            if (sellingToExchangeFlows[0] == null)
+                throw new Error("trying to set quantity for nonexistent flow " + this + " " + selling + " " + tazIndex);
+            sellingQuantities[0] = quantity;
+        } else {
+            if (buyingFromExchangeFlows[0] == null)
+                throw new Error("trying to set quantity for nonexistent flow " + this + " " + selling + " " + tazIndex);
+            buyingQuantities[0] = quantity;
+        }
+    }
 
-	@Override
-	public double getFlowQuantity(int tazIndex, char selling) {
-		if (tazIndex != myLocationIndex) {
-			throw new InvalidFlowError("Non transportable exchange zone for "
-					+ myCommodity + " in zone " + exchangeLocationUserID
-					+ " had an inter-zonal flow assinged: only intrazonal flows allowed");
-		}
-		if (selling == 's') {
-			if (sellingToExchangeFlows[0] == null) {
-				throw new InvalidFlowError(
-						"trying to get quantity for nonexistent flow " + this + " "
-								+ selling + " " + tazIndex);
-			}
-			return sellingQuantities[0];
-		}
-		else {
-			if (buyingFromExchangeFlows[0] == null) {
-				throw new InvalidFlowError(
-						"trying to get quantity for nonexistent flow " + this + " "
-								+ selling + " " + tazIndex);
-			}
-			return buyingQuantities[0];
-		}
-	}
+    public double getFlowQuantity(int tazIndex, char selling) {
+        if (tazIndex != myLocationIndex) throw new InvalidFlowError("Non transportable exchange zone for " + myCommodity + " in zone " + exchangeLocationUserID + " had an inter-zonal flow assinged: only intrazonal flows allowed");
+        if (selling == 's') {
+            if (sellingToExchangeFlows[0] == null)
+                throw new InvalidFlowError("trying to get quantity for nonexistent flow " + this + " " + selling + " " + tazIndex);
+            return sellingQuantities[0];
+        } else {
+            if (buyingFromExchangeFlows[0] == null)
+                throw new InvalidFlowError("trying to get quantity for nonexistent flow " + this + " " + selling + " " + tazIndex);
+            return buyingQuantities[0];
+        }
+    }
 
-	@Override
-	double getFlowQuantityZeroForNonExistantFlow(int tazIndex, char selling) {
-		if (tazIndex != myLocationIndex) {
-			return 0;
-		}
-		if (selling == 's') {
-			if (sellingToExchangeFlows[0] == null) {
-				return 0;
-			}
-			return sellingQuantities[0];
-		}
-		else {
-			if (buyingFromExchangeFlows[0] == null) {
-				return 0;
-			}
-			return buyingQuantities[0];
-		}
-	}
+    @Override
+    double getFlowQuantityZeroForNonExistantFlow(int tazIndex, char selling) {
+        if (tazIndex != myLocationIndex) return 0;
+        if (selling == 's') {
+            if (sellingToExchangeFlows[0] == null)
+                return 0;
+            return sellingQuantities[0];
+        } else {
+            if (buyingFromExchangeFlows[0] == null)
+                return 0;
+            return buyingQuantities[0];
+        }
+    }
 
-	@Override
-	public void addFlowIfNotAlreadyThere(CommodityZUtility f, boolean buying) {
-		final int tazIndex = f.myTaz.getZoneIndex();
-		if (tazIndex != myLocationIndex) {
-			throw new Error(
-					"Attempt to add an Interzonal flow to a non-transportable exchange "
-							+ myCommodity + " in zone " + exchangeLocationUserID);
-		}
-		if (buying) {
-			buyingFromExchangeFlows[0] = f;
-			buyingQuantities[0] = 0;
-		}
-		else {
-			sellingToExchangeFlows[0] = f;
-			sellingQuantities[0] = 0;
-		}
-	}
+    public void addFlowIfNotAlreadyThere(CommodityZUtility f, boolean buying) {
+        int tazIndex = f.myTaz.getZoneIndex();
+        if (tazIndex != myLocationIndex) throw new Error("Attempt to add an Interzonal flow to a non-transportable exchange " + myCommodity + " in zone " + exchangeLocationUserID);
+        if (buying) {
+            buyingFromExchangeFlows[0] = f;
+            buyingQuantities[0] = 0;
+        } else {
+            sellingToExchangeFlows[0] = f;
+            sellingQuantities[0] = 0;
+        }
+    }
+
 
 }

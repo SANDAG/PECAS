@@ -18,10 +18,10 @@ package com.hbaspecto.discreteChoiceModelling;
 
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 
+
 /**
  * 
  */
 public interface AggregateAlternative extends Alternative {
-	void setAggregateQuantity(double amount, double derivative)
-			throws ChoiceModelOverflowException;
+    void setAggregateQuantity(double amount, double derivative) throws ChoiceModelOverflowException;
 }

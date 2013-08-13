@@ -20,36 +20,36 @@
  */
 package com.hbaspecto.pecas.aa.control;
 
+import drasys.or.matrix.DenseVector;
+
 import java.util.Iterator;
 
-import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
 import com.hbaspecto.pecas.aa.commodity.Exchange;
 
-import drasys.or.matrix.DenseVector;
-
 /**
  * @author jabraham
- * 
- *         To change the template for this generated type comment go to Window -
- *         Preferences - Java - Code Generation - Code and Comments
+ *
+ * To change the template for this generated type comment go to
+ * Window - Preferences - Java - Code Generation - Code and Comments
  */
 public class TotalSurplusVector extends DenseVector {
 
-	public TotalSurplusVector() {
-		super(AbstractCommodity.getAllCommodities().size());
-		int commodityIndex = 0;
-		final Iterator comIt = AbstractCommodity.getAllCommodities().iterator();
-		while (comIt.hasNext()) {
-			double surplus = 0;
-			final Commodity c = (Commodity) comIt.next();
-			final Iterator exIt = c.getAllExchanges().iterator();
-			while (exIt.hasNext()) {
-				surplus += ((Exchange) exIt.next()).exchangeSurplus();
-			}
-			setElementAt(commodityIndex, surplus);
-			commodityIndex++;
-		}
-	}
+    public TotalSurplusVector() {
+        super(Commodity.getAllCommodities().size());
+        int commodityIndex =0;
+        Iterator comIt = Commodity.getAllCommodities().iterator();
+        while (comIt.hasNext()) {
+            double surplus = 0;
+            Commodity c = (Commodity) comIt.next();
+            Iterator exIt = c.getAllExchanges().iterator();
+            while (exIt.hasNext()) {
+                surplus += ((Exchange) exIt.next()).exchangeSurplus();
+            }
+            setElementAt(commodityIndex,surplus);
+            commodityIndex++;
+        }
+    }
+
 
 }
