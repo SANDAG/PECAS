@@ -17,11 +17,11 @@
 package com.hbaspecto.pecas;
 
 public class InvalidZUtilityError extends Error {
-	public InvalidZUtilityError() {
-		super();
-	}
+    public InvalidZUtilityError() {
+        super();
+    }
 
-	public InvalidZUtilityError(String par1) {
-		super(par1);
-	}
+    public InvalidZUtilityError(String par1) {
+        super(par1);
+    }
 }

@@ -27,71 +27,54 @@ import com.hbaspecto.pecas.aa.travelAttributes.TravelUtilityCalculatorInterface;
 import com.hbaspecto.pecas.zones.AbstractZone;
 
 abstract public class AbstractCommodity {
-
+	
 	private static int nextCommodityNumber = 0;
-	public final int commodityNumber;
+    public final int commodityNumber;
 	protected static final HashMap allCommoditiesHashmap = new HashMap();
-	protected static final ArrayList<AbstractCommodity> allCommoditiesArrayList = new ArrayList<AbstractCommodity>();
+    protected static final ArrayList<AbstractCommodity> allCommoditiesArrayList = new ArrayList<AbstractCommodity>();
 	/** An attribute that represents ... */
 	public final String name;
-	/**
-	 * Commodities have certain "preferences" regarding what time they are
-	 * shipped, what modes they are shipped on, and how time sensitive they are.
-	 * These are the travel preferences for shipping the commodity from the
-	 * exchange zone
-	 */
-	protected TravelUtilityCalculatorInterface commodityTravelPreferences;
+    /**
+     * Commodities have certain "preferences" regarding what time they are shipped, what modes they are shipped on, and how
+     * time sensitive they are.  These are the travel preferences for shipping the commodity from the exchange zone
+     */
+    protected TravelUtilityCalculatorInterface commodityTravelPreferences;
 
-	protected AbstractCommodity(String name) {
-		this.name = name;
-		commodityNumber = nextCommodityNumber;
-		nextCommodityNumber++;
-		allCommoditiesHashmap.put(name, this);
-		allCommoditiesArrayList.add(this);
-	}
+    protected AbstractCommodity(String name) {
+        this.name = name;
+        this.commodityNumber = nextCommodityNumber;
+        nextCommodityNumber++;
+        allCommoditiesHashmap.put(name,this);
+        allCommoditiesArrayList.add(this);
+       }
 
-	public void setCommodityTravelPreferences(
-			TravelUtilityCalculatorInterface commodityTravelPreferences) {
-		this.commodityTravelPreferences = commodityTravelPreferences;
-	}
+    public void setCommodityTravelPreferences(TravelUtilityCalculatorInterface commodityTravelPreferences){ this.commodityTravelPreferences = commodityTravelPreferences; }
 
-	public TravelUtilityCalculatorInterface getCommodityTravelPreferences() {
-		return commodityTravelPreferences;
-	}
+    public TravelUtilityCalculatorInterface getCommodityTravelPreferences(){ return commodityTravelPreferences; }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() { return name; }
 
-	@Override
-	public String toString() {
-		return name;
-	};
+    @Override
+    public String toString() { return name; };
 
-	@Override
-	public int hashCode() {
-		return name.hashCode();
-	};
+    @Override
+    public int hashCode() { return name.hashCode(); };
 
-	/**
-	 * This gets the ZUtility for a commodity in a zone, either the selling
-	 * ZUtility or the buying ZUtility.
-	 * 
-	 * @param t
-	 *          the PECASZone to get the buying or selling utility of
-	 * @param selling
-	 *          if true, get the selling utility. Otherwise get the buying utility
-	 */
-	public abstract double calcZUtility(AbstractZone t, boolean selling)
-			throws OverflowException;
+    /**
+     * This gets the ZUtility for a commodity in a zone, either the selling ZUtility or the buying ZUtility.
+     * @param t the PECASZone to get the buying or selling utility of
+     * @param selling if true, get the selling utility.  Otherwise get the buying utility
+     */
+    public abstract double calcZUtility(AbstractZone t, boolean selling) throws OverflowException ;
 
-	/**
-	 * 
-	 * @return An unmodifiable collection of all the commodities that have been
-	 *         created
-	 */
-	public static List<AbstractCommodity> getAllCommodities() {
-		return allCommoditiesArrayList;
-	}
+    /**
+     * 
+     * @return An unmodifiable collection of all the commodities that have been created 
+     */
+    public static List<AbstractCommodity> getAllCommodities() {
+        return allCommoditiesArrayList;
+    }
+
+    
 
 }

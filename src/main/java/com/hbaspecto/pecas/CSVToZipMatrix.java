@@ -8,12 +8,12 @@ import com.pb.common.matrix.ZipMatrixWriter;
 public class CSVToZipMatrix {
 
 	public static void main(String[] args) {
-		final File fromFile = new File(args[0]);
-		final File toFile = new File(args[1]);
-
-		final CSVMatrixReader reader = new CSVMatrixReader(fromFile);
-		final ZipMatrixWriter writer = new ZipMatrixWriter(toFile);
-
+		File fromFile = new File(args[0]);
+		File toFile = new File(args[1]);
+		
+		CSVMatrixReader reader = new CSVMatrixReader(fromFile);
+		ZipMatrixWriter writer = new ZipMatrixWriter(toFile);
+		
 		writer.writeMatrix(reader.readMatrix());
 	}
 

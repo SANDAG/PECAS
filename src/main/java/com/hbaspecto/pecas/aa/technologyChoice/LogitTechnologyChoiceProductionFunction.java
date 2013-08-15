@@ -25,57 +25,54 @@ import com.hbaspecto.pecas.NoAlternativeAvailable;
 import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 
 public class LogitTechnologyChoiceProductionFunction implements
-		ProductionFunction {
+        ProductionFunction {
 
-	public final LogitTechnologyChoice myTechnologyChoice;
-	static final Logger logger = Logger.getLogger("com.pb.models.pecas");
+    public final LogitTechnologyChoice myTechnologyChoice;
+    static final Logger logger = Logger.getLogger("com.pb.models.pecas");
+    
+    public LogitTechnologyChoiceProductionFunction(LogitTechnologyChoice myTechChoice) {
+        myTechnologyChoice= myTechChoice;
+    }
 
-	public LogitTechnologyChoiceProductionFunction(
-			LogitTechnologyChoice myTechChoice) {
-		myTechnologyChoice = myTechChoice;
-	}
+    @Override
+    public int size() {
+        if (myTechnologyChoice.sellingUtilities==null) {
+            String msg = "Error, sortToMatch not called yet we don't know how many commodities are in play in the logit substitution";
+            logger.fatal(msg);
+            throw new RuntimeException(msg);
+        }
+        return myTechnologyChoice.sellingUtilities.length;
+    }
+
+    @Override
+    public AbstractCommodity commodityAt(int i) {
+        if (myTechnologyChoice.getMyCommodityOrder()==null) {
+            String msg = "Error, sortToMatch not called yet we don't know how many commodities are in play in the logit substitution";
+            logger.fatal(msg);
+            throw new RuntimeException(msg);
+        }
+        return myTechnologyChoice.getMyCommodityOrder().get(i);
+    }
+
+    @Override
+    public void doFinalSetupAndSetCommodityOrder(List commodityList) {
+        myTechnologyChoice.doFinalSetupAndSetCommodityOrder(commodityList);
+    }
+
+    public double[] amountsDerivatives(double[] individualCommodityUtilities) {
+        String errorString = "Don't know how to calculate amountsDerivatives in technology choice production function, use the techChoice method instead";
+        logger.error(errorString);
+        throw new RuntimeException(errorString);
+    }
 
 	@Override
-	public int size() {
-		if (myTechnologyChoice.sellingUtilities == null) {
-			final String msg = "Error, sortToMatch not called yet we don't know how many commodities are in play in the logit substitution";
-			logger.fatal(msg);
-			throw new RuntimeException(msg);
-		}
-		return myTechnologyChoice.sellingUtilities.length;
-	}
-
-	@Override
-	public AbstractCommodity commodityAt(int i) {
-		if (myTechnologyChoice.getMyCommodityOrder() == null) {
-			final String msg = "Error, sortToMatch not called yet we don't know how many commodities are in play in the logit substitution";
-			logger.fatal(msg);
-			throw new RuntimeException(msg);
-		}
-		return myTechnologyChoice.getMyCommodityOrder().get(i);
-	}
-
-	@Override
-	public void doFinalSetupAndSetCommodityOrder(List commodityList) {
-		myTechnologyChoice.doFinalSetupAndSetCommodityOrder(commodityList);
-	}
-
-	public double[] amountsDerivatives(double[] individualCommodityUtilities) {
-		final String errorString = "Don't know how to calculate amountsDerivatives in technology choice production function, use the techChoice method instead";
-		logger.error(errorString);
-		throw new RuntimeException(errorString);
-	}
-
-	@Override
-	public double[] calcAmounts(double[] buyingZUtilities,
+    public double[] calcAmounts(double[] buyingZUtilities,
 			double[] sellingZUtilities, int zoneIndex) throws NoAlternativeAvailable {
 		try {
-			return myTechnologyChoice.calcSellingAmounts(buyingZUtilities,
-					sellingZUtilities, zoneIndex);
-		}
-		catch (final ChoiceModelOverflowException e) {
-			logger.error("Can't calculate amounts " + e);
-			throw new RuntimeException("Can't calculate amounts", e);
+			return myTechnologyChoice.calcSellingAmounts(buyingZUtilities, sellingZUtilities, zoneIndex);
+		} catch (ChoiceModelOverflowException e) {
+            logger.error("Can't calculate amounts "+e);
+            throw new RuntimeException("Can't calculate amounts",e);
 		}
 	}
 

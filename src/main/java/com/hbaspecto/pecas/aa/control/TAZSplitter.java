@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
-
 import org.apache.log4j.Logger;
 
 import com.hbaspecto.pecas.NoAlternativeAvailable;
@@ -32,331 +31,273 @@ public class TAZSplitter {
 	private final int maxAlphaZone;
 	private final String outputPath;
 	private final PECASZone[] zones;
-
+	
+	
 	/**
-	 * An N-dimensional array of make and use coefficients. ZonalMakeUse.csv
-	 * stored in an array Dimension 0 is production activities Dimension 1 is beta
-	 * zone Dimension 2 is commodity name Dimension 3 is "M" or "U" for make or
-	 * use
+	 * An N-dimensional array of make and use coefficients.  ZonalMakeUse.csv stored in an array
+	 * Dimension 0 is production activities
+	 * Dimension 1 is beta zone
+	 * Dimension 2 is commodity name
+	 * Dimension 3 is "M" or "U" for make or use
 	 */
 	private final StringIndexedNDimensionalMatrix zonalMakeUseCoefficients;
 	StringIndexedNDimensionalMatrix alphaZonalMake;
 	StringIndexedNDimensionalMatrix alphaZonalUse;
 
-	// private final AAPProcessor pp;
+	//	 private final AAPProcessor pp;
 
-	TAZSplitter(AlphaToBeta a2b, Hashtable floorspaceInventory, int maxTAZ,
-			String outputPath, PECASZone[] zones,
-			StringIndexedNDimensionalMatrix zonalMakeUseCoefficients) {
-		floorspaceZoneCrossref = a2b;
+	TAZSplitter(AlphaToBeta a2b, Hashtable floorspaceInventory, int maxTAZ, String outputPath, PECASZone[] zones, StringIndexedNDimensionalMatrix zonalMakeUseCoefficients) {
+		this.floorspaceZoneCrossref = a2b;
 		this.floorspaceInventory = floorspaceInventory;
 		maxAlphaZone = maxTAZ;
-		this.outputPath = outputPath;
+		this.outputPath=outputPath;
 		this.zones = zones;
 		this.zonalMakeUseCoefficients = zonalMakeUseCoefficients;
-		// this.pp = pp;
+		//this.pp = pp;
 	}
 
-	void writeFloorspaceZoneTables(
-			ArrayList<String> CommodityNamesForDetailedOutputs) {
-		final String[] commodityNames = setupZonalMakeAndUseObjects();
+	void writeFloorspaceZoneTables(ArrayList<String> CommodityNamesForDetailedOutputs) {
+		String[] commodityNames = setupZonalMakeAndUseObjects();
 
 		BufferedWriter locationsFile;
 		BufferedWriter detailedMakeFile = null;
 		BufferedWriter detailedUseFile = null;
 		try {
-			locationsFile = new BufferedWriter(new FileWriter(outputPath
-					+ "ActivityLocations2.csv"));
+			locationsFile = new BufferedWriter(new FileWriter(outputPath + "ActivityLocations2.csv"));
 			locationsFile.write("Activity,ZoneNumber,Quantity\n");
-			if (CommodityNamesForDetailedOutputs.size() > 0) {
-				detailedMakeFile = new BufferedWriter(new FileWriter(outputPath
-						+ "TAZDetailedMake.csv"));
+			if (CommodityNamesForDetailedOutputs.size()>0) {
+				detailedMakeFile = new BufferedWriter(new FileWriter(outputPath + "TAZDetailedMake.csv"));
 				detailedMakeFile.write("Activity,TAZ,Commodity,Amount\n");
-				detailedUseFile = new BufferedWriter(new FileWriter(outputPath
-						+ "TAZDetailedUse.csv"));
+				detailedUseFile = new BufferedWriter(new FileWriter(outputPath + "TAZDetailedUse.csv"));
 				detailedUseFile.write("Activity,TAZ,Commodity,Amount\n");
 			}
-			final Iterator productionActivityIterator = ProductionActivity
-					.getAllProductionActivities().iterator();
+			Iterator productionActivityIterator = ProductionActivity.getAllProductionActivities().iterator();
 			logger.info("Splitting production activities into FloorspaceZones");
-			AAStatusLogger
-					.logText("Splitting production activities into floorspace zones");
+			AAStatusLogger.logText("Splitting production activities into floorspace zones");
 			while (productionActivityIterator.hasNext()) {
-				final ProductionActivity p = (ProductionActivity) productionActivityIterator
-						.next();
-				// if(logger.isDebugEnabled())
-				logger.info("\t splitting " + p + " into FloorspaceZones");
+				ProductionActivity p = (ProductionActivity)productionActivityIterator.next();
+				//if(logger.isDebugEnabled()) 
+				logger.info("\t splitting "+p+" into FloorspaceZones");
 				try {
-					final ConsumptionFunction cf = p.getConsumptionFunction();
-					final ProductionFunction pf = p.getProductionFunction();
-					final double[] activityLocationsSplit = new double[maxAlphaZone + 1];
-					for (int betaZoneIndexNumber = 0; betaZoneIndexNumber < p
-							.getMyDistribution().length; betaZoneIndexNumber++) {
-						final double pecasZoneTotal = p.getMyDistribution()[betaZoneIndexNumber]
-								.getQuantity();
-						final double[] buyingZUtilities = new double[cf.size()];
-						for (int c = 0; c < cf.size(); c++) {
-							final AbstractCommodity com = cf.commodityAt(c);
-							if (com == null) {
-								buyingZUtilities[c] = 0;
-							}
-							else {
-								buyingZUtilities[c] = com.calcZUtility(
-										zones[betaZoneIndexNumber], false);
-							}
-						} // CUSellc,z and CUBuyc,z have now been calculated for
-							// the commodites made or used by the activity
-						final double[] sellingZUtilities = new double[pf.size()];
-						for (int c = 0; c < pf.size(); c++) {
-							final AbstractCommodity com = pf.commodityAt(c);
-							if (com == null) {
-								sellingZUtilities[c] = 0;
-							}
-							else {
-								sellingZUtilities[c] = com.calcZUtility(
-										zones[betaZoneIndexNumber], true);
-							}
-						} // CUSellc,z and CUBuyc,z have now been calculated for
-							// the commodites made or used by the activity
-
-						double totalFloorspaceConsumption = 0;
-						double[] amounts = null;
-						;
+					ConsumptionFunction cf = p.getConsumptionFunction();
+					ProductionFunction pf = p.getProductionFunction();
+					double[] activityLocationsSplit = new double[maxAlphaZone+1];
+					for (int betaZoneIndexNumber = 0; betaZoneIndexNumber < p.getMyDistribution().length; betaZoneIndexNumber++) {
+						double pecasZoneTotal = p.getMyDistribution()[betaZoneIndexNumber].getQuantity();
+	                    double[] buyingZUtilities = new double[cf.size()];
+	                    for (int c = 0; c < cf.size(); c++) {
+	                        AbstractCommodity com = cf.commodityAt(c);
+	                        if (com == null) {
+	                            buyingZUtilities[c] = 0;
+	                        } else {
+	                            buyingZUtilities[c] = com.calcZUtility(zones[betaZoneIndexNumber], false);
+	                        }
+	                    } //CUSellc,z and CUBuyc,z have now been calculated for the commodites made or used by the activity
+	                    double[] sellingZUtilities = new double[pf.size()];
+	                    for (int c = 0; c < pf.size(); c++) {
+	                        AbstractCommodity com = pf.commodityAt(c);
+	                        if (com == null) {
+	                            sellingZUtilities[c] = 0;
+	                        } else {
+	                            sellingZUtilities[c] = com.calcZUtility(zones[betaZoneIndexNumber], true);
+	                        }
+	                    } //CUSellc,z and CUBuyc,z have now been calculated for the commodites made or used by the activity
+	
+	                    double totalFloorspaceConsumption = 0;
+						double[] amounts = null;;
 						try {
-							amounts = cf.calcAmounts(buyingZUtilities, sellingZUtilities,
-									betaZoneIndexNumber);
+							amounts = cf.calcAmounts(buyingZUtilities, sellingZUtilities, betaZoneIndexNumber);
 							totalFloorspaceConsumption = calculateTotalFloorspaceConsumption(
-									cf, betaZoneIndexNumber, buyingZUtilities, amounts);
-						}
-						catch (final NoAlternativeAvailable e) {
-
+									cf, betaZoneIndexNumber, buyingZUtilities,
+									amounts);
+						} catch (NoAlternativeAvailable e) {
+							
 							// total floorspace consumption is zero.
 						}
 						if (totalFloorspaceConsumption == 0) {
-							splitActivityTotalEquallyAcrossTAZs(activityLocationsSplit,
+							splitActivityTotalEquallyAcrossTAZs(
+									activityLocationsSplit,
 									betaZoneIndexNumber, pecasZoneTotal);
-						}
-						else {
+						} else {
 							splitActivityTotalBasedOnSpaceConsumption(cf,
-									activityLocationsSplit, betaZoneIndexNumber, pecasZoneTotal,
+									activityLocationsSplit,
+									betaZoneIndexNumber, pecasZoneTotal,
 									amounts, totalFloorspaceConsumption);
 						}
 					}
-					// end betazone loop
-
+					//end betazone loop
+					
 					// write out split activity locations
-					final ArrayList<Integer> alphaZones = new ArrayList<Integer>();
-					final int[] alphaZonesArray = floorspaceZoneCrossref
-							.getAlphaExternals0Based();
-					for (final int alphaZoneNumber : alphaZonesArray) {
-						alphaZones.add(alphaZoneNumber);
-					}
-					for (int azone = 0; azone < activityLocationsSplit.length; azone++) {
+				    ArrayList<Integer> alphaZones = new ArrayList<Integer>();
+				    int[] alphaZonesArray = floorspaceZoneCrossref.getAlphaExternals0Based();
+				    for (int alphaZoneNumber : alphaZonesArray) {
+				    	alphaZones.add(alphaZoneNumber);
+				    }
+					for(int azone = 0; azone < activityLocationsSplit.length;azone++) {
 						if (alphaZones.contains(azone)) {
-							locationsFile.write(p.name + ",");
-							locationsFile.write(azone + ",");
-							locationsFile.write(activityLocationsSplit[azone] + "\n");
+							locationsFile.write(p.name+",");
+							locationsFile.write(azone+",");
+							locationsFile.write(activityLocationsSplit[azone]+"\n");
 						}
 					}
-					// activity have been split into zones, now need to split
-					// make and use of commodities
+					// activity have been split into zones, now need to split make and use of commodities
 					// results stored in zonalMake and zonalUse
-					splitMakeAndUseAmount(commodityNames, p, activityLocationsSplit,
-							CommodityNamesForDetailedOutputs, detailedMakeFile,
-							detailedUseFile);
+					splitMakeAndUseAmount(commodityNames, p, activityLocationsSplit, CommodityNamesForDetailedOutputs, detailedMakeFile, detailedUseFile);
 					// end production activity loop
-				}
-				catch (final OverflowException e) {
-					final String msg = "Can't split Activity p";
-					logger.error(msg, e);
+				} catch ( OverflowException e) {
+					String msg = "Can't split Activity p";
+					logger.error(msg,e);
 				}
 			}
 			logger.info("\tActivityLocations2.csv has been written");
 			locationsFile.close();
-			if (detailedMakeFile != null) {
-				detailedMakeFile.close();
-			}
-			if (detailedUseFile != null) {
-				detailedUseFile.close();
-			}
-		}
-		catch (final IOException e) {
+			if (detailedMakeFile !=null) detailedMakeFile.close();
+			if (detailedUseFile != null) detailedUseFile.close();
+		} catch (IOException e) {
 			logger.fatal("Can't create location output file");
 			e.printStackTrace();
 		}
 		writeBinaryAlphaZoneTotalMakeUse();
 		writeAsciiAlphaZoneTotalMakeUse(commodityNames);
-	}// end writeFloorspaceZoneTables
+	}//end writeFloorspaceZoneTables
 
 	private void writeAsciiAlphaZoneTotalMakeUse(String[] commodityNames) {
 		try {
-			final BufferedWriter out = new BufferedWriter(new FileWriter(outputPath
-					+ "FloorspaceZoneTotalMakeUse.csv"));
+			BufferedWriter out = new BufferedWriter(new FileWriter(outputPath + "FloorspaceZoneTotalMakeUse.csv"));
 			out.write("Commodity,ZoneNumber,Made,Used\n");
-			final String[] index = new String[2];
-			for (int comNum = 0; comNum < commodityNames.length; comNum++) {
+			String[] index = new String[2];
+			for (int comNum=0;comNum<commodityNames.length;comNum++) {
 				index[0] = commodityNames[comNum];
-				for (int zoneNum = 0; zoneNum <= maxAlphaZone; zoneNum++) {
-					final Integer betaZone = floorspaceZoneCrossref.getBetaZone(zoneNum);
-					if (betaZone != -1) {
+				for (int zoneNum=0;zoneNum<=maxAlphaZone;zoneNum++) {
+					Integer betaZone = floorspaceZoneCrossref.getBetaZone(zoneNum);
+					if (betaZone!=-1) {
 						// valid TAZ;
 						index[1] = String.valueOf(zoneNum);
-						out.write(commodityNames[comNum] + "," + zoneNum + ","
-								+ alphaZonalMake.getValue(index) + ","
-								+ alphaZonalUse.getValue(index) + "\n");
+						out.write(commodityNames[comNum]+","+zoneNum+","+alphaZonalMake.getValue(index)+","+alphaZonalUse.getValue(index)+"\n");
 					}
 				}
 			}
 			out.flush();
 			out.close();
-		}
-		catch (final java.io.IOException e) {
-			logger
-					.fatal("Can't write out FloorspaceZoneTotalMakeUse use ascii csv file "
-							+ e);
+		} catch (java.io.IOException e) {
+			logger.fatal("Can't write out FloorspaceZoneTotalMakeUse use ascii csv file "+e);
 		}
 	}
+	
+
 
 	private void writeBinaryAlphaZoneTotalMakeUse() {
-		final String filename = outputPath + "FloorspaceZoneTotalMakeUse.bin";
+		String filename = outputPath + "FloorspaceZoneTotalMakeUse.bin";
 		if (filename != null) {
 			try {
-				final java.io.FileOutputStream fos = new java.io.FileOutputStream(
-						filename);
-				final java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(
-						fos);
+				java.io.FileOutputStream fos = new java.io.FileOutputStream(filename);
+				java.io.ObjectOutputStream out = new java.io.ObjectOutputStream(fos);
 				out.writeObject(alphaZonalMake);
 				out.writeObject(alphaZonalUse);
 				out.flush();
 				out.close();
-			}
-			catch (final java.io.IOException e) {
-				logger
-						.fatal("Can't write out FloorspaceZoneTotalMakeUse use binary file "
-								+ e);
+			} catch (java.io.IOException e) {
+				logger.fatal("Can't write out FloorspaceZoneTotalMakeUse use binary file "+e);
 			}
 		}
 	}
 
 	private void splitMakeAndUseAmount(String[] commodityNames,
-			ProductionActivity productionActivity, double[] activityLocationsSplit,
-			ArrayList<String> commodityNamesForDetailedOutput,
-			BufferedWriter detailedMakeFile, BufferedWriter detailedUseFile)
-			throws IOException {
-		final int[] zonalMakeUseIndices = new int[4];
-		final String[] aZoneTotalMUIndices = new String[2];
-		zonalMakeUseIndices[0] = zonalMakeUseCoefficients
-				.getIntLocationForDimension(0, productionActivity.name);
-
-		final int makeIndex = zonalMakeUseCoefficients.getIntLocationForDimension(
-				3, "M");
-		final int useIndex = zonalMakeUseCoefficients.getIntLocationForDimension(3,
-				"U");
-		for (int azone = 0; azone < activityLocationsSplit.length; azone++) {
-			final Integer integerAZone = new Integer(azone);
-			final String stringAZone = integerAZone.toString();
-			final int betaZone = floorspaceZoneCrossref.getBetaZone(azone);
-			if (betaZone != -1) {
-				// some alphazones don't have a betazone, effectively we ignore
-				// those
-				zonalMakeUseIndices[1] = zonalMakeUseCoefficients
-						.getIntLocationForDimension(1, String.valueOf(betaZone));
-				for (int commodity = 0; commodity < commodityNames.length; commodity++) {
-					boolean detailedOutputCommodity = false;
-					if (commodityNamesForDetailedOutput != null) {
-						if (commodityNamesForDetailedOutput
-								.contains(commodityNames[commodity])) {
+			ProductionActivity productionActivity,
+			double[] activityLocationsSplit, ArrayList<String> commodityNamesForDetailedOutput,
+			BufferedWriter detailedMakeFile, BufferedWriter detailedUseFile) throws IOException {
+		int[] zonalMakeUseIndices = new int[4];
+		String[] aZoneTotalMUIndices = new String[2];
+		zonalMakeUseIndices[0] = zonalMakeUseCoefficients.getIntLocationForDimension(0,productionActivity.name);
+			
+		int makeIndex = zonalMakeUseCoefficients.getIntLocationForDimension(3,"M");
+		int useIndex = zonalMakeUseCoefficients.getIntLocationForDimension(3,"U");
+		for(int azone = 0; azone < activityLocationsSplit.length;azone++) {
+			Integer integerAZone = new Integer(azone);
+			String stringAZone = integerAZone.toString();
+			int betaZone =  floorspaceZoneCrossref.getBetaZone(azone);
+			if (betaZone !=-1) {
+				// some alphazones don't have a betazone, effectively we ignore those
+				zonalMakeUseIndices[1] = zonalMakeUseCoefficients.getIntLocationForDimension(1,String.valueOf(betaZone));
+				for (int commodity=0;commodity<commodityNames.length;commodity++) {
+					boolean detailedOutputCommodity=false;
+					if (commodityNamesForDetailedOutput!=null) {
+						if (commodityNamesForDetailedOutput.contains(commodityNames[commodity])) {
 							detailedOutputCommodity = true;
 						}
 					}
-					zonalMakeUseIndices[2] = zonalMakeUseCoefficients
-							.getIntLocationForDimension(2, commodityNames[commodity]);
+					zonalMakeUseIndices[2] = zonalMakeUseCoefficients.getIntLocationForDimension(2,commodityNames[commodity]);
 					aZoneTotalMUIndices[0] = commodityNames[commodity];
 					aZoneTotalMUIndices[1] = stringAZone;
-
+					
 					// first split make
 					zonalMakeUseIndices[3] = makeIndex;
 					int[] zonalMakeLocation = null;
 					try {
-						zonalMakeLocation = alphaZonalMake
-								.getIntLocation(aZoneTotalMUIndices);
-					}
-					catch (final RuntimeException e) {
+						zonalMakeLocation = alphaZonalMake.getIntLocation(aZoneTotalMUIndices);
+					} catch (RuntimeException e) {
 						// location doesnt exist yet
-						alphaZonalMake.setValue(0, aZoneTotalMUIndices);
-						zonalMakeLocation = alphaZonalMake
-								.getIntLocation(aZoneTotalMUIndices);
+						alphaZonalMake.setValue(0,aZoneTotalMUIndices);
+						zonalMakeLocation = alphaZonalMake.getIntLocation(aZoneTotalMUIndices);
 					}
-					final float makeCoefficient = zonalMakeUseCoefficients
-							.getValue(zonalMakeUseIndices);
-					double zonalMakeValue = activityLocationsSplit[azone]
-							* makeCoefficient;
-
+					float makeCoefficient = zonalMakeUseCoefficients.getValue(zonalMakeUseIndices);
+					double zonalMakeValue = activityLocationsSplit[azone]*makeCoefficient;
+					
 					if (detailedOutputCommodity && zonalMakeValue != 0) {
-						detailedMakeFile.write(productionActivity.name + "," + azone + ","
-								+ commodityNames[commodity] + "," + zonalMakeValue + "\n");
+						detailedMakeFile.write(productionActivity.name+","+azone+","+commodityNames[commodity]+","+zonalMakeValue+"\n");
 					}
-
+					
 					// now increment make by getting, adding and setting
 					zonalMakeValue += alphaZonalMake.getValue(zonalMakeLocation);
-					alphaZonalMake.setValue((float) zonalMakeValue, zonalMakeLocation);
-
+					alphaZonalMake.setValue((float) zonalMakeValue,zonalMakeLocation);
+					
 					// now split use
 					zonalMakeUseIndices[3] = useIndex;
 					int[] zonalUseLocation = null;
 					try {
-						zonalUseLocation = alphaZonalUse
-								.getIntLocation(aZoneTotalMUIndices);
-					}
-					catch (final RuntimeException e) {
+						zonalUseLocation = alphaZonalUse.getIntLocation(aZoneTotalMUIndices);
+					} catch (RuntimeException e) {
 						// location doesnt exist yet
-						alphaZonalUse.setValue(0, aZoneTotalMUIndices);
-						zonalUseLocation = alphaZonalUse
-								.getIntLocation(aZoneTotalMUIndices);
+						alphaZonalUse.setValue(0,aZoneTotalMUIndices);
+						zonalUseLocation = alphaZonalUse.getIntLocation(aZoneTotalMUIndices);
 					}
-					final float useCoefficient = zonalMakeUseCoefficients
-							.getValue(zonalMakeUseIndices);
-					double zonalUseValue = activityLocationsSplit[azone] * useCoefficient;
-
+					float useCoefficient = zonalMakeUseCoefficients.getValue(zonalMakeUseIndices);
+					double zonalUseValue = activityLocationsSplit[azone]*useCoefficient;
+					
 					if (detailedOutputCommodity && zonalUseValue != 0) {
-						detailedUseFile.write(productionActivity.name + "," + azone + ","
-								+ commodityNames[commodity] + "," + zonalUseValue + "\n");
+						detailedUseFile.write(productionActivity.name+","+azone+","+commodityNames[commodity]+","+zonalUseValue+"\n");
 					}
 
 					// now increment use, by getting, adding and setting.
 					zonalUseValue += alphaZonalUse.getValue(zonalUseLocation);
-					alphaZonalUse.setValue((float) zonalUseValue, zonalUseLocation);
+					alphaZonalUse.setValue((float) zonalUseValue,zonalUseLocation);
 				}
 			}
 		}
 	}
 
 	private double calculateTotalFloorspaceConsumption(ConsumptionFunction cf,
-			int betaZoneIndexNumber, double[] buyingZUtilities, double[] amounts) {
+			int betaZoneIndexNumber, double[] buyingZUtilities, double[] amounts)
+	{
 		try {
 			for (int c = 0; c < cf.size(); c++) {
-				final AbstractCommodity com = cf.commodityAt(c);
+				AbstractCommodity com = cf.commodityAt(c);
 				if (com == null) {
 					buyingZUtilities[c] = 0;
+				} else {
+					buyingZUtilities[c] = cf.commodityAt(c).calcZUtility(zones[betaZoneIndexNumber], false);
 				}
-				else {
-					buyingZUtilities[c] = cf.commodityAt(c).calcZUtility(
-							zones[betaZoneIndexNumber], false);
-				}
-			} // CUSellc,z and CUBuyc,z have now been calculated for the
-				// commodites made or used by the activity
-		}
-		catch (final Exception e) {
-			logger
-					.fatal("Error adding activity quantity to ActivityLocations2 table");
+			} //CUSellc,z and CUBuyc,z have now been calculated for the commodites made or used by the activity
+		} catch (Exception e) {
+			logger.fatal("Error adding activity quantity to ActivityLocations2 table");
 			e.printStackTrace();
 		}
 		double totalFloorspaceConsumption = 0;
-		for (int c = 0; c < amounts.length; c++) {
-			final Commodity commodity = (Commodity) cf.commodityAt(c);
-			if (commodity != null) {
+		for (int c =0; c<amounts.length;c++) {
+			Commodity commodity = (Commodity) cf.commodityAt(c);
+			if (commodity!=null) {
 				if (commodity.isFloorspaceCommodity()) {
-					totalFloorspaceConsumption += amounts[c];
+					totalFloorspaceConsumption += amounts[c]; 
 				}
 			}
 		}
@@ -364,30 +305,27 @@ public class TAZSplitter {
 	}
 
 	private String[] setupZonalMakeAndUseObjects() {
-		final int[] makeUseArraySize = new int[2];
+		int[] makeUseArraySize = new int[2];
 		makeUseArraySize[0] = AbstractCommodity.getAllCommodities().size();
-		makeUseArraySize[1] = maxAlphaZone + 1;
-		final String[] columnNames = new String[2];
+		makeUseArraySize[1] = maxAlphaZone+1;
+		String[] columnNames = new String[2];
 		columnNames[0] = "Commodity";
 		columnNames[1] = "FloorspaceZone";
-		alphaZonalMake = new StringIndexedNDimensionalMatrix("zonalMake", 2,
-				makeUseArraySize, columnNames);
-		alphaZonalUse = new StringIndexedNDimensionalMatrix("zonalUse", 2,
-				makeUseArraySize, columnNames);
+		alphaZonalMake = new StringIndexedNDimensionalMatrix("zonalMake",2,makeUseArraySize,columnNames);
+		alphaZonalUse = new StringIndexedNDimensionalMatrix("zonalUse",2,makeUseArraySize,columnNames);
 
 		// set up indices for zonalMake and zonalUse
-		Commodity[] commodities = new Commodity[AbstractCommodity
-				.getAllCommodities().size()];
+		Commodity[] commodities = new Commodity[AbstractCommodity.getAllCommodities().size()];
 		commodities = AbstractCommodity.getAllCommodities().toArray(commodities);
-		final String[] commodityNames = new String[commodities.length];
-		for (int c = 0; c < commodityNames.length; c++) {
+		String[] commodityNames = new String[commodities.length];
+		for (int c=0;c<commodityNames.length;c++) {
 			commodityNames[c] = commodities[c].name;
 		}
-		final String[] alphaZoneNumberArray = new String[maxAlphaZone + 1];
-		for (int i = 0; i < alphaZoneNumberArray.length; i++) {
-			alphaZoneNumberArray[i] = new Integer(i).toString();
+		String[] alphaZoneNumberArray = new String[maxAlphaZone+1];
+		for (int i=0;i<alphaZoneNumberArray.length;i++) {
+			alphaZoneNumberArray[i] = (new Integer(i)).toString();
 		}
-		final String[][] zonalMakeIndicesKeys = new String[2][];
+		String[][] zonalMakeIndicesKeys = new String[2][];
 		zonalMakeIndicesKeys[0] = commodityNames;
 		zonalMakeIndicesKeys[1] = alphaZoneNumberArray;
 		alphaZonalMake.setStringKeys(zonalMakeIndicesKeys);
@@ -399,75 +337,63 @@ public class TAZSplitter {
 			ConsumptionFunction cf, double[] activityLocationsSplit,
 			int betaZoneIndexNumber, double pecasZoneTotalActivityAmount,
 			double[] consumptionAmounts, double totalFloorspaceConsumption) {
-		for (int c = 0; c < consumptionAmounts.length; c++) {
-			final Commodity commodity = (Commodity) cf.commodityAt(c);
-			if (commodity != null) {
+		for (int c =0; c<consumptionAmounts.length;c++) {
+			Commodity commodity = (Commodity) cf.commodityAt(c);
+			if (commodity!=null) {
 				if (commodity.isFloorspaceCommodity()) {
 					double floorspaceTotal = 0;
-					final double activityAmountForCommodity = pecasZoneTotalActivityAmount
-							* consumptionAmounts[c] / totalFloorspaceConsumption;
-					final ZoneQuantityStorage fsi = (ZoneQuantityStorage) floorspaceInventory
-							.get(cf.commodityAt(c).getName());
-					final int[] alphaZones = floorspaceZoneCrossref
-							.getAlphaExternals0Based();
+					double activityAmountForCommodity=pecasZoneTotalActivityAmount*consumptionAmounts[c]/totalFloorspaceConsumption;
+					ZoneQuantityStorage fsi = (ZoneQuantityStorage) floorspaceInventory.get(cf.commodityAt(c).getName());
+					int[] alphaZones = floorspaceZoneCrossref.getAlphaExternals0Based();
 					int alphaCount = 0;
-					for (final int alphaZoneNumber : alphaZones) {
-						final int betaZone = floorspaceZoneCrossref
-								.getBetaZone(alphaZoneNumber);
-						if (zones[betaZoneIndexNumber].zoneUserNumber == betaZone) {
+					for (int alphaZoneNumber : alphaZones) {
+						int betaZone = floorspaceZoneCrossref.getBetaZone(alphaZoneNumber);
+						if (zones[betaZoneIndexNumber].zoneUserNumber== betaZone) {
 							alphaCount++;
 							floorspaceTotal += fsi.getQuantityForZone(alphaZoneNumber);
 						}
 					}
-					if (floorspaceTotal == 0) {
-						// this means that there is no space *of*this*type* in
-						// this zone, but
-						// with import and export functions specified the
-						// activity could still be consuming
-						// minimal amounts of this space anyways. So divide up
-						// the amount equaly across TAZ's
-						for (final int alpha2 : alphaZones) {
-							final int betaZoneNumber = floorspaceZoneCrossref
-									.getBetaZone(alpha2);
-							if (zones[betaZoneIndexNumber].zoneUserNumber == betaZoneNumber) {
-								activityLocationsSplit[alpha2] += activityAmountForCommodity
-										/ alphaCount;
+					if (floorspaceTotal==0) {
+						// this means that there is no space *of*this*type* in this zone, but
+						// with import and export functions specified the activity could still be consuming
+						// minimal amounts of this space anyways.  So divide up the amount equaly across TAZ's
+						for (int alpha2 : alphaZones) {
+							int betaZoneNumber = floorspaceZoneCrossref.getBetaZone(alpha2);
+							if (zones[betaZoneIndexNumber].zoneUserNumber== betaZoneNumber) {
+								activityLocationsSplit[alpha2]+=activityAmountForCommodity/alphaCount;
 							}
 						}
 
-					}
-					else {
-						for (final int alpha2 : alphaZones) {
-							final int betaZoneNumber = floorspaceZoneCrossref
-									.getBetaZone(alpha2);
-							if (zones[betaZoneIndexNumber].zoneUserNumber == betaZoneNumber) {
-								final double inventoryTemp = fsi.getQuantityForZone(alpha2);
-								activityLocationsSplit[alpha2] += activityAmountForCommodity
-										* inventoryTemp / floorspaceTotal;
+					} else {
+						for (int alpha2: alphaZones) {
+							int betaZoneNumber = floorspaceZoneCrossref.getBetaZone(alpha2);
+							if (zones[betaZoneIndexNumber].zoneUserNumber== betaZoneNumber) {
+								double inventoryTemp = fsi.getQuantityForZone(alpha2);
+								activityLocationsSplit[alpha2]+=activityAmountForCommodity*inventoryTemp/floorspaceTotal;
 							}
 						}
-					} // end for for writing TAZs
+					} //end for for writing TAZs
 
 				} // endif for checking floorspace commodity type
-			} // endif for checking to see if commodity is null
-		}// endfor for iterating through commodities
+			} //endif for checking to see if commodity is null
+		}//endfor for iterating through commodities
 	}
 
 	private void splitActivityTotalEquallyAcrossTAZs(
 			double[] activityLocationsSplit, int betaZoneIndexNumber,
 			double pecasZoneTotal) {
 		int alphaCount = 0;
-		final int[] alphaZones = floorspaceZoneCrossref.getAlphaExternals0Based();
-		for (final int alphaZone : alphaZones) {
-			final int betaZoneNumber = floorspaceZoneCrossref.getBetaZone(alphaZone);
-			if (zones[betaZoneIndexNumber].zoneUserNumber == betaZoneNumber) {
+		int[] alphaZones = floorspaceZoneCrossref.getAlphaExternals0Based();
+		for (int alphaZone : alphaZones) {
+			int betaZoneNumber = floorspaceZoneCrossref.getBetaZone(alphaZone);
+			if (zones[betaZoneIndexNumber].zoneUserNumber== betaZoneNumber) {
 				alphaCount++;
 			}
 		}
-		for (final int alphaZone : alphaZones) {
-			final int betaZoneNumber = floorspaceZoneCrossref.getBetaZone(alphaZone);
-			if (zones[betaZoneIndexNumber].zoneUserNumber == betaZoneNumber) {
-				activityLocationsSplit[alphaZone] += pecasZoneTotal / alphaCount;
+		for (int alphaZone : alphaZones) {
+			int betaZoneNumber = floorspaceZoneCrossref.getBetaZone(alphaZone);
+			if (zones[betaZoneIndexNumber].zoneUserNumber== betaZoneNumber) {
+				activityLocationsSplit[alphaZone]+=pecasZoneTotal/alphaCount;
 			}
 		}
 	}

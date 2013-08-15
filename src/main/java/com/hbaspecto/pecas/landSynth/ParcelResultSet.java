@@ -19,78 +19,72 @@
  */
 package com.hbaspecto.pecas.landSynth;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 
 /**
  * @author jabraham
- * 
+ *
  */
 public class ParcelResultSet {
+    
+  
+    public ParcelResultSet(ResultSet set, String zoneColumnName, String areaColumnName, String initialFARColumnName){
+        mySet = set;
+        this.zoneColumnName = zoneColumnName;
+        this.areaColumnName = areaColumnName;
+        this.initialFARColumnName=initialFARColumnName;
+    }
+    
+    final String zoneColumnName;
+    final String areaColumnName;
+    final String initialFARColumnName;
 
-	public ParcelResultSet(ResultSet set, String zoneColumnName,
-			String areaColumnName, String initialFARColumnName) {
-		mySet = set;
-		this.zoneColumnName = zoneColumnName;
-		this.areaColumnName = areaColumnName;
-		this.initialFARColumnName = initialFARColumnName;
-	}
+    private final ResultSet mySet;
+    public ResultSet getSet() {
+        return mySet;
+    }
 
-	final String zoneColumnName;
-	final String areaColumnName;
-	final String initialFARColumnName;
+    private int tazColumn = -1;
+    private int areaColumn = -1;
+    private int sqFtColumn = -1;
+    private int pecasTypeColumn = -1;
+    private int initialFARColumn = -1;
 
-	private final ResultSet mySet;
+    int getTazColumn() throws SQLException {
+        if (tazColumn<0) {
+            tazColumn = mySet.findColumn(zoneColumnName); 
+        }
+        return tazColumn;
+    }
 
-	public ResultSet getSet() {
-		return mySet;
-	}
-
-	private int tazColumn = -1;
-	private int areaColumn = -1;
-	private int sqFtColumn = -1;
-	private int pecasTypeColumn = -1;
-	private int initialFARColumn = -1;
-
-	int getTazColumn() throws SQLException {
-		if (tazColumn < 0) {
-			tazColumn = mySet.findColumn(zoneColumnName);
-		}
-		return tazColumn;
-	}
-
-	int getAreaColumn() throws SQLException {
-		if (areaColumn < 0) {
-			areaColumn = mySet.findColumn(areaColumnName);
-		}
-		return areaColumn;
-	}
-
-	int getInitialFARColumn() throws SQLException {
-		if (initialFARColumnName == null) {
-			return -1;
-		}
-		if (initialFARColumn < 0) {
-			initialFARColumn = mySet.findColumn(initialFARColumnName);
-		}
-		return initialFARColumn;
-	}
-
-	int getSqFtColumn() throws SQLException {
-		if (sqFtColumn < 0) {
-			sqFtColumn = mySet.findColumn("PECASSQFT");
-		}
-		return sqFtColumn;
-	}
-
-	int getPecasTypeColumn() throws SQLException {
-		if (pecasTypeColumn < 0) {
-			pecasTypeColumn = mySet.findColumn("PECASTYPE");
-		}
-		return pecasTypeColumn;
-	}
-
-	void close() throws SQLException {
-		mySet.close();
-	}
+    int getAreaColumn() throws SQLException {
+        if (areaColumn<0) {
+            areaColumn = mySet.findColumn(areaColumnName); 
+        }
+        return areaColumn;
+    }
+    int getInitialFARColumn() throws SQLException {
+        if (initialFARColumnName==null) return -1;
+        if (initialFARColumn<0) {
+            initialFARColumn = mySet.findColumn(initialFARColumnName); 
+        }
+        return initialFARColumn;
+    }
+    int getSqFtColumn() throws SQLException {
+        if (sqFtColumn<0) {
+            sqFtColumn = mySet.findColumn("PECASSQFT"); 
+        }
+        return sqFtColumn;
+    }
+    int getPecasTypeColumn() throws SQLException {
+        if (pecasTypeColumn<0) {
+            pecasTypeColumn = mySet.findColumn("PECASTYPE"); 
+        }
+        return pecasTypeColumn;
+    }
+    
+    void close() throws SQLException {
+        mySet.close();
+    }
 }

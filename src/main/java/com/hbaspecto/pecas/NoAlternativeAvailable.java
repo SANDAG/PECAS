@@ -21,10 +21,10 @@ package com.hbaspecto.pecas;
  */
 public class NoAlternativeAvailable extends Exception {
 
-	public NoAlternativeAvailable() {
-	}
+    public NoAlternativeAvailable() {
+    }
 
-	public NoAlternativeAvailable(String string) {
-		super(string);
-	}
+    public NoAlternativeAvailable(String string) {
+        super(string);
+    }
 }

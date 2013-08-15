@@ -16,10 +16,10 @@
  */
 package com.hbaspecto.pecas.zones;
 
-/**
- * An interface that defines operations common to all ways of representing bits
- * of land
- * 
+
+
+/** An interface that defines operations common to all ways of representing bits of land
+ *
  * @author John Abraham
  */
 public interface UnitOfLand {

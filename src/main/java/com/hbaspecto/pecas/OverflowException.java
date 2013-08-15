@@ -19,19 +19,19 @@
 package com.hbaspecto.pecas;
 
 public class OverflowException extends Exception {
-	public OverflowException(String arg0, Throwable arg1) {
-		super(arg0, arg1);
-	}
+public OverflowException(String arg0, Throwable arg1) {
+        super(arg0, arg1);
+    }
 
-	public OverflowException(Throwable arg0) {
-		super(arg0);
-	}
+    public OverflowException(Throwable arg0) {
+        super(arg0);
+    }
 
-	public OverflowException() {
-		super();
-	}
+public OverflowException() {
+        super();
+    }
 
-	public OverflowException(String par1) {
-		super(par1);
-	}
+public OverflowException(String par1) {
+        super(par1);
+    }
 }

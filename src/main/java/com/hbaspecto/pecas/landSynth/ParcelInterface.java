@@ -4,35 +4,35 @@ public interface ParcelInterface {
 
 	public int getTaz();
 
-	public float getSize();
+    public float getSize();
 
-	public float getQuantity();
+    public float getQuantity();
 
-	public int getCoverage();
+    public int getCoverage();
+    
+    public boolean isSameSpaceType( String type);
+    
+    public boolean isVacantCoverege();
+   
+    public String getValue(String string);
 
-	public boolean isSameSpaceType(String type);
+    public void setCoverage(String myCode);
 
-	public boolean isVacantCoverege();
+    /**
+     * @param amount
+     */
+    public void addSqFtAssigned(float amount);
 
-	public String getValue(String string);
+    /**
+     * @param f
+     */
+    public void setQuantity(float f);
 
-	public void setCoverage(String myCode);
+    public int getRevision();
 
-	/**
-	 * @param amount
-	 */
-	public void addSqFtAssigned(float amount);
-
-	/**
-	 * @param f
-	 */
-	public void setQuantity(float f);
-
-	public int getRevision();
-
-	public double getInitialFAR();
-
-	public long getId();
+    public double getInitialFAR();
+    
+    public long getId();
 
 	public double getOldScore(int intCoverageType);
 

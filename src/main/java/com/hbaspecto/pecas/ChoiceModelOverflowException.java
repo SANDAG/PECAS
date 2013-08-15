@@ -18,33 +18,33 @@ package com.hbaspecto.pecas;
 
 /**
  * @author jabraham
- * 
+ *
  * 
  */
 public class ChoiceModelOverflowException extends OverflowException {
 
-	public ChoiceModelOverflowException() {
-		super();
-	}
+    public ChoiceModelOverflowException() {
+        super();
+    }
 
-	public ChoiceModelOverflowException(String arg0, Throwable arg1) {
-		super(arg0, arg1);
-	}
+    public ChoiceModelOverflowException(String arg0, Throwable arg1) {
+        super(arg0, arg1);
+    }
 
-	public ChoiceModelOverflowException(Throwable arg0) {
-		super(arg0);
-	}
+    public ChoiceModelOverflowException(Throwable arg0) {
+        super(arg0);
+    }
 
-	/**
-	 * @param string
-	 */
-	public ChoiceModelOverflowException(String string) {
+    /**
+     * @param string
+     */
+    public ChoiceModelOverflowException(String string) {
+        
+        super(string);
+    }
 
-		super(string);
-	}
-
-	public ChoiceModelOverflowException(String string, NoAlternativeAvailable e) {
-		super(string, e);
-	}
+    public ChoiceModelOverflowException(String string, NoAlternativeAvailable e) {
+        super(string,e);
+    }
 
 }

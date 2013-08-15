@@ -345,7 +345,7 @@ public class TestGaussBayesianObjective {
 					perLandAdjustments);
 		}
 
-		@Override
+		//@Override
 		public double getUtilityNoSizeEffect() throws ChoiceModelOverflowException {
 			throw new NotImplementedError();
 
