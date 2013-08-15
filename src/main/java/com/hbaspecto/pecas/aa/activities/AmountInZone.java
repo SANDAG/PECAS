@@ -62,6 +62,7 @@ public class AmountInZone {
             return myTaz;
         }
 
+    @Override
     public boolean equals(Object o) {
        AmountInZone other = (AmountInZone) o;
        if (other== null)
@@ -75,6 +76,7 @@ public class AmountInZone {
        return false;
      }
 
+    @Override
     public int hashCode() {return myProductionActivity.hashCode() ^ myTaz.hashCode();};
 
     public double getAllocationSizeTerm(){ return allocationSizeTerm; }

@@ -67,7 +67,8 @@ public abstract class ZoningRulesI_gen extends SRecordInstance implements java.i
    public static ZoningRulesI findOrCreate( SSessionJdbc ses ,int _ZoningRulesCode ){
       return ses.findOrCreate(meta, new Object[] {new Integer( _ZoningRulesCode)});
    }
-   public SRecordMeta <ZoningRulesI> getMeta() {
+   @Override
+public SRecordMeta <ZoningRulesI> getMeta() {
        return meta;
    }
 }

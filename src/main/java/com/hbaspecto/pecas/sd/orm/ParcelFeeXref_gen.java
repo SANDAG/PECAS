@@ -41,7 +41,7 @@ abstract class ParcelFeeXref_gen extends SRecordInstance implements java.io.Seri
 /** Old code: 
         return DevelopmentFeeSchedules.findOrCreate(get_FeeScheduleId());
 New code below :**/
-        return ses.findOrCreate(DevelopmentFeeSchedules.meta,new Object[]{ 
+        return ses.findOrCreate(DevelopmentFeeSchedules_gen.meta,new Object[]{ 
         	get_FeeScheduleId(),
  });
      } catch (SException e) {
@@ -60,7 +60,7 @@ New code below :**/
 /** Old code: 
         return Parcels.findOrCreate(get_PecasParcelNum());
 New code below :**/
-        return ses.findOrCreate(Parcels.meta,new Object[]{ 
+        return ses.findOrCreate(Parcels_gen.meta,new Object[]{ 
         	get_PecasParcelNum(),
  });
      } catch (SException e) {
@@ -82,7 +82,8 @@ New code below :**/
       return findOrCreate( ses, _ref.get_PecasParcelNum(), _YearEffective);
    }
 
-   public SRecordMeta <ParcelFeeXref> getMeta() {
+   @Override
+public SRecordMeta <ParcelFeeXref> getMeta() {
        return meta;
    }
 }

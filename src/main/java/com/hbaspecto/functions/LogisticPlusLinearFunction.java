@@ -42,6 +42,7 @@ public class LogisticPlusLinearFunction implements SingleParameterFunction {
         this.slope = slope;
     }
 
+    @Override
     public double evaluate(double x) {
         double temp = Math.exp(lambda * (x - x0));
         if (Double.isInfinite(temp)) {
@@ -50,6 +51,7 @@ public class LogisticPlusLinearFunction implements SingleParameterFunction {
         return y0 + delta * (temp - 1.0) / (temp + 1.0) + slope * (x - x0);
     }
 
+    @Override
     public double derivative(double x) {
         double temp = Math.exp(lambda * (x - x0));
         if (Double.isInfinite(temp)) {

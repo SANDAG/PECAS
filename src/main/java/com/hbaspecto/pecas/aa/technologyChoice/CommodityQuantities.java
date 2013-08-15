@@ -18,7 +18,6 @@
 
 package com.hbaspecto.pecas.aa.technologyChoice;
 
-import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
 import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 

@@ -104,7 +104,8 @@ public class ParcelsTemp_gen extends SRecordInstance implements java.io.Serializ
    public static ParcelsTemp findOrCreate( SSessionJdbc ses ,long _PecasParcelNum ){
       return ses.findOrCreate(meta, new Object[] {new Long( _PecasParcelNum)});
    }
-   public SRecordMeta <ParcelsTemp> getMeta() {
+   @Override
+public SRecordMeta <ParcelsTemp> getMeta() {
        return meta;
    }
 }

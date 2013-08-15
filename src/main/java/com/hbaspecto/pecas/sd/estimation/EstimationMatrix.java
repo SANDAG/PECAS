@@ -142,21 +142,29 @@ public class EstimationMatrix{
 	        }
 	    }
 	    
-	    public boolean add(E e) { throw new UnsupportedOperationException();}
+	    @Override
+        public boolean add(E e) { throw new UnsupportedOperationException();}
 	    
-	    public void add(int index, E element) { throw new UnsupportedOperationException();}
+	    @Override
+        public void add(int index, E element) { throw new UnsupportedOperationException();}
 	    
-	    public boolean addAll(Collection<? extends E> c) { throw new UnsupportedOperationException();}
+	    @Override
+        public boolean addAll(Collection<? extends E> c) { throw new UnsupportedOperationException();}
 	    
-	    public boolean addAll(int index, Collection<? extends E> c) {throw new UnsupportedOperationException();}
+	    @Override
+        public boolean addAll(int index, Collection<? extends E> c) {throw new UnsupportedOperationException();}
 	    
-	    public void clear() { throw new UnsupportedOperationException();}
+	    @Override
+        public void clear() { throw new UnsupportedOperationException();}
 	    
-	    public boolean contains(Object o) { return backmap.containsKey(o);}
+	    @Override
+        public boolean contains(Object o) { return backmap.containsKey(o);}
 	    
-	    public boolean containsAll(Collection<?> c) { return backmap.keySet().containsAll(c);}
+	    @Override
+        public boolean containsAll(Collection<?> c) { return backmap.keySet().containsAll(c);}
 	    
-	    @SuppressWarnings("rawtypes")
+	    @Override
+        @SuppressWarnings("rawtypes")
         public boolean equals(Object o) {
 	        if(o == this)
 	            return true;
@@ -166,55 +174,72 @@ public class EstimationMatrix{
 	        return contents.equals(other.contents);
 	    }
 	    
-	    public E get(int index) { return contents.get(index);}
+	    @Override
+        public E get(int index) { return contents.get(index);}
 	    
-	    public int hashCode() { return contents.hashCode() + 1;}
+	    @Override
+        public int hashCode() { return contents.hashCode() + 1;}
 	    
-	    public int indexOf(Object o) {
+	    @Override
+        public int indexOf(Object o) {
 	        if(this.contains(o))
 	            return backmap.get(o)[0];
 	        else
 	            return -1;
 	    }
 	    
-	    public boolean isEmpty() { return contents.isEmpty();}
+	    @Override
+        public boolean isEmpty() { return contents.isEmpty();}
 	    
-	    public Iterator<E> iterator() { return Collections.unmodifiableList(contents).iterator();}
+	    @Override
+        public Iterator<E> iterator() { return Collections.unmodifiableList(contents).iterator();}
 	    
-	    public int lastIndexOf(Object o) {
+	    @Override
+        public int lastIndexOf(Object o) {
 	        if(this.contains(o))
                 return backmap.get(o)[1];
             else
                 return -1;
 	    }
 	    
-	    public ListIterator<E> listIterator() {
+	    @Override
+        public ListIterator<E> listIterator() {
 	        return Collections.unmodifiableList(contents).listIterator();
 	    }
 	    
-	    public ListIterator<E> listIterator(int index) {
+	    @Override
+        public ListIterator<E> listIterator(int index) {
 	        return Collections.unmodifiableList(contents).listIterator(index);
 	    }
 	    
-	    public E remove(int index) { throw new UnsupportedOperationException();}
+	    @Override
+        public E remove(int index) { throw new UnsupportedOperationException();}
 	    
-	    public boolean remove(Object o) { throw new UnsupportedOperationException();}
+	    @Override
+        public boolean remove(Object o) { throw new UnsupportedOperationException();}
 	    
-	    public boolean removeAll(Collection<?> c) { throw new UnsupportedOperationException();}
+	    @Override
+        public boolean removeAll(Collection<?> c) { throw new UnsupportedOperationException();}
 	    
-	    public boolean retainAll(Collection<?> c) { throw new UnsupportedOperationException();}
+	    @Override
+        public boolean retainAll(Collection<?> c) { throw new UnsupportedOperationException();}
 	    
-	    public E set(int index, E element) { throw new UnsupportedOperationException();}
+	    @Override
+        public E set(int index, E element) { throw new UnsupportedOperationException();}
 	    
-	    public int size() { return contents.size();}
+	    @Override
+        public int size() { return contents.size();}
 	    
-	    public List<E> subList(int fromIndex, int toIndex) {
+	    @Override
+        public List<E> subList(int fromIndex, int toIndex) {
 	        return new BackMapList<E>(contents.subList(fromIndex, toIndex));
 	    }
 	    
-	    public Object[] toArray() { return contents.toArray();}
+	    @Override
+        public Object[] toArray() { return contents.toArray();}
 	    
-	    public <T> T[] toArray(T[] a) { return contents.toArray(a);}
+	    @Override
+        public <T> T[] toArray(T[] a) { return contents.toArray(a);}
 	}
 }
 

@@ -1,18 +1,12 @@
 package com.hbaspecto.pecas.land;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
-
-import simpleorm.sessionjdbc.SSessionJdbc;
-
 import com.hbaspecto.pecas.sd.DevelopmentLog;
 import com.hbaspecto.pecas.sd.MSSQLServerDevelopmentLog;
-import com.pb.common.datafile.TableDataFileReader;
-import com.pb.common.datafile.TableDataSet;
+import com.hbaspecto.pecas.sd.orm.Parcels_gen;
 import com.pb.common.util.ResourceUtil;
 
 public class MSSQLServerLandInventory extends SimpleORMLandInventory {
@@ -66,7 +60,7 @@ public class MSSQLServerLandInventory extends SimpleORMLandInventory {
 
 			logger.info("Now applying changes to parcel file. NOTE PSEUDOPARCELLING IS IMPLEMENTED");
 
-			String strUpdate =  "UPDATE "+Parcels.meta.getTableName()+" " +
+			String strUpdate =  "UPDATE "+Parcels_gen.meta.getTableName()+" " +
 			"SET	space_quantity   = d.new_space_quantity, " +
 			"       space_type_id    = d.new_space_type_id, " +
 			"       year_built       = d.new_year_built, " +
@@ -83,7 +77,7 @@ public class MSSQLServerLandInventory extends SimpleORMLandInventory {
 
 
     		
-    		strUpdate += "INSERT INTO "+Parcels.meta.getTableName()+" " +
+    		strUpdate += "INSERT INTO "+Parcels_gen.meta.getTableName()+" " +
     		"    	SELECT  parcel_id, " + 
     		"		new_pecas_parcel_num, " +
     		"		new_year_built, " + 
@@ -166,7 +160,8 @@ public class MSSQLServerLandInventory extends SimpleORMLandInventory {
 	}
 
 
-	protected void createParcelsTemp(int year) {
+	@Override
+    protected void createParcelsTemp(int year) {
 		try {
 			Statement statement = conn.createStatement();		
 			String strSQL = "IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID('parcels_temp') AND type in (N'U')) " +
@@ -195,7 +190,7 @@ public class MSSQLServerLandInventory extends SimpleORMLandInventory {
 					"fp.is_brownfield, "+
 					"CEILING((rand(fp.pecas_parcel_num))* "+ N + " ) as randnum "+
 					"INTO parcels_temp "+
-					"FROM "+Parcels.meta.getTableName()+" fp, " +
+					"FROM "+Parcels_gen.meta.getTableName()+" fp, " +
 					"most_recent_zoning_year z, " +
 					"most_recent_fee_year f, " +
 					"most_recent_cost_year c, " +

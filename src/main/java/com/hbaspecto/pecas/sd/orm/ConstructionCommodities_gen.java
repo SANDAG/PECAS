@@ -46,7 +46,7 @@ abstract class ConstructionCommodities_gen extends SRecordInstance implements ja
 /** Old code: 
         return SpaceTypesGroup.findOrCreate(get_SpaceTypesGroupId());
 New code below :**/
-        return ses.findOrCreate(SpaceTypesGroup.meta,new Object[]{ 
+        return ses.findOrCreate(SpaceTypesGroup_gen.meta,new Object[]{ 
         	get_SpaceTypesGroupId(),});
      } catch (SException e) {
         if (e.getMessage().indexOf("Null Primary key") > 0) {
@@ -63,7 +63,8 @@ New code below :**/
    public static ConstructionCommodities findOrCreate( SSessionJdbc ses ,int _CcCommodityId ){
       return ses.findOrCreate(meta, new Object[] {new Integer( _CcCommodityId)});
    }
-   public SRecordMeta <ConstructionCommodities> getMeta() {
+   @Override
+public SRecordMeta <ConstructionCommodities> getMeta() {
        return meta;
    }
 }

@@ -365,10 +365,12 @@ public class Exchange {
 
 
 
+    @Override
     public String toString() {
         return "Exchange:" + exchangeLocationUserID+ ":"+myCommodity;
     }
 
+    @Override
     public int hashCode() {
         return myCommodity.hashCode() ^ exchangeLocationIndex;
     }

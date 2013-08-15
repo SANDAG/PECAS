@@ -25,8 +25,6 @@ import java.sql.*;
 import org.apache.log4j.Logger;
 
 import com.hbaspecto.pecas.land.LoadingQueue;
-import com.hbaspecto.pecas.landSynth.ParcelScorer.RandomTerm;
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.IntType;
 
 /**
  * @author jabraham
@@ -344,10 +342,10 @@ public abstract class AssignSquareFeetToParcel {
 					coverageType = coverageTypes.getInt("PECASTYPE");
 				}
 				else {
-					coverageType = (int) '_'; // EMPTY COVERAGE PLACEHOLDER for char is '_'
+					coverageType = '_'; // EMPTY COVERAGE PLACEHOLDER for char is '_'
 					String str = coverageTypes.getString("PECASTYPE").trim();
 					if (!str.isEmpty()){
-						coverageType = (int) str.charAt(0); //OK
+						coverageType = str.charAt(0); //OK
 					}	
 				}
 
@@ -429,8 +427,8 @@ public abstract class AssignSquareFeetToParcel {
 
 					for (int i=0; i<coeffValuesList.size(); i++){
 						fields[i] = fieldsList.get(i);
-						coeffValues[i] = (double) (coeffValuesList.get(i));		
-						farCoeffs[i]   = (double) (farCoeffsList.get(i));
+						coeffValues[i] = (coeffValuesList.get(i));		
+						farCoeffs[i]   = (farCoeffsList.get(i));
 					}
 
 					ps.addHint(new ParcelScorer.HintList(field, fields,	coeffValues, farCoeffs));
@@ -505,7 +503,7 @@ public abstract class AssignSquareFeetToParcel {
 
 
 		while (coverageTypeEnumeration.hasMoreElements()) {
-			coverageType = (Integer) coverageTypeEnumeration.nextElement();
+			coverageType = coverageTypeEnumeration.nextElement();
 			sortedParcelLists.put(coverageType, new ArrayList<ParcelInterface>());
 		}
 
@@ -544,8 +542,8 @@ public abstract class AssignSquareFeetToParcel {
 				//System.out.println((char) coverageType );
 				System.out.println("sorting parcels for usage " + coverageType
 						+ " in " + parcelZoneColumnName + " " + taz);
-				List parcelList = (List) sortedParcelLists.get(coverageType);
-				ParcelScorer parcelScorer = (ParcelScorer) parcelScorers.get(coverageType);
+				List parcelList = sortedParcelLists.get(coverageType);
+				ParcelScorer parcelScorer = parcelScorers.get(coverageType);
 				Collections.sort(parcelList, parcelScorer);
 			}
 
@@ -600,14 +598,14 @@ public abstract class AssignSquareFeetToParcel {
 							intTypeName = Integer.valueOf(typeName);
 						}
 						else {
-							intTypeName  = (int) '_'; // EMPTY COVERAGE PLACEHOLDER for char is '_'
+							intTypeName  = '_'; // EMPTY COVERAGE PLACEHOLDER for char is '_'
 							typeName = typeName.trim();
 							if (!typeName.isEmpty()){
-								intTypeName = (int) typeName.charAt(0); //OK
+								intTypeName = typeName.charAt(0); //OK
 							}	
 						}
 
-						List parcelList = (List) sortedParcelLists.get(intTypeName); 
+						List parcelList = sortedParcelLists.get(intTypeName); 
 						if (parcelList == null) {
 							logger.error("No parcel list for " + typeName);
 						}else						{
@@ -803,11 +801,11 @@ public abstract class AssignSquareFeetToParcel {
 		ParcelScorer result;
 		if (isIntegerSpaceTypeCode) 
 		{
-			result = (ParcelScorer) parcelScorers.get(Integer.valueOf(string));
+			result = parcelScorers.get(Integer.valueOf(string));
 		}
 		else
 		{		
-			result = (ParcelScorer) parcelScorers.get(Integer.valueOf(string.charAt(0)));
+			result = parcelScorers.get(Integer.valueOf(string.charAt(0)));
 		}
 		return result;
 	}
@@ -822,10 +820,10 @@ public abstract class AssignSquareFeetToParcel {
 		Enumeration spaceTypeIterator = sortedParcelLists.keys();
 		while (spaceTypeIterator.hasMoreElements()) {
 			int spaceType = (Integer) spaceTypeIterator.nextElement();
-			List parcelList = (List) sortedParcelLists.get(spaceType);
+			List parcelList = sortedParcelLists.get(spaceType);
 
 			/* Now reinsert the parcel into the sorted list */
-			ParcelScorer parcelScorer = (ParcelScorer) parcelScorers.get(spaceType);
+			ParcelScorer parcelScorer = parcelScorers.get(spaceType);
 			int location = Collections.binarySearch(parcelList, theParcel, parcelScorer);
 			if (location >= 0) {
 				parcelList.add(location, theParcel);
@@ -839,7 +837,7 @@ public abstract class AssignSquareFeetToParcel {
 		Enumeration spaceTypeIterator = sortedParcelLists.keys();
 		while (spaceTypeIterator.hasMoreElements()) {
 			int spaceType = (Integer) spaceTypeIterator.nextElement();
-			List parcelList = (List) sortedParcelLists.get(spaceType);
+			List parcelList = sortedParcelLists.get(spaceType);
 			int size = parcelList.size();
 			if (!parcelList.remove(theParcel)) {
 				throw new Error("Can't remove " + theParcel + " from list "

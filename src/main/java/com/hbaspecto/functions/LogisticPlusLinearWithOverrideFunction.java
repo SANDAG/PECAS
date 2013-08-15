@@ -1,12 +1,9 @@
 package com.hbaspecto.functions;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.Writer;
 
 import org.apache.log4j.Logger;
-
-import com.hbaspecto.pecas.aa.commodity.Commodity;
 
 public class LogisticPlusLinearWithOverrideFunction implements	SingleParameterFunction {
 	

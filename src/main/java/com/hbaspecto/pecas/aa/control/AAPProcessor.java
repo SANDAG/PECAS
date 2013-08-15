@@ -16,7 +16,6 @@
  */
 package com.hbaspecto.pecas.aa.control;
 
-import com.hbaspecto.discreteChoiceModelling.Alternative;
 import com.hbaspecto.functions.LogisticPlusLinearFunction;
 import com.hbaspecto.functions.LogisticPlusLinearWithOverrideFunction;
 import com.hbaspecto.matrix.SparseMatrix;
@@ -24,10 +23,7 @@ import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
 import com.hbaspecto.pecas.OverflowException;
 import com.hbaspecto.pecas.aa.AAStatusLogger;
-import com.hbaspecto.pecas.aa.activities.ActivityInLocationWithLogitTechnologyChoice;
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
-import com.hbaspecto.pecas.aa.activities.AggregateDistribution;
-import com.hbaspecto.pecas.aa.activities.AmountInZone;
 import com.hbaspecto.pecas.aa.activities.ProductionActivity;
 import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 import com.hbaspecto.pecas.aa.commodity.BuyingZUtility;
@@ -53,17 +49,13 @@ import com.pb.common.datafile.CSVFileWriter;
 import com.pb.common.datafile.ExcelFileReader;
 import com.pb.common.datafile.GeneralDecimalFormat;
 import com.pb.common.datafile.JDBCTableReader;
-import com.pb.common.datafile.MissingValueException;
-import com.pb.common.datafile.OLD_CSVFileReader;
 import com.pb.common.datafile.TableDataReader;
 import com.pb.common.datafile.TableDataSet;
 import com.pb.common.datafile.TableDataSetCollection;
 import com.pb.common.datafile.TableDataSetIndexedValue;
 import com.pb.common.matrix.AlphaToBeta;
 import com.pb.common.matrix.CSVMatrixWriter;
-import com.pb.common.matrix.CSVSquareTableMatrixReader;
 import com.pb.common.matrix.Emme2311MatrixWriter;
-import com.pb.common.matrix.Emme2MatrixWriter;
 import com.pb.common.matrix.HashtableAlphaToBeta;
 import com.pb.common.matrix.Matrix;
 import com.pb.common.matrix.MatrixHistogram;
@@ -79,7 +71,6 @@ import org.apache.log4j.Logger;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -465,7 +456,7 @@ public abstract class AAPProcessor {
             }
             exInputData.zone = (int) exchanges.getValueAt(row, "ZoneNumber");
             if (exInputData.zone!=-1) {
-            	if (PECASZone.findZoneByUserNumber(exInputData.zone)==null) {
+            	if (AbstractZone.findZoneByUserNumber(exInputData.zone)==null) {
             		logger.fatal("Invalid zone number "+exInputData.zone+" in ExchangeImportExportTable");
             		throw new RuntimeException("Invalid zone number "+exInputData.zone+" in ExchangeImportExportTable");
             	}
@@ -505,7 +496,7 @@ public abstract class AAPProcessor {
             }
             exchangeTempStorage.put(key, exInputData);
         }
-        Iterator comit = Commodity.getAllCommodities().iterator();
+        Iterator comit = AbstractCommodity.getAllCommodities().iterator();
         while (comit.hasNext()) {
             Commodity c = (Commodity) comit.next();
             for (int z = 0; z < zones.length; z++) {
@@ -579,12 +570,12 @@ public abstract class AAPProcessor {
                     }
                 }
                 if (c.exchangeType == 'c' || c.exchangeType == 's' || c.exchangeType == 'a') {
-                    CommodityZUtility czu = (CommodityZUtility) c.retrieveCommodityZUtility(zones[z], true);
+                    CommodityZUtility czu = c.retrieveCommodityZUtility(zones[z], true);
 //                    CommodityZUtility czu = (CommodityZUtility) zones[z].getSellingCommodityZUtilities().get(c); // get the selling zutility again
                     czu.addAllExchanges(); // add in all the other exchanges for that commodity
                 }
                 if (c.exchangeType == 'p' || c.exchangeType == 's' || c.exchangeType == 'a') {
-                    CommodityZUtility czu = (CommodityZUtility) c.retrieveCommodityZUtility(zones[z],false);
+                    CommodityZUtility czu = c.retrieveCommodityZUtility(zones[z],false);
 //                    CommodityZUtility czu = (CommodityZUtility) zones[z].getBuyingCommodityZUtilities().get(c); // get the buying zutility again
                     czu.addAllExchanges(); // add in all the other exchanges for that commodity
                 }
@@ -618,7 +609,7 @@ public abstract class AAPProcessor {
                 logger.warn("Invalid commodity name " + cname + " in ExchangeResultsI price table, you might need to discard your ExchangeResultsI file or delete extra rows");
             } else {
                 int zoneUserNumber = (int) initialPrices.getValueAt(row, zoneNumberColumn);
-                AbstractZone t = PECASZone.findZoneByUserNumber(zoneUserNumber);
+                AbstractZone t = AbstractZone.findZoneByUserNumber(zoneUserNumber);
                 if (t==null) {
                 	logger.warn("Zone "+zoneUserNumber+" refered to in initial prices does not exist");
                 } else {
@@ -734,8 +725,8 @@ public abstract class AAPProcessor {
         maxErrorTermSizeConsumption.setName("ConsumptionErrorTermSizes");
         TableDataSet maxErrorTermSizeProduction = new TableDataSet();
         maxErrorTermSizeProduction.setName("ProductionErrorTermSizes");
-        String[] activityNames = new String[AggregateActivity.getAllProductionActivities().size()];
-        Iterator it = AggregateActivity.getAllProductionActivities().iterator();
+        String[] activityNames = new String[ProductionActivity.getAllProductionActivities().size()];
+        Iterator it = ProductionActivity.getAllProductionActivities().iterator();
         int a=0;
         while (it.hasNext()) {
             activityNames[a]=((AggregateActivity)it.next()).name;
@@ -753,7 +744,7 @@ public abstract class AAPProcessor {
             conString = "";
             prodString = "";
             AggregateActivity aa = (AggregateActivity) activityIterator.next();
-            aa.getConsumptionFunction().doFinalSetupAndSetCommodityOrder(Commodity.getAllCommodities());
+            aa.getConsumptionFunction().doFinalSetupAndSetCommodityOrder(AbstractCommodity.getAllCommodities());
             // we have a different AAPProcessor for LogitTechnologyChoice, to avoid all these if statements
             if (aa.getConsumptionFunction() instanceof LogitTechnologyChoiceConsumptionFunction) {
                 LogitTechnologyChoice techChoice = ((LogitTechnologyChoiceConsumptionFunction) aa.getConsumptionFunction()).myTechnologyChoice;
@@ -761,7 +752,7 @@ public abstract class AAPProcessor {
             }
             // Don't have to log ratios or do setup here for LogitTechnologyChoice, because the consumption function and production functions are integrated together and we already did the consumption function
             
-            aa.getProductionFunction().doFinalSetupAndSetCommodityOrder(Commodity.getAllCommodities());
+            aa.getProductionFunction().doFinalSetupAndSetCommodityOrder(AbstractCommodity.getAllCommodities());
         }
         getTableDataSetCollection().addTableDataSet(maxErrorTermSizeConsumption);
         getTableDataSetCollection().addTableDataSet(maxErrorTermSizeProduction);
@@ -1256,7 +1247,7 @@ public abstract class AAPProcessor {
                 ProductionFunction pf = p.getProductionFunction();
                 
                 // also total up amounts made and used by each activity
-                double[] madeAmounts = new double[Commodity.getAllCommodities().size()];
+                double[] madeAmounts = new double[AbstractCommodity.getAllCommodities().size()];
                 double[] usedAmounts = new double[madeAmounts.length];
                 
                 // track these for calculating standard deviation, "Rapid Calculation Method for Standard Deviation" http://en.wikipedia.org/wiki/Standard_deviation
@@ -1383,7 +1374,7 @@ public abstract class AAPProcessor {
                         }
                     }
                 } // end of zone loop
-                Iterator commodityIterator = Commodity.getAllCommodities().iterator();
+                Iterator commodityIterator = AbstractCommodity.getAllCommodities().iterator();
                 
                 while (commodityIterator.hasNext()) {
                 	Commodity c = (Commodity) commodityIterator.next();
@@ -1440,7 +1431,7 @@ public abstract class AAPProcessor {
 
 	        BufferedWriter commoditiesFile = new BufferedWriter(new FileWriter(getOutputPath() + "CommodityNumbers.csv"));
 	        commoditiesFile.write("CommodityNumber,Commodity\n");
-	        it = Commodity.getAllCommodities().iterator();
+	        it = AbstractCommodity.getAllCommodities().iterator();
 	        while (it.hasNext()) {
 	        	Commodity c = (Commodity) it.next();
 	        	commoditiesFile.write(c.commodityNumber+","+c.name+"\n");
@@ -1502,7 +1493,7 @@ public abstract class AAPProcessor {
             } else {
                 os.write("Commodity,Zone,BuyingOrSelling,Quantity,zUtility\n");
             }
-            Iterator it = Commodity.getAllCommodities().iterator();
+            Iterator it = AbstractCommodity.getAllCommodities().iterator();
             while (it.hasNext()) {
                 Commodity c = (Commodity) it.next();
                 for (int b = 0; b < 2; b++) {
@@ -1513,7 +1504,7 @@ public abstract class AAPProcessor {
                         it2 = c.getSellingUtilitiesIterator();
                     }
                     while (it2.hasNext()) {
-                    	CommodityZUtility czu = (CommodityZUtility) it2.next();
+                    	CommodityZUtility czu = it2.next();
                     	try {
                     		os.write(czu.myCommodity.toString() + ",");
                     		os.write(czu.myTaz.getZoneUserNumber() + ",");
@@ -1585,7 +1576,7 @@ public abstract class AAPProcessor {
             logger.warn("Can't create ExchangeResultsTotals");
         }
         if (exchangeResults != null) { 
-            Iterator it = Commodity.getAllCommodities().iterator();
+            Iterator it = AbstractCommodity.getAllCommodities().iterator();
             while (it.hasNext()) {
                 Commodity c = (Commodity) it.next();
                 double internalBought = 0;
@@ -1769,7 +1760,7 @@ public abstract class AAPProcessor {
             histogramFile.write("Commodity,BuyingSelling,BandNumber,LowerBound,Quantity,AverageLength\n");
             PrintWriter pctFile = new PrintWriter(new BufferedWriter(new FileWriter(getOutputPath() + "PctIntrazonalxCommodityxBzone.csv")));
             pctFile.println("Bzone,Commodity,BuyIntra,BuyFrom,BuyTo,BuyPctIntraFrom,BuyPctIntraTo,SellIntra,SellFrom,SellTo,SellPctIntraFrom,SellPctIntraTo");
-            Iterator com = Commodity.getAllCommodities().iterator();
+            Iterator com = AbstractCommodity.getAllCommodities().iterator();
             while (com.hasNext()) {
                 writeFlowZipMatrices(((Commodity)com.next()).getName(),histogramFile,pctFile);
             }
@@ -1912,7 +1903,7 @@ public abstract class AAPProcessor {
             if (hspec.commodityName.equals(commodityName)) {
                 double[] boundaries = new double[hspec.boundaries.size()];
                 for (int bound=0;bound<hspec.boundaries.size();bound++) {
-                    boundaries[bound] = (double) ((Float) hspec.boundaries.get(bound)).doubleValue();
+                    boundaries[bound] = ((Float) hspec.boundaries.get(bound)).doubleValue();
                 }
                 MatrixHistogram mhBuying = new MatrixHistogram(boundaries);
                 MatrixHistogram mhSelling = new MatrixHistogram(boundaries);
@@ -1964,7 +1955,7 @@ public abstract class AAPProcessor {
         	logger.info("Writing histograms");
             BufferedWriter histogramFile = new BufferedWriter(new FileWriter(getOutputPath() + "Histograms.csv"));
             histogramFile.write("Commodity,BuyingSelling,BandNumber,LowerBound,Quantity,AverageLength\n");
-            Iterator com = Commodity.getAllCommodities().iterator();
+            Iterator com = AbstractCommodity.getAllCommodities().iterator();
             while (com.hasNext()) {
                 writeFlowHistograms(((Commodity)com.next()).getName(),histogramFile);
             }
@@ -2041,7 +2032,7 @@ public abstract class AAPProcessor {
             productionFlows.write("commodity,origin,destination,quantity,distance,time\n");
             //AbstractZone[] zones = AbstractZone.getAllZones();
             //for (int z = 0; z < zones.length; z++) {
-            Iterator cit = Commodity.getAllCommodities().iterator();
+            Iterator cit = AbstractCommodity.getAllCommodities().iterator();
             while (cit.hasNext()) {
                 Commodity c = (Commodity) cit.next();
                 for (int bs = 0; bs < 2; bs++) {
@@ -2051,7 +2042,7 @@ public abstract class AAPProcessor {
                     else
                         it = c.getSellingUtilitiesIterator();
                     while (it.hasNext()) {
-                        CommodityZUtility czu = (CommodityZUtility) it.next();
+                        CommodityZUtility czu = it.next();
                         if (bs == 0)
                             writeFlowsToFile(consumptionFlows,czu.getMyFlows());
                         else
@@ -2277,7 +2268,7 @@ public abstract class AAPProcessor {
 	            int alphaZone = (int) activityConstraintsTable.getValueAt(row,alphaZoneColumn);
 	            float quantity = activityConstraintsTable.getValueAt(row,quantityColumn);
 	            String activityName = activityConstraintsTable.getStringValueAt(row,activityColumn);
-	            ProductionActivity a = AggregateActivity.retrieveProductionActivity(activityName); 
+	            ProductionActivity a = ProductionActivity.retrieveProductionActivity(activityName); 
 	            if (a==null) {
 	                logger.fatal("Bad activity name "+activityName+" in ActivityConstraintsI.csv");
 	                throw new RuntimeException("Bad activity name "+activityName+" in ActivityConstraintsI.csv");
@@ -2329,7 +2320,7 @@ public abstract class AAPProcessor {
 	            int betaZone = (int) activityConstraintsTable.getValueAt(row,betaZoneColumn);
 	            float quantity = activityConstraintsTable.getValueAt(row,quantityColumn);
 	            String activityName = activityConstraintsTable.getStringValueAt(row,activityColumn);
-	            ProductionActivity activity = AggregateActivity.retrieveProductionActivity(activityName); 
+	            ProductionActivity activity = ProductionActivity.retrieveProductionActivity(activityName); 
 	            if (activity==null) {
 	                logger.fatal("Bad activity name "+activityName+" in ActivityConstraintsI.csv");
 	                throw new RuntimeException("Bad activity name "+activityName+" in ActivityConstraintsI.csv");
@@ -2345,7 +2336,7 @@ public abstract class AAPProcessor {
     }
     
     protected void checkActivityConstraints() {
-    	for (ProductionActivity a : AggregateActivity.getAllProductionActivities()){
+    	for (ProductionActivity a : ProductionActivity.getAllProductionActivities()){
     		a.checkConstraintConsistency();
     	}
     }

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import com.hbaspecto.pecas.aa.technologyChoice.ConsumptionFunction;
 import com.hbaspecto.pecas.sd.SpaceTypesI;
 
 import simpleorm.sessionjdbc.SSessionJdbc;
@@ -21,7 +20,7 @@ public class SpaceTypesGroup extends SpaceTypesGroup_gen implements java.io.Seri
 		SpaceTypesGroup theOne = spaceTypesGroupHash.get(spaceGroupID);
 		if (theOne == null){
 			SSessionJdbc session = SSessionJdbc.getThreadLocalSession();
-			theOne = session.find(SpaceTypesGroup.meta, spaceGroupID);
+			theOne = session.find(SpaceTypesGroup_gen.meta, spaceGroupID);
 			if (theOne != null)	spaceTypesGroupHash.put(spaceGroupID, theOne);
 		}
 		return theOne;

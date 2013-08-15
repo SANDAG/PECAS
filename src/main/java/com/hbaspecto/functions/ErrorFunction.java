@@ -75,11 +75,13 @@ public class ErrorFunction implements SingleParameterFunction {
 		return 0.5 * (1.0 + erf(z / (Math.sqrt(2.0))));
 	}
 
-	public double derivative(double point) {
+	@Override
+    public double derivative(double point) {
 		return 2/(Math.sqrt(Math.PI))*Math.exp(-point*point);
 	}
 
-	public double evaluate(double point) {
+	@Override
+    public double evaluate(double point) {
 		return erf(point);
 	}
 

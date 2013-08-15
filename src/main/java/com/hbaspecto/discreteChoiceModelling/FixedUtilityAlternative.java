@@ -24,6 +24,7 @@ public class FixedUtilityAlternative implements Alternative {
       this.utilityValue=utilityValue;
     }
 
+    @Override
     public double getUtility(double dispersion) {return utilityValue;}
 
     public double getUtilityValue(){ return utilityValue; }
@@ -31,5 +32,6 @@ public class FixedUtilityAlternative implements Alternative {
     public void setUtilityValue(double utilityValue){ this.utilityValue = utilityValue; }
 
     private double utilityValue;
+    @Override
     public String toString() {return "FixedUtility - "+utilityValue;};
 }

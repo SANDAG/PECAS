@@ -47,6 +47,7 @@ class NoChangeAlternative extends DevelopmentAlternative {
         this.scheme = scheme;
     }
 
+    @Override
     public double getUtility(double higherLevelDispersionParameter) throws ChoiceModelOverflowException {
         // the new way, with continuous intensity options
         double Thjp = getUtilityPerUnitSpace();

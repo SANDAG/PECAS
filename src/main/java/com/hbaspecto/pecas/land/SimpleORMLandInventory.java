@@ -12,26 +12,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.sql.DataSource;
-
 import org.apache.log4j.Logger;
-
 import simpleorm.dataset.SDataSet;
 import simpleorm.dataset.SQuery;
 import simpleorm.sessionjdbc.SSessionJdbc;
 import simpleorm.utils.SLog;
 import simpleorm.utils.SLogLog4j;
-
 import com.hbaspecto.pecas.PECASDataSource;
-import com.hbaspecto.pecas.sd.DevelopmentLog;
 import com.hbaspecto.pecas.sd.SpaceTypesI;
-import com.hbaspecto.pecas.sd.ZoningRulesI;
+import com.hbaspecto.pecas.sd.orm.ExchangeResults_gen;
 import com.hbaspecto.pecas.sd.orm.LocalEffectDistances;
 import com.hbaspecto.pecas.sd.orm.LocalEffectParameters;
 import com.hbaspecto.pecas.sd.orm.LocalEffects;
 import com.hbaspecto.pecas.sd.orm.SpaceToCommodity;
 import com.hbaspecto.pecas.sd.orm.SpaceTypesGroup;
-import com.hbaspecto.pecas.sd.orm.SpaceTypesI_gen;
-
 import com.pb.common.datafile.JDBCTableReader;
 import com.pb.common.datafile.TableDataFileReader;
 import com.pb.common.datafile.TableDataFileWriter;
@@ -247,7 +241,8 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 
 	private boolean capacityConstrained;
 
-	public abstract void applyDevelopmentChanges();
+	@Override
+    public abstract void applyDevelopmentChanges();
 
 	public static SDataSet detachSession(SSessionJdbc session) {
 		SDataSet ds;
@@ -326,7 +321,8 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 	}
 
 
-	public void setToBeforeFirst(){
+	@Override
+    public void setToBeforeFirst(){
 
 		if (!session.hasBegun()) session.begin();
 
@@ -397,7 +393,8 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 	} 
 	 */
 
-	public boolean advanceToNext() {
+	@Override
+    public boolean advanceToNext() {
 		// remove the old parcel from cache
 
 		if (currentParcel!=null) { 			
@@ -517,7 +514,8 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 	 * @param spaceType 
 	 * @return
 	 */
-	public double getConstructionUtilityAdjustment(SpaceTypesI spaceType) {
+	@Override
+    public double getConstructionUtilityAdjustment(SpaceTypesI spaceType) {
 		if (batchCount==1) return 0;
 		double trgt = SpaceTypesGroup.getTargetConstructionQuantity(spaceType.get_SpaceTypeGroupId());
 		double rateTarget = trgt/numberOfBatches;
@@ -544,18 +542,22 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 		return SpaceTypesGroup.getSpaceTypeGroupByID(spaceGroupID).get_CostAdjustmentDampingFactor();
 	}
 
-	public String getParcelId() {    	
+	@Override
+    public String getParcelId() {    	
 		return currentParcel.get_ParcelId();
 	}
-	public int getCoverage() {
+	@Override
+    public int getCoverage() {
 		return currentParcel.get_SpaceTypeId();
 	}
 
-	public double getQuantity() {
+	@Override
+    public double getQuantity() {
 		return currentParcel.get_SpaceQuantity();
 	}
 
-	public int getAvailableServiceCode() { 
+	@Override
+    public int getAvailableServiceCode() { 
 		// TODO build x-ref tables for servicing by year, so that user can specify future service coverage
 		return currentParcel.get_AvailableServicesCode();
 	}
@@ -570,35 +572,43 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 		return currentParcel.get_IsDerelict();
 	}
 
-	public double getLandArea() {
+	@Override
+    public double getLandArea() {
 		return currentParcel.get_LandArea();
 	}
 
-	public int getYearBuilt() {
+	@Override
+    public int getYearBuilt() {
 		return currentParcel.get_YearBuilt();
 	}
 
-	public boolean isDevelopable() {
+	@Override
+    public boolean isDevelopable() {
 		return true;
 	}
 
-	public void putCoverage(int coverageId) {
+	@Override
+    public void putCoverage(int coverageId) {
 		currentParcel.set_SpaceTypeId(coverageId);
 	}
 
-	public void putQuantity(double quantity) {
+	@Override
+    public void putQuantity(double quantity) {
 		currentParcel.set_SpaceQuantity(quantity);
 	}
 
-	public void putDerelict(boolean isDerelict) {
+	@Override
+    public void putDerelict(boolean isDerelict) {
 		currentParcel.set_IsDerelict(isDerelict);
 	}
 
-	public void putBrownfield(boolean isBrownfield) {
+	@Override
+    public void putBrownfield(boolean isBrownfield) {
 		currentParcel.set_IsBrownfield(isBrownfield);
 	}
 
-	public void putYearBuilt(int yearBuilt) {
+	@Override
+    public void putYearBuilt(int yearBuilt) {
 		currentParcel.set_YearBuilt(yearBuilt);
 	}
 
@@ -607,7 +617,8 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 		currentParcel.set_AvailableServicesCode(service);	
 	}
 
-	public ParcelInterface splitParcel(double newLandSize)
+	@Override
+    public ParcelInterface splitParcel(double newLandSize)
 	throws NotSplittableException {
 
 		double size = currentParcel.get_LandArea();
@@ -630,7 +641,8 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 		return newOne;        
 	}
 
-	public void addNewBits() {
+	@Override
+    public void addNewBits() {
 		// Leave it. empty method for now because pseudo parcels will be added by the update query in ApplyDevelopmentChanges().
 
 	}
@@ -651,7 +663,8 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 	}
 
 	//@Override
-	public long getPECASParcelNumber() {
+	@Override
+    public long getPECASParcelNumber() {
 		return currentParcel.get_PecasParcelNum();
 	}
 
@@ -668,7 +681,7 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 		for (SpaceToCommodity stc: commodities) {
 			ExchangeResults er = null;
 			try {
-			er = session.mustFind(ExchangeResults.meta, stc.get_AaCommodity(), luz);
+			er = session.mustFind(ExchangeResults_gen.meta, stc.get_AaCommodity(), luz);
 			} catch (RuntimeException e) {
 				// Place to set a breakpoint;
 				throw new RuntimeException("Can't find price for \""+stc.get_AaCommodity()+"\" in luz "+luz,e);
@@ -744,7 +757,8 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 		return currentParcel.get_FeeScheduleId();
 	}
 
-	public int getZoningRulesCode() {
+	@Override
+    public int getZoningRulesCode() {
 		return currentParcel.get_ZoningRulesCode();
 	}
 
@@ -782,7 +796,7 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 
 	@Override
 	public void setMaxParcelSize(double maxParcelSize) {
-		this.maxParcelSize=maxParcelSize;
+		SimpleORMLandInventory.maxParcelSize=maxParcelSize;
 	}
 
 	public void setDatabaseConnectionParameter(ResourceBundle rb, String landDatabaseDriver,
@@ -819,7 +833,7 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 		try {
 			session.flush();
 			statement = session.getJdbcConnection().createStatement();
-			String tableName = ExchangeResults.meta.getTableName();
+			String tableName = ExchangeResults_gen.meta.getTableName();
 			logger.info("Reading in ExchangeResults.csv");
 			statement.execute("TRUNCATE TABLE exchange_results;");
 			String path = reader.getMyDirectory();
@@ -830,8 +844,8 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 			int price_col = prices.checkColumnPosition("Price");
 			int internalBought_col = prices.checkColumnPosition("InternalBought");
 			for (int row = 1; row<= prices.getRowCount(); row++) {
-				String query = "insert into "+tableName+" ("+ExchangeResults.Commodity.getColumnName()+", "+
-						ExchangeResults.Luz.getColumnName()+", "+ ExchangeResults.Price.getColumnName()+", internal_bought) values ('" +
+				String query = "insert into "+tableName+" ("+ExchangeResults_gen.Commodity.getColumnName()+", "+
+						ExchangeResults_gen.Luz.getColumnName()+", "+ ExchangeResults_gen.Price.getColumnName()+", internal_bought) values ('" +
 				prices.getStringValueAt(row, commodity_col) +"' , "+ 
 				prices.getValueAt(row, luz_col) +" , "+
 				prices.getValueAt(row, price_col) +" , "+
@@ -953,7 +967,8 @@ public abstract class SimpleORMLandInventory implements LandInventory  {
 		}
 	}
 
-	public ParcelErrorLog getParcelErrorLog(){
+	@Override
+    public ParcelErrorLog getParcelErrorLog(){
 		if (parcelErrorLog!=null) return parcelErrorLog;
 
 		parcelErrorLog = new ParcelErrorLog();

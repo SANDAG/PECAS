@@ -189,6 +189,7 @@ public abstract class ProductionActivity {
      */
     public abstract ConsumptionFunction getConsumptionFunction();
 
+    @Override
     public String toString() { return name; };
 
     public double getSizeTermCoefficient() {

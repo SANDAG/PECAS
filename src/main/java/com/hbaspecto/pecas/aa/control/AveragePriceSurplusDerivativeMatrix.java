@@ -23,18 +23,14 @@
 package com.hbaspecto.pecas.aa.control;
 
 import drasys.or.matrix.DenseMatrix;
-
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
 import org.apache.log4j.Logger;
-
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
 import com.hbaspecto.pecas.aa.activities.ProductionActivity;
+import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
 import com.hbaspecto.pecas.aa.commodity.Exchange;
 
@@ -53,7 +49,7 @@ public class AveragePriceSurplusDerivativeMatrix extends DenseMatrix {
     protected static int matrixSize=0;
 
     public static void calculateMatrixSize() {
-        numCommodities = Commodity.getAllCommodities().size();
+        numCommodities = AbstractCommodity.getAllCommodities().size();
         matrixSize = numCommodities ;
     }
     
@@ -76,7 +72,7 @@ public class AveragePriceSurplusDerivativeMatrix extends DenseMatrix {
         
         
         // add import/export effect to diagonal
-        Iterator comIt = Commodity.getAllCommodities().iterator();
+        Iterator comIt = AbstractCommodity.getAllCommodities().iterator();
         int comNum = 0;
         while (comIt.hasNext()) {
             Commodity c = (Commodity) comIt.next();
@@ -97,7 +93,7 @@ public class AveragePriceSurplusDerivativeMatrix extends DenseMatrix {
 	protected void aggregateValuesFromEachActivity(double[][] myValues) {
 		ArrayList<ActivityMatrixInitializer> activityInitializers = new ArrayList<ActivityMatrixInitializer>();
         
-        Iterator actIt = AggregateActivity.getAllProductionActivities().iterator();
+        Iterator actIt = ProductionActivity.getAllProductionActivities().iterator();
         while (actIt.hasNext()) {
             ProductionActivity prodActivity = (ProductionActivity) actIt.next();
             if (prodActivity instanceof AggregateActivity) {
@@ -139,7 +135,7 @@ public class AveragePriceSurplusDerivativeMatrix extends DenseMatrix {
 
 
     private static Executor getActivityThreadPool() {
-        if (activityThreadPool==null) activityThreadPool = Executors.newFixedThreadPool(AggregateActivity.getAllProductionActivities().size()); 
+        if (activityThreadPool==null) activityThreadPool = Executors.newFixedThreadPool(ProductionActivity.getAllProductionActivities().size()); 
         return activityThreadPool;
     }
 }

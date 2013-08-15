@@ -76,10 +76,12 @@ public class Commodity extends AbstractCommodity {
     private double defaultSellingDispersionParameter;
 
     public static SingleParameterFunction zeroFunction = new SingleParameterFunction() {
+        @Override
         public double evaluate(double x) {
             return 0;
         }
 
+        @Override
         public double derivative(double x) {
             return 0;
         }
@@ -173,7 +175,7 @@ public class Commodity extends AbstractCommodity {
             if (s == 1) selling = false;
             for (int z = 0; z < zones.length; z++) {
                 //get the CUSell or CUBuy utility calculator for each zone out of the CommodityZUtility hashtable
-                CommodityZUtility czu = retrieveCommodityZUtility((PECASZone) zones[z],selling);
+                CommodityZUtility czu = retrieveCommodityZUtility(zones[z],selling);
                     czu.setPricesFixed(false);
             }
         }
@@ -236,6 +238,7 @@ public class Commodity extends AbstractCommodity {
      * @param t       the PECASZone to get the buying or selling utility of
      * @param selling if true, get the selling utility.  Otherwise get the buying utility
      */
+    @Override
     public double calcZUtility(AbstractZone t, boolean selling) throws OverflowException {
         try {
             CommodityZUtility czu = retrieveCommodityZUtility(t, selling);
@@ -265,7 +268,7 @@ public class Commodity extends AbstractCommodity {
 
     
     public CommodityZUtility retrieveCommodityZUtility(int zoneNumber, boolean selling) {
-        PECASZone t = (PECASZone) PECASZone.findZoneByUserNumber(zoneNumber);
+        PECASZone t = (PECASZone) AbstractZone.findZoneByUserNumber(zoneNumber);
         return retrieveCommodityZUtility(t,selling);
     }
 
@@ -291,11 +294,11 @@ public class Commodity extends AbstractCommodity {
 
     public Exchange getExchange(int tazIndex) {
         if (this.exchangeType!='s') {
-            return (Exchange) allExchanges.get(tazIndex);
+            return allExchanges.get(tazIndex);
         } else {
             for (int i=0;i<allExchanges.size();i++) {
-                if (((Exchange) allExchanges.get(i)).exchangeLocationIndex == tazIndex) {
-                    return (Exchange) allExchanges.get(i);
+                if (allExchanges.get(i).exchangeLocationIndex == tazIndex) {
+                    return allExchanges.get(i);
                 }
             }
         }
@@ -427,13 +430,13 @@ public class Commodity extends AbstractCommodity {
     		logger.error("Flows have not been calculated on this machine for "+getName()+", not writing flows");
     		return null;
     	}
-        int nZones = PECASZone.getAllZones().length;
+        int nZones = AbstractZone.getAllZones().length;
         float[][] flows = new float[nZones][nZones];
         int[] zoneNumbers = new int[nZones+1];
         for (int exchange=0;exchange<nZones;exchange++) {//exchange zones
             Exchange ex = getExchange(exchange);
             if (ex!=null) {
-                zoneNumbers[exchange+1] = PECASZone.getZone(exchange).getZoneUserNumber();
+                zoneNumbers[exchange+1] = AbstractZone.getZone(exchange).getZoneUserNumber();
                 for (int consumption =0;consumption<nZones;consumption++) { //consumption zones
                     try {
                         flows[exchange][consumption]=(float) -ex.getFlowQuantityZeroForNonExistantFlow(consumption,'b');
@@ -454,13 +457,13 @@ public class Commodity extends AbstractCommodity {
     		logger.error("Flows have not been calculated on this machine for "+getName()+", not writing flows");
     		return null;
     	}
-        int nZones = PECASZone.getAllZones().length;
+        int nZones = AbstractZone.getAllZones().length;
         float[][] flows = new float[nZones][nZones];
         int[] zoneNumbers = new int[nZones+1];
         for (int exchange=0;exchange<nZones;exchange++) {
             Exchange ex = getExchange(exchange);
             if (ex!=null) {
-                zoneNumbers[exchange+1] = PECASZone.getZone(exchange).getZoneUserNumber();
+                zoneNumbers[exchange+1] = AbstractZone.getZone(exchange).getZoneUserNumber();
                 for (int production =0;production<nZones;production++) {
                     try {
                         flows[production][exchange]=(float) ex.getFlowQuantityZeroForNonExistantFlow(production,'s');

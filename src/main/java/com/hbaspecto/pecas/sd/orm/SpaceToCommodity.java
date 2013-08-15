@@ -3,7 +3,6 @@ package com.hbaspecto.pecas.sd.orm;
 import java.util.HashMap;
 import java.util.List;
 
-import simpleorm.dataset.SFieldMeta;
 import simpleorm.dataset.SQuery;
 import simpleorm.sessionjdbc.SSessionJdbc;
 
@@ -19,7 +18,7 @@ public class SpaceToCommodity extends SpaceToCommodity_gen implements java.io.Se
 		List<SpaceToCommodity> result = commoditiesForSpace.get(coverageCode);
 		if (result != null) return result;
 		SSessionJdbc session = SSessionJdbc.getThreadLocalSession();
-		SQuery<SpaceToCommodity> query = new SQuery<SpaceToCommodity>(SpaceToCommodity.meta).eq(SpaceToCommodity.SpaceTypeId, coverageCode);
+		SQuery<SpaceToCommodity> query = new SQuery<SpaceToCommodity>(SpaceToCommodity_gen.meta).eq(SpaceToCommodity_gen.SpaceTypeId, coverageCode);
 		List<SpaceToCommodity> commodities = session.query(query);
 		commoditiesForSpace.put(coverageCode, commodities);
 		return commodities;

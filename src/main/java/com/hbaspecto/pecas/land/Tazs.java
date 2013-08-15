@@ -3,7 +3,6 @@ package com.hbaspecto.pecas.land;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hbaspecto.pecas.sd.orm.LocalEffectParameters;
 import com.hbaspecto.pecas.sd.orm.Tazs_gen;
 
 import simpleorm.dataset.SQuery;
@@ -34,7 +33,7 @@ public class Tazs extends Tazs_gen implements java.io.Serializable {
 	 */
 	private static List<Tazs> getAllTazRecords(SSessionJdbc session) {
 		
-		SQuery<Tazs> qry = new SQuery<Tazs>(Tazs.meta);
+		SQuery<Tazs> qry = new SQuery<Tazs>(Tazs_gen.meta);
 		boolean wasBegun=true;
 		if (!session.hasBegun()) {
 			session.begin();

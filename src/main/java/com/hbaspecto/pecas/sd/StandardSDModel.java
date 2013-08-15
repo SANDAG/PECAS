@@ -18,38 +18,22 @@
  */
 package com.hbaspecto.pecas.sd;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
-
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Matrices;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
-
 import org.apache.log4j.Logger;
-
 import simpleorm.dataset.SQuery;
-import simpleorm.dataset.SRecordMeta;
-import simpleorm.sessionjdbc.SSessionJdbc;
-
-
 import com.hbaspecto.discreteChoiceModelling.Coefficient;
-import com.hbaspecto.pecas.land.ExchangeResults;
-import com.hbaspecto.pecas.land.Parcels;
 import com.hbaspecto.pecas.land.PostgreSQLLandInventory;
 import com.hbaspecto.pecas.land.SimpleORMLandInventory;
 import com.hbaspecto.pecas.sd.estimation.DifferentiableModel;
 import com.hbaspecto.pecas.sd.estimation.EstimationDataSet;
-import com.hbaspecto.pecas.sd.estimation.EstimationMatrix;
 import com.hbaspecto.pecas.sd.estimation.EstimationReader;
 import com.hbaspecto.pecas.sd.estimation.EstimationTarget;
 import com.hbaspecto.pecas.sd.estimation.ExpectedTargetModel;
@@ -57,13 +41,11 @@ import com.hbaspecto.pecas.sd.estimation.GaussBayesianObjective;
 import com.hbaspecto.pecas.sd.estimation.MarquardtMinimizer;
 import com.hbaspecto.pecas.sd.estimation.ObjectiveFunction;
 import com.hbaspecto.pecas.sd.estimation.OptimizationException;
-import com.hbaspecto.pecas.sd.estimation.RedevelopmentIntoSpaceTypeTarget;
-import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
-import com.hbaspecto.pecas.sd.estimation.SpaceTypeIntensityTarget;
-import com.hbaspecto.pecas.sd.estimation.SpaceTypeTAZTarget;
-import com.hbaspecto.pecas.sd.estimation.TransitionConstant;
+import com.hbaspecto.pecas.sd.orm.ExchangeResults_gen;
 import com.hbaspecto.pecas.sd.orm.ObservedDevelopmentEvents;
-import com.pb.common.datafile.CSVFileReader;
+import com.hbaspecto.pecas.sd.orm.ObservedDevelopmentEvents_gen;
+import com.hbaspecto.pecas.sd.orm.Parcels_gen;
+import com.hbaspecto.pecas.sd.orm.ZoningPermissions_gen;
 import com.pb.common.datafile.CSVFileWriter;
 import com.pb.common.datafile.GeneralDecimalFormat;
 import com.pb.common.datafile.JDBCTableReader;
@@ -143,9 +125,9 @@ public class StandardSDModel extends SDModel {
 	}
 	
 	static void initOrm() {
-		Parcels.init(rbSD);
-		ZoningPermissions.init(rbSD);
-		ExchangeResults.init(rbSD);
+		Parcels_gen.init(rbSD);
+		ZoningPermissions_gen.init(rbSD);
+		ExchangeResults_gen.init(rbSD);
 	}
 	
 	@Override
@@ -179,7 +161,8 @@ public class StandardSDModel extends SDModel {
 		}
 	}
 
-	public void setUp() {
+	@Override
+    public void setUp() {
 		useSQLInputs = ResourceUtil.getBooleanProperty(rbSD, "UseSQLInputs");
 		useSQLParcels = ResourceUtil.getBooleanProperty(rbSD, "UseSQLParcels");
 		TableDataReader inputTableReader;
@@ -286,7 +269,8 @@ public class StandardSDModel extends SDModel {
 		return outputTableReader;
 	}
 
-	public void simulateDevelopment() {
+	@Override
+    public void simulateDevelopment() {
 		//ZoningRulesI.openLogFile(logFilePath);
 		//land.getDevelopmentLogger().open(logFilePath);
 
@@ -310,7 +294,7 @@ public class StandardSDModel extends SDModel {
 		long parcelCounter = 0;
 		if (prepareEstimationData){
 			// grab all development permit records into the SimpleORM Cache
-			land.getSession().query(new SQuery<ObservedDevelopmentEvents>(ObservedDevelopmentEvents.meta));
+			land.getSession().query(new SQuery<ObservedDevelopmentEvents>(ObservedDevelopmentEvents_gen.meta));
 		}
 		while (land.advanceToNext()) {
 			parcelCounter++;

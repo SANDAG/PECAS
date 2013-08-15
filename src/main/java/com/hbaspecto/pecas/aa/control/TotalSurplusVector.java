@@ -21,9 +21,8 @@
 package com.hbaspecto.pecas.aa.control;
 
 import drasys.or.matrix.DenseVector;
-
 import java.util.Iterator;
-
+import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
 import com.hbaspecto.pecas.aa.commodity.Exchange;
 
@@ -36,9 +35,9 @@ import com.hbaspecto.pecas.aa.commodity.Exchange;
 public class TotalSurplusVector extends DenseVector {
 
     public TotalSurplusVector() {
-        super(Commodity.getAllCommodities().size());
+        super(AbstractCommodity.getAllCommodities().size());
         int commodityIndex =0;
-        Iterator comIt = Commodity.getAllCommodities().iterator();
+        Iterator comIt = AbstractCommodity.getAllCommodities().iterator();
         while (comIt.hasNext()) {
             double surplus = 0;
             Commodity c = (Commodity) comIt.next();

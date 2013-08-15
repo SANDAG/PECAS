@@ -10,9 +10,7 @@ import com.hbaspecto.functions.InverseCumulativeNormal;
 import com.hbaspecto.matrix.SparseMatrix;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
 import com.pb.common.datafile.TableDataSet;
-import com.pb.common.matrix.AlphaToBeta;
 import com.pb.common.matrix.AlphaToBetaInterface;
-import com.pb.common.matrix.HashtableAlphaToBeta;
 import com.pb.common.matrix.Matrix;
 import com.pb.common.matrix.StringIndexedNDimensionalMatrix;
 
@@ -161,9 +159,9 @@ public class TripCalculator {
 				for (int c: m.getExternalColumnNumbers()) {
 					float value = m.getValueAt(r, c);
 					origTotal+= value;
-					int sample = poisson((double) value, useNormalAt, useRoundedAt);
+					int sample = poisson(value, useNormalAt, useRoundedAt);
 					newTotal += sample;
-					m.setValueAt(r, c, (float) sample);
+					m.setValueAt(r, c, sample);
 				}
 			}
 			logger.info("Poisson sampling of trip matrix "+tripTypes[matrixNumber++]+", origTrips:"+origTotal+", newTrips:"+newTotal);

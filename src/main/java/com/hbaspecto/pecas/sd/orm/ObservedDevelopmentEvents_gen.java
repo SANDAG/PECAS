@@ -1,13 +1,6 @@
 package com.hbaspecto.pecas.sd.orm;
 import simpleorm.dataset.*;
-import simpleorm.utils.*;
 import simpleorm.sessionjdbc.SSessionJdbc;
-import java.math.BigDecimal;
-import java.util.Date;
-
-import com.hbaspecto.pecas.land.Parcels;
-import com.hbaspecto.pecas.sd.SpaceTypesI;
-import com.hbaspecto.pecas.land.Tazs;
 
 
 
@@ -134,7 +127,8 @@ public abstract class ObservedDevelopmentEvents_gen extends SRecordInstance impl
    public static ObservedDevelopmentEvents findOrCreate( SSessionJdbc ses ,long _PecasParcelNum ){
       return ses.findOrCreate(meta, new Object[] {new Long( _PecasParcelNum)});
    }
-   public SRecordMeta <ObservedDevelopmentEvents> getMeta() {
+   @Override
+public SRecordMeta <ObservedDevelopmentEvents> getMeta() {
        return meta;
    }
 

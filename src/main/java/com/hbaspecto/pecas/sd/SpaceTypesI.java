@@ -18,19 +18,14 @@ package com.hbaspecto.pecas.sd;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-
 import com.hbaspecto.pecas.land.LandInventory;
 import com.hbaspecto.pecas.sd.orm.DevelopmentFees;
 import com.hbaspecto.pecas.sd.orm.SpaceTypesI_gen;
 import com.hbaspecto.pecas.sd.orm.TransitionConstantsI;
 import com.hbaspecto.pecas.sd.orm.TransitionCosts;
-import com.sun.media.sound.MidiUtils.TempoCache;
-
 import org.apache.log4j.Logger;
 
 import simpleorm.dataset.SQuery;
@@ -71,11 +66,13 @@ public class SpaceTypesI extends SpaceTypesI_gen implements SpaceTypeInterface, 
 	}
 
 
-	public int getSpaceTypeID() {
+	@Override
+    public int getSpaceTypeID() {
 		return this.get_SpaceTypeId() ;
 	}
 
-	public String toString() { 
+	@Override
+    public String toString() { 
 		try {
 			return "DevelopmentType " + this.get_SpaceTypeName() + " (SpaceTypeCode: "+ this.get_SpaceTypeCode() +", SpaceTypeID: "+ this.get_SpaceTypeId()+")";
 		}	catch (Exception e) {}
@@ -114,7 +111,7 @@ public class SpaceTypesI extends SpaceTypesI_gen implements SpaceTypeInterface, 
 				session.begin();
 				wasBegun=false;
 			}
-			devType = session.mustFind(SpaceTypesI.meta, coverage);
+			devType = session.mustFind(SpaceTypesI_gen.meta, coverage);
 			spaceTypesHash.put(coverage, devType);
 			if (!wasBegun) session.commit();
 			return devType;
@@ -129,7 +126,7 @@ public class SpaceTypesI extends SpaceTypesI_gen implements SpaceTypeInterface, 
 				session.begin();
 				wasBegun=false;
 			}
-			SQuery<SpaceTypesI> qry = new SQuery<SpaceTypesI>(SpaceTypesI.meta).ascending(SpaceTypeId);
+			SQuery<SpaceTypesI> qry = new SQuery<SpaceTypesI>(SpaceTypesI_gen.meta).ascending(SpaceTypeId);
 			ArrayList<SpaceTypesI> list = session.query(qry);
 			Iterator<SpaceTypesI> itr = list.iterator();
 			while (itr.hasNext()){
@@ -147,7 +144,7 @@ public class SpaceTypesI extends SpaceTypesI_gen implements SpaceTypeInterface, 
 		if (!isCached){
 			SSessionJdbc session = SSessionJdbc.getThreadLocalSession();
 			if (!session.hasBegun()) session.begin();
-			SQuery<SpaceTypesI> qry = new SQuery<SpaceTypesI>(SpaceTypesI.meta);
+			SQuery<SpaceTypesI> qry = new SQuery<SpaceTypesI>(SpaceTypesI_gen.meta);
 			ArrayList<SpaceTypesI> list = session.query(qry);
 			Iterator<SpaceTypesI> itr = list.iterator();
 			while (itr.hasNext()){
@@ -175,20 +172,24 @@ public class SpaceTypesI extends SpaceTypesI_gen implements SpaceTypeInterface, 
 		return transitionCost;
 	}
 
-	public double getConstructionCost(int costScheduleID) {
+	@Override
+    public double getConstructionCost(int costScheduleID) {
 		TransitionCosts transCost = getTransitionCostsRecord(this.get_SpaceTypeId(), costScheduleID);
 		return transCost.get_ConstructionCost();
 	}
 
-	public double getAdditionCost(int costScheduleID) {
+	@Override
+    public double getAdditionCost(int costScheduleID) {
 		TransitionCosts transCost = getTransitionCostsRecord(this.get_SpaceTypeId(), costScheduleID);
 		return transCost.get_AdditionCost();
 	}
-	public double getDemolitionCost(int costScheduleID) {
+	@Override
+    public double getDemolitionCost(int costScheduleID) {
 		TransitionCosts transCost = getTransitionCostsRecord(this.get_SpaceTypeId(), costScheduleID);
 		return transCost.get_DemolitionCost();
 	}
-	public double getRenovationCost(int costScheduleID) {
+	@Override
+    public double getRenovationCost(int costScheduleID) {
 		TransitionCosts transCost = getTransitionCostsRecord(this.get_SpaceTypeId(), costScheduleID);
 		return transCost.get_RenovationCost();
 	}
@@ -213,22 +214,26 @@ public class SpaceTypesI extends SpaceTypesI_gen implements SpaceTypeInterface, 
 		return developmentFee;
 	}
 
-	public double getDevlopmentFeePerUnitSpaceInitial(int feeScheduleID) {
+	@Override
+    public double getDevlopmentFeePerUnitSpaceInitial(int feeScheduleID) {
 		DevelopmentFees developmentFee = getDevelopmentFeesRecord(this.get_SpaceTypeId(), feeScheduleID);
 		return developmentFee.get_DevelopmentFeePerUnitSpaceInitial();
 	}
 
-	public double getDevlopmentFeePerUnitLandInitial(int feeScheduleID) {
+	@Override
+    public double getDevlopmentFeePerUnitLandInitial(int feeScheduleID) {
 		DevelopmentFees developmentFee = getDevelopmentFeesRecord(this.get_SpaceTypeId(), feeScheduleID);
 		return developmentFee.get_DevelopmentFeePerUnitLandInitial();
 	}	
 
-	public double getDevlopmentFeePerUnitSpaceOngoing(int feeScheduleID) {
+	@Override
+    public double getDevlopmentFeePerUnitSpaceOngoing(int feeScheduleID) {
 		DevelopmentFees developmentFee = getDevelopmentFeesRecord(this.get_SpaceTypeId(), feeScheduleID);
 		return developmentFee.get_DevelopmentFeePerUnitSpaceOngoing();
 	}
 
-	public double getDevlopmentFeePerUnitLandOngoing(int feeScheduleID) {
+	@Override
+    public double getDevlopmentFeePerUnitLandOngoing(int feeScheduleID) {
 		DevelopmentFees developmentFee = getDevelopmentFeesRecord(this.get_SpaceTypeId(), feeScheduleID);
 		return developmentFee.get_DevelopmentFeePerUnitLandOngoing();
 	}		
@@ -278,7 +283,8 @@ public class SpaceTypesI extends SpaceTypesI_gen implements SpaceTypeInterface, 
 	/**
 	 * @deprecated
 	 */
-	private void setTransitionConstant(SSessionJdbc session, int from, int to, double value) {
+	@Deprecated
+    private void setTransitionConstant(SSessionJdbc session, int from, int to, double value) {
 	    TransitionConstantsI transitionConstants = session.mustFind(TransitionConstantsI.meta, from, to);
         transitionConstants.set_TransitionConstant(value);
 	}
@@ -287,7 +293,8 @@ public class SpaceTypesI extends SpaceTypesI_gen implements SpaceTypeInterface, 
 	 * Not sure if this is the right way to do this...
 	 * @deprecated
 	 */
-	public void setTransitionConstantTo(SSessionJdbc session, int to, double value) {
+	@Deprecated
+    public void setTransitionConstantTo(SSessionJdbc session, int to, double value) {
 	    setTransitionConstant(session, this.get_SpaceTypeId(), to, value);
         // Since the value has changed, re-cache it.
         cacheTransitionConstantsRecord(session, to, true);
@@ -296,7 +303,8 @@ public class SpaceTypesI extends SpaceTypesI_gen implements SpaceTypeInterface, 
 	/**
 	 * @deprecated
 	 */
-	public void setTransitionConstantFrom(SSessionJdbc session, int from, double value) {
+	@Deprecated
+    public void setTransitionConstantFrom(SSessionJdbc session, int from, double value) {
 	    setTransitionConstant(session, from, this.get_SpaceTypeId(), value);
         // Since the value has changed, re-cache it.
         cacheTransitionConstantsRecord(session, from, false);

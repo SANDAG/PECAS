@@ -3,14 +3,13 @@ package com.hbaspecto.pecas.aa.jppf;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import org.jppf.client.JPPFClient;
 import org.jppf.server.protocol.JPPFTask;
 import org.jppf.task.storage.DataProvider;
-
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
 import com.hbaspecto.pecas.aa.activities.ProductionActivity;
+import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
 import com.hbaspecto.pecas.aa.commodity.CommodityZUtility;
 import com.hbaspecto.pecas.aa.control.AveragePriceSurplusDerivativeMatrix;
@@ -33,10 +32,10 @@ public class AveragePriceSurplusDerivativeMatrixJPPF extends
 	protected void aggregateValuesFromEachActivity(double[][] myValues) {
 		List<JPPFTask> activityInitializers = new ArrayList<JPPFTask>();
 
-		AbstractZone[] zones = PECASZone.getAllZones();
-		double[][] commodityBuyingUtilities = new double[Commodity.getAllCommodities().size()][zones.length];
-		double[][] commoditySellingUtilities = new double[Commodity.getAllCommodities().size()][zones.length];
-		Iterator commodityIt = Commodity.getAllCommodities().iterator();
+		AbstractZone[] zones = AbstractZone.getAllZones();
+		double[][] commodityBuyingUtilities = new double[AbstractCommodity.getAllCommodities().size()][zones.length];
+		double[][] commoditySellingUtilities = new double[AbstractCommodity.getAllCommodities().size()][zones.length];
+		Iterator commodityIt = AbstractCommodity.getAllCommodities().iterator();
 		//set up commodity z utilities;
 		while (commodityIt.hasNext()) {
 			Commodity c = (Commodity) commodityIt.next();
@@ -58,7 +57,7 @@ public class AveragePriceSurplusDerivativeMatrixJPPF extends
 		}
 
         
-        Iterator actIt = AggregateActivity.getAllProductionActivities().iterator();
+        Iterator actIt = ProductionActivity.getAllProductionActivities().iterator();
         while (actIt.hasNext()) {
             ProductionActivity prodActivity = (ProductionActivity) actIt.next();
             if (prodActivity instanceof AggregateActivity) {

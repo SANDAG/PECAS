@@ -346,7 +346,8 @@ public class TestExpectedValueFormula {
 		}
 
 		//@Override
-		public Matrix getExpectedTargetDerivativesWRTParameters(
+		@Override
+        public Matrix getExpectedTargetDerivativesWRTParameters(
 				List<ExpectedValue> ts, List<Coefficient> cs) {
 			return new DenseMatrix(new double[][] { { 0, 0, 0, 5, 0, 0 },
 					{ 0, 0, 0, 1, 0, 0 }, { 0, 0, 0, 2, 0, 0 } });

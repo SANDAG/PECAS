@@ -214,7 +214,7 @@ public class SpaceTypesI_gen extends SRecordInstance implements java.io.Serializ
 /** Old code: 
         return SpaceTypesGroup.findOrCreate(get_SpaceTypeGroupId());
 New code below :**/
-        return ses.findOrCreate(SpaceTypesGroup.meta,new Object[]{ 
+        return ses.findOrCreate(SpaceTypesGroup_gen.meta,new Object[]{ 
         	get_SpaceTypeGroupId(),
  });
      } catch (SException e) {
@@ -232,7 +232,8 @@ New code below :**/
    public static SpaceTypesI findOrCreate( SSessionJdbc ses ,int _SpaceTypeId ){
       return ses.findOrCreate(meta, new Object[] {new Integer( _SpaceTypeId)});
    }
-   public SRecordMeta <SpaceTypesI> getMeta() {
+   @Override
+public SRecordMeta <SpaceTypesI> getMeta() {
        return meta;
    }
 }

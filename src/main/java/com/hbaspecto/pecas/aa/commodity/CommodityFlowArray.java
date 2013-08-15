@@ -19,15 +19,14 @@
 package com.hbaspecto.pecas.aa.commodity;
 
 import org.apache.log4j.Logger;
-
 import com.hbaspecto.discreteChoiceModelling.AggregateAlternative;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.OverflowException;
 import com.hbaspecto.pecas.aa.travelAttributes.TimeAndDistanceTravelUtilityCalculator;
 import com.hbaspecto.pecas.aa.travelAttributes.TransportKnowledge;
 import com.hbaspecto.pecas.aa.travelAttributes.TravelUtilityCalculatorInterface;
+import com.hbaspecto.pecas.zones.AbstractZone;
 import com.hbaspecto.pecas.zones.PECASZone;
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -152,7 +151,7 @@ public class CommodityFlowArray implements AggregateAlternative /*CompositeAlter
             //exchange zone 'k'.  It is the weighted sum of time/cost across all modes
             double rUtility;
                 rUtility = TransportKnowledge.globalTransportKnowledge.getUtility(theCommodityZUtility.getTaz(),
-                        PECASZone.findZoneByUserNumber(theExchange.exchangeLocationUserID), theCommodityZUtility.getMyTravelPreferences(),
+                        AbstractZone.findZoneByUserNumber(theExchange.exchangeLocationUserID), theCommodityZUtility.getMyTravelPreferences(),
                         theCommodityZUtility.getUseRouteChoice());
             //TRANc,z,k is needed for the calculation of SUc,z,k which is the utility for selling
             //to exchange zone 'k' a commodity 'c' that was produced in zone 'z' .  It is SUc,z,k that is
@@ -162,7 +161,7 @@ public class CommodityFlowArray implements AggregateAlternative /*CompositeAlter
             //calculates rUtility = TRANc,k,z which is the utility of transporting commodity 'c' from exhange zone 'k' to
             //zone 'z'.  It is the weighted sum of time/cost across all modes
             double rUtility;
-                rUtility = TransportKnowledge.globalTransportKnowledge.getUtility(PECASZone.findZoneByUserNumber(theExchange.exchangeLocationUserID), theCommodityZUtility.getTaz(),
+                rUtility = TransportKnowledge.globalTransportKnowledge.getUtility(AbstractZone.findZoneByUserNumber(theExchange.exchangeLocationUserID), theCommodityZUtility.getTaz(),
                         theCommodityZUtility.getMyTravelPreferences(), theCommodityZUtility.getUseRouteChoice());
             //TRANc,k,z is needed for the calculation of BUc,z,k which is the utility for buying
             // from exchange location 'k' a unit of commodity 'c' consumed in zone 'z'.  It is BUc,z,k that is being
@@ -176,13 +175,13 @@ public class CommodityFlowArray implements AggregateAlternative /*CompositeAlter
             //calculates rUtility = TRANc,z,k which is the utility of transporting commodity 'c' from zone 'z' to
             //exchange zone 'k'.  It is the weighted sum of time/cost across all modes
             double[] utilityComponentsTemp = TransportKnowledge.globalTransportKnowledge.getUtilityComponents(theCommodityZUtility.getTaz(),
-                    PECASZone.findZoneByUserNumber(theExchange.exchangeLocationUserID), theCommodityZUtility.getMyTravelPreferences(),
+                    AbstractZone.findZoneByUserNumber(theExchange.exchangeLocationUserID), theCommodityZUtility.getMyTravelPreferences(),
                     theCommodityZUtility.getUseRouteChoice());
             return sellingUtilityComponents(utilityComponentsTemp, theExchange);
         } else {
             //calculates rUtility = TRANc,k,z which is the utility of transporting commodity 'c' from exhange zone 'k' to
             //zone 'z'.  It is the weighted sum of time/cost across all modes
-            double[] utilityComponentsTemp = TransportKnowledge.globalTransportKnowledge.getUtilityComponents(PECASZone.findZoneByUserNumber(theExchange.exchangeLocationUserID), theCommodityZUtility.getTaz(),
+            double[] utilityComponentsTemp = TransportKnowledge.globalTransportKnowledge.getUtilityComponents(AbstractZone.findZoneByUserNumber(theExchange.exchangeLocationUserID), theCommodityZUtility.getTaz(),
                     theCommodityZUtility.getMyTravelPreferences(), theCommodityZUtility.getUseRouteChoice());
             //TRANc,k,z is needed for the calculation of BUc,z,k which is the utility for buying
             // from exchange location 'k' a unit of commodity 'c' consumed in zone 'z'.  It is BUc,z,k that is being
@@ -194,10 +193,10 @@ public class CommodityFlowArray implements AggregateAlternative /*CompositeAlter
     public double calcUtilityForTravelPreferences(TravelUtilityCalculatorInterface tp, Exchange theExchange) {
         if (theCommodityZUtility instanceof SellingZUtility) {
             double rUtility = TransportKnowledge.globalTransportKnowledge.getUtility(theCommodityZUtility.getTaz(),
-                    PECASZone.findZoneByUserNumber(theExchange.exchangeLocationUserID), tp, false);
+                    AbstractZone.findZoneByUserNumber(theExchange.exchangeLocationUserID), tp, false);
             return sellingUtilityConsideringPriceSizeAndTransport(rUtility, theExchange);
         } else {
-            double rUtility = TransportKnowledge.globalTransportKnowledge.getUtility(PECASZone.findZoneByUserNumber(theExchange.exchangeLocationUserID),
+            double rUtility = TransportKnowledge.globalTransportKnowledge.getUtility(AbstractZone.findZoneByUserNumber(theExchange.exchangeLocationUserID),
                     theCommodityZUtility.myTaz, tp, false);
             return buyingUtilityConsideringPriceSizeAndTransport(rUtility, theExchange);
         }
@@ -232,7 +231,7 @@ public class CommodityFlowArray implements AggregateAlternative /*CompositeAlter
            }
         
         if (com.getAllExchanges().size()==1) {
-            Exchange x = (Exchange) com.getAllExchanges().get(0);
+            Exchange x = com.getAllExchanges().get(0);
             double[] bob = calcUtilityComponentsForExchange(x);
             double[] fred = new double[bob.length+1];
             System.arraycopy(bob,0,fred,1,bob.length);
@@ -281,6 +280,7 @@ public class CommodityFlowArray implements AggregateAlternative /*CompositeAlter
     /**
      * @return the composite utility (log sum value) of all the alternatives
      */
+    @Override
     public double getUtility(double higherLevelDispersionParameter) throws ChoiceModelOverflowException {
         Commodity com = theCommodityZUtility.getCommodity();
         if (com.exchangeType == 'p' && theCommodityZUtility instanceof SellingZUtility) {
@@ -294,7 +294,7 @@ public class CommodityFlowArray implements AggregateAlternative /*CompositeAlter
         }
         
         if (com.getAllExchanges().size()==1) {
-            Exchange x = (Exchange) com.getAllExchanges().get(0);
+            Exchange x = com.getAllExchanges().get(0);
             return calcUtilityForExchange(x);
         }
 
@@ -451,6 +451,7 @@ public class CommodityFlowArray implements AggregateAlternative /*CompositeAlter
         return weights;
     }
 
+    @Override
     public void setAggregateQuantity(double amount, double derivative)
             throws ChoiceModelOverflowException {
         Commodity com = theCommodityZUtility.getCommodity();
@@ -466,7 +467,7 @@ public class CommodityFlowArray implements AggregateAlternative /*CompositeAlter
                 || com.exchangeType == 'n' || com.getAllExchanges().size() == 1) {
             Exchange x = null;
             if (com.getAllExchanges().size() == 1) {
-                x = (Exchange) com.getAllExchanges().get(0);
+                x = com.getAllExchanges().get(0);
             } else {
                 x = theCommodityZUtility.getCommodity().getExchange(taz);
             }

@@ -4,11 +4,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import simpleorm.sessionjdbc.SSessionJdbc;
-
-import com.hbaspecto.pecas.land.Tazs;
-import com.hbaspecto.pecas.sd.ZoningRulesI;
-
 public class SpaceTypeTotalTarget extends EstimationTarget implements ExpectedValue {
 	
 	private int spaceType;

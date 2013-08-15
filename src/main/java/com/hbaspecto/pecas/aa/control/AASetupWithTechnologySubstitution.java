@@ -16,24 +16,20 @@
  */
 package com.hbaspecto.pecas.aa.control;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.ResourceBundle;
-
 import com.pb.common.datafile.TableDataSet;
 import com.pb.common.util.ResourceUtil;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
-import com.hbaspecto.pecas.NoAlternativeAvailable;
 import com.hbaspecto.pecas.aa.activities.ActivityInLocationWithLogitTechnologyChoice;
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
 import com.hbaspecto.pecas.aa.activities.ProductionActivity;
+import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
-import com.hbaspecto.pecas.aa.control.AAPProcessor.ZoneQuantityStorage;
 import com.hbaspecto.pecas.aa.technologyChoice.LogitTechnologyChoice;
 import com.hbaspecto.pecas.aa.technologyChoice.LogitTechnologyChoiceConsumptionFunction;
 import com.hbaspecto.pecas.aa.technologyChoice.LogitTechnologyChoiceProductionFunction;
@@ -50,6 +46,7 @@ import com.hbaspecto.pecas.zones.AbstractZone;
  */
 public class AASetupWithTechnologySubstitution extends AAPProcessor {
 
+    @Override
     public void writeTechnologyChoice() {
 
     	// now write out technology option proportions
@@ -101,7 +98,7 @@ public class AASetupWithTechnologySubstitution extends AAPProcessor {
         for (int techRow = 1; techRow <= technologyOptions.getRowCount(); techRow++) {
             // Retrieve each Activity and make sure the name is valid
             String activityName = technologyOptions.getStringValueAt(techRow, "Activity");
-            AggregateActivity activity = (AggregateActivity) AggregateActivity.retrieveProductionActivity(activityName);
+            AggregateActivity activity = (AggregateActivity) ProductionActivity.retrieveProductionActivity(activityName);
             if (activity == null) {
                 logger.fatal("Activity "+activityName+" in TechnologyOptionsI is not defined");
                 throw new RuntimeException("Activity "+activityName+" in TechnologyOptionsI is not defined");
@@ -299,7 +296,7 @@ public class AASetupWithTechnologySubstitution extends AAPProcessor {
         TableDataSet activityTotalsTable = loadTableDataSet("ActivityTotalsI","aa.current.data");
         for (int row = 1; row <= activityTotalsTable.getRowCount(); row++) {
             String name = activityTotalsTable.getStringValueAt(row, "Activity");
-            AggregateActivity a = (AggregateActivity) AggregateActivity.retrieveProductionActivity(name);
+            AggregateActivity a = (AggregateActivity) ProductionActivity.retrieveProductionActivity(name);
             if (a==null) {
                 String msg = "Missing or misspelled activity name in ActivityTotals "+name;
                 logger.fatal(msg);
@@ -309,6 +306,7 @@ public class AASetupWithTechnologySubstitution extends AAPProcessor {
         }
 	}
     
+    @Override
     protected  double[][] readFloorspace() {
         logger.info("Reading Floorspace File");
         if (maxAlphaZone == 0) readFloorspaceZones();
@@ -329,7 +327,7 @@ public class AASetupWithTechnologySubstitution extends AAPProcessor {
 
 	protected double[][] processFloorspaceTable(TableDataSet floorspaceTable)
 			throws Error {
-		double[][] floorspaceByLUZ = new double[zones.length][Commodity.getAllCommodities().size()];
+		double[][] floorspaceByLUZ = new double[zones.length][AbstractCommodity.getAllCommodities().size()];
         floorspaceInventory = new Hashtable();
         int alphaZoneColumn = -1;
         if (ResourceUtil.getProperty(aaRb,"aa.useFloorspaceZones").equalsIgnoreCase("true")) {
@@ -346,7 +344,7 @@ public class AASetupWithTechnologySubstitution extends AAPProcessor {
             String commodityName = floorspaceTable.getStringValueAt(row,floorspaceTypeColumn);
             Commodity c = Commodity.retrieveCommodity(commodityName);
             if (c==null) throw new Error("Bad commodity name "+commodityName+" in FloorspaceI.csv");
-            ZoneQuantityStorage fi = (ZoneQuantityStorage) floorspaceInventory.get(commodityName);
+            ZoneQuantityStorage fi = floorspaceInventory.get(commodityName);
             if (fi==null) {
                 fi = new ZoneQuantityStorage(commodityName);
                 floorspaceInventory.put(commodityName,fi);

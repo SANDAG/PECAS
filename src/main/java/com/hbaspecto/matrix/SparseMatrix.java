@@ -38,21 +38,25 @@ public class SparseMatrix extends AbstractMatrix {
 			return "idx "+row+","+col;
 		}
 
-		public int column() {
+		@Override
+        public int column() {
 			return col;
 		}
 
-		public double get() {
+		@Override
+        public double get() {
 			Double value = values.get(this);
 			if (value==null) return 0;
 			return value.doubleValue();
 		}
 
-		public int row() {
+		@Override
+        public int row() {
 			return row;
 		}
 
-		public void set(double value) {
+		@Override
+        public void set(double value) {
 			if (value ==0) {
 				values.remove(this);
 			} else {
@@ -65,6 +69,7 @@ public class SparseMatrix extends AbstractMatrix {
 		super(numRows, numColumns);
 	}
 	
+    @Override
     public Iterator<MatrixEntry> iterator() {
         return new SparseMatrixIterator();
     }
@@ -79,14 +84,17 @@ public class SparseMatrix extends AbstractMatrix {
     		valuesIterator = values.entrySet().iterator();
     	}
     	
+        @Override
         public boolean hasNext() {
             return valuesIterator.hasNext();
         }
 
+        @Override
         public MatrixEntry next() {
         	return (MatrixEntry) ((Entry) valuesIterator.next()).getKey();
         }
 
+        @Override
         public void remove() {
             valuesIterator.remove();
         }

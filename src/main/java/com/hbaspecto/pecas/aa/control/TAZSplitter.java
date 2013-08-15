@@ -6,9 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.log4j.Logger;
 
 import com.hbaspecto.pecas.NoAlternativeAvailable;
@@ -23,7 +20,6 @@ import com.hbaspecto.pecas.aa.technologyChoice.ProductionFunction;
 import com.hbaspecto.pecas.zones.PECASZone;
 import com.pb.common.matrix.AlphaToBeta;
 import com.pb.common.matrix.AlphaToBetaInterface;
-import com.pb.common.matrix.HashtableAlphaToBeta;
 import com.pb.common.matrix.StringIndexedNDimensionalMatrix;
 
 public class TAZSplitter {
@@ -173,7 +169,7 @@ public class TAZSplitter {
 			for (int comNum=0;comNum<commodityNames.length;comNum++) {
 				index[0] = commodityNames[comNum];
 				for (int zoneNum=0;zoneNum<=maxAlphaZone;zoneNum++) {
-					Integer betaZone = (Integer) floorspaceZoneCrossref.getBetaZone(zoneNum);
+					Integer betaZone = floorspaceZoneCrossref.getBetaZone(zoneNum);
 					if (betaZone!=-1) {
 						// valid TAZ;
 						index[1] = String.valueOf(zoneNum);
@@ -310,7 +306,7 @@ public class TAZSplitter {
 
 	private String[] setupZonalMakeAndUseObjects() {
 		int[] makeUseArraySize = new int[2];
-		makeUseArraySize[0] = Commodity.getAllCommodities().size();
+		makeUseArraySize[0] = AbstractCommodity.getAllCommodities().size();
 		makeUseArraySize[1] = maxAlphaZone+1;
 		String[] columnNames = new String[2];
 		columnNames[0] = "Commodity";
@@ -319,8 +315,8 @@ public class TAZSplitter {
 		alphaZonalUse = new StringIndexedNDimensionalMatrix("zonalUse",2,makeUseArraySize,columnNames);
 
 		// set up indices for zonalMake and zonalUse
-		Commodity[] commodities = new Commodity[Commodity.getAllCommodities().size()];
-		commodities = (Commodity[]) Commodity.getAllCommodities().toArray(commodities);
+		Commodity[] commodities = new Commodity[AbstractCommodity.getAllCommodities().size()];
+		commodities = AbstractCommodity.getAllCommodities().toArray(commodities);
 		String[] commodityNames = new String[commodities.length];
 		for (int c=0;c<commodityNames.length;c++) {
 			commodityNames[c] = commodities[c].name;

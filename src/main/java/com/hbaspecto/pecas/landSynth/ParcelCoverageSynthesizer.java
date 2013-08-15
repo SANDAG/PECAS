@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.*;
 
 import com.hbaspecto.pecas.land.LoadingQueue;
-import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
 
 // import org.sqlite.SQLiteJDBCLoader;
 
@@ -83,7 +82,8 @@ public class ParcelCoverageSynthesizer extends AssignSquareFeetToParcel implemen
 
 	}
 
-	public void run() {
+	@Override
+    public void run() {
 		assignSquareFeet();
 	}
 

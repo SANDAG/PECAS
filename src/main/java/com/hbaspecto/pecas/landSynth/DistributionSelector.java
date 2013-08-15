@@ -16,7 +16,6 @@
  */
 package com.hbaspecto.pecas.landSynth;
 
-import org.apache.log4j.Logger;
 import com.pb.common.util.SeededRandom;
 
 /**

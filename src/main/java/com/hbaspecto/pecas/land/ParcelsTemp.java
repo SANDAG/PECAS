@@ -16,7 +16,7 @@ public static List<ParcelsTemp> getParcelsForTaz(SSessionJdbc session, int tazNu
 	
 	System.out.println("Getting parcels ..."+tazNumber);
 	
-	SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(ParcelsTemp.meta).eq(Taz, tazNumber);
+	SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(ParcelsTemp_gen.meta).eq(Taz, tazNumber);
 	    
     List<ParcelsTemp> parcelsInCurrentTAZ = session.query(query);
     
@@ -27,7 +27,7 @@ public static List<ParcelsTemp> getParcelsWithRandomNumber(SSessionJdbc session,
 	
 	System.out.println("Getting parcels with random number: "+RandomNumber);
 	
-	SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(ParcelsTemp.meta).eq(Randnum, RandomNumber);
+	SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(ParcelsTemp_gen.meta).eq(Randnum, RandomNumber);
 	    
     List<ParcelsTemp> parcelsWithCurrentNumber = session.query(query);
     
@@ -38,7 +38,7 @@ public static List<ParcelsTemp> getAllParcels(SSessionJdbc session){
 	  
 	System.out.println("Getting all parcels ...");
 	
-	SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(ParcelsTemp.meta);
+	SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(ParcelsTemp_gen.meta);
     
     List<ParcelsTemp> allParcels = session.query(query);
     

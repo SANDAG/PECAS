@@ -9,7 +9,8 @@ public class MSSQLServerDevelopmentLog extends DevelopmentLog {
 	}
 	
 	// booleans in SQL Server is  a bit 0/1, it doesn't support True/False values
-	protected void rawLog(String event_type, String parcel_id, 
+	@Override
+    protected void rawLog(String event_type, String parcel_id, 
 			long original_pecas_parcel_num, long new_pecas_parcel_num,
 			int available_services, 
 			int old_space_type_id, int new_space_type_id,

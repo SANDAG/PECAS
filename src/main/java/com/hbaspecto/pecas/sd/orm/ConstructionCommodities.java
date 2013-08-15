@@ -16,7 +16,7 @@ public class ConstructionCommodities extends ConstructionCommodities_gen impleme
 
 	public static ArrayList<String> getAllConstCommodityNames(){
 		ArrayList<String> names = new ArrayList<String>();
-		SQuery<ConstructionCommodities> qry = new SQuery<ConstructionCommodities>(ConstructionCommodities.meta);
+		SQuery<ConstructionCommodities> qry = new SQuery<ConstructionCommodities>(ConstructionCommodities_gen.meta);
 
 		SSessionJdbc session = SSessionJdbc.getThreadLocalSession();
 		List<ConstructionCommodities> list = session.query(qry);
@@ -42,7 +42,7 @@ public class ConstructionCommodities extends ConstructionCommodities_gen impleme
 	 */
 	public static List<ConstructionCommodities> getConstCommodityBySpaceTypesGroup(SSessionJdbc session,int spaceTypesGroupID){
 
-		SQuery<ConstructionCommodities> qry = new SQuery<ConstructionCommodities>(ConstructionCommodities.meta).eq(ConstructionCommodities.SpaceTypesGroupId, spaceTypesGroupID);	
+		SQuery<ConstructionCommodities> qry = new SQuery<ConstructionCommodities>(ConstructionCommodities_gen.meta).eq(ConstructionCommodities_gen.SpaceTypesGroupId, spaceTypesGroupID);	
 		List<ConstructionCommodities> list = session.query(qry);		
 
 		return list;

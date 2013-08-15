@@ -6,9 +6,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import simpleorm.sessionjdbc.SSessionJdbc;
-
 import com.hbaspecto.pecas.land.LandInventory;
 import com.hbaspecto.pecas.land.Tazs;
 import com.hbaspecto.pecas.sd.SpaceTypesI;
@@ -16,6 +14,7 @@ import com.hbaspecto.pecas.sd.ZoningPermissions;
 import com.hbaspecto.pecas.sd.ZoningRulesI;
 import com.hbaspecto.pecas.sd.orm.DevelopmentFees;
 import com.hbaspecto.pecas.sd.orm.ObservedDevelopmentEvents;
+import com.hbaspecto.pecas.sd.orm.ObservedDevelopmentEvents_gen;
 import com.hbaspecto.pecas.sd.orm.TransitionCostCodes;
 import com.hbaspecto.pecas.sd.orm.TransitionCosts;
 import com.pb.common.datafile.GeneralDecimalFormat;
@@ -82,7 +81,7 @@ public class EstimationDataSet {
 		int choice = 1; //assume no_change by default
 		double observationWeight = 1;
 		
-		ObservedDevelopmentEvents devEvn = tempSession.find(ObservedDevelopmentEvents.meta, l.getPECASParcelNumber());
+		ObservedDevelopmentEvents devEvn = tempSession.find(ObservedDevelopmentEvents_gen.meta, l.getPECASParcelNumber());
 		if (devEvn == null){
 			observationWeight = 1/SAMPLE_RATIO;
 			if (Math.random() >= SAMPLE_RATIO) {estimationRow = null; return ;}

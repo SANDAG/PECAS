@@ -2,9 +2,6 @@ package com.hbaspecto.pecas.sd.orm;
 import simpleorm.dataset.*;
 import simpleorm.utils.*;
 import simpleorm.sessionjdbc.SSessionJdbc;
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.hbaspecto.pecas.land.Parcels;
 
 /**	Base class of table parcel_cost_xref.<br>
@@ -43,7 +40,7 @@ abstract class ParcelCostXref_gen extends SRecordInstance implements java.io.Ser
 /** Old code: 
         return Parcels.findOrCreate(get_PecasParcelNum());
 New code below :**/
-        return ses.findOrCreate(Parcels.meta,new Object[]{ 
+        return ses.findOrCreate(Parcels_gen.meta,new Object[]{ 
         	get_PecasParcelNum(),
  });
      } catch (SException e) {
@@ -62,7 +59,7 @@ New code below :**/
 /** Old code: 
         return TransitionCostCodes.findOrCreate(get_CostScheduleId());
 New code below :**/
-        return ses.findOrCreate(TransitionCostCodes.meta,new Object[]{ 
+        return ses.findOrCreate(TransitionCostCodes_gen.meta,new Object[]{ 
         	get_CostScheduleId(),
  });
      } catch (SException e) {
@@ -84,7 +81,8 @@ New code below :**/
       return findOrCreate( ses, _ref.get_PecasParcelNum(), _YearEffective);
    }
 
-   public SRecordMeta <ParcelCostXref> getMeta() {
+   @Override
+public SRecordMeta <ParcelCostXref> getMeta() {
        return meta;
    }
 }

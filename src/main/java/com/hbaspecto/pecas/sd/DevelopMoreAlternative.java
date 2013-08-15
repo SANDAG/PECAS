@@ -74,7 +74,7 @@ class DevelopMoreAlternative extends DevelopmentAlternative {
 	}
 
 	ZoningPermissions getMyZoningReg() {
-		return (ZoningPermissions) this.scheme.getZoningForSpaceType(myDt);
+		return this.scheme.getZoningForSpaceType(myDt);
 	}
 
 	// Returns true if there is actually a possibility of development.
@@ -110,7 +110,7 @@ class DevelopMoreAlternative extends DevelopmentAlternative {
         // Can't build if there is no allowed range.
         if(minFAR >= maxFAR) return false;
 
-        SSessionJdbc tempSession = scheme.land.getSession();        
+        SSessionJdbc tempSession = ZoningRulesI.land.getSession();        
         long costScheduleID = ZoningRulesI.land.get_CostScheduleId();
         TransitionCostCodes costCodes = tempSession.mustFind(TransitionCostCodes.meta, costScheduleID);
         TransitionCosts transitionCost = tempSession.mustFind(TransitionCosts.meta, costScheduleID, myDt.get_SpaceTypeId() );
@@ -140,7 +140,8 @@ class DevelopMoreAlternative extends DevelopmentAlternative {
 	private double lastUtility;
 	private boolean utilityCached = false;
 	
-	public double getUtility(double higherLevelDispersionParameter) throws ChoiceModelOverflowException {
+	@Override
+    public double getUtility(double higherLevelDispersionParameter) throws ChoiceModelOverflowException {
 	    if(utilityCached)
 	        return lastUtility;
 	    boolean canBuild = setUpParameters();
@@ -171,7 +172,8 @@ class DevelopMoreAlternative extends DevelopmentAlternative {
 
 	}
 
-	public void doDevelopment() {
+	@Override
+    public void doDevelopment() {
 
 		double size = ZoningRulesI.land.getLandArea();
 		if (size>ZoningRulesI.land.getMaxParcelSize()) {
@@ -221,7 +223,7 @@ class DevelopMoreAlternative extends DevelopmentAlternative {
 
 			int oldYear = ZoningRulesI.land.getYearBuilt();
 
-			int newYear = (int) ((oldYear + ZoningRulesI.currentYear)/2);
+			int newYear = (oldYear + ZoningRulesI.currentYear)/2;
 			ZoningRulesI.land.putYearBuilt(newYear);
 
 			//keeps track of the total amount of development added for a spacetype. 

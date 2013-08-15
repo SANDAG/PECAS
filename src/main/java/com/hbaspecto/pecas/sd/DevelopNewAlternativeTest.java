@@ -908,7 +908,7 @@ public class DevelopNewAlternativeTest {
 		// random samples
 		int[] bins = new int[(int) Math.ceil(maxFar*10)]; // bin for each 0.1 FAR range
 		for (int s=0; s<samples; s++) {
-			double intensity = DevelopNewAlternative.sampleIntensityWithinRanges(dispersionParameter, landArea, perSpaceInitial, perLandInitial, intensityPoints, perSpaceAdjustments, perLandAdjustments);
+			double intensity = DevelopmentAlternative.sampleIntensityWithinRanges(dispersionParameter, landArea, perSpaceInitial, perLandInitial, intensityPoints, perSpaceAdjustments, perLandAdjustments);
 			boolean found = false;
 			for (int b=0; b<bins.length;b++ ) {
 				if (intensity < (b+1)*.1) {

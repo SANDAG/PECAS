@@ -35,6 +35,7 @@ import java.util.ResourceBundle;
  *
  * @author John Abraham & J. Freedman
  */
+@Deprecated
 public class PeakAutoSkims extends TransportKnowledge {
     protected static Logger logger = Logger.getLogger("com.pb.models.pecas");
     static final int MAXBETAZONENUMBER=4141;
@@ -195,6 +196,7 @@ public class PeakAutoSkims extends TransportKnowledge {
     /* (non-Javadoc)
      * @see com.pb.models.pecas.TransportKnowledge#getUtility(com.pb.models.pecas.AbstractZone, com.pb.models.pecas.AbstractZone, com.pb.models.pecas.TravelUtilityCalculatorInterface, boolean)
      */
+    @Override
     public double getUtility(AbstractZone from, AbstractZone to, TravelUtilityCalculatorInterface tp, boolean useRouteChoice) {
         return getUtility(from.getZoneUserNumber(), to.getZoneUserNumber(), tp, useRouteChoice);
     }
@@ -203,6 +205,7 @@ public class PeakAutoSkims extends TransportKnowledge {
     /* (non-Javadoc)
      * @see com.pb.models.pecas.TransportKnowledge#getUtilityComponents(com.pb.models.pecas.AbstractZone, com.pb.models.pecas.AbstractZone, com.pb.models.pecas.TravelUtilityCalculatorInterface, boolean)
      */
+    @Override
     public double[] getUtilityComponents(AbstractZone from, AbstractZone to, TravelUtilityCalculatorInterface tp, boolean useRouteChoice) {
         return getUtilityComponents(from.getZoneUserNumber(), to.getZoneUserNumber(), tp, useRouteChoice);
     }

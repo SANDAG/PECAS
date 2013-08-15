@@ -47,6 +47,7 @@ class DemolishAlternative extends DevelopmentAlternative {
     public DemolishAlternative() {   
     	}
     
+    @Override
     public double getUtility(double higherLevelDispersionParameter) {
         // can't demolish vacant land to make it vacant still.
     	if (ZoningRulesI.land.getCoverage() == LandInventory.VACANT_ID) return Double.NEGATIVE_INFINITY; 
@@ -57,6 +58,7 @@ class DemolishAlternative extends DevelopmentAlternative {
         return Trhjp + getTransitionConstant().getValue();
     }
     
+    @Override
     public void doDevelopment() {
         double size = ZoningRulesI.land.getLandArea();
         if (size>ZoningRulesI.land.getMaxParcelSize()) {
@@ -108,6 +110,7 @@ class DemolishAlternative extends DevelopmentAlternative {
         return -amortizedDemolitionCost;
     }
 
+    @Override
     public Vector getExpectedTargetValues(List<ExpectedValue> ts) throws NoAlternativeAvailable,
             ChoiceModelOverflowException {
         int currentSpaceType = ZoningRulesI.land.getCoverage();

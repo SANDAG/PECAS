@@ -49,7 +49,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
@@ -178,7 +177,7 @@ public class AAModel {
         snapShotCurrentPrices();
         // set prices to default values;
         // set size terms to 1.0 just in case.
-        for (AbstractCommodity ac: Commodity.getAllCommodities()) {
+        for (AbstractCommodity ac: AbstractCommodity.getAllCommodities()) {
             Commodity c = (Commodity) ac;
             for (Exchange x : c.getAllExchanges()) {
                 x.setPrice(c.getExpectedPrice());
@@ -205,7 +204,7 @@ public class AAModel {
             throw new RuntimeException("Default prices caused overflow in size term calculation");
         }
         boolean belowTolerance = true;
-        for (AbstractCommodity ac: Commodity.getAllCommodities()) {
+        for (AbstractCommodity ac: AbstractCommodity.getAllCommodities()) {
             Commodity c = (Commodity) ac;
             if (!c.isFloorspaceCommodity() && !c.isManualSizeTerms()) {
                 for (Exchange x : c.getAllExchanges()) {
@@ -248,7 +247,7 @@ public class AAModel {
         long startTime = System.currentTimeMillis();
         Commodity.unfixPricesAndConditionsForAllCommodities();
         boolean nanPresent = false;
-        Iterator allOfUs = Commodity.getAllCommodities().iterator();
+        Iterator allOfUs = AbstractCommodity.getAllCommodities().iterator();
 
         class ConditionCalculator implements Runnable {
         	
@@ -263,6 +262,7 @@ public class AAModel {
                 // SMP program, prices already set in shared memory 
             }
 
+            @Override
             public void run() {
                 try {
                 	// this is the method call where we are telling the commodity object
@@ -298,7 +298,7 @@ public class AAModel {
             }
             if (worked instanceof OverflowException) {
                 nanPresent = true;
-                logger.error("Overflow error in CUBuy, CUSell calcs "+(OverflowException) worked);
+                logger.error("Overflow error in CUBuy, CUSell calcs "+worked);
                 ((OverflowException) worked).printStackTrace();
             }
         }
@@ -358,6 +358,7 @@ public class AAModel {
                 mine = aParam;
             }
 
+            @Override
             public void run() {
                 try {
                     mine.reMigrationAndReAllocationWithOverflowTracking();
@@ -398,7 +399,7 @@ public class AAModel {
             }
             if (done instanceof OverflowException) {
                 nanPresent = true;
-                logger.warn("Overflow error in CUBuy, CUSell calcs "+((OverflowException) done));
+                logger.warn("Overflow error in CUBuy, CUSell calcs "+(done));
                 ((OverflowException) done).printStackTrace();
             }
             if (logger.isDebugEnabled()) {
@@ -428,7 +429,7 @@ public class AAModel {
                                                         // exchange objects
                                                         // inside the commodity
         //objects and sets the sell, buy qtys and the derivatives to 0
-        Iterator allComms = Commodity.getAllCommodities().iterator();
+        Iterator allComms = AbstractCommodity.getAllCommodities().iterator();
         int count = 1;
         
         class FlowAllocator implements Runnable {
@@ -441,6 +442,7 @@ public class AAModel {
                 c = cParam;
             }
 
+            @Override
             public void run() {
                 OverflowException error = null;
                 Hashtable<Integer, CommodityZUtility> ht;
@@ -451,7 +453,7 @@ public class AAModel {
                     else
                         it = c.getSellingUtilitiesIterator();
                     while (it.hasNext()) {
-                        CommodityZUtility czu = (CommodityZUtility) it.next();
+                        CommodityZUtility czu = it.next();
                         try {
                             czu.allocateQuantityToFlowsAndExchanges();
                         } catch (OverflowException e) {
@@ -507,7 +509,7 @@ public class AAModel {
     public double calculateMeritMeasureWithoutLogging() throws OverflowException {
         boolean nanPresent = false;
         double meritMeasure = 0;
-        Iterator commodities = Commodity.getAllCommodities().iterator();
+        Iterator commodities = AbstractCommodity.getAllCommodities().iterator();
         while (commodities.hasNext()) {
             Commodity c = (Commodity) commodities.next();
             Iterator exchanges = c.getAllExchanges().iterator();
@@ -529,7 +531,7 @@ public class AAModel {
     public double calculateMeritMeasureWithLogging() throws OverflowException {
         boolean nanPresent = false;
         double meritMeasure = 0;
-        Iterator commodities = Commodity.getAllCommodities().iterator();
+        Iterator commodities = AbstractCommodity.getAllCommodities().iterator();
         while (commodities.hasNext()) {
             int numExchanges = 0;
             double totalSurplus = 0;
@@ -679,7 +681,7 @@ public class AAModel {
             }
         }
 
-        Iterator comIt = Commodity.getAllCommodities().iterator();
+        Iterator comIt = AbstractCommodity.getAllCommodities().iterator();
         int commodityNumber = 0;
         while (comIt.hasNext()) {
             Commodity c = (Commodity) comIt.next();
@@ -856,9 +858,10 @@ public class AAModel {
 	/**
 	 *@deprecated 
 	 */
-	public void calculateNewPricesUsingDiagonalApproximation() {
+	@Deprecated
+    public void calculateNewPricesUsingDiagonalApproximation() {
         newPricesC = new HashMap();
-        Iterator commodities = Commodity.getAllCommodities().iterator();
+        Iterator commodities = AbstractCommodity.getAllCommodities().iterator();
         while (commodities.hasNext()) {
             Commodity c = (Commodity) commodities.next();
             Iterator exchanges = c.getAllExchanges().iterator();
@@ -884,7 +887,7 @@ public class AAModel {
      *  
      */
     public void snapShotCurrentPrices() {
-        Iterator commodities = Commodity.getAllCommodities().iterator();
+        Iterator commodities = AbstractCommodity.getAllCommodities().iterator();
         while (commodities.hasNext()) {
             Commodity c = (Commodity) commodities.next();
             Iterator exchanges = c.getAllExchanges().iterator();
@@ -896,7 +899,7 @@ public class AAModel {
     }
 
     private static void setExchangePrices(HashMap prices) {
-        Iterator it = Commodity.getAllCommodities().iterator();
+        Iterator it = AbstractCommodity.getAllCommodities().iterator();
         while (it.hasNext()) {
             Commodity c = (Commodity) it.next();
             c.unfixPricesAndConditions();
@@ -928,7 +931,7 @@ public class AAModel {
      */
     private static HashMap StepPartwayBackBetweenTwoOtherPrices(HashMap firstPrices, HashMap secondPrices, double howFarBack) {
         HashMap newPrices = new HashMap();
-        Iterator commodities = Commodity.getAllCommodities().iterator();
+        Iterator commodities = AbstractCommodity.getAllCommodities().iterator();
         while (commodities.hasNext()) {
             Commodity c = (Commodity) commodities.next();
             Iterator exchanges = c.getAllExchanges().iterator();
@@ -1093,12 +1096,12 @@ public class AAModel {
     }
     
     protected static Executor getCommodityThreadPool() {
-        if (commodityThreadPool==null) commodityThreadPool = Executors.newFixedThreadPool(Commodity.getAllCommodities().size()); 
+        if (commodityThreadPool==null) commodityThreadPool = Executors.newFixedThreadPool(AbstractCommodity.getAllCommodities().size()); 
         return commodityThreadPool;
     }
 
     private static Executor getActivityThreadPool() {
-        if (activityThreadPool==null) activityThreadPool = Executors.newFixedThreadPool(AggregateActivity.getAllProductionActivities().size()); 
+        if (activityThreadPool==null) activityThreadPool = Executors.newFixedThreadPool(ProductionActivity.getAllProductionActivities().size()); 
         return activityThreadPool;
     }
     

@@ -219,40 +219,50 @@ public class GridCellSynthesizer {
             this.code = code;
             choiceWeight = weight;
         }
+        @Override
         public double getUtility() {
             return 0;
         }
 
+        @Override
         public void setUtility(double utility) {
         }
 
+        @Override
         public void setConstant(double constant) {
         }
 
+        @Override
         public double getConstant() {
             return 0;
         }
 
+        @Override
         public void setExpConstant(double expConstant) {
             choiceWeight = expConstant;
         }
 
+        @Override
         public double getExpConstant() {
             return choiceWeight;
         }
 
+        @Override
         public String getName() {
             return String.valueOf(code);
         }
 
+        @Override
         public void setName(String name) {
             code = Integer.valueOf(name).intValue();
         }
 
+        @Override
         public boolean isAvailable() {
             return available;
         }
 
+        @Override
         public void setAvailability(boolean available) {
             this.available = available;
         }
@@ -459,7 +469,7 @@ public class GridCellSynthesizer {
          }
 
         public int getCode() {
-            return (int) code;
+            return code;
         }
 
          public float calculateCellsIntensityAndLand(float qtyOfLand){

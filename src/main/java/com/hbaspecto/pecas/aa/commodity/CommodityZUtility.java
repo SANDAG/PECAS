@@ -16,7 +16,6 @@
  */
 package com.hbaspecto.pecas.aa.commodity;
 
-import java.util.Hashtable;
 import java.util.Iterator;
 
 import org.apache.log4j.Logger;
@@ -84,6 +83,7 @@ abstract public class CommodityZUtility implements Alternative {
     public abstract void allocateQuantityToFlowsAndExchanges() throws OverflowException;
 
     /* calculates the CommodityUtility */
+    @Override
     public double getUtility(double higherLevelDispersionParameter) throws ChoiceModelOverflowException {
         if (pricesFixed &&lastUtilityValid) return lastCalculatedUtility;
        
@@ -198,6 +198,7 @@ abstract public class CommodityZUtility implements Alternative {
         return myTaz;
     }
 
+    @Override
     public String toString() {
         return myTaz + " " + myCommodity;
     }
@@ -230,7 +231,7 @@ abstract public class CommodityZUtility implements Alternative {
 	 * the next iteration
 	 */
 	static public void resetCommodityBoughtAndSoldQuantities() {
-	    Iterator cit = Commodity.getAllCommodities().iterator();
+	    Iterator cit = AbstractCommodity.getAllCommodities().iterator();
 	    while (cit.hasNext()) {
 	        Commodity c = (Commodity) cit.next();
 	        for (int b = 0; b < 2; b++) {
@@ -240,7 +241,7 @@ abstract public class CommodityZUtility implements Alternative {
 	            else
 	                it = c.getSellingUtilitiesIterator();
 	            while (it.hasNext()) {
-	                CommodityZUtility czu = (CommodityZUtility) it.next();
+	                CommodityZUtility czu = it.next();
 	                try {
 	                    czu.setQuantity(0);
 	                    czu.setDerivative(0);

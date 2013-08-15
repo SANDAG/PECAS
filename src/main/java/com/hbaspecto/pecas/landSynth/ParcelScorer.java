@@ -18,19 +18,10 @@
  */
 package com.hbaspecto.pecas.landSynth;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Properties;
 import java.util.Random;
-import java.util.ResourceBundle;
-import java.util.WeakHashMap;
-
-import java.util.Hashtable;
-import java.util.logging.Logger;
-
-import sun.security.util.PendingException;
 
 /**
  * @author jabraham
@@ -216,7 +207,8 @@ public class ParcelScorer implements Comparator {
 		else
 			return defaultValue;
 	}
-	public int compare(Object o1, Object o2) {
+	@Override
+    public int compare(Object o1, Object o2) {
 		// FIXME Need a tie-breaking method for guaranteed correct operation of sorting.
 		if(o1 instanceof ParcelInterface && o2 instanceof ParcelInterface) {
 			double score1 = score((ParcelInterface) o1);

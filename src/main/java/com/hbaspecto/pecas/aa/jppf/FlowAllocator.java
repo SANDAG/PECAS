@@ -57,7 +57,8 @@ class FlowAllocator extends JPPFTask{
 //		}
 	}
 
-	public void run() {
+	@Override
+    public void run() {
 		try {
 			JppfNodeSetup.setup(getDataProvider());
 			OverflowException error = null;
@@ -88,7 +89,7 @@ class FlowAllocator extends JPPFTask{
 						if (logger.isDebugEnabled()) logger.debug("Allocating selling quantities");
 					}
 					while (it.hasNext()) {
-						CommodityZUtility czu = (CommodityZUtility) it.next();
+						CommodityZUtility czu = it.next();
 						czu.allocateQuantityToFlowsAndExchanges();
 					}
 				}
@@ -157,7 +158,7 @@ class FlowAllocator extends JPPFTask{
 		//First set TC, dTC
 		Iterator<CommodityZUtility> bUtils = commodity.getBuyingUtilitiesIterator();
 		while (bUtils.hasNext()) {
-			CommodityZUtility czu = (CommodityZUtility) bUtils.next();
+			CommodityZUtility czu = bUtils.next();
 			czu.setQuantity(totalConsumption[czu.getTaz().getZoneIndex()]);
 			czu.setDerivative(dTotalConsumption[czu.getTaz().getZoneIndex()]);
 		}
@@ -165,7 +166,7 @@ class FlowAllocator extends JPPFTask{
 		//Next set TP, dTP
 		Iterator<CommodityZUtility> sUtils = commodity.getSellingUtilitiesIterator();
 		while (sUtils.hasNext()) {
-			CommodityZUtility czu = (CommodityZUtility) sUtils.next();
+			CommodityZUtility czu = sUtils.next();
 			czu.setQuantity(totalProduction[czu.getTaz().getZoneIndex()]);
 			czu.setDerivative(dTotalProduction[czu.getTaz().getZoneIndex()]);
 		}

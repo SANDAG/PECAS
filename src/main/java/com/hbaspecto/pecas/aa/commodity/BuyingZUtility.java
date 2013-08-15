@@ -35,10 +35,12 @@ public class BuyingZUtility extends CommodityZUtility {
       //  t.addBuyingZUtility(this, c);
     }
 
+    @Override
     public String toString() {
         return "BuyingZUtility" + super.toString();
     };
 
+    @Override
     public void allocateQuantityToFlowsAndExchanges() throws OverflowException {
         try {
             //      myFlows.allocateQuantity(-getQuantity());
@@ -51,6 +53,7 @@ public class BuyingZUtility extends CommodityZUtility {
     /**
      *
      */
+    @Override
     public void addAllExchanges() {
         Iterator it = myCommodity.getAllExchanges().iterator();
         while (it.hasNext()) {
@@ -59,6 +62,7 @@ public class BuyingZUtility extends CommodityZUtility {
         }
     }
 
+    @Override
     public void addExchange(Exchange x) {
         x.addFlowIfNotAlreadyThere(this, true);
     }

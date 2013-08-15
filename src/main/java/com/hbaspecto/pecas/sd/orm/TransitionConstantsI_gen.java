@@ -40,7 +40,7 @@ abstract class TransitionConstantsI_gen extends SRecordInstance implements java.
 /** Old code: 
         return SpaceTypesI.findOrCreate(get_FromSpaceTypeId(),get_ToSpaceTypeId());
 New code below :**/
-        return ses.findOrCreate(SpaceTypesI.meta,new Object[]{ 
+        return ses.findOrCreate(SpaceTypesI_gen.meta,new Object[]{ 
         	get_FromSpaceTypeId(),
         	get_ToSpaceTypeId(),
  });
@@ -64,7 +64,8 @@ New code below :**/
       return findOrCreate( ses, _ref.get_SpaceTypeId(), _ref.get_SpaceTypeId());
    }
 
-   public SRecordMeta <TransitionConstantsI> getMeta() {
+   @Override
+public SRecordMeta <TransitionConstantsI> getMeta() {
        return meta;
    }
 }

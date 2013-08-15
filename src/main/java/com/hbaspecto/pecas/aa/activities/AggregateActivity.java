@@ -23,7 +23,6 @@ import com.hbaspecto.discreteChoiceModelling.LogitModel;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
 import com.hbaspecto.pecas.OverflowException;
-import com.hbaspecto.pecas.aa.activities.ProductionActivity.CantRedoError;
 import com.hbaspecto.pecas.aa.technologyChoice.ConsumptionFunction;
 import com.hbaspecto.pecas.aa.technologyChoice.ProductionFunction;
 import com.hbaspecto.pecas.zones.AbstractZone;
@@ -91,6 +90,7 @@ public class AggregateActivity extends ProductionActivity {
     /* (non-Javadoc)
      * @see com.pb.models.pecas.ProductionActivity#migrationAndAllocation(double, double, double)
      */
+    @Override
     public void migrationAndAllocation(double timeStep, double inMigration, double outMigration) throws OverflowException {
         setTotalAmount(getTotalAmount() + (inMigration - outMigration));
         try {
@@ -112,6 +112,7 @@ public class AggregateActivity extends ProductionActivity {
      * @throws CantRedoError not all types of ProductionActivity can redo their allocation.  Obviously, then, they can't be
      *                       modelled as being in spatial economic equilibrium
      */
+    @Override
     public void reMigrationAndReAllocation() throws CantRedoError {
         try {
             reMigrationAndReAllocationWithOverflowTracking();
@@ -278,6 +279,7 @@ public class AggregateActivity extends ProductionActivity {
 		}
 	}
 
+    @Override
     public double getUtility() throws OverflowException {
         try {
             return logitModelOfZonePossibilities.getUtility(1);
@@ -288,11 +290,13 @@ public class AggregateActivity extends ProductionActivity {
 
 /*------------------------Getters and Setters---------------------------------------------------------*/
 
+    @Override
     public ConsumptionFunction getConsumptionFunction() {
         return lnkConsumptionFunction;
     }
 
 
+    @Override
     public ProductionFunction getProductionFunction() {
         return lnkProductionFunction;
     }

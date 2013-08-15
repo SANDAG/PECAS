@@ -1,26 +1,18 @@
 package com.hbaspecto.pecas.aa.jppf;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
-
 import org.jppf.client.JPPFClient;
-import org.jppf.client.JPPFJob;
 import org.jppf.server.protocol.JPPFTask;
 import org.jppf.task.storage.DataProvider;
 import org.jppf.task.storage.MemoryMapDataProvider;
-
-import com.hbaspecto.models.FutureObject;
-import com.hbaspecto.pecas.ChoiceModelOverflowException;
-import com.hbaspecto.pecas.OverflowException;
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
 import com.hbaspecto.pecas.aa.activities.AmountInZone;
-import com.hbaspecto.pecas.aa.activities.ProductionActivity;
+import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
-import com.hbaspecto.pecas.aa.commodity.CommodityZUtility;
 import com.hbaspecto.pecas.aa.commodity.Exchange;
 import com.hbaspecto.pecas.aa.control.AAModel;
 import com.hbaspecto.pecas.aa.control.AveragePriceSurplusDerivativeMatrix;
@@ -55,7 +47,7 @@ public class JppfAAModel extends AAModel {
 		// receiving new values as a result of the JPPF task
 		Commodity.clearAllCommodityExchangeQuantities();//iterates through the
 		
-		Iterator allComms = Commodity.getAllCommodities().iterator();
+		Iterator allComms = AbstractCommodity.getAllCommodities().iterator();
 		List<JPPFTask> flowAllocators = new ArrayList<JPPFTask>();
 		// creating a job with one task for each commodity.
 		// ARM get all this working with JPPF
@@ -146,7 +138,7 @@ public class JppfAAModel extends AAModel {
         long startTime = System.currentTimeMillis();
         Commodity.unfixPricesAndConditionsForAllCommodities();
         boolean nanPresent = false;
-        Iterator allOfUs = Commodity.getAllCommodities().iterator();
+        Iterator allOfUs = AbstractCommodity.getAllCommodities().iterator();
 
  
         List<JPPFTask> conditionCalculators = new ArrayList<JPPFTask>();

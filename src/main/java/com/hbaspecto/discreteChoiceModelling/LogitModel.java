@@ -31,8 +31,6 @@ import org.apache.log4j.Logger;
 
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
-import com.hbaspecto.pecas.sd.ZoningRulesI;
-import com.hbaspecto.pecas.sd.estimation.EstimationTarget;
 import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
 
 public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAlternative {
@@ -46,6 +44,7 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
 
     private boolean caching = false;
 
+    @Override
     public void allocateQuantity(double amount) throws ChoiceModelOverflowException {
         double[] probs;
         try {
@@ -60,6 +59,7 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
     }
 
     /** @param a the alternative to add into the choice set */
+    @Override
     public void addAlternative(Alternative a) {
         alternatives.add(a);
     }
@@ -82,13 +82,14 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
     private boolean utilityCached = false;
     
     /** @return the composite utility (log sum value) of all the alternatives */
+    @Override
     public double getUtility(double higherLevelDispersionParameter) throws ChoiceModelOverflowException {
         if(utilityCached)
             return lastUtility;
         double sum = 0;
         int i = 0;
         while (i<alternatives.size()) {
-            sum += Math.exp(getDispersionParameter() * ((Alternative)alternatives.get(i)).getUtility(getDispersionParameter()));
+            sum += Math.exp(getDispersionParameter() * alternatives.get(i).getUtility(getDispersionParameter()));
             i++;
         }
         if (sum==0) {
@@ -101,7 +102,7 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
         	logger.error("Dispersion parameter is "+getDispersionParameter());
             int j = 0;
             while (j<alternatives.size()) {
-            	Alternative a = (Alternative)alternatives.get(j);
+            	Alternative a = alternatives.get(j);
                 logger.error("Alt "+a+" has utility "+a.getUtility(getDispersionParameter()));
                 j++;
             }
@@ -150,6 +151,7 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
     private double[] lastProb;
     private boolean probCached = false;
     
+    @Override
     public double[] getChoiceProbabilities()
             throws ChoiceModelOverflowException, NoAlternativeAvailable {
         if(probCached)
@@ -232,10 +234,12 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
         }
     }
 
-     public Alternative alternativeAt(int i) { return (Alternative) alternatives.get(i);}// should throw an error if out of range
+     @Override
+    public Alternative alternativeAt(int i) { return alternatives.get(i);}// should throw an error if out of range
 
 
     /** Picks one of the alternatives based on the logit model probabilities */
+    @Override
     public Alternative monteCarloChoice() throws NoAlternativeAvailable, ChoiceModelOverflowException {
         synchronized(alternatives) {
             double[] weights = new double[alternatives.size()];
@@ -256,7 +260,7 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
             sum = 0;
             for (i = 0; i < weights.length; i++) {
                 sum += weights[i];
-                if (selector <= sum) return (Alternative)alternatives.get(i);
+                if (selector <= sum) return alternatives.get(i);
             }
             //yikes!
             throw new Error("Random Number Generator in Logit Model didn't return value between 0 and 1");
@@ -265,6 +269,7 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
     
     /** Picks one of the alternatives based on the logit model probabilities;
           use this if you want to give method random number */
+    @Override
     public Alternative monteCarloChoice(double randomNumber) throws NoAlternativeAvailable, ChoiceModelOverflowException {
         synchronized(alternatives) {
             double[] weights = new double[alternatives.size()];
@@ -285,7 +290,7 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
             sum = 0;
             for (i = 0; i < weights.length; i++) {
                 sum += weights[i];
-                if (selector <= sum) return (Alternative)alternatives.get(i);
+                if (selector <= sum) return alternatives.get(i);
             }
             //yikes!
             throw new Error("Random Number Generator in Logit Model didn't return value between 0 and 1");
@@ -295,6 +300,7 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
 
 
 
+    @Override
     public String toString() {
         StringBuffer altsString = new StringBuffer();
     	int alternativeCounter = 0;
@@ -431,6 +437,7 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
 	private Vector lastTarget;
 	private boolean targetCached = false;
 	
+    @Override
     public Vector getExpectedTargetValues(
             List<ExpectedValue> ts) throws NoAlternativeAvailable,
             ChoiceModelOverflowException {
@@ -459,6 +466,7 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
     private Vector lastUtilDeriv;
     private boolean utilDerivCached = false;
     
+    @Override
     public Vector getUtilityDerivativesWRTParameters(
             List<Coefficient> cs) throws NoAlternativeAvailable,
             ChoiceModelOverflowException {
@@ -510,6 +518,7 @@ public class LogitModel extends DiscreteChoiceModel implements ParameterSearchAl
         return lastUtilDeriv.copy();
     }
 
+    @Override
     public Matrix getExpectedTargetDerivativesWRTParameters(
             List<ExpectedValue> ts, List<Coefficient> cs) throws NoAlternativeAvailable,
             ChoiceModelOverflowException {

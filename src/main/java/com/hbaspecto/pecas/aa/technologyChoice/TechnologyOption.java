@@ -97,6 +97,7 @@ public class TechnologyOption implements Alternative {
 
     
 
+    @Override
     public double getUtility(double dispersionParameterForSizeTermCalculation) throws ChoiceModelOverflowException {
         if (commodityIndexNumbers == null) {
             String msg = "For TechnologyOptions after creating options you need to call sortToMatch first before trying to calculate their utility";

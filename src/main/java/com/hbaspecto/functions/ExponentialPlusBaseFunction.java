@@ -35,6 +35,7 @@ public class ExponentialPlusBaseFunction extends NumericalDerivativeSingleParame
         this.basePrice = basePrice;
     }
 
+    @Override
     public double evaluate(double price) {
         return base + alpha * Math.exp(lambda * ((price - basePrice) / basePrice));
     }

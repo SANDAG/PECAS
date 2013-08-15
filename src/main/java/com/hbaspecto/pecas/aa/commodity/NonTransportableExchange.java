@@ -30,6 +30,7 @@ public class NonTransportableExchange extends Exchange {
         myLocationIndex = zone.getZoneIndex();
     }
 
+    @Override
     void setFlowQuantity(int tazIndex, char selling, double quantity) {
         if (tazIndex != myLocationIndex) throw new Error("Non transportable exchange zone for " + myCommodity + " in zone " + exchangeLocationUserID + " had an inter-zonal flow assinged: only intrazonal flows allowed");
         if (selling == 's') {
@@ -43,6 +44,7 @@ public class NonTransportableExchange extends Exchange {
         }
     }
 
+    @Override
     public double getFlowQuantity(int tazIndex, char selling) {
         if (tazIndex != myLocationIndex) throw new InvalidFlowError("Non transportable exchange zone for " + myCommodity + " in zone " + exchangeLocationUserID + " had an inter-zonal flow assinged: only intrazonal flows allowed");
         if (selling == 's') {
@@ -70,6 +72,7 @@ public class NonTransportableExchange extends Exchange {
         }
     }
 
+    @Override
     public void addFlowIfNotAlreadyThere(CommodityZUtility f, boolean buying) {
         int tazIndex = f.myTaz.getZoneIndex();
         if (tazIndex != myLocationIndex) throw new Error("Attempt to add an Interzonal flow to a non-transportable exchange " + myCommodity + " in zone " + exchangeLocationUserID);

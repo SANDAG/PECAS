@@ -42,7 +42,7 @@ abstract class ParcelZoningXref_gen extends SRecordInstance implements java.io.S
 /** Old code: 
         return Parcels.findOrCreate(get_PecasParcelNum());
 New code below :**/
-        return ses.findOrCreate(Parcels.meta,new Object[]{ 
+        return ses.findOrCreate(Parcels_gen.meta,new Object[]{ 
         	get_PecasParcelNum(),
  });
      } catch (SException e) {
@@ -61,7 +61,7 @@ New code below :**/
 /** Old code: 
         return ZoningRulesI.findOrCreate(get_ZoningRulesCode());
 New code below :**/
-        return ses.findOrCreate(ZoningRulesI.meta,new Object[]{ 
+        return ses.findOrCreate(ZoningRulesI_gen.meta,new Object[]{ 
         	get_ZoningRulesCode(),
  });
      } catch (SException e) {
@@ -83,7 +83,8 @@ New code below :**/
       return findOrCreate( ses, _ref.get_PecasParcelNum(), _YearEffective);
    }
 
-   public SRecordMeta <ParcelZoningXref> getMeta() {
+   @Override
+public SRecordMeta <ParcelZoningXref> getMeta() {
        return meta;
    }
 }

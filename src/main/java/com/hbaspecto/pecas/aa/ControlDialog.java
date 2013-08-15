@@ -1,5 +1,4 @@
 package com.hbaspecto.pecas.aa;
-import java.awt.Component;
 import java.awt.Frame;
 import java.io.InputStreamReader;
 

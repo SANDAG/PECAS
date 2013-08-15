@@ -1,22 +1,18 @@
 package com.hbaspecto.pecas.aa.jppf;
 
-import java.io.Serializable;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.jppf.server.protocol.JPPFTask;
-
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.OverflowException;
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
 import com.hbaspecto.pecas.aa.activities.AmountInZone;
+import com.hbaspecto.pecas.aa.activities.ProductionActivity;
 import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 import com.hbaspecto.pecas.aa.commodity.BuyingZUtility;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
 import com.hbaspecto.pecas.aa.commodity.CommodityZUtility;
-import com.hbaspecto.pecas.aa.commodity.Exchange;
 import com.hbaspecto.pecas.aa.commodity.SellingZUtility;
 import com.hbaspecto.pecas.zones.AbstractZone;
 import com.hbaspecto.pecas.zones.PECASZone;
@@ -66,11 +62,12 @@ class LocationProductionConsumptionJPPFAllocator extends JPPFTask{
 	double[][] sellingDerivatives;
 	
 
-	public void run() {
+	@Override
+    public void run() {
 		try {
 			JppfNodeSetup.setup(getDataProvider());
 
-			activity = (AggregateActivity) AggregateActivity.retrieveProductionActivity(activityName);
+			activity = (AggregateActivity) ProductionActivity.retrieveProductionActivity(activityName);
 
 			activity.setTotalAmount(totalQuantity);
 			
@@ -115,15 +112,15 @@ class LocationProductionConsumptionJPPFAllocator extends JPPFTask{
 	}
 
 	private void getSellingAndBuyingAmountsAndDerivatives() {
-		AbstractZone[] zones = PECASZone.getAllZones();
-		List commodityList = Commodity.getAllCommodities();
+		AbstractZone[] zones = AbstractZone.getAllZones();
+		List commodityList = AbstractCommodity.getAllCommodities();
 		
 		buyingAmounts = new double[commodityList.size()][zones.length];
 		buyingDerivatives = new double[commodityList.size()][zones.length];
 		sellingAmounts = new double[commodityList.size()][zones.length];
 		sellingDerivatives = new double[commodityList.size()][zones.length];
 		
-		Iterator comit = Commodity.getAllCommodities().iterator();
+		Iterator comit = AbstractCommodity.getAllCommodities().iterator();
 		while (comit.hasNext()) {
 			Commodity c= (Commodity) comit.next();
 			int comNum = c.commodityNumber;
@@ -137,7 +134,7 @@ class LocationProductionConsumptionJPPFAllocator extends JPPFTask{
 	}
 
 	private void getLocationAllocation() {
-		AbstractZone[] zones = PECASZone.getAllZones();
+		AbstractZone[] zones = AbstractZone.getAllZones();
 		locationAllocation = new double[zones.length];
 		for (int z=0;z<zones.length;z++) {
 			locationAllocation[z] = activity.myDistribution[zones[z].zoneIndex].getQuantity();
@@ -149,7 +146,7 @@ class LocationProductionConsumptionJPPFAllocator extends JPPFTask{
 	 * @throws OverflowException 
 	 */
 	void putActivityAllocationAmountsIntoMemory() throws OverflowException {
-		activity = (AggregateActivity) AggregateActivity.retrieveProductionActivity(activityName);	
+		activity = (AggregateActivity) ProductionActivity.retrieveProductionActivity(activityName);	
 
 		if (logger.isDebugEnabled()) logger.debug("We have the results from activity allocation for "+activityName+" now storing results back in the client machine");
 		
@@ -159,7 +156,7 @@ class LocationProductionConsumptionJPPFAllocator extends JPPFTask{
 			locations[z].setQuantity(locationAllocation[locations[z].getMyTaz().zoneIndex]);
 		}
 		
-		Iterator<AbstractCommodity> it = Commodity.getAllCommodities().iterator();
+		Iterator<AbstractCommodity> it = AbstractCommodity.getAllCommodities().iterator();
 		while (it.hasNext()) {
 			Commodity c = (Commodity) it.next();
 			int commodityNum = c.commodityNumber;
@@ -194,10 +191,10 @@ class LocationProductionConsumptionJPPFAllocator extends JPPFTask{
 		activity = a;
 		activityName = a.name;
 		totalQuantity = a.getTotalAmount();
-		AbstractZone[] zones = PECASZone.getAllZones();
-		commodityBuyingUtilities = new double[Commodity.getAllCommodities().size()][zones.length];
-		commoditySellingUtilities = new double[Commodity.getAllCommodities().size()][zones.length];
-		Iterator commodityIt = Commodity.getAllCommodities().iterator();
+		AbstractZone[] zones = AbstractZone.getAllZones();
+		commodityBuyingUtilities = new double[AbstractCommodity.getAllCommodities().size()][zones.length];
+		commoditySellingUtilities = new double[AbstractCommodity.getAllCommodities().size()][zones.length];
+		Iterator commodityIt = AbstractCommodity.getAllCommodities().iterator();
 		//set up commodity z utilities;
 		while (commodityIt.hasNext()) {
 			Commodity c = (Commodity) commodityIt.next();
@@ -213,8 +210,8 @@ class LocationProductionConsumptionJPPFAllocator extends JPPFTask{
 	}
 
 	private void setZUtilities() {
-		AbstractZone[] zones = PECASZone.getAllZones();
-		Iterator commodityIt = Commodity.getAllCommodities().iterator();
+		AbstractZone[] zones = AbstractZone.getAllZones();
+		Iterator commodityIt = AbstractCommodity.getAllCommodities().iterator();
 		//store up commodity z utilities;
 		while (commodityIt.hasNext()) {
 			Commodity c = (Commodity) commodityIt.next();

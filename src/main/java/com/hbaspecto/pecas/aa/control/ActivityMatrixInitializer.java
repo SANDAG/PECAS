@@ -28,6 +28,7 @@ class ActivityMatrixInitializer implements Runnable {
             dStorage = tempStorageParam;
         }
 
+        @Override
         public void run() {
             // build up relationship between average commodity price and total surplus
             DenseVector pl; // P(z|a) in new documentation

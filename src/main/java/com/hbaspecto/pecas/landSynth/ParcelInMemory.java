@@ -20,14 +20,8 @@
 package com.hbaspecto.pecas.landSynth;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 
 /**
@@ -113,7 +107,8 @@ public class ParcelInMemory implements ParcelInterface {
 	/* (non-Javadoc)
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#addSqFtAssigned(float)
 	 */
-	public void addSqFtAssigned(float amount) {
+	@Override
+    public void addSqFtAssigned(float amount) {
 		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
 		amountOfSpace+=amount;
 		scoresAreInvalid();
@@ -124,12 +119,14 @@ public class ParcelInMemory implements ParcelInterface {
 	/* (non-Javadoc)
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#getCoverage()
 	 */
-	public int getCoverage() {
+	@Override
+    public int getCoverage() {
 		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
 		return coverage; 
 	}
 
-	public long getId() {
+	@Override
+    public long getId() {
 		return id;
 	}
 
@@ -140,7 +137,8 @@ public class ParcelInMemory implements ParcelInterface {
 	/* (non-Javadoc)
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#getQuantity()
 	 */
-	public float getQuantity() {
+	@Override
+    public float getQuantity() {
 		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
 		return amountOfSpace;
 	}
@@ -148,13 +146,15 @@ public class ParcelInMemory implements ParcelInterface {
 	/* (non-Javadoc)
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#getRevision()
 	 */
-	public int getRevision() {
+	@Override
+    public int getRevision() {
 		return revision;
 	}
 	/* (non-Javadoc)
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#getSize()
 	 */
-	public float getSize() {
+	@Override
+    public float getSize() {
 		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
 		return amountOfLand;
 	}
@@ -162,14 +162,16 @@ public class ParcelInMemory implements ParcelInterface {
 	/* (non-Javadoc)
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#getTaz()
 	 */
-	public int getTaz() {
+	@Override
+    public int getTaz() {
 		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
 		return taz;
 	}
 	/**
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#getValue(java.lang.String)
 	 */
-	public String getValue(String fieldName) {
+	@Override
+    public String getValue(String fieldName) {
 		Object fieldValue = fieldNameReference.getField(fieldName, intValues, stringValues, doubleValues, booleanValues, longValues);
 		if (fieldValue ==null) return null;
 		return fieldValue.toString();
@@ -189,9 +191,9 @@ public class ParcelInMemory implements ParcelInterface {
 		} else if (spaceTypeStringColumnName !=null) {
 			String coverageString = (String) fieldNameReference.getField(spaceTypeStringColumnName, intValues, stringValues, doubleValues, booleanValues,longValues);
 			if (coverageString == null || coverageString.trim().isEmpty()) {
-				coverage= (int) EMPTY_COVERAGE_PLACEHOLDER;               
+				coverage= EMPTY_COVERAGE_PLACEHOLDER;               
 			} else {
-				coverage = (int) (coverageString.trim().charAt(0)); //OK!
+				coverage = (coverageString.trim().charAt(0)); //OK!
 			}
 		}
 		// TODO Put this check
@@ -216,7 +218,8 @@ public class ParcelInMemory implements ParcelInterface {
 	/* (non-Javadoc)
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#setQuantity(float)
 	 */
-	public void setQuantity(float f) {
+	@Override
+    public void setQuantity(float f) {
 		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
 		amountOfSpace=f;
 		scoresAreInvalid();
@@ -232,7 +235,8 @@ public class ParcelInMemory implements ParcelInterface {
 		}
 	}
 
-	public double getInitialFAR() {
+	@Override
+    public double getInitialFAR() {
 		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
 		return initialFAR;
 	}
@@ -250,7 +254,7 @@ public class ParcelInMemory implements ParcelInterface {
 		}
 		else
 		{
-			if (coverage == (int) EMPTY_COVERAGE_PLACEHOLDER)
+			if (coverage == EMPTY_COVERAGE_PLACEHOLDER)
 			{isVacant = true;}
 		}
 		return isVacant;

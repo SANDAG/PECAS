@@ -17,7 +17,6 @@
 package com.hbaspecto.pecas.aa.travelAttributes;
 
 import com.hbaspecto.pecas.zones.AbstractZone;
-import com.hbaspecto.pecas.zones.PECASZone;
 import com.pb.common.datafile.TableDataSet;
 import com.pb.common.matrix.CSVSquareTableMatrixReader;
 import com.pb.common.matrix.Matrix;
@@ -240,6 +239,7 @@ public class SomeSkims extends TransportKnowledge implements TravelAttributesInt
     /* (non-Javadoc)
      * @see com.pb.models.pecas.TransportKnowledge#getUtility(com.pb.models.pecas.AbstractZone, com.pb.models.pecas.AbstractZone, com.pb.models.pecas.TravelUtilityCalculatorInterface, boolean)
      */
+    @Override
     public double getUtility(AbstractZone from, AbstractZone to, TravelUtilityCalculatorInterface tp, boolean useRouteChoice) {
         return getUtility(from.getZoneUserNumber(), to.getZoneUserNumber(), tp, useRouteChoice);
     }
@@ -252,6 +252,7 @@ public class SomeSkims extends TransportKnowledge implements TravelAttributesInt
     /* (non-Javadoc)
      * @see com.pb.models.pecas.TransportKnowledge#getUtilityComponents(com.pb.models.pecas.AbstractZone, com.pb.models.pecas.AbstractZone, com.pb.models.pecas.TravelUtilityCalculatorInterface, boolean)
      */
+    @Override
     public double[] getUtilityComponents(AbstractZone from, AbstractZone to, TravelUtilityCalculatorInterface tp, boolean useRouteChoice) {
         return getUtilityComponents(from.getZoneUserNumber(), to.getZoneUserNumber(), tp, useRouteChoice);
     }

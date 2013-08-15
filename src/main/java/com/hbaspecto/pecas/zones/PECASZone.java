@@ -17,8 +17,6 @@
 package com.hbaspecto.pecas.zones;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import com.pb.common.datafile.TableDataSet;
 
 
@@ -66,10 +64,12 @@ public class PECASZone extends AbstractZone implements UnitOfLand {
         return new PECASZone(zoneIndex, zoneUserNumber, zoneName,external);
     }
 
+    @Override
     public int getZoneUserNumber() {
         return zoneUserNumber;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof PECASZone)) {
             return false;
@@ -117,7 +117,7 @@ public class PECASZone extends AbstractZone implements UnitOfLand {
         }
         //this creates an empty AbstractZone[] which is in fact an array of land use zone (luz)s which
         //are the exchange zones refered to throughout the AA Model
-        PECASZone.createTazArray(tempZoneStorage.size());
+        AbstractZone.createTazArray(tempZoneStorage.size());
         for (int z = 0; z < tempZoneStorage.size(); z++) {
             NumberName nn = (NumberName) tempZoneStorage.get(z);
             //this creates a PECASZone object and stores it in the AbstractZone array

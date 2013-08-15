@@ -52,7 +52,7 @@ abstract class LocalEffectParameters_gen extends SRecordInstance implements java
 /** Old code: 
         return LocalEffects.findOrCreate(get_LocalEffectId());
 New code below :**/
-        return ses.findOrCreate(LocalEffects.meta,new Object[]{ 
+        return ses.findOrCreate(LocalEffects_gen.meta,new Object[]{ 
         	get_LocalEffectId(),
  });
      } catch (SException e) {
@@ -71,7 +71,7 @@ New code below :**/
 /** Old code: 
         return SpaceTypesI.findOrCreate(get_SpaceTypeId());
 New code below :**/
-        return ses.findOrCreate(SpaceTypesI.meta,new Object[]{ 
+        return ses.findOrCreate(SpaceTypesI_gen.meta,new Object[]{ 
         	get_SpaceTypeId(),
  });
      } catch (SException e) {
@@ -97,7 +97,8 @@ New code below :**/
       return findOrCreate( ses, _LocalEffectId, _ref.get_SpaceTypeId());
    }
 
-   public SRecordMeta <LocalEffectParameters> getMeta() {
+   @Override
+public SRecordMeta <LocalEffectParameters> getMeta() {
        return meta;
    }
 }

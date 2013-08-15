@@ -41,7 +41,8 @@ public class DerelictAlternative extends DevelopmentAlternative {
         return getTransitionConstant().getValue();        
 	}
 
-	public void doDevelopment(){
+	@Override
+    public void doDevelopment(){
 		double size = ZoningRulesI.land.getLandArea();
 		if (size>ZoningRulesI.land.getMaxParcelSize()) {
 			// If development occurs on a parcel that is greater than n acres,

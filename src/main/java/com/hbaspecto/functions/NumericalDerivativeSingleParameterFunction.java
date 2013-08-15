@@ -22,6 +22,7 @@ public abstract class NumericalDerivativeSingleParameterFunction implements Sing
         this.delta=delta;
     }
 
+    @Override
     public double derivative(double point){
           double perturbed = evaluate(point+delta);
           return (perturbed-evaluate(point))/delta;

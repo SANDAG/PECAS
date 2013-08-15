@@ -16,7 +16,6 @@
  */
 package com.hbaspecto.pecas.land;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,15 +23,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
-
 import org.postgresql.PGConnection;
 import org.postgresql.copy.CopyManager;
-import org.postgresql.core.BaseConnection;
-
-
 import com.hbaspecto.pecas.sd.DevelopmentLog;
-import com.pb.common.datafile.TableDataFileReader;
-import com.pb.common.datafile.TableDataSet;
+import com.hbaspecto.pecas.sd.orm.Parcels_gen;
 import com.pb.common.util.ResourceUtil;
 
 public class PostgreSQLLandInventory extends SimpleORMLandInventory{
@@ -54,6 +48,7 @@ public class PostgreSQLLandInventory extends SimpleORMLandInventory{
 
 
  
+    @Override
     protected void createParcelsTemp(int year) {
     	try {
     		Connection conn = session.getJdbcConnection();
@@ -80,7 +75,7 @@ public class PostgreSQLLandInventory extends SimpleORMLandInventory{
 	    					// ceil((random())* 250 ) as randnum
 	    					"ceil((random())* "+ N + " ) as randnum "+
 	    					"INTO parcels_temp " +
-	    				"FROM "+Parcels.meta.getTableName()+" fp, " +
+	    				"FROM "+Parcels_gen.meta.getTableName()+" fp, " +
 	    					"most_recent_zoning_year z, " +
 	    					"most_recent_fee_year f, " +
 	    					"most_recent_cost_year c, " +
@@ -133,7 +128,7 @@ public class PostgreSQLLandInventory extends SimpleORMLandInventory{
                          
             logger.info("Now applying changes to parcel file. NOTE: PSEUDOPARCELLING IS IMPLEMENTED.");
 
-            String strUpdate =  "UPDATE "+Parcels.meta.getTableName()+" p " +
+            String strUpdate =  "UPDATE "+Parcels_gen.meta.getTableName()+" p " +
     		"SET	space_quantity   = d.new_space_quantity, " +
     		"       space_type_id    = d.new_space_type_id, " +
     		"       year_built       = d.new_year_built, " +
@@ -151,7 +146,7 @@ public class PostgreSQLLandInventory extends SimpleORMLandInventory{
     		
             // TODO: Do the insertions in transaction mode.                       
     		
-    		strUpdate += "INSERT INTO "+Parcels.meta.getTableName()+" ( " +
+    		strUpdate += "INSERT INTO "+Parcels_gen.meta.getTableName()+" ( " +
     		"    	SELECT  parcel_id, " + 
     		"		new_pecas_parcel_num, " +
     		"		new_year_built, " + 

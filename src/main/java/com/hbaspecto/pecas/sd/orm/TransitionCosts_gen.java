@@ -2,9 +2,6 @@ package com.hbaspecto.pecas.sd.orm;
 import simpleorm.dataset.*;
 import simpleorm.utils.*;
 import simpleorm.sessionjdbc.SSessionJdbc;
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.hbaspecto.pecas.sd.SpaceTypesI;
 
 /**	Base class of table transition_costs.<br>
@@ -67,7 +64,7 @@ abstract class TransitionCosts_gen extends SRecordInstance implements java.io.Se
 /** Old code: 
         return SpaceTypesI.findOrCreate(get_SpaceTypeId());
 New code below :**/
-        return ses.findOrCreate(SpaceTypesI.meta,new Object[]{ 
+        return ses.findOrCreate(SpaceTypesI_gen.meta,new Object[]{ 
         	get_SpaceTypeId(),
  });
      } catch (SException e) {
@@ -86,7 +83,7 @@ New code below :**/
 /** Old code: 
         return TransitionCostCodes.findOrCreate(get_CostScheduleId());
 New code below :**/
-        return ses.findOrCreate(TransitionCostCodes.meta,new Object[]{ 
+        return ses.findOrCreate(TransitionCostCodes_gen.meta,new Object[]{ 
         	get_CostScheduleId(),
  });
      } catch (SException e) {
@@ -112,7 +109,8 @@ New code below :**/
       return findOrCreate( ses, _ref.get_CostScheduleId(), _SpaceTypeId);
    }
 
-   public SRecordMeta <TransitionCosts> getMeta() {
+   @Override
+public SRecordMeta <TransitionCosts> getMeta() {
        return meta;
    }
 }

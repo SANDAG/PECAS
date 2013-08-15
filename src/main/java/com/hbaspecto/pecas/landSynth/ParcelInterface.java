@@ -1,7 +1,5 @@
 package com.hbaspecto.pecas.landSynth;
 
-import java.sql.SQLException;
-
 public interface ParcelInterface {
 
 	public int getTaz();

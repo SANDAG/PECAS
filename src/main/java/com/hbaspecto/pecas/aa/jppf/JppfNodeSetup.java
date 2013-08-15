@@ -16,14 +16,11 @@
  */
 package com.hbaspecto.pecas.aa.jppf;
 
-import com.pb.common.util.ResourceUtil;
 import com.hbaspecto.pecas.aa.control.AAPProcessor;
 
 import org.apache.log4j.Logger;
 
-import java.io.File;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.Properties;
 import java.util.ResourceBundle;
 

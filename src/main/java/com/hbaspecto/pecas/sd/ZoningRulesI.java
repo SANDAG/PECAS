@@ -26,18 +26,15 @@ import com.hbaspecto.pecas.sd.estimation.EstimationMatrix;
 import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
 import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
 import com.hbaspecto.pecas.sd.orm.TransitionCostCodes;
+import com.hbaspecto.pecas.sd.orm.ZoningPermissions_gen;
 import com.hbaspecto.pecas.sd.orm.ZoningRulesI_gen;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
-
 import org.apache.log4j.Logger;
-
 import simpleorm.dataset.SQuery;
 import simpleorm.sessionjdbc.SSessionJdbc;
 
@@ -98,7 +95,7 @@ public class ZoningRulesI extends ZoningRulesI_gen implements ZoningRulesIInterf
 	 */
 	public static ZoningRulesI getZoningRuleByZoningRulesCode(SSessionJdbc session, int zoningRulesCode) {
 
-		ZoningRulesI zoningScheme = session.find(ZoningRulesI.meta, zoningRulesCode );
+		ZoningRulesI zoningScheme = session.find(ZoningRulesI_gen.meta, zoningRulesCode );
 		return zoningScheme;
 
 	}
@@ -110,11 +107,12 @@ public class ZoningRulesI extends ZoningRulesI_gen implements ZoningRulesIInterf
 	private LogitModel gwDemolishAndDerelict;
 	private LogitModel developNewOptions;
 
-	public Iterator<ZoningPermissions> getAllowedSpaceTypes() {
+	@Override
+    public Iterator<ZoningPermissions> getAllowedSpaceTypes() {
 		SSessionJdbc session = land.getSession();
 
-		SQuery<ZoningPermissions> qryPermissions = new SQuery<ZoningPermissions>(ZoningPermissions.meta)
-		.eq(ZoningPermissions.ZoningRulesCode, this.get_ZoningRulesCode());
+		SQuery<ZoningPermissions> qryPermissions = new SQuery<ZoningPermissions>(ZoningPermissions_gen.meta)
+		.eq(ZoningPermissions_gen.ZoningRulesCode, this.get_ZoningRulesCode());
 
 		List<ZoningPermissions> zoning = session.query(qryPermissions);		
 		return zoning.iterator();
@@ -205,7 +203,8 @@ public class ZoningRulesI extends ZoningRulesI_gen implements ZoningRulesIInterf
         developNewOptions.setDispersionParameterAsCoeff(newParam);
     }
 
-	public double getAllowedFAR(SpaceTypeInterface dt) {
+	@Override
+    public double getAllowedFAR(SpaceTypeInterface dt) {
 		ZoningPermissions reg = getZoningForSpaceType(dt);
 		if (reg == null) return 0;
 		return reg.get_MaxIntensityPermitted();
@@ -262,7 +261,7 @@ public class ZoningRulesI extends ZoningRulesI_gen implements ZoningRulesIInterf
 		if (this.get_NewDevelopmentPossibilities()){
 			Iterator<ZoningPermissions> it = getAllowedSpaceTypes();
 			while (it.hasNext()) {
-				ZoningPermissions zp = (ZoningPermissions)it.next();
+				ZoningPermissions zp = it.next();
 				//if this didn't work, use this: 
 				SpaceTypesI whatWeCouldBuild = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(zp.get_SpaceTypeId()); 
 				//SpaceTypesI whatWeCouldBuild = zp.get_SPACE_TYPES_I(SSessionJdbc.getThreadLocalSession());			
@@ -277,7 +276,8 @@ public class ZoningRulesI extends ZoningRulesI_gen implements ZoningRulesIInterf
 		return myLogitModel;
 	}
 
-	public String getName(){
+	@Override
+    public String getName(){
 		return get_ZoningRulesCodeName();
 	}
 	//FIXME getServicingCost() method
@@ -285,7 +285,7 @@ public class ZoningRulesI extends ZoningRulesI_gen implements ZoningRulesIInterf
 		SSessionJdbc session = land.getSession();
 
 		//1. Get service required in zoning
-		int serviceRequired = session.mustFind(ZoningPermissions.meta, this.get_ZoningRulesCode(),dt.get_SpaceTypeId())
+		int serviceRequired = session.mustFind(ZoningPermissions_gen.meta, this.get_ZoningRulesCode(),dt.get_SpaceTypeId())
 		.get_ServicesRequirement();
 
 		//2. Get the available service level on the parcel
@@ -308,8 +308,8 @@ public class ZoningRulesI extends ZoningRulesI_gen implements ZoningRulesIInterf
 	public List<ZoningPermissions>  getZoning() {
 		if (zoning !=null) return zoning;
 		SSessionJdbc session = land.getSession();
-		SQuery<ZoningPermissions> qryPermissions = new SQuery<ZoningPermissions>(ZoningPermissions.meta)
-		.eq(ZoningPermissions.ZoningRulesCode, this.get_ZoningRulesCode());
+		SQuery<ZoningPermissions> qryPermissions = new SQuery<ZoningPermissions>(ZoningPermissions_gen.meta)
+		.eq(ZoningPermissions_gen.ZoningRulesCode, this.get_ZoningRulesCode());
 
 		zoning = session.query(qryPermissions);		
 		return zoning;
@@ -318,7 +318,7 @@ public class ZoningRulesI extends ZoningRulesI_gen implements ZoningRulesIInterf
 	public ZoningPermissions getZoningForSpaceType(SpaceTypeInterface dt) {
 		SSessionJdbc session = land.getSession();
 
-		ZoningPermissions zp = session.mustFind(ZoningPermissions.meta, this.get_ZoningRulesCode(), dt.getSpaceTypeID());															
+		ZoningPermissions zp = session.mustFind(ZoningPermissions_gen.meta, this.get_ZoningRulesCode(), dt.getSpaceTypeID());															
 
 		return zp;		
 	}
@@ -330,7 +330,7 @@ public class ZoningRulesI extends ZoningRulesI_gen implements ZoningRulesIInterf
 
 		SSessionJdbc session = land.getSession();
 
-		ZoningPermissions zp = session.find(ZoningPermissions.meta, this.get_ZoningRulesCode(), dt.getSpaceTypeID());		
+		ZoningPermissions zp = session.find(ZoningPermissions_gen.meta, this.get_ZoningRulesCode(), dt.getSpaceTypeID());		
 
 		if (zp==null) {
 			notAllowedSpaceTypes.add(dt);
@@ -348,7 +348,8 @@ public class ZoningRulesI extends ZoningRulesI_gen implements ZoningRulesIInterf
 	}
 
 
-	public void noLongerAllowDevelopmentType(SpaceTypeInterface dt) {
+	@Override
+    public void noLongerAllowDevelopmentType(SpaceTypeInterface dt) {
 		if (getZoning() != null) {
 			getZoning().remove(dt);
 		}
@@ -356,7 +357,8 @@ public class ZoningRulesI extends ZoningRulesI_gen implements ZoningRulesIInterf
 	}
 
 
-	public int size() {return getZoning().size();}
+	@Override
+    public int size() {return getZoning().size();}
 
 
 	@Override

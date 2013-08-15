@@ -3,7 +3,6 @@ package com.hbaspecto.pecas.aa.jppf;
 import org.apache.log4j.Logger;
 import org.jppf.server.protocol.JPPFTask;
 
-import com.hbaspecto.models.FutureObject;
 import com.hbaspecto.pecas.OverflowException;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
 
@@ -26,7 +25,8 @@ public class ConditionCalculator extends JPPFTask {
 		sizes = JppfAAModel.getSizeTerms(myCommodity);
 	}
 
-	public void run() {
+	@Override
+    public void run() {
 		try{
 			System.out.println("Starting condition calculator --- "+commodityName);
 			//logger.info("Starting condition calculator "+commodityName);

@@ -43,6 +43,7 @@ public class LinearFunctionOfSomeSkims
     /* (non-Javadoc)
      * @see com.pb.models.pecas.TravelUtilityCalculatorInterface#getUtility(com.pb.models.pecas.TravelAttributesInterface)
      */
+    @Override
     public double getUtility(int origin, int destination, TravelAttributesInterface travelConditions) {
         if (travelConditions == lastSkims) {
             // access by index number if the index numbers are already correct because we've been here before.
@@ -85,6 +86,7 @@ public class LinearFunctionOfSomeSkims
     /* (non-Javadoc)
      * @see com.pb.models.pecas.TravelUtilityCalculatorInterface#getUtilityComponents(int, int, com.pb.models.pecas.TravelAttributesInterface)
      */
+    @Override
     public double[] getUtilityComponents(int origin, int destination, TravelAttributesInterface travelConditions) {
         if (travelConditions == lastSkims) {
             double[] components = new double[coefficients.length];

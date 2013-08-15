@@ -21,16 +21,12 @@ import com.hbaspecto.pecas.OverflowException;
 import com.hbaspecto.pecas.aa.AAStatusLogger;
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
-import com.pb.common.datafile.TableDataSet;
 import com.pb.common.util.ResourceUtil;
 
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.util.ResourceBundle;
 
 /**
@@ -95,7 +91,7 @@ public class AAControl {
         long startTime = System.currentTimeMillis();
         aaReaderWriter.doProjectSpecificInputProcessing();
         aaReaderWriter.setUpAA();
-        aaReaderWriter.isSetup=true;
+        AAPProcessor.isSetup=true;
         logger.info("Setup is complete. Time in seconds: "+((System.currentTimeMillis()-startTime)/1000.0));
         AAStatusLogger.logText("Setup is complete.");
         return;

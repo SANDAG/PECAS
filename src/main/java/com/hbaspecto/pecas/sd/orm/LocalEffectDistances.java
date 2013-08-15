@@ -3,11 +3,8 @@ package com.hbaspecto.pecas.sd.orm;
 import java.util.List;
 
 import com.hbaspecto.pecas.land.ParcelsTemp;
-import com.hbaspecto.pecas.land.SimpleORMLandInventory;
-
 import simpleorm.dataset.SFieldReference;
 import simpleorm.dataset.SQuery;
-import simpleorm.dataset.SQueryTable;
 import simpleorm.sessionjdbc.SSessionJdbc;
 
 /**Business rules class for table local_effect_distances.<br>
@@ -21,7 +18,7 @@ public class LocalEffectDistances extends LocalEffectDistances_gen implements ja
 
 	public static List<LocalEffectDistances> getLocalEffectDistancesForTaz(SSessionJdbc session, int taz) {	
 		//SQuery<LocalEffectDistances> query = SQuery<ParcelsTemp>(meta);
-		SQuery<LocalEffectDistances> query = new SQuery<LocalEffectDistances>(meta).innerJoin(PARCELSTEMP).eq(ParcelsTemp.Taz, taz);
+		SQuery<LocalEffectDistances> query = new SQuery<LocalEffectDistances>(meta).innerJoin(PARCELSTEMP).eq(ParcelsTemp_gen.Taz, taz);
 		List<LocalEffectDistances> list = session.query(query);
 		return list;
 		
@@ -29,7 +26,7 @@ public class LocalEffectDistances extends LocalEffectDistances_gen implements ja
 	
 	public static List<LocalEffectDistances> getLocalEffectDistancesWithRandomNumber(SSessionJdbc session, int randomNumber) {	
 		//SQuery<LocalEffectDistances> query = SQuery<ParcelsTemp>(meta);
-		SQuery<LocalEffectDistances> query = new SQuery<LocalEffectDistances>(meta).innerJoin(PARCELSTEMP).eq(ParcelsTemp.Randnum, randomNumber);
+		SQuery<LocalEffectDistances> query = new SQuery<LocalEffectDistances>(meta).innerJoin(PARCELSTEMP).eq(ParcelsTemp_gen.Randnum, randomNumber);
 		List<LocalEffectDistances> list = session.query(query);
 		return list;
 		

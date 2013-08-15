@@ -339,7 +339,8 @@ public abstract class DevelopmentAlternative implements ParameterSearchAlternati
 	 * @return The composite utility per unit land area.
 	 * @deprecated
 	 */
-	protected static double getCompositeUtilityTwoRangesWithAdjustments(double perSpace,
+	@Deprecated
+    protected static double getCompositeUtilityTwoRangesWithAdjustments(double perSpace,
 			double perLand, double landSize, double stepPoint, double stepPointAdjustment, double belowStepPointAdjustment,
 			double aboveStepPointAdjustment, double minIntensity, double maxIntensity, double intensityDispersion) {
 				if (maxIntensity <= minIntensity) return Double.NEGATIVE_INFINITY;
@@ -561,6 +562,7 @@ public abstract class DevelopmentAlternative implements ParameterSearchAlternati
     /**
      * @deprecated
      */
+    @Deprecated
     private static Matrix[] getIntegralParameterDerivativesWRTParameters(double minIntensity,
             double maxIntensity, double stepPoint, double stepPointAdjustment, double belowStepPointAdjustment,
             double aboveStepPointAdjustment, double dispersion) {
@@ -631,7 +633,8 @@ public abstract class DevelopmentAlternative implements ParameterSearchAlternati
     /**
      * @deprecated
      */
-	protected static Vector getTwoRangeUtilityDerivativesWRTParameters(double perSpace,
+	@Deprecated
+    protected static Vector getTwoRangeUtilityDerivativesWRTParameters(double perSpace,
             double perLand, double landSize, double stepPoint, double stepPointAdjustment, double belowStepPointAdjustment,
             double aboveStepPointAdjustment, double minIntensity, double maxIntensity, double intensityDispersion) {
 	    
@@ -848,7 +851,8 @@ public abstract class DevelopmentAlternative implements ParameterSearchAlternati
 	/**
 	 * @deprecated
 	 */
-	protected static double getExpectedFARTwoRangesWithAdjustments(double perSpace,
+	@Deprecated
+    protected static double getExpectedFARTwoRangesWithAdjustments(double perSpace,
             double perLand, double landSize, double stepPoint, double stepPointAdjustment, double belowStepPointAdjustment,
             double aboveStepPointAdjustment, double minIntensity, double maxIntensity, double intensityDispersion) {
 	    // Add up expected value from each range.
@@ -1127,7 +1131,8 @@ public abstract class DevelopmentAlternative implements ParameterSearchAlternati
 	/**
 	 * @deprecated
 	 */
-	protected static Vector getTwoRangeExpectedFARDerivativesWRTParameters(double perSpace,
+	@Deprecated
+    protected static Vector getTwoRangeExpectedFARDerivativesWRTParameters(double perSpace,
             double perLand, double landSize, double stepPoint, double stepPointAdjustment, double belowStepPointAdjustment,
             double aboveStepPointAdjustment, double minIntensity, double maxIntensity, double intensityDispersion) {
 	    

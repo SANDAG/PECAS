@@ -34,6 +34,7 @@ public class LogitTechnologyChoiceConsumptionFunction implements
         myTechnologyChoice= myTechChoice;
     }
 
+    @Override
     public int size() {
         if (myTechnologyChoice.buyingUtilities==null) {
             String msg = "Error, sortToMatch not called yet we don't know how many commodities are in play in the logit substitution";
@@ -63,15 +64,17 @@ public class LogitTechnologyChoiceConsumptionFunction implements
 //        }
 //    }
 
+    @Override
     public AbstractCommodity commodityAt(int i) {
         if (myTechnologyChoice.getMyCommodityOrder()==null) {
             String msg = "Error, sortToMatch not called yet we don't know how many commodities are in play in the logit substitution";
             logger.fatal(msg);
             throw new RuntimeException(msg);
         }
-        return (AbstractCommodity) myTechnologyChoice.getMyCommodityOrder().get(i);
+        return myTechnologyChoice.getMyCommodityOrder().get(i);
     }
 
+    @Override
     public void doFinalSetupAndSetCommodityOrder(List commodityList) {
         myTechnologyChoice.doFinalSetupAndSetCommodityOrder(commodityList);
     }
@@ -82,7 +85,8 @@ public class LogitTechnologyChoiceConsumptionFunction implements
         throw new RuntimeException(errorString);
     }
 
-	public double[] calcAmounts(double[] buyingZUtilities,
+	@Override
+    public double[] calcAmounts(double[] buyingZUtilities,
 			double[] sellingZUtilities, int zoneIndex) throws NoAlternativeAvailable {
 		try {
 			return myTechnologyChoice.calcBuyingAmounts(buyingZUtilities, sellingZUtilities, zoneIndex);

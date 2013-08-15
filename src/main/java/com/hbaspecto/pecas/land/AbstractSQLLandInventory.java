@@ -140,6 +140,7 @@ public abstract class AbstractSQLLandInventory implements LandInventory {
      * @param createTableString
      * @return
      */
+    @Deprecated
     public TableDataSet createFloorspaceTableFromQuery(String createTableString) {
         Statement aNewStatement = null;
         try {
@@ -166,12 +167,13 @@ public abstract class AbstractSQLLandInventory implements LandInventory {
         }
     }
 
+    @Override
     public double getPrice(int coverageCode, int currentYear, int baseYear) {
     	// TODO needs to apply local level effect modifiers
         if (prices[coverageCode]==null) {
-            throw new RuntimeException("No price set for coverage "+coverageCode+"(integer code "+((int) coverageCode)+") zone number "+currentZone);
+            throw new RuntimeException("No price set for coverage "+coverageCode+"(integer code "+(coverageCode)+") zone number "+currentZone);
         }
-        Double price = prices[coverageCode][(int) currentZone];
+        Double price = prices[coverageCode][currentZone];
         if (price == null) {
             String msg = "No price set for coverage "+coverageCode+" zone "+currentZone;
             logger.fatal(msg);
@@ -187,6 +189,7 @@ public abstract class AbstractSQLLandInventory implements LandInventory {
     /* (non-Javadoc)
      * @see com.pb.models.pecas.land.LandInventory#summarizeInventory(com.pb.common.datafile.TableDataSet, java.lang.String)
      */
+    @Override
     public abstract TableDataSet summarizeInventory();
 
     public void setIntegerCodeForCoverage(boolean integerCodeForCoverage) {
@@ -206,6 +209,7 @@ public abstract class AbstractSQLLandInventory implements LandInventory {
         return idColumnName;
     }
 
+    @Override
     public abstract String getParcelId(); 
     
     public TableDataSet readInventoryTable(String tableName) {
@@ -224,10 +228,12 @@ public abstract class AbstractSQLLandInventory implements LandInventory {
         }
     }
 
+    @Override
     public double getMaxParcelSize() {
         return maxParcelSize;
     }
 
+    @Override
     public void setMaxParcelSize(double maxParcelSize) {
         this.maxParcelSize = maxParcelSize;
     }
@@ -264,7 +270,7 @@ public abstract class AbstractSQLLandInventory implements LandInventory {
                 throw new RuntimeException("Error setting up iteration through parcels",e);
             }
         }
-        int currentIndex = zoneNumbers.lastIndexOf(new Integer((int) currentZone));
+        int currentIndex = zoneNumbers.lastIndexOf(new Integer(currentZone));
         currentIndex++;
         if (currentIndex >= zoneNumbers.size()) {
             return false;
@@ -275,6 +281,7 @@ public abstract class AbstractSQLLandInventory implements LandInventory {
         }
         return true;
     }
+    @Override
     public String parcelToString() {
         return getParcelId()+","+currentZone+","+id2;
     }
@@ -285,7 +292,8 @@ public abstract class AbstractSQLLandInventory implements LandInventory {
     public void putServiceCode(int serviceCode) {
         throw new RuntimeException("SQLLandInventory.putServiceCode() is not implemented");
     }
-	public long getPECASParcelNumber() {
+	@Override
+    public long getPECASParcelNumber() {
 		return 0;
 	}
 	public void init() {

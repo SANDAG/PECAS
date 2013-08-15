@@ -4,19 +4,18 @@
 package com.hbaspecto.pecas.aa.jppf;
 
 import java.util.Iterator;
-
 import org.apache.log4j.Logger;
 import org.jppf.server.protocol.JPPFTask;
-
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
 import com.hbaspecto.pecas.aa.activities.AggregateDistribution;
+import com.hbaspecto.pecas.aa.activities.ProductionActivity;
+import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
 import com.hbaspecto.pecas.aa.commodity.CommodityZUtility;
 import com.hbaspecto.pecas.zones.AbstractZone;
 import com.hbaspecto.pecas.zones.PECASZone;
-
 import drasys.or.linear.algebra.Algebra;
 import drasys.or.linear.algebra.AlgebraException;
 import drasys.or.matrix.DenseMatrix;
@@ -61,7 +60,8 @@ class ActivityMatrixJPPFInitializer extends JPPFTask {
 		sizesAndConstants = JppfAAModel.getSizesAndConstants(getActivity());
 	}
 
-	public void run() {
+	@Override
+    public void run() {
 		try {
 			JppfNodeSetup.setup(getDataProvider());
 			System.out.println("Calculating production/consumption rates and derivatives for "+activityName);
@@ -146,13 +146,13 @@ class ActivityMatrixJPPFInitializer extends JPPFTask {
 	}
 
 	private AggregateActivity getActivity() {
-		if (activity==null) activity = (AggregateActivity) AggregateActivity.retrieveProductionActivity(activityName);
+		if (activity==null) activity = (AggregateActivity) ProductionActivity.retrieveProductionActivity(activityName);
 		return activity;
 	}
 
 	private void setZUtilities() {
-		AbstractZone[] zones = PECASZone.getAllZones();
-		Iterator commodityIt = Commodity.getAllCommodities().iterator();
+		AbstractZone[] zones = AbstractZone.getAllZones();
+		Iterator commodityIt = AbstractCommodity.getAllCommodities().iterator();
 		//store up commodity z utilities;
 		while (commodityIt.hasNext()) {
 			Commodity c = (Commodity) commodityIt.next();

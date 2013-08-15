@@ -302,7 +302,7 @@ public class ActivityInLocationWithLogitTechnologyChoice extends
         }
         double[] compositeUtilityDerivativesWrtChangesInRegionPrice = new double[techChoice.getMyCommodityOrder().size()];
         for(int cNum=0;cNum<techChoice.getMyCommodityOrder().size();cNum++) {
-            Commodity c = (Commodity) techChoice.getMyCommodityOrder().get(cNum);
+            Commodity c = techChoice.getMyCommodityOrder().get(cNum);
             double buyingPriceCoefficient = c.getBuyingUtilityPriceCoefficient();
             double sellingPriceCoefficient = c.getSellingUtilityPriceCoefficient();
             if (Double.isNaN(compositeUtilityDerivatives[cNum])|| Double.isNaN(compositeUtilityDerivatives[cNum+techChoice.getMyCommodityOrder().size()])) {

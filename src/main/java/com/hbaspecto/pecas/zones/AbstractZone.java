@@ -17,7 +17,6 @@
 package com.hbaspecto.pecas.zones;
 
 
-import com.hbaspecto.pecas.sd.SpaceTypeInterface;
 import com.pb.common.datafile.TableDataSet;
 import org.apache.log4j.Logger;
 
@@ -181,8 +180,10 @@ abstract public class AbstractZone implements UnitOfLand, Comparable {
 
     public abstract int getZoneUserNumber();
 
+    @Override
     public String toString() { return "PECASZone:" + getZoneUserNumber(); };
 
+    @Override
     public int hashCode() { return zoneIndex; };
 
     /*public void gridCellDevelopmentUpdate(double elapsedTime) {
@@ -223,6 +224,7 @@ abstract public class AbstractZone implements UnitOfLand, Comparable {
     }
 */
 
+    @Override
     public int compareTo(Object par1){
         if (! (par1 instanceof AbstractZone)) throw new ClassCastException("comparing non-PECASZone to PECASZone");
         AbstractZone other = (AbstractZone) par1;
@@ -259,6 +261,7 @@ abstract public class AbstractZone implements UnitOfLand, Comparable {
 
         public PriceVacancy() {
         };
+        @Override
         public String toString() {return "price:"+price+" vacnt:"+vacancy+" size:"+totalSize;}
         /**
          * Returns the price.

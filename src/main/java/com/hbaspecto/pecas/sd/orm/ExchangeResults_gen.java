@@ -1,15 +1,11 @@
 package com.hbaspecto.pecas.sd.orm;
 import simpleorm.dataset.*;
-import simpleorm.utils.*;
 import simpleorm.sessionjdbc.SSessionJdbc;
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 
 import com.hbaspecto.pecas.land.ExchangeResults;
-import com.hbaspecto.pecas.land.Parcels;
 import com.pb.common.util.ResourceUtil;
 
 /**	Base class of table exchange_results.<br>
@@ -62,7 +58,8 @@ public abstract class ExchangeResults_gen extends SRecordInstance implements jav
 	public static ExchangeResults findOrCreate( SSessionJdbc ses ,String _Commodity, int _Luz ){
 		return ses.findOrCreate(meta, new Object[] {_Commodity, new Integer( _Luz)});
 	}
-	public SRecordMeta <ExchangeResults> getMeta() {
+	@Override
+    public SRecordMeta <ExchangeResults> getMeta() {
 		return meta;
 	}
 

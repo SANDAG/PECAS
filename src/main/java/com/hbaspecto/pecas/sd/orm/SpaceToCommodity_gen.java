@@ -2,9 +2,6 @@ package com.hbaspecto.pecas.sd.orm;
 import simpleorm.dataset.*;
 import simpleorm.utils.*;
 import simpleorm.sessionjdbc.SSessionJdbc;
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.hbaspecto.pecas.sd.SpaceTypesI;
 
 /**	Base class of table space_to_commodity.<br>
@@ -44,7 +41,7 @@ abstract class SpaceToCommodity_gen extends SRecordInstance implements java.io.S
 /** Old code: 
         return SpaceTypesI.findOrCreate(get_SpaceTypeId());
 New code below :**/
-        return ses.findOrCreate(SpaceTypesI.meta,new Object[]{ 
+        return ses.findOrCreate(SpaceTypesI_gen.meta,new Object[]{ 
         	get_SpaceTypeId(),
  });
      } catch (SException e) {
@@ -66,7 +63,8 @@ New code below :**/
       return findOrCreate( ses, _ref.get_SpaceTypeId(), _AaCommodity);
    }
 
-   public SRecordMeta <SpaceToCommodity> getMeta() {
+   @Override
+public SRecordMeta <SpaceToCommodity> getMeta() {
        return meta;
    }
 }

@@ -44,7 +44,7 @@ public abstract class Tazs_gen extends SRecordInstance implements java.io.Serial
 /** Old code: 
         return Luzs.findOrCreate(get_LuzNumber());
 New code below :**/
-        return ses.findOrCreate(Luzs.meta,new Object[]{ 
+        return ses.findOrCreate(Luzs_gen.meta,new Object[]{ 
         	get_LuzNumber(),
  });
      } catch (SException e) {
@@ -62,7 +62,8 @@ New code below :**/
    public static Tazs findOrCreate( SSessionJdbc ses ,int _TazNumber ){
       return ses.findOrCreate(meta, new Object[] {new Integer( _TazNumber)});
    }
-   public SRecordMeta <Tazs> getMeta() {
+   @Override
+public SRecordMeta <Tazs> getMeta() {
        return meta;
    }
 }

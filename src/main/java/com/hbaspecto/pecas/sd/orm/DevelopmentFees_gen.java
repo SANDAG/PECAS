@@ -2,9 +2,6 @@ package com.hbaspecto.pecas.sd.orm;
 import simpleorm.dataset.*;
 import simpleorm.utils.*;
 import simpleorm.sessionjdbc.SSessionJdbc;
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.hbaspecto.pecas.sd.SpaceTypesI;
 
 /**	Base class of table development_fees.<br>
@@ -61,7 +58,7 @@ abstract class DevelopmentFees_gen extends SRecordInstance implements java.io.Se
 /** Old code: 
         return DevelopmentFeeSchedules.findOrCreate(get_FeeScheduleId());
 New code below :**/
-        return ses.findOrCreate(DevelopmentFeeSchedules.meta,new Object[]{ 
+        return ses.findOrCreate(DevelopmentFeeSchedules_gen.meta,new Object[]{ 
         	get_FeeScheduleId(),
  });
      } catch (SException e) {
@@ -80,7 +77,7 @@ New code below :**/
 /** Old code: 
         return SpaceTypesI.findOrCreate(get_SpaceTypeId());
 New code below :**/
-        return ses.findOrCreate(SpaceTypesI.meta,new Object[]{ 
+        return ses.findOrCreate(SpaceTypesI_gen.meta,new Object[]{ 
         	get_SpaceTypeId(),
  });
      } catch (SException e) {
@@ -106,7 +103,8 @@ New code below :**/
       return findOrCreate( ses, _FeeScheduleId, _ref.get_SpaceTypeId());
    }
 
-   public SRecordMeta <DevelopmentFees> getMeta() {
+   @Override
+public SRecordMeta <DevelopmentFees> getMeta() {
        return meta;
    }
 }

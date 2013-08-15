@@ -45,6 +45,7 @@ public class TimeAndDistanceTravelUtilityCalculator implements TravelUtilityCalc
         this.valueOfTime = valueOfTime;
     }
 
+    @Override
     public double getUtility(int origin, int destination, TravelAttributesInterface travelAttributes) {
         if (travelAttributes instanceof DistanceAndTime) {
             DistanceAndTime dAndT = (DistanceAndTime) travelAttributes;
@@ -59,13 +60,15 @@ public class TimeAndDistanceTravelUtilityCalculator implements TravelUtilityCalc
         throw new Error("TimeAndDistanceTravelUtilityCalculator doesn't know how to deal with TravelAttributes of type " + travelAttributes.getClass().getName());
     }
 
-     public String toString() {
+     @Override
+    public String toString() {
         return "Utility Calculator: VOT=" + valueOfTime + " COD=" + costOfDistance + " scale=" + scale;
     }
 
     /* (non-Javadoc)
      * @see com.pb.models.pecas.TravelUtilityCalculatorInterface#getUtilityComponents(int, int, com.pb.models.pecas.TravelAttributesInterface)
      */
+    @Override
     public double[] getUtilityComponents(int fromZoneUserNumber, int toZoneUserNumber, TravelAttributesInterface travelAttributes) {
         if (travelAttributes instanceof DistanceAndTime) {
             DistanceAndTime dAndT = (DistanceAndTime) travelAttributes;

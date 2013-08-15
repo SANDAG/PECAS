@@ -96,6 +96,7 @@ public abstract class AggregateDistribution extends AmountInZone implements Aggr
      * Method updateLocationUtilityTerms.
      * @throws ChoiceModelOverflowException 
      */
+    @Override
     public abstract void updateLocationUtilityTerms(Writer w) throws ChoiceModelOverflowException;
 
     /**
@@ -113,6 +114,7 @@ public abstract class AggregateDistribution extends AmountInZone implements Aggr
 
     public abstract double calcLocationUtilityDebug(ConsumptionFunction cf, ProductionFunction pf, boolean debug, double higherLevelDispersionParameter) throws OverflowException;
 
+    @Override
     public double getUtility(double higherLevelDispersionParameter) throws ChoiceModelOverflowException {
         try {
             return calcLocationUtility(myProductionActivity.getConsumptionFunction(),
@@ -127,11 +129,13 @@ public abstract class AggregateDistribution extends AmountInZone implements Aggr
     }
 
 
+    @Override
     public String toString() {
         return myProductionActivity + " in " + getMyTaz();
     };
 
 
+    @Override
     public void setAggregateQuantity(double amount, double derivative) throws ChoiceModelOverflowException {
         if (Double.isNaN(amount) || Double.isInfinite(amount)) {
             logger.fatal("amount in zone is NaN/Infinite " + this + " previous quantity:" + getQuantity() + " -- try less agressive step size...");

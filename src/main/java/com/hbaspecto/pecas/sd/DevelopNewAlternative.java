@@ -106,7 +106,7 @@ public class DevelopNewAlternative extends DevelopmentAlternative {
         // Can't build if there is no allowed range.
         if(minFAR >= maxFAR) return false;
         
-        SSessionJdbc tempSession = scheme.land.getSession();
+        SSessionJdbc tempSession = ZoningRulesI.land.getSession();
         long costScheduleID = ZoningRulesI.land.get_CostScheduleId();
         TransitionCostCodes costCodes = tempSession.mustFind(TransitionCostCodes.meta, costScheduleID);
         TransitionCosts transitionCost = tempSession.mustFind(TransitionCosts.meta, costScheduleID, theNewSpaceTypeToBeBuilt.get_SpaceTypeId());
@@ -138,6 +138,7 @@ public class DevelopNewAlternative extends DevelopmentAlternative {
     /* (non-Javadoc)
      * @see com.hbaspecto.pecas.Alternative#getUtility(double)
      */
+    @Override
     public double getUtility(double higherLevelDispersionParameter) throws ChoiceModelOverflowException {
         // with continuous intensity options, this is V(tilde)(h)/l in equation 90
     	// note NOT v(tilde)(h) but divided by land size PLUS
@@ -205,7 +206,7 @@ public class DevelopNewAlternative extends DevelopmentAlternative {
     }
 
     double getUtilityPerUnitLand(TransitionCostCodes costCodes, TransitionCosts transitionCost, DevelopmentFees df) {
-    	SSessionJdbc tempSession = scheme.land.getSession();
+    	SSessionJdbc tempSession = ZoningRulesI.land.getSession();
 	   	
     	long costScheduleID = ZoningRulesI.land.get_CostScheduleId();
     	
@@ -250,6 +251,7 @@ public class DevelopNewAlternative extends DevelopmentAlternative {
     	return -annualCost;
     }
 
+    @Override
     public void doDevelopment() {
           
     	double size = ZoningRulesI.land.getLandArea();

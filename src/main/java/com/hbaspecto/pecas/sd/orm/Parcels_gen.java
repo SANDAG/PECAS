@@ -135,7 +135,7 @@ public abstract class Parcels_gen extends SRecordInstance implements java.io.Ser
 /** Old code: 
         return SpaceTypesI.findOrCreate(get_SpaceTypeId());
 New code below :**/
-        return ses.findOrCreate(SpaceTypesI.meta,new Object[]{ 
+        return ses.findOrCreate(SpaceTypesI_gen.meta,new Object[]{ 
         	get_SpaceTypeId(),
  });
      } catch (SException e) {
@@ -154,7 +154,7 @@ New code below :**/
 /** Old code: 
         return Tazs.findOrCreate(get_Taz());
 New code below :**/
-        return ses.findOrCreate(Tazs.meta,new Object[]{ 
+        return ses.findOrCreate(Tazs_gen.meta,new Object[]{ 
         	get_Taz(),
  });
      } catch (SException e) {
@@ -172,7 +172,8 @@ New code below :**/
    public static Parcels findOrCreate( SSessionJdbc ses ,long _PecasParcelNum ){
       return ses.findOrCreate(meta, new Object[] {new Long( _PecasParcelNum)});
    }
-   public SRecordMeta <Parcels> getMeta() {
+   @Override
+public SRecordMeta <Parcels> getMeta() {
        return meta;
    }
 }

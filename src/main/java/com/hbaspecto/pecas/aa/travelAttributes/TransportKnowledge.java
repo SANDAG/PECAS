@@ -45,6 +45,7 @@ public abstract class TransportKnowledge {
 
     public static TransportKnowledge globalTransportKnowledge = null;
 
+    @Override
     public String toString() {
         if (this == globalTransportKnowledge) {
             return "global transport knowledge object";

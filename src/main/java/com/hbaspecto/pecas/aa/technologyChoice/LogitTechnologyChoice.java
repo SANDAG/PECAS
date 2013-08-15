@@ -18,17 +18,10 @@ package com.hbaspecto.pecas.aa.technologyChoice;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.Matrix;
-import no.uib.cipr.matrix.UpperSymmDenseMatrix;
 import no.uib.cipr.matrix.sparse.FlexCompColMatrix;
-import no.uib.cipr.matrix.sparse.FlexCompRowMatrix;
-
 import org.apache.log4j.Logger;
 
 import com.hbaspecto.discreteChoiceModelling.Alternative;

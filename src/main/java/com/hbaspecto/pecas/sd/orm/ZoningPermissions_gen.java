@@ -110,7 +110,7 @@ public abstract class ZoningPermissions_gen extends SRecordInstance implements j
 /** Old code: 
         return SpaceTypesI.findOrCreate(get_SpaceTypeId());
 New code below :**/
-        return ses.findOrCreate(SpaceTypesI.meta,new Object[]{ 
+        return ses.findOrCreate(SpaceTypesI_gen.meta,new Object[]{ 
         	get_SpaceTypeId(),});
      } catch (SException e) {
         if (e.getMessage().indexOf("Null Primary key") > 0) {
@@ -128,7 +128,7 @@ New code below :**/
 /** Old code: 
         return ZoningRulesI.findOrCreate(get_ZoningRulesCode());
 New code below :**/
-        return ses.findOrCreate(ZoningRulesI.meta,new Object[]{ 
+        return ses.findOrCreate(ZoningRulesI_gen.meta,new Object[]{ 
         	get_ZoningRulesCode(),
  });
      } catch (SException e) {
@@ -154,7 +154,8 @@ New code below :**/
       return findOrCreate( ses, _ref.get_ZoningRulesCode(), _SpaceTypeId);
    }
 
-   public SRecordMeta <ZoningPermissions> getMeta() {
+   @Override
+public SRecordMeta <ZoningPermissions> getMeta() {
        return meta;
    }
 }
