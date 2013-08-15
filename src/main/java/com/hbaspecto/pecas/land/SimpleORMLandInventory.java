@@ -31,7 +31,7 @@ import com.hbaspecto.pecas.sd.orm.LocalEffects;
 import com.hbaspecto.pecas.sd.orm.SpaceToCommodity;
 import com.hbaspecto.pecas.sd.orm.SpaceTypesGroup;
 import com.hbaspecto.pecas.sd.orm.SpaceTypesI_gen;
-import com.ibm.xml.parser.Util;
+
 import com.pb.common.datafile.JDBCTableReader;
 import com.pb.common.datafile.TableDataFileReader;
 import com.pb.common.datafile.TableDataFileWriter;
