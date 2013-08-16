@@ -1,0 +1,104 @@
+Activity,TotalAmount,Year
+Agriculture,994463935.685293200000,2013
+Construction Non-Building production (including mining),2130993948.963600200000,2013
+Construction Non-Building office support (including mining),238290572.784398410000,2013
+Utilities production,7588427794.824753800000,2013
+Utilities office support,550959852.436510920000,2013
+Construction of Buildings production,9480710194.980861700000,2013
+Construction of Buildings office support,931470995.874036430000,2013
+Manufacturing production,37310611822.318321000000,2013
+Manufacturing office support,4517084398.462733300000,2013
+Wholesale and Warehousing,9903824295.551939000000,2013
+Transportation Activity,2389017529.974744800000,2013
+Retail Activity,14991639695.255547000000,2013
+Professional and Business Services,79363796818.508560000000,2013
+Professional and Business Services (Building Maintenance),6972477887.973469700000,2013
+Private Education K-12,596931367.455129980000,2013
+Private Education Post-Secondary (Post K-12) and Other,1715210164.203300500000,2013
+Health Services,14245154860.061569000000,2013
+Personal Services Office Based,2266033183.701152800000,2013
+Amusement Services,3220684161.452428300000,2013
+Hotels and Motels,3222251361.859952400000,2013
+Restaurants and Bars,6939266778.528393700000,2013
+Personal Services Retail Based,6181716078.390259700000,2013
+Religious Activity,807401136.605769160000,2013
+Private Households,381479111.824230130000,2013
+State and Local Government Enterprises Activity,2950764135.088577300000,2013
+Federal Non-Military Activity,4850008103.792769400000,2013
+Federal Military Activity,9613895677.315650900000,2013
+State and Local Government Non-Education Activity production,8310459937.693209600000,2013
+State and Local Government Non-Education Activity office support,3906017616.526291800000,2013
+Public Education K-12,2496979692.091267600000,2013
+Public Education Post K-12 and Other,832365388.138782020000,2013
+Owner-Occupied Dwellings Management and Maintenance Activity,12131446742.678154000000,2013
+Federal Government Accounts,58920561342.750656000000,2013
+State and Local Government Accounts,31667957066.200718000000,2013
+Capital Accounts,58024608147.672485000000,2013
+Households less than 25k annual income and 2 or less people,132552.870216291140,2013
+Households less than 25k annual income and 3 or more people,42355.513827531438,2013
+Households 25 to 150k annual income and 2 or less people,342130.432287326020,2013
+Households 25 to 150k annual income and 3 or more people,318514.089762824240,2013
+Households 150k or more annual income and 2 or less people,96639.954860748359,2013
+Households 150k or more annual income and 3 or more people,92598.786324592787,2013
+Households Military 2 or less people,29569.771790925835,2013
+Households Military 3 or more people,40555.580929760225,2013
+College Dormitory Population,23612.000000000000,2013
+Agriculture Exporters,1020661059.463380300000,2013
+Utilities Exporters,9180921099.658571200000,2013
+Construction of Buildings Exporters,9480710194.980861700000,2013
+Construction Non-Building (including mining) Exporters,2173414450.243687600000,2013
+Manufacturing Exporters,37198225226.867821000000,2013
+Wholesale and Warehousing Exporters,9907330233.962099100000,2013
+Transportation Activity Exporters,2708118434.722490800000,2013
+Retail Activity Exporters,15969542880.094572000000,2013
+Professional and Business Services Exporters,79050546745.881149000000,2013
+Professional and Business Services (Building Maintenance) Exporters,6999240726.114742300000,2013
+Private Education K-12 Exporters,680850811.276805160000,2013
+Private Education Post K-12 and Other Exporters,2447137740.061762300000,2013
+Health Services Exporters,16053707087.710644000000,2013
+Amusement Services (events tracks theme parks country clubs) Exporters,3312989032.768848400000,2013
+Personal Services Office Based Exporters,1958263808.227300600000,2013
+Personal Services Retail Based Exporters,6203529885.309485400000,2013
+Restaurants and Bars Activity Exporters,7154088756.926913300000,2013
+Private Households Exporters,322383848.264761810000,2013
+Hotels Activity Exporters,3259413020.767642000000,2013
+Religious Activity Exporters,807401136.605769160000,2013
+State and Local Non-Education Activity Exporters,8310459937.693209600000,2013
+Federal Military Activity Exporters,9613895677.315650900000,2013
+Federal Non-Military Activity Exporters,4699325813.946682000000,2013
+Scrap and Other Exporters,692821855.065626500000,2013
+Adjustments Exporters,1249268163.730318800000,2013
+Agriculture Importers,1204124169.941194300000,2013
+Utilities Importers,5236222998.566170700000,2013
+Construction of Buildings Importers,14470841779.731462000000,2013
+Construction Non-Building (including mining) Importers,5459192067.206471400000,2013
+Manufacturing Importers,64563134344.330170000000,2013
+Wholesale and Warehousing Importers,11943009961.973824000000,2013
+Transportation Activity Importers,5577935000.921906500000,2013
+Retail Activity Importers,15574317924.054546000000,2013
+Professional and Business Services Importers,69060453256.938858000000,2013
+Professional and Business Services (Building Maintenance) Importers,7433743093.173499100000,2013
+Private Education K-12 Importers,613116454.616751910000,2013
+Private Education Post K-12 and Other Importers,2835639903.746290200000,2013
+Health Services Importers,17743715521.531807000000,2013
+Amusement Services (events tracks theme parks country clubs) Importers,3074506175.619149700000,2013
+Personal Services Office Based Importers,2383990727.012080700000,2013
+Personal Services Retail Based Importers,4537809060.758591700000,2013
+Restaurants and Bars Activity Importers,6148312159.987522100000,2013
+Hotels Activity Importers,2036634001.659245700000,2013
+Religious Activity Importers,723731440.150303600000,2013
+State and Local Government Enterprises Activity Importers,891455333.964998010000,2013
+Federal Non-Military Activity Importers,4405234544.588175800000,2013
+Scrap and Other Importers,1312598763.423847400000,2013
+Management Business Science and Arts Labor Exporters,37724120129.630333000000,2013
+Services Labor Exporters,6840355770.016221000000,2013
+Sales and Office Labor Exporters,16213732940.721617000000,2013
+Natural Resources Construction and Maintenance Labor Exporters,5752352602.314682000000,2013
+Production Transportation and Material Moving Labor Exporters,4354462472.058658600000,2013
+Military Labor Exporters,4980499867.448265100000,2013
+Management Business Science and Arts Labor Importers,33187582057.396980000000,2013
+Services Labor Importers,7053366008.394372900000,2013
+Sales and Office Labor Importers,14564088686.444304000000,2013
+Natural Resources Construction and Maintenance Labor Importers,4737879075.404625900000,2013
+Production Transportation and Material Moving Labor Importers,3814133110.688406900000,2013
+Military Labor Importers,5236462743.159050000000,2013
