@@ -1,0 +1,84 @@
+Commodity,BuyingDispersionParameter,SellingDispersionParameter,BuyingSizeCoefficient,BuyingPriceCoefficient,BuyingTransportCoefficient,SellingSizeCoefficient,SellingPriceCoefficient,SellingTransportCoefficient,InterchangeCoefficient1,InterchangeCoefficient2,InterchangeCoefficient3,InterchangeName1,InterchangeName2,InterchangeName3,ExchangeType,GOFWeighting,FloorspaceCommodity,ExpectedPrice,Units,Search
+Agriculture output,55.4709,55.4709,1,-1,0.3,1,1,0,-0.000822519,-0.000113813,-0.000440992,dist_da_t_op,time_da_t_op,toll_op,p,1,FALSE,1,dollars,TRUE
+Utilities output,36.9444,36.9444,1,-1,0.01,1,1,0,0.00978,0,0,nhb_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Utilities Office Support,93.5676,93.5676,1,-1,0,1,1,1,0.01956,0,0,nhb_hi_op,,,c,1,FALSE,1,dollars,TRUE
+Construction of Buildings output,75,75,1,-1,1,1,1,0,-0.000253125,-4.91E-05,-0.000189,dist_da_t_op,time_da_t_op,toll_op,p,1,FALSE,1,dollars,TRUE
+Construction of Buildings Office Support,75,75,1,-1,0,1,1,1,0.022005,0,0,nhb_hi_op,,,c,1,FALSE,1,dollars,TRUE
+Construction Non-Building (including mining) output,75,75,1,-1,1,1,1,0,-0.000166,-3.22E-05,-0.000124,dist_da_t_op,time_da_t_op,toll_op,p,1,FALSE,1,dollars,TRUE
+Construction Non-Building (including mining) Office Support,75,75,1,-1,0,1,1,1,0.0260148,0,0,nhb_hi_op,,,c,1,FALSE,1,dollars,TRUE
+Manufacturing output,97.0992,97.0992,1,-1,1,1,1,0,-0.00023,-3.54E-05,-0.000154,dist_da_t_op,time_da_t_op,toll_op,p,1,FALSE,1,dollars,TRUE
+Manufacturing Office Support,75,75,1,-1,0,1,1,1,0.01956,0,0,nhb_hi_op,,,c,1,FALSE,1,dollars,TRUE
+Wholesale and Warehousing output,25.3736,25.3736,1,-1,1,1,1,0,-0.000573237,-0.000103486,-0.00036746,dist_da_t_op,time_da_t_op,toll_op,p,1,FALSE,1,dollars,TRUE
+Transportation Activity output,10.5493,10.5493,1,-1,0,1,1,0.1,0.133855,0,0,nhb_hi_op,,,c,1,FALSE,1,dollars,TRUE
+Retail Activity output,33.3488,33.3488,1,-1,1,1,1,0,0.5192,0,0,hbo_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Professional and Business Services output,75,75,1,-1,1,1,1,0,0.0489,0,0,nhb_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Professional and Business Services (Building Maintenance) output,33.97,33.97,1,-1,0,1,1,1,0.07336,0,0,nhb_hi_op,,,c,1,FALSE,1,dollars,TRUE
+Private Education K-12 output,40.5748,40.5748,1,-1,1,1,1,0,0.501075,0,0,hbo_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Private Education Post K-12 and Other output,50,50,1,-1,1,1,1,0,3,0,0,hbc_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Health Services output,75,75,1,-1,1,1,1,0,0.048,0,0,hbo_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Amusement Services (events tracks theme parks country clubs) output,10.7526,10.7526,1,-1,1,1,1,0,0.87472,0,0,hbo_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Personal Services Office Based output,15.896,15.896,1,-1,1,1,1,0,0.53578,0,0,hbo_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Personal Services Retail Based output,28.8404,28.8404,1,-1,1,1,1,0,0.53578,0,0,hbo_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Restaurants and Bars Activity output,25.674,25.674,1,-1,1,1,1,0,0.44393,0,0,hbo_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Private Households output,44.0876,44.0876,1,-1,0,1,1,1,0.0971533,0,0,hbo_hi_op,,,c,1,FALSE,1,dollars,TRUE
+Hotels Activity output,14.0831,14.0831,1,-1,1,1,1,0,0.64218,0,0,hbo_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Religious Activity output,8.64293,8.64293,1,-1,1,1,1,0,1.0022,0,0,hbo_hi_op,,,p,1,FALSE,1,dollars,TRUE
+State and Local Government Enterprises Activity output,50,50,1,-1,0.1,1,1,0,0.0275082,0,0,hbo_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Public Education K-12 output,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,s,1,FALSE,1,dollars,TRUE
+Public Education Post K-12 and Other output,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,s,1,FALSE,1,dollars,TRUE
+State and Local Non-Education Activity output,75,75,1,-1,1,1,1,0,0.04401,0,0,nhb_hi_op,,,p,1,FALSE,1,dollars,TRUE
+State and Local Non-Education Activity Office Support,99.1723,99.1723,1,-1,1,1,1,0,0.0244517,0,0,nhb_hi_op,,,c,1,FALSE,1,dollars,TRUE
+Federal Military Activity output,4.07548,4.07548,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,s,1,FALSE,1,dollars,TRUE
+Federal Non-Military Activity output,75,75,1,-1,1,1,1,0,0.0127629,0,0,nhb_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Owner-Occupied Dwellings Management and Maintenance,75,75,1,-1,0,1,1,0,0.321468,0,0,hbo_hi_op,,,n,1,FALSE,1,dollars,TRUE
+Scrap and Other,44.8637,44.8637,1,-1,1,1,1,0,-0.0005732,-0.000103,-0.000367,dist_da_t_op,time_da_t_op,toll_op,p,1,FALSE,1,dollars,TRUE
+Adjustments,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,s,1,FALSE,1,dollars,TRUE
+K-12 Instruction,58.7331,58.7331,1,-1,1,1,1,0,5,0,0,hbs_hi_op,,,p,1,FALSE,1,dollars,TRUE
+Air Pollution,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,1,FALSE,1,dollars,TRUE
+Water Pollution,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,1,FALSE,1,dollars,TRUE
+Solid Waste,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,1,FALSE,1,dollars,TRUE
+Payroll Tax Receipts,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,s,1,FALSE,1,dollars,TRUE
+Other Tax Receipts,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,s,1,FALSE,1,dollars,TRUE
+Other Property Income Receipts,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,s,1,FALSE,1,dollars,TRUE
+Indirect Business Tax Receipts,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,s,1,FALSE,1,dollars,TRUE
+Capital Investment Certificates,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,s,1,FALSE,1,dollars,TRUE
+Investment Earnings Receipts,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,s,1,FALSE,1,dollars,TRUE
+Government Support Receipts,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,s,1,FALSE,1,dollars,TRUE
+Other Transfers and Adjustments Receipts,5,5,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,s,1,FALSE,1,dollars,TRUE
+Management Business Science and Arts Labor,30,30,1,-1,0,1,1,1,0.00212,0.02841,0.02293,hbw_lo_pk,hbw_med_pk,hbw_hi_pk,c,1,FALSE,1,dollars,TRUE
+Services Labor,30,30,1,-1,0,1,1,1,0.00793,0.0548,0.01585,hbw_lo_pk,hbw_med_pk,hbw_hi_pk,c,1,FALSE,1,dollars,TRUE
+Work at Home Labor,30,30,1,-1,0,1,1,1,0.00509,0.03645,0.03843,hbw_lo_pk,hbw_med_pk,hbw_hi_pk,c,1,FALSE,1,dollars,TRUE
+Sales and Office Labor,30,30,1,-1,0,1,1,1,0.00424,0.04763,0.01637,hbw_lo_pk,hbw_med_pk,hbw_hi_pk,c,1,FALSE,1,dollars,TRUE
+Natural Resources Construction and Maintenance Labor,30,30,1,-1,0,1,1,1,0.00397,0.03992,0.01017,hbw_lo_pk,hbw_med_pk,hbw_hi_pk,c,1,FALSE,1,dollars,TRUE
+Production Transportation and Material Moving Labor,30,30,1,-1,0,1,1,1,0.00574,0.05953,0.01392,hbw_lo_pk,hbw_med_pk,hbw_hi_pk,c,1,FALSE,1,dollars,TRUE
+Military Labor,30,30,1,-1,0,1,1,1,0.00894,0.01868,0.00296,hbw_lo_pk,hbw_med_pk,hbw_hi_pk,c,1,FALSE,1,dollars,TRUE
+Agriculture and Mining Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,7.3,TRUE,7.3,acres of land,TRUE
+Light Industrial Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,7.3,TRUE,7.3,square feet,TRUE
+Heavy Industry Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,7.3,TRUE,7.3,square feet,TRUE
+Office Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,20.55,TRUE,20.55,square feet,TRUE
+Retail Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,23.5,TRUE,23.5,square feet,TRUE
+Depot Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,23.5,TRUE,23.5,square feet,TRUE
+Hotel Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,23.5,TRUE,23.5,square feet,TRUE
+Primary Schools,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,23.5,TRUE,23.5,square feet,TRUE
+Secondary Schools,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,23.5,TRUE,23.5,square feet,TRUE
+Post-Secondary Institution Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,23.5,TRUE,23.5,square feet,TRUE
+College Dormitory Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,23.5,TRUE,23.5,square feet,TRUE
+Health Care Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,23.5,TRUE,23.5,square feet,TRUE
+Religious Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,15,TRUE,15,square feet,TRUE
+Recreation Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,7.5,TRUE,7.5,square feet,TRUE
+Active Park Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,7.5,TRUE,7.5,square feet,TRUE
+Government Operations Space,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,7.5,TRUE,7.5,square feet,TRUE
+Spaced Rural Residential Economy,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,15,TRUE,15,square feet,TRUE
+Spaced Rural Residential Luxury,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,15,TRUE,15,square feet,TRUE
+Single Family Detached Residential Economy,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,15,TRUE,15,square feet,TRUE
+Single Family Detached Residential Luxury,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,15,TRUE,15,square feet,TRUE
+Single Family Attached Residential Economy,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,15,TRUE,15,square feet,TRUE
+Single Family Attached Residential Luxury,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,15,TRUE,15,square feet,TRUE
+Multi-Family Residential Economy,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,15,TRUE,15,square feet,TRUE
+Multi-Family Residential Luxury,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,15,TRUE,15,square feet,TRUE
+Mobile Home Residential,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,15,TRUE,15,square feet,TRUE
+Military Residential (Non GQ),1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n,15,TRUE,15,square feet,TRUE
+Post K-12 and Other Instruction,78.2758,78.2758,1,-1,1,1,1,0,3.6,0,0,hbc_hi_op,,,p,1,FALSE,1,dollars,TRUE
+ResUnitSF,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n ,10000,FALSE,600,dwellings,TRUE
+ResUnitMF,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n ,10000,FALSE,600,dwellings,TRUE
+ResUnitMH,1,1,1,-1,0,1,1,0,0,0,0,dist_da_t_op,,,n ,10000,FALSE,600,dwellings,TRUE

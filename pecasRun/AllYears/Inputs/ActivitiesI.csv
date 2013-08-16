@@ -1,0 +1,104 @@
+Activity,LocationDispersionParameter,SizeTermCoefficient,ProductionSubstitutionNesting,InertiaTermCoefficient,InertiaTermConstant,Units
+Agriculture,10,1,10,0,1,dollars
+Construction Non-Building production (including mining),10,1,10,0,1,dollars
+Construction Non-Building office support (including mining),10,1,10,0,1,dollars
+Utilities production,3.57668,1,3.57668,0,1,dollars
+Utilities office support,10,1,10,0,1,dollars
+Construction of Buildings production,10,1,10,0,1,dollars
+Construction of Buildings office support,10,1,10,0,1,dollars
+Manufacturing production,10,1,10,0,1,dollars
+Manufacturing office support,10,1,10,0,1,dollars
+Wholesale and Warehousing,10,1,10,0,1,dollars
+Transportation Activity,10,1,10,0,1,dollars
+Retail Activity,10,1,10,0,1,dollars
+Professional and Business Services,10,1,10,0,1,dollars
+Professional and Business Services (Building Maintenance),3.666,1,3.666,0,1,dollars
+Private Education K-12,10,1,10,0,1,dollars
+Private Education Post-Secondary (Post K-12) and Other,10,1,10,0,1,dollars
+Health Services,10,1,10,0,1,dollars
+Personal Services Office Based,8.2195,1,8.2195,0,1,dollars
+Amusement Services,10,1,10,0,1,dollars
+Hotels and Motels,3.68614,1,3.68614,0,1,dollars
+Restaurants and Bars,10,1,10,0,1,dollars
+Personal Services Retail Based,8.29316,1,8.29316,0,1,dollars
+Religious Activity,10,1,10,0,1,dollars
+Private Households,7.82882,1,7.82882,0,1,dollars
+State and Local Government Enterprises Activity,5.78912,1,5.78912,0,1,dollars
+Federal Non-Military Activity,3.76169,1,3.76169,0,1,dollars
+Federal Military Activity,4.36001,1,4.36001,0,1,dollars
+State and Local Government Non-Education Activity production,3.63664,1,3.63664,0,1,dollars
+State and Local Government Non-Education Activity office support,10,1,10,0,1,dollars
+Public Education K-12,3.83212,1,3.83212,0,1,dollars
+Public Education Post K-12 and Other,3.69633,1,3.69633,0,1,dollars
+Owner-Occupied Dwellings Management and Maintenance Activity,4.77298,1,4.77298,0,1,dollars
+Federal Government Accounts,4.73203,1,4.73203,0,1,dollars
+State and Local Government Accounts,6.08041,1,6.08041,0,1,dollars
+Capital Accounts,6.81637,1,6.81637,0,1,dollars
+Households less than 25k annual income and 2 or less people,0.000192068,1,0.000192068,0,1,households
+Households less than 25k annual income and 3 or more people,0.0002,1,0.0002,0,1,households
+Households 25 to 150k annual income and 2 or less people,0.000100251,1,0.000100251,0,1,households
+Households 25 to 150k annual income and 3 or more people,0.000106856,1,0.000106856,0,1,households
+Households 150k or more annual income and 2 or less people,3.77618e-005,1,3.77618e-005,0,1,households
+Households 150k or more annual income and 3 or more people,4.25709e-005,1,4.25709e-005,0,1,households
+Households Military 2 or less people,3.8e-005,1,3.8e-005,0,1,households
+Households Military 3 or more people,1.4e-005,1,1.4e-005,0,1,households
+College Dormitory Population,0.000218012,1,0.000218012,0,1,households
+Agriculture Exporters,0.6,1,0.6,0,1,dollars
+Utilities Exporters,0.6,1,0.6,0,1,dollars
+Construction of Buildings Exporters,0.6,1,0.6,0,1,dollars
+Construction Non-Building (including mining) Exporters,0.6,1,0.6,0,1,dollars
+Manufacturing Exporters,0.6,1,0.6,0,1,dollars
+Wholesale and Warehousing Exporters,0.6,1,0.6,0,1,dollars
+Transportation Activity Exporters,0.6,1,0.6,0,1,dollars
+Retail Activity Exporters,0.6,1,0.6,0,1,dollars
+Professional and Business Services Exporters,0.6,1,0.6,0,1,dollars
+Professional and Business Services (Building Maintenance) Exporters,0.6,1,0.6,0,1,dollars
+Private Education K-12 Exporters,0.6,1,0.6,0,1,dollars
+Private Education Post K-12 and Other Exporters,0.6,1,0.6,0,1,dollars
+Health Services Exporters,0.6,1,0.6,0,1,dollars
+Amusement Services (events tracks theme parks country clubs) Exporters,0.6,1,0.6,0,1,dollars
+Personal Services Office Based Exporters,0.6,1,0.6,0,1,dollars
+Personal Services Retail Based Exporters,0.6,1,0.6,0,1,dollars
+Restaurants and Bars Activity Exporters,0.6,1,0.6,0,1,dollars
+Private Households Exporters,0.6,1,0.6,0,1,dollars
+Hotels Activity Exporters,0.6,1,0.6,0,1,dollars
+Religious Activity Exporters,0.6,1,0.6,0,1,dollars
+State and Local Non-Education Activity Exporters,0.6,1,0.6,0,1,dollars
+Federal Military Activity Exporters,0.6,1,0.6,0,1,dollars
+Federal Non-Military Activity Exporters,0.6,1,0.6,0,1,dollars
+Scrap and Other Exporters,0.6,1,0.6,0,1,dollars
+Adjustments Exporters,0.6,1,0.6,0,1,dollars
+Agriculture Importers,0.6,1,0.6,0,1,dollars
+Utilities Importers,0.6,1,0.6,0,1,dollars
+Construction of Buildings Importers,0.6,1,0.6,0,1,dollars
+Construction Non-Building (including mining) Importers,0.6,1,0.6,0,1,dollars
+Manufacturing Importers,0.6,1,0.6,0,1,dollars
+Wholesale and Warehousing Importers,0.6,1,0.6,0,1,dollars
+Transportation Activity Importers,0.6,1,0.6,0,1,dollars
+Retail Activity Importers,0.6,1,0.6,0,1,dollars
+Professional and Business Services Importers,0.6,1,0.6,0,1,dollars
+Professional and Business Services (Building Maintenance) Importers,0.6,1,0.6,0,1,dollars
+Private Education K-12 Importers,0.6,1,0.6,0,1,dollars
+Private Education Post K-12 and Other Importers,0.6,1,0.6,0,1,dollars
+Health Services Importers,0.6,1,0.6,0,1,dollars
+Amusement Services (events tracks theme parks country clubs) Importers,0.6,1,0.6,0,1,dollars
+Personal Services Office Based Importers,0.6,1,0.6,0,1,dollars
+Personal Services Retail Based Importers,0.6,1,0.6,0,1,dollars
+Restaurants and Bars Activity Importers,0.6,1,0.6,0,1,dollars
+Hotels Activity Importers,0.6,1,0.6,0,1,dollars
+Religious Activity Importers,0.6,1,0.6,0,1,dollars
+State and Local Government Enterprises Activity Importers,0.6,1,0.6,0,1,dollars
+Federal Non-Military Activity Importers,0.6,1,0.6,0,1,dollars
+Scrap and Other Importers,0.6,1,0.6,0,1,dollars
+Management Business Science and Arts Labor Exporters,0.6,1,0.6,0,1,dollars
+Services Labor Exporters,0.6,1,0.6,0,1,dollars
+Sales and Office Labor Exporters,0.6,1,0.6,0,1,dollars
+Natural Resources Construction and Maintenance Labor Exporters,0.6,1,0.6,0,1,dollars
+Production Transportation and Material Moving Labor Exporters,0.6,1,0.6,0,1,dollars
+Military Labor Exporters,0.6,1,0.6,0,1,dollars
+Management Business Science and Arts Labor Importers,0.6,1,0.6,0,1,dollars
+Services Labor Importers,0.6,1,0.6,0,1,dollars
+Sales and Office Labor Importers,0.6,1,0.6,0,1,dollars
+Natural Resources Construction and Maintenance Labor Importers,0.6,1,0.6,0,1,dollars
+Production Transportation and Material Moving Labor Importers,0.6,1,0.6,0,1,dollars
+Military Labor Importers,0.6,1,0.6,0,1,dollars

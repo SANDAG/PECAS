@@ -1,0 +1,40 @@
+Commodity,Skim,C0,C1,C2,C3,C4,C5,C6,C7,C8
+Construction Non-Building (including mining) Office Support,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Construction of Buildings Office Support,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Manufacturing Office Support,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Professional and Business Services (Building Maintenance) output,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+State and Local Non-Education Activity Office Support,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Utilities Office Support,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Amusement Services (events tracks theme parks country clubs) output,dist_da_t_op,1,2,3.5,5,6.45,8,12,18,24
+Religious Activity output,dist_da_t_op,1,2,3.5,5,6.45,8,12,18,24
+Restaurants and Bars Activity output,dist_da_t_op,0.5,1.5,3,4.5,5.89,7,9,14,18
+Federal Non-Military Activity output,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Health Services output,dist_da_t_op,1,2,3.5,5.5,7.11,8.5,12,16,22
+Owner-Occupied Dwellings Management and Maintenance,dist_da_t_op,1,2,3.5,5.5,7.11,8.5,12,16,22
+Personal Services Office Based output,dist_da_t_op,1,2,3.5,5.5,7.11,8.5,12,16,22
+Professional and Business Services output,dist_da_t_op,1,2,3.5,5.5,7.11,8.5,12,16,22
+State and Local Non-Education Activity output,dist_da_t_op,1,2,3.5,5.5,7.11,8.5,12,16,22
+Agriculture output,dist_da_t_op,3,8,13,17,20.25,23,28,33,38
+Construction Non-Building (including mining) output,dist_da_t_op,3,8,13,17,20.25,23,28,33,38
+Construction of Buildings output,dist_da_t_op,3,8,13,17,20.25,23,28,33,38
+Manufacturing output,dist_da_t_op,3,8,13,17,20.25,23,28,33,38
+Scrap and Other,dist_da_t_op,3,8,13,17,20.25,23,28,33,38
+Utilities output,dist_da_t_op,3,8,13,17,20.25,23,28,33,38
+Wholesale and Warehousing output,dist_da_t_op,3,8,13,17,20.25,23,28,33,38
+K-12 Instruction,dist_da_t_op,0.5,1.25,2,2.75,3.68,4.75,6,8,12
+Private Education K-12 output,dist_da_t_op,0.5,1.25,2,2.75,3.68,4.75,6,8,12
+Personal Services Retail Based output,dist_da_t_op,0.5,1.5,2.5,3.5,4.56,5.5,7,10,14
+Retail Activity output,dist_da_t_op,0.5,1.5,2.5,3.5,4.56,5.5,7,10,14
+State and Local Government Enterprises Activity output,dist_da_t_op,0.5,1.5,2.5,3.5,7.11,5.5,7,10,14
+Post K-12 and Other Instruction,dist_da_t_op,2,5,7,9,11.58,14,18,23,30
+Private Education Post K-12 and Other output,dist_da_t_op,2,5,7,9,11.58,14,18,23,30
+Hotels Activity output,dist_da_t_op,1,2,3,4.5,6.68,9,13,18,24
+Transportation Activity output,dist_da_t_op,2,4,7,10,14.22,18,24,29,35
+Management Business Science and Arts Labor,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Military Labor,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Natural Resources Construction and Maintenance Labor,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Private Households output,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Production Transportation and Material Moving Labor,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Sales and Office Labor,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Services Labor,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
+Work at Home Labor,dist_da_t_op,1,3.5,6,8.5,10.98,13.5,18,23,30
