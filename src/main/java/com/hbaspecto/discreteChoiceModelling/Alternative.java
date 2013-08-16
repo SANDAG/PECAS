@@ -18,11 +18,12 @@ package com.hbaspecto.discreteChoiceModelling;
 
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 
-
-
 /**
  *
  */
 public interface Alternative {
-    double getUtility(double dispersionParameterForSizeTermCalculation) throws ChoiceModelOverflowException ; 
+	double getUtility(double dispersionParameterForSizeTermCalculation)
+			throws ChoiceModelOverflowException;
+
+	double getUtilityNoSizeEffect() throws ChoiceModelOverflowException;
 }

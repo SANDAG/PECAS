@@ -22,26 +22,28 @@ package com.hbaspecto.pecas.landSynth;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+
 import org.apache.log4j.Logger;
 
 /**
  * @author John Abraham
- *
+ * 
  */
 public class ParcelInMemory implements ParcelInterface {
 
 	private static int[] coverageTypeLookupArray = null;
-	static int firstSpaceTypeID=0;
-	static int numberOfSpaceTypeIDs=0;
+	static int firstSpaceTypeID = 0;
+	static int numberOfSpaceTypeIDs = 0;
 	final double[] oldScores;
 
 	@Override
 	public String toString() {
-		return "Parcel: "+getId()+ ",Coverage type: " + getCoverage()+ ", Qnty: " + getQuantity() ;
+		return "Parcel: " + getId() + ",Coverage type: " + getCoverage()
+				+ ", Qnty: " + getQuantity();
 	}
 
 	final FieldNameReference fieldNameReference;
-	public final char EMPTY_COVERAGE_PLACEHOLDER= '_';
+	public final char EMPTY_COVERAGE_PLACEHOLDER = '_';
 
 	static String database = null;
 	static String landAreaColumnName = null;
@@ -60,228 +62,279 @@ public class ParcelInMemory implements ParcelInterface {
 	final boolean[] booleanValues;
 	final long[] longValues;
 
-	private final long id;  
+	private final long id;
 
 	float amountOfLand;
-	float amountOfSpace=0;
-	int coverage=0;
+	float amountOfSpace = 0;
+	int coverage = 0;
 	int taz;
 	float initialFAR;
 
-	int intCounter=0;
+	int intCounter = 0;
 	int booleanCounter = 0;
 	int stringCounter = 0;
 	int doubleCounter = 0;
 
-	boolean gotRegularFieldsFromDatabase=false;
+	boolean gotRegularFieldsFromDatabase = false;
 
-	private int revision=0;
+	private int revision = 0;
 
-	//protected HashMap<String, String> otherValues = new HashMap<String,String>();
+	// protected HashMap<String, String> otherValues = new
+	// HashMap<String,String>();
 	// protected Object[] otherValues = null;
 
 	/**
 	 * 
 	 */
 	public ParcelInMemory(Long long1, FieldNameReference fr) {
-		assert numberOfSpaceTypeIDs >0 : "Need to set numberOfSpaceTypeIDs before calling the constructor";
+		assert numberOfSpaceTypeIDs > 0 : "Need to set numberOfSpaceTypeIDs before calling the constructor";
 		oldScores = new double[numberOfSpaceTypeIDs];
 		scoresAreInvalid();
-		this.fieldNameReference = fr;
-		this.id = long1;
-		intValues     = new int[fr.integerFieldNames.size()];
+		fieldNameReference = fr;
+		id = long1;
+		intValues = new int[fr.integerFieldNames.size()];
 		booleanValues = new boolean[fr.booleanFieldNames.size()];
-		stringValues  = new String[fr.stringFieldNames.size()];
+		stringValues = new String[fr.stringFieldNames.size()];
 		longValues = new long[fr.longFieldNames.size()];
-		doubleValues  = new double[fr.doubleFieldNames.size()];
+		doubleValues = new double[fr.doubleFieldNames.size()];
 
 	}
 
 	private void scoresAreInvalid() {
 		revision++;
-		for (int i = 0;i<oldScores.length;i++) {
+		for (int i = 0; i < oldScores.length; i++) {
 			oldScores[i] = Double.NaN;
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#addSqFtAssigned(float)
 	 */
 	@Override
-    public void addSqFtAssigned(float amount) {
-		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
-		amountOfSpace+=amount;
+	public void addSqFtAssigned(float amount) {
+		if (!gotRegularFieldsFromDatabase) {
+			getRegularValuesFromDatabase();
+		}
+		amountOfSpace += amount;
 		scoresAreInvalid();
 
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#getCoverage()
 	 */
 	@Override
-    public int getCoverage() {
-		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
-		return coverage; 
+	public int getCoverage() {
+		if (!gotRegularFieldsFromDatabase) {
+			getRegularValuesFromDatabase();
+		}
+		return coverage;
 	}
 
 	@Override
-    public long getId() {
+	public long getId() {
 		return id;
 	}
 
 	private void getOtherValueFromDatabase(String string) {
-		// not needed, all other values are retrieved when the parcel is first retrieved
+		// not needed, all other values are retrieved when the parcel is first
+		// retrieved
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#getQuantity()
 	 */
 	@Override
-    public float getQuantity() {
-		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
+	public float getQuantity() {
+		if (!gotRegularFieldsFromDatabase) {
+			getRegularValuesFromDatabase();
+		}
 		return amountOfSpace;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#getRevision()
 	 */
 	@Override
-    public int getRevision() {
+	public int getRevision() {
 		return revision;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#getSize()
 	 */
 	@Override
-    public float getSize() {
-		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
+	public float getSize() {
+		if (!gotRegularFieldsFromDatabase) {
+			getRegularValuesFromDatabase();
+		}
 		return amountOfLand;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#getTaz()
 	 */
 	@Override
-    public int getTaz() {
-		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
+	public int getTaz() {
+		if (!gotRegularFieldsFromDatabase) {
+			getRegularValuesFromDatabase();
+		}
 		return taz;
 	}
+
 	/**
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#getValue(java.lang.String)
 	 */
 	@Override
-    public String getValue(String fieldName) {
-		Object fieldValue = fieldNameReference.getField(fieldName, intValues, stringValues, doubleValues, booleanValues, longValues);
-		if (fieldValue ==null) return null;
+	public String getValue(String fieldName) {
+		final Object fieldValue = fieldNameReference.getField(fieldName, intValues,
+				stringValues, doubleValues, booleanValues, longValues);
+		if (fieldValue == null) {
+			return null;
+		}
 		return fieldValue.toString();
 	}
 
 	private void getRegularValuesFromDatabase() {
 
-		taz = (Integer) fieldNameReference.getField(zoneColumnName, intValues, stringValues, doubleValues, booleanValues, longValues);
-		amountOfLand = ((Double) fieldNameReference.getField(landAreaColumnName, intValues, stringValues, doubleValues, booleanValues, longValues)).floatValue();
-		amountOfSpace = ((Double) fieldNameReference.getField(spaceAmountColumnName, intValues, stringValues, doubleValues, booleanValues,longValues)).floatValue();
-		initialFAR=0;
-		if (initialFARColumnName!=null) {
-			initialFAR = ((Double) fieldNameReference.getField(initialFARColumnName, intValues, stringValues, doubleValues, booleanValues,longValues)).floatValue();
+		taz = (Integer) fieldNameReference.getField(zoneColumnName, intValues,
+				stringValues, doubleValues, booleanValues, longValues);
+		amountOfLand = ((Double) fieldNameReference.getField(landAreaColumnName,
+				intValues, stringValues, doubleValues, booleanValues, longValues))
+				.floatValue();
+		amountOfSpace = ((Double) fieldNameReference.getField(
+				spaceAmountColumnName, intValues, stringValues, doubleValues,
+				booleanValues, longValues)).floatValue();
+		initialFAR = 0;
+		if (initialFARColumnName != null) {
+			initialFAR = ((Double) fieldNameReference.getField(initialFARColumnName,
+					intValues, stringValues, doubleValues, booleanValues, longValues))
+					.floatValue();
 		}
-		if (spaceTypeIntColumnName != null ) {
-			coverage = (Integer) fieldNameReference.getField(spaceTypeIntColumnName, intValues, stringValues, doubleValues, booleanValues,longValues);
-		} else if (spaceTypeStringColumnName !=null) {
-			String coverageString = (String) fieldNameReference.getField(spaceTypeStringColumnName, intValues, stringValues, doubleValues, booleanValues,longValues);
+		if (spaceTypeIntColumnName != null) {
+			coverage = (Integer) fieldNameReference.getField(spaceTypeIntColumnName,
+					intValues, stringValues, doubleValues, booleanValues, longValues);
+		}
+		else if (spaceTypeStringColumnName != null) {
+			final String coverageString = (String) fieldNameReference.getField(
+					spaceTypeStringColumnName, intValues, stringValues, doubleValues,
+					booleanValues, longValues);
 			if (coverageString == null || coverageString.trim().isEmpty()) {
-				coverage= EMPTY_COVERAGE_PLACEHOLDER;               
-			} else {
-				coverage = (coverageString.trim().charAt(0)); //OK!
+				coverage = EMPTY_COVERAGE_PLACEHOLDER;
+			}
+			else {
+				coverage = coverageString.trim().charAt(0); // OK!
 			}
 		}
 		// TODO Put this check
 		/*
-            if (set.next()) {
-                // more than 1 parcel with same id!
-                String msg=parcelIdField+" is not unique, more than one entry for "+getId();
-                logger.fatal(msg);
-                throw new RuntimeException(msg);
-            }
+		 * if (set.next()) { // more than 1 parcel with same id! String
+		 * msg=parcelIdField+" is not unique, more than one entry for "+getId();
+		 * logger.fatal(msg); throw new RuntimeException(msg); }
 		 */
 
-		gotRegularFieldsFromDatabase=true;
+		gotRegularFieldsFromDatabase = true;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#setCoverage(int)
-	 * You should consider the data type of coverage code; int or char 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#setCoverage(int) You
+	 * should consider the data type of coverage code; int or char
 	 */
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.hbaspecto.pecas.landSynth.ParcelInterface#setQuantity(float)
 	 */
 	@Override
-    public void setQuantity(float f) {
-		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
-		amountOfSpace=f;
+	public void setQuantity(float f) {
+		if (!gotRegularFieldsFromDatabase) {
+			getRegularValuesFromDatabase();
+		}
+		amountOfSpace = f;
 		scoresAreInvalid();
 	}
 
 	public void putPecasFieldsBackToDatabase(ParcelUpdater updater) {
-		if (spaceTypeIntColumnName !=null) {
+		if (spaceTypeIntColumnName != null) {
 			updater.requestUpdateIntCoverage(getId(), getCoverage(), getQuantity());
-		} else {
-			char coverageChar = (char) getCoverage();
-			//if (getCoverage()==0) coverageChar = ' '; //OK  
-			updater.requestUpdateStringCoverage(getId(), String.valueOf(coverageChar), getQuantity());
+		}
+		else {
+			final char coverageChar = (char) getCoverage();
+			// if (getCoverage()==0) coverageChar = ' '; //OK
+			updater.requestUpdateStringCoverage(getId(),
+					String.valueOf(coverageChar), getQuantity());
 		}
 	}
 
 	@Override
-    public double getInitialFAR() {
-		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
+	public double getInitialFAR() {
+		if (!gotRegularFieldsFromDatabase) {
+			getRegularValuesFromDatabase();
+		}
 		return initialFAR;
 	}
 
 	@Override
 	public boolean isVacantCoverege() {
 		// TODO Auto-generated method stub
-		boolean isVacant=false;
-		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
-
-		if (spaceTypeIntColumnName != null )
-		{
-			if (coverage == 0 || coverage == 95)
-			{isVacant = true;}
+		boolean isVacant = false;
+		if (!gotRegularFieldsFromDatabase) {
+			getRegularValuesFromDatabase();
 		}
-		else
-		{
-			if (coverage == EMPTY_COVERAGE_PLACEHOLDER)
-			{isVacant = true;}
+
+		if (spaceTypeIntColumnName != null) {
+			if (coverage == 0 || coverage == 95) {
+				isVacant = true;
+			}
+		}
+		else {
+			if (coverage == EMPTY_COVERAGE_PLACEHOLDER) {
+				isVacant = true;
+			}
 		}
 		return isVacant;
 	}
 
 	@Override
 	public boolean isSameSpaceType(String type) {
-		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
-		if (spaceTypeIntColumnName != null )
-		{
+		if (!gotRegularFieldsFromDatabase) {
+			getRegularValuesFromDatabase();
+		}
+		if (spaceTypeIntColumnName != null) {
 			return coverage == Integer.parseInt(type);
-		} else
-		{
-			return coverage == type.trim().charAt(0); //OK
-		}		
+		}
+		else {
+			return coverage == type.trim().charAt(0); // OK
+		}
 	}
 
 	@Override
 	public void setCoverage(String myCode) {
-		// TODO Check here if coverage is a single- or multiple- character string. 
-		if (!gotRegularFieldsFromDatabase) getRegularValuesFromDatabase();
-		if (spaceTypeIntColumnName != null )
-		{
+		// TODO Check here if coverage is a single- or multiple- character
+		// string.
+		if (!gotRegularFieldsFromDatabase) {
+			getRegularValuesFromDatabase();
+		}
+		if (spaceTypeIntColumnName != null) {
 			coverage = Integer.parseInt(myCode);
-		} else
-		{
-			coverage = myCode.trim().charAt(0); //OK
+		}
+		else {
+			coverage = myCode.trim().charAt(0); // OK
 		}
 		scoresAreInvalid();
 	}
@@ -308,77 +361,90 @@ public class ParcelInMemory implements ParcelInterface {
 
 	@Override
 	public double getOldScore(int intCoverageType) {
-		int index = lookupCoverageTypeIndex(intCoverageType);
+		final int index = lookupCoverageTypeIndex(intCoverageType);
 		return oldScores[index];
 	}
 
 	private int lookupCoverageTypeIndex(int intCoverageType) {
-		int index = coverageTypeLookupArray[intCoverageType-firstSpaceTypeID];
+		final int index = coverageTypeLookupArray[intCoverageType
+				- firstSpaceTypeID];
 		return index;
 
 	}
 
 	@Override
 	public void setOldScore(int intCoverageType, double score) {
-		int index = lookupCoverageTypeIndex(intCoverageType);
+		final int index = lookupCoverageTypeIndex(intCoverageType);
 		oldScores[index] = score;
 	}
 
-	public static void initializeLookupCoverageType(Connection conn, String FloorspaceInventoryTable, String floorspaceSpaceTypeColName, String sdMatchCoeffSpaceTypeTableName, String sdMatchCoeffSpaceTypeColName){
+	public static void initializeLookupCoverageType(Connection conn,
+			String FloorspaceInventoryTable, String floorspaceSpaceTypeColName,
+			String sdMatchCoeffSpaceTypeTableName, String sdMatchCoeffSpaceTypeColName) {
 		try {
 			// SQLite only supports TYPE_FORWARD_ONLY cursors
-			Statement getSpaceTypesStmt = conn.createStatement(
-					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY); 
+			final Statement getSpaceTypesStmt = conn.createStatement(
+					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 
-			int numberOfSpaceTypes=0;
-			int maxCoverageTypeID=0, minCoverageTypeID=0;
+			int numberOfSpaceTypes = 0;
+			int maxCoverageTypeID = 0, minCoverageTypeID = 0;
 
-			ResultSet spaceTypesSet = getSpaceTypesStmt.executeQuery("SELECT min(space_type_id) as min, max(space_type_id) as max, count(*) as count " +
-					" FROM ( "+
-						"SELECT distinct " +floorspaceSpaceTypeColName+  " as space_type_id FROM "+FloorspaceInventoryTable+
-						" UNION "+
-						"SELECT distinct " +sdMatchCoeffSpaceTypeColName+" as space_type_id FROM "+sdMatchCoeffSpaceTypeTableName+
-						" ) p");
+			ResultSet spaceTypesSet = getSpaceTypesStmt
+					.executeQuery("SELECT min(space_type_id) as min, max(space_type_id) as max, count(*) as count "
+							+ " FROM ( "
+							+ "SELECT distinct "
+							+ floorspaceSpaceTypeColName
+							+ " as space_type_id FROM "
+							+ FloorspaceInventoryTable
+							+ " UNION "
+							+ "SELECT distinct "
+							+ sdMatchCoeffSpaceTypeColName
+							+ " as space_type_id FROM "
+							+ sdMatchCoeffSpaceTypeTableName
+							+ " ) p");
 
 			while (spaceTypesSet.next()) {
-				//Columns order is min, max, count
-				minCoverageTypeID = spaceTypesSet.getInt(1); //min
-				maxCoverageTypeID = spaceTypesSet.getInt(2); //max
-				numberOfSpaceTypes= spaceTypesSet.getInt(3); //count
+				// Columns order is min, max, count
+				minCoverageTypeID = spaceTypesSet.getInt(1); // min
+				maxCoverageTypeID = spaceTypesSet.getInt(2); // max
+				numberOfSpaceTypes = spaceTypesSet.getInt(3); // count
 			}
 
-			ParcelInMemory.numberOfSpaceTypeIDs= numberOfSpaceTypes;
-			ParcelInMemory.firstSpaceTypeID    = minCoverageTypeID;
+			ParcelInMemory.numberOfSpaceTypeIDs = numberOfSpaceTypes;
+			ParcelInMemory.firstSpaceTypeID = minCoverageTypeID;
 
-			assert numberOfSpaceTypes>0 : "There are no spacetypes in "+FloorspaceInventoryTable;
+			assert numberOfSpaceTypes > 0 : "There are no spacetypes in "
+					+ FloorspaceInventoryTable;
 			spaceTypesSet.close();
 
-			spaceTypesSet = getSpaceTypesStmt.executeQuery(" SELECT distinct space_type_id "+
-					" FROM ( " + 
-						"SELECT distinct " +floorspaceSpaceTypeColName+  " as space_type_id FROM "+FloorspaceInventoryTable+
-						" UNION "+
-						"SELECT distinct " +sdMatchCoeffSpaceTypeColName+" as space_type_id FROM "+sdMatchCoeffSpaceTypeTableName+
-						" ) p" +
-					" ORDER BY space_type_id");
+			spaceTypesSet = getSpaceTypesStmt
+					.executeQuery(" SELECT distinct space_type_id " + " FROM ( "
+							+ "SELECT distinct " + floorspaceSpaceTypeColName
+							+ " as space_type_id FROM " + FloorspaceInventoryTable
+							+ " UNION " + "SELECT distinct " + sdMatchCoeffSpaceTypeColName
+							+ " as space_type_id FROM " + sdMatchCoeffSpaceTypeTableName
+							+ " ) p" + " ORDER BY space_type_id");
 
 			// size of the array is last+first+1
-			coverageTypeLookupArray = new int[maxCoverageTypeID-minCoverageTypeID+1];
+			coverageTypeLookupArray = new int[maxCoverageTypeID - minCoverageTypeID
+					+ 1];
 
-			for(int i=0; i <coverageTypeLookupArray.length; i++){
-				coverageTypeLookupArray[i]=	Integer.MAX_VALUE;
+			for (int i = 0; i < coverageTypeLookupArray.length; i++) {
+				coverageTypeLookupArray[i] = Integer.MAX_VALUE;
 			}
 			int coverageType;
-			int seqIndex=0;
-			while(spaceTypesSet.next()){
+			int seqIndex = 0;
+			while (spaceTypesSet.next()) {
 				coverageType = spaceTypesSet.getInt(1);
-				coverageTypeLookupArray[coverageType-minCoverageTypeID] =seqIndex;
+				coverageTypeLookupArray[coverageType - minCoverageTypeID] = seqIndex;
 				seqIndex++;
 			}
 			spaceTypesSet.close();
 			getSpaceTypesStmt.close();
 
-		}catch(Exception e){
-			logger.fatal("Unexpected error occured.",e);
+		}
+		catch (final Exception e) {
+			logger.fatal("Unexpected error occured.", e);
 			throw new RuntimeException(e);
 		}
 	}

@@ -16,13 +16,12 @@
  */
 package com.hbaspecto.pecas.aa.technologyChoice;
 
-
-
 /**
- * A class that represents the amount of inputs consumed in the economic activity
+ * A class that represents the amount of inputs consumed in the economic
+ * activity
+ * 
  * @author John E. Abraham
  */
 public interface ConsumptionFunction extends CommodityQuantities {
 
 }
-

@@ -251,7 +251,7 @@ public class TestExpectedValueFormula {
 			return getUtilityNoSizeEffect();
 		}
 
-		//@Override
+		@Override
 		public double getUtilityNoSizeEffect() throws ChoiceModelOverflowException {
 			return 2.5;
 		}
@@ -290,7 +290,7 @@ public class TestExpectedValueFormula {
 			return getUtilityNoSizeEffect();
 		}
 
-		//@Override
+		@Override
 		public double getUtilityNoSizeEffect() throws ChoiceModelOverflowException {
 			return 2.5;
 		}
@@ -330,7 +330,7 @@ public class TestExpectedValueFormula {
 			return getUtilityNoSizeEffect();
 		}
 
-		//@Override
+		@Override
 		public double getUtilityNoSizeEffect() throws ChoiceModelOverflowException {
 			return 2;
 		}
@@ -345,9 +345,8 @@ public class TestExpectedValueFormula {
 			return new DenseVector(new double[] { 0, 0, 1, 2, 0, 0 });
 		}
 
-		//@Override
 		@Override
-        public Matrix getExpectedTargetDerivativesWRTParameters(
+		public Matrix getExpectedTargetDerivativesWRTParameters(
 				List<ExpectedValue> ts, List<Coefficient> cs) {
 			return new DenseMatrix(new double[][] { { 0, 0, 0, 5, 0, 0 },
 					{ 0, 0, 0, 1, 0, 0 }, { 0, 0, 0, 2, 0, 0 } });
@@ -371,7 +370,7 @@ public class TestExpectedValueFormula {
 			return getUtilityNoSizeEffect();
 		}
 
-		//@Override
+		@Override
 		public double getUtilityNoSizeEffect() throws ChoiceModelOverflowException {
 			return 4.5;
 		}
@@ -411,7 +410,7 @@ public class TestExpectedValueFormula {
 			return getUtilityNoSizeEffect();
 		}
 
-		//@Override
+		@Override
 		public double getUtilityNoSizeEffect() throws ChoiceModelOverflowException {
 			return 1.5;
 		}
@@ -452,7 +451,7 @@ public class TestExpectedValueFormula {
 			return getUtilityNoSizeEffect();
 		}
 
-		//@Override
+		@Override
 		public double getUtilityNoSizeEffect() throws ChoiceModelOverflowException {
 			return 2.6566;
 		}

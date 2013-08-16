@@ -20,7 +20,7 @@ package com.hbaspecto.functions;
  * 
  */
 public interface SingleParameterFunction {
-    double evaluate(double point);
+	double evaluate(double point);
 
-    double derivative(double point);
+	double derivative(double point);
 }

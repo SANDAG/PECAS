@@ -18,13 +18,29 @@
  */
 package com.hbaspecto.pecas.landSynth;
 
-import java.util.*;
-import java.io.*;
-import java.sql.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+import java.util.ResourceBundle;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 
 import com.hbaspecto.pecas.land.LoadingQueue;
+import com.pb.common.util.ResourceUtil;
 
 /**
  * @author jabraham
@@ -36,16 +52,14 @@ public abstract class AssignSquareFeetToParcel {
 	// parameters
 
 	// initialization
-	protected static Properties props = new Properties();
+	protected static ResourceBundle props;
 	private Connection connection = null;
 	static String database;
 
 	static String user = null;
 	static String password = null;
 
-
 	private PreparedStatement updateStatement;
-
 
 	// Parcel Fields
 	String parcelZoneColumnName = null;
@@ -62,7 +76,7 @@ public abstract class AssignSquareFeetToParcel {
 	String tazGeomName = null;
 	String tazNumberName = null;
 
-	int bufferSize = 0;
+	double bufferSize = 0;
 
 	// PrintWriter errorLog = null;
 	boolean isIntegerSpaceTypeCode;
@@ -70,35 +84,42 @@ public abstract class AssignSquareFeetToParcel {
 	Hashtable sqFtTypes = new Hashtable();
 	Hashtable zoningTypes = new Hashtable();
 	int typeCount = 0;
-	//	ArrayList zoneNumbers = new ArrayList();
+	// ArrayList zoneNumbers = new ArrayList();
 	static String sqftInventoryTableName = null;
 	String matchCoeffTableName = null;
 	String parcelTableName = null;
 	String tazTableName = null;
 	TreeMap inventoryMap = new TreeMap();
-	private Hashtable<Integer,ParcelScorer> parcelScorers = new Hashtable<Integer,ParcelScorer>();
+	private final Hashtable<Integer, ParcelScorer> parcelScorers = new Hashtable<Integer, ParcelScorer>();
 	String[] typeNames = null;
-	Hashtable<Integer,List<ParcelInterface>> sortedParcelLists;
-	private ParcelResultSet theParcelsSQLResultSet;	
-	static Logger logger = Logger.getLogger(AssignSquareFeetToParcel.class.getName());
+	Hashtable<Integer, List<ParcelInterface>> sortedParcelLists;
+	private ParcelResultSet theParcelsSQLResultSet;
+	static Logger logger = Logger.getLogger(AssignSquareFeetToParcel.class
+			.getName());
 
-	//This property returns a readOnly connection. getConnection returns readOnly connections. Not involved in updating. 
+	// This property returns a readOnly connection. getConnection returns
+	// readOnly connections. Not involved in updating.
 	Connection getConnection(String source) {
 		try {
-			if (connection==null) connection = getNewConnection(props, true, false, source);								
+			if (connection == null) {
+				connection = getNewConnection(props, true, false, source);
+			}
 			else {
-				if (connection.isClosed()) connection = getNewConnection(props, true, false, source);				
+				if (connection.isClosed()) {
+					connection = getNewConnection(props, true, false, source);
+				}
 			}
 		}
-		catch(Exception e)
-		{
-			logger.fatal("AssignSquareFeetToParcel can't connect to database",e);
-			throw new RuntimeException("AssignSquareFeetToParcel can't connect to database",e);
+		catch (final Exception e) {
+			logger.fatal("AssignSquareFeetToParcel can't connect to database", e);
+			throw new RuntimeException(
+					"AssignSquareFeetToParcel can't connect to database", e);
 		}
 		return connection;
 	}
 
-	public static void closeConnection(Connection conn, String message) throws SQLException{
+	public static void closeConnection(Connection conn, String message)
+			throws SQLException {
 		if (!conn.isClosed()) {
 			if (!conn.isReadOnly() && !conn.getAutoCommit()) {
 				logger.info("Commit changes before closing the connection.");
@@ -110,7 +131,7 @@ public abstract class AssignSquareFeetToParcel {
 
 	}
 
-	protected void setupDatabaseAccess(Properties props) {
+	protected void setupDatabaseAccess(ResourceBundle props) {
 		connection = getNewConnection(props, true, false, "Initial setup");
 	}
 
@@ -120,18 +141,20 @@ public abstract class AssignSquareFeetToParcel {
 	public static Properties loadProperties(String[] args) {
 
 		FileInputStream fin = null;
-		Properties props= new Properties();
+		final Properties props = new Properties();
 		try {
 			fin = new FileInputStream(args[0]);
-		} catch (FileNotFoundException e) {
+		}
+		catch (final FileNotFoundException e) {
 			System.out
-			.println("error: be sure to put the location of the properties file on the command line");
+					.println("error: be sure to put the location of the properties file on the command line");
 			e.printStackTrace();
 			System.exit(-1);
 		}
-		try {			
-			props.load(fin);			
-		} catch (IOException e) {
+		try {
+			props.load(fin);
+		}
+		catch (final IOException e) {
 			System.out.println("Error reading properties file " + args[0]);
 			System.exit(-1);
 		}
@@ -141,35 +164,45 @@ public abstract class AssignSquareFeetToParcel {
 	/**
 	 * 
 	 */
-	public static Connection getNewConnection(Properties props, boolean readOnly, boolean autoCommit, String source) {
-		if (source == null) source="";
+	public static Connection getNewConnection(ResourceBundle props2,
+			boolean readOnly, boolean autoCommit, String source) {
+		if (source == null) {
+			source = "";
+		}
 
-		Connection connection=null; 
+		Connection connection = null;
 		String databaseDriver = "";
 		try {
-			databaseDriver = props.getProperty("JDBCDriver");
+			databaseDriver = ResourceUtil.checkAndGetProperty(props2, "JDBCDriver");
 			Class.forName(databaseDriver).newInstance();
-			database = props.getProperty("Database");
-			String user = props.getProperty("DatabaseUser");
-			String password = props.getProperty("DatabasePassword");
+			database = ResourceUtil.checkAndGetProperty(props2, "Database");
+			final String user = ResourceUtil.checkAndGetProperty(props2,
+					"DatabaseUser");
+			final String password = ResourceUtil.checkAndGetProperty(props2,
+					"DatabasePassword");
 			if (user == null) {
-				logger.warn("Connecting to database without username for "+ source);
-				connection = DriverManager.getConnection(props.getProperty("Database"));
-				connection.setAutoCommit(autoCommit);
-				connection.setReadOnly(readOnly);
-			} else {
-				logger.info("Connecting to database with username " + user
-						+ " and password " + password +" for "+ source);
-				connection = DriverManager.getConnection(props.getProperty("Database"), user, password);
+				logger.warn("Connecting to database without username for " + source);
+				connection = DriverManager.getConnection(ResourceUtil
+						.checkAndGetProperty(props2, "Database"));
 				connection.setAutoCommit(autoCommit);
 				connection.setReadOnly(readOnly);
 			}
-		} catch (Exception e) {
+			else {
+				logger.info("Connecting to database with username " + user
+						+ " and password " + password + " for " + source);
+				connection = DriverManager.getConnection(
+						ResourceUtil.checkAndGetProperty(props2, "Database"), user,
+						password);
+				connection.setAutoCommit(autoCommit);
+				connection.setReadOnly(readOnly);
+			}
+		}
+		catch (final Exception e) {
 			System.out.println("error opening JDBC connection to database "
 					+ databaseDriver + " " + database);
 			System.out.println(e.toString());
-			e.printStackTrace();			
-			System.exit(-1);			
+			e.printStackTrace();
+			System.exit(-1);
 		}
 		return connection;
 	}
@@ -184,36 +217,46 @@ public abstract class AssignSquareFeetToParcel {
 		// System.exit(-1);
 		// }
 
-		// FIXME add useful error messages if these properties are not set
-		parcelZoneColumnName = props.getProperty("ParcelZoneField").trim();
-		areaColumnName = props.getProperty("LandAreaField").trim();
-		parcelIdField = props.getProperty("ParcelIdField").trim();
-		parcelGeomName = props.getProperty("ParcelGeomField").trim();
-		parcelGeomName = props.getProperty("ParcelGeomField");
-		if (parcelGeomName !=null) parcelGeomName = parcelGeomName.trim();
+		parcelZoneColumnName = ResourceUtil.checkAndGetProperty(props,
+				"ParcelZoneField");
+		areaColumnName = ResourceUtil.checkAndGetProperty(props, "LandAreaField");
+		parcelIdField = ResourceUtil.checkAndGetProperty(props, "ParcelIdField");
+		parcelGeomName = ResourceUtil.getProperty(props, "ParcelGeomField");
+		if (parcelGeomName != null) {
+			parcelGeomName = parcelGeomName.trim();
+		}
 
 		// some more initializers
 
-		sqftInventoryTableName = props.getProperty("SqftInventoryTable").trim();
-		floorspaceZoneColumnName = props.getProperty("FloorspaceZoneField").trim();
-		floorspaceSpaceTypeColumnName = props
-		.getProperty("FloorspaceSpaceTypeField").trim();
+		sqftInventoryTableName = ResourceUtil.checkAndGetProperty(props,
+				"SqftInventoryTable");
+		floorspaceZoneColumnName = ResourceUtil.checkAndGetProperty(props,
+				"FloorspaceZoneField");
+		floorspaceSpaceTypeColumnName = ResourceUtil.checkAndGetProperty(props,
+				"FloorspaceSpaceTypeField");
 
-		matchCoeffTableName = props.getProperty("MatchCoeffTableName").trim();
-		parcelTableName = props.getProperty("ParcelTableName").trim();
+		matchCoeffTableName = ResourceUtil.checkAndGetProperty(props,
+				"MatchCoeffTableName");
+		parcelTableName = ResourceUtil
+				.checkAndGetProperty(props, "ParcelTableName");
 
-		tazTableName = props.getProperty("TazTableName").trim();
-		tazGeomName = props.getProperty("TazGeomField").trim();
-		tazNumberName = props.getProperty("TazNumberField").trim();
+		tazTableName = ResourceUtil.checkAndGetProperty(props, "TazTableName");
+		tazGeomName = ResourceUtil.checkAndGetProperty(props, "TazGeomField");
+		tazNumberName = ResourceUtil.checkAndGetProperty(props, "TazNumberField");
 
-		isIntegerSpaceTypeCode = Boolean.parseBoolean(props.getProperty("IntegerSpaceTypeCode"));
+		isIntegerSpaceTypeCode = ResourceUtil.getBooleanProperty(props,
+				"IntegerSpaceTypeCode", true);
 		// optional entry
-		initialFARColumnName = props.getProperty("InitialFARField");
+		initialFARColumnName = ResourceUtil.checkAndGetProperty(props,
+				"InitialFARField");
 
-		bufferSize = Integer.valueOf(props.getProperty("Buffer"));
+		bufferSize = ResourceUtil.getDoubleProperty(props, "Buffer", 0);
 		// FIXME don't hard code "space_type_id" column name
-		//FIXME: Check location of initialization
-		ParcelInMemory.initializeLookupCoverageType(getConnection("initializing Lookup for coverageTypes"), sqftInventoryTableName, floorspaceSpaceTypeColumnName, matchCoeffTableName, "pecastype");
+		// FIXME: Check location of initialization
+		ParcelInMemory.initializeLookupCoverageType(
+				getConnection("initializing Lookup for coverageTypes"),
+				sqftInventoryTableName, floorspaceSpaceTypeColumnName,
+				matchCoeffTableName, "pecastype");
 	}
 
 	static class SizeAndChunk {
@@ -221,20 +264,19 @@ public abstract class AssignSquareFeetToParcel {
 		double chunk;
 	}
 
-
-
 	public void setUpInventory() {
 
 		try {
 			// Statement getSqFtStatement =
 			// conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
-			Statement getSqFtStatement = getConnection("SetupInventory").createStatement(
-					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY); // SQLite only
+			final Statement getSqFtStatement = getConnection("SetupInventory")
+					.createStatement(ResultSet.TYPE_FORWARD_ONLY,
+							ResultSet.CONCUR_READ_ONLY); // SQLite only
 			// supports
 			// TYPE_FORWARD_ONLY
 			// cursors
 
-			//Added by Eric
+			// Added by Eric
 			getSqFtStatement.setQueryTimeout(0);
 
 			// get a list of the types and a list of the zones, could use the
@@ -247,14 +289,14 @@ public abstract class AssignSquareFeetToParcel {
 
 					// type = sqFeetInventory.getString("gridcode"); //why it
 					// was hardcoded here!!
-					type = sqFeetInventory
-					.getString(floorspaceSpaceTypeColumnName);
-				} catch (SQLException e) {
+					type = sqFeetInventory.getString(floorspaceSpaceTypeColumnName);
+				}
+				catch (final SQLException e) {
 					type = null;
 				}
 				if (type == null) {
-					String error = "Can't find column named gridcode in table "
-						+ sqftInventoryTableName;
+					final String error = "Can't find column named gridcode in table "
+							+ sqftInventoryTableName;
 					logger.fatal(error);
 					throw new RuntimeException(error);
 				}
@@ -264,15 +306,15 @@ public abstract class AssignSquareFeetToParcel {
 
 				Integer zoneNumber = null;
 				try {
-					zoneNumber = new Integer(sqFeetInventory
-							.getInt(floorspaceZoneColumnName));
-				} catch (SQLException e) {
+					zoneNumber = new Integer(
+							sqFeetInventory.getInt(floorspaceZoneColumnName));
+				}
+				catch (final SQLException e) {
 					zoneNumber = null;
 				}
 				if (zoneNumber == null) {
-					String error = "Can't find column "
-						+ floorspaceZoneColumnName + " in table "
-						+ sqftInventoryTableName;
+					final String error = "Can't find column " + floorspaceZoneColumnName
+							+ " in table " + sqftInventoryTableName;
 					logger.fatal(error);
 					throw new RuntimeException(error);
 				}
@@ -289,17 +331,17 @@ public abstract class AssignSquareFeetToParcel {
 
 			typeNames = new String[typeCount];
 			do {
-				String type = sqFeetInventory
-				.getString(floorspaceSpaceTypeColumnName);
-				int typeIndex = ((Integer) sqFtTypes.get(type)).intValue();
+				final String type = sqFeetInventory
+						.getString(floorspaceSpaceTypeColumnName);
+				final int typeIndex = ((Integer) sqFtTypes.get(type)).intValue();
 				typeNames[typeIndex] = type;
-				double amount = sqFeetInventory.getDouble("QUANTITY");
-				double chunkSizeFromTable = sqFeetInventory
-				.getDouble("chunksize");
-				Integer zoneNum = new Integer(sqFeetInventory
-						.getInt(floorspaceZoneColumnName));
+				final double amount = sqFeetInventory.getDouble("QUANTITY");
+				final double chunkSizeFromTable = sqFeetInventory
+						.getDouble("chunksize");
+				final Integer zoneNum = new Integer(
+						sqFeetInventory.getInt(floorspaceZoneColumnName));
 				SizeAndChunk[] inventoryForZone = (SizeAndChunk[]) inventoryMap
-				.get(zoneNum);
+						.get(zoneNum);
 				if (inventoryForZone == null) {
 					inventoryForZone = new SizeAndChunk[typeCount];
 					for (int i = 0; i < typeCount; i++) {
@@ -312,134 +354,129 @@ public abstract class AssignSquareFeetToParcel {
 
 			} while (sqFeetInventory.next());
 
-		} catch (Exception e) {
+		}
+		catch (final Exception e) {
 			logger.fatal("Error in setting up square feet inventory");
 			logger.fatal(e);
 			throw new RuntimeException(e);
-		}	
+		}
 	}
 
 	public void setUpSorters() {
 		try {
 			// create parcel sorters
-			Connection localConn = getConnection("setupSorters");
+			final Connection localConn = getConnection("setupSorters");
 
-			Statement getMatchStatement = localConn.createStatement();
+			final Statement getMatchStatement = localConn.createStatement();
 			// Added by Eric
 			getMatchStatement.setQueryTimeout(0);
-			ResultSet coverageTypes = getMatchStatement
-			.executeQuery("SELECT PECASTYPE FROM "
-					+ matchCoeffTableName + " GROUP BY PECASTYPE");
+			final ResultSet coverageTypes = getMatchStatement
+					.executeQuery("SELECT PECASTYPE FROM " + matchCoeffTableName
+							+ " GROUP BY PECASTYPE");
 
 			int coverageType;
 
-
-			while (coverageTypes.next()){ 			
+			while (coverageTypes.next()) {
 				// one sorter for each coverage type
 
-				if (isIntegerSpaceTypeCode) 
-				{
+				if (isIntegerSpaceTypeCode) {
 					coverageType = coverageTypes.getInt("PECASTYPE");
 				}
 				else {
-					coverageType = '_'; // EMPTY COVERAGE PLACEHOLDER for char is '_'
-					String str = coverageTypes.getString("PECASTYPE").trim();
-					if (!str.isEmpty()){
-						coverageType = str.charAt(0); //OK
-					}	
+					coverageType = '_'; // EMPTY COVERAGE PLACEHOLDER for char
+					// is '_'
+					final String str = coverageTypes.getString("PECASTYPE").trim();
+					if (!str.isEmpty()) {
+						coverageType = str.charAt(0); // OK
+					}
 				}
 
-				// TODO allow use of something other than first character for
-				// gridcode
-				// FIXME also error if coveragetypes have same initial character
-				ParcelScorer ps = new ParcelScorer(coverageType, isIntegerSpaceTypeCode, props);
-				Statement statement1 = localConn.createStatement();
+				final ParcelScorer ps = new ParcelScorer(coverageType,
+						isIntegerSpaceTypeCode, props);
+				final Statement statement1 = localConn.createStatement();
 
-				//Added by Eric
+				// Added by Eric
 				statement1.setQueryTimeout(0);
 				String sqlString;
-				if (isIntegerSpaceTypeCode)
-				{
-					sqlString = "SELECT FIELDNAME FROM "
-						+ matchCoeffTableName + " WHERE PECASTYPE="
-						+ coverageType + " GROUP BY FIELDNAME";
-				} else{
-					sqlString = "SELECT FIELDNAME FROM "
-						+ matchCoeffTableName + " WHERE PECASTYPE='"
-						+ (char) coverageType + "' GROUP BY FIELDNAME";
+				if (isIntegerSpaceTypeCode) {
+					sqlString = "SELECT FIELDNAME FROM " + matchCoeffTableName
+							+ " WHERE PECASTYPE=" + coverageType + " GROUP BY FIELDNAME";
+				}
+				else {
+					sqlString = "SELECT FIELDNAME FROM " + matchCoeffTableName
+							+ " WHERE PECASTYPE='" + (char) coverageType
+							+ "' GROUP BY FIELDNAME";
 				}
 
-
-				ResultSet fieldNames = statement1.executeQuery(sqlString);
+				final ResultSet fieldNames = statement1.executeQuery(sqlString);
 				while (fieldNames.next()) {
 					// one hintlist for each field in the parcel database that
 					// we are using for a hint
-					String field = fieldNames.getString("FIELDNAME");
-					//Statement statement2 = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);					
-					Statement statement2 = localConn.createStatement(ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_READ_ONLY);
-					//Added by Eric
+					final String field = fieldNames.getString("FIELDNAME");
+					// Statement statement2 =
+					// conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
+					final Statement statement2 = localConn.createStatement(
+							ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+					// Added by Eric
 					statement2.setQueryTimeout(0);
 
-					if (isIntegerSpaceTypeCode)
-					{
-						sqlString = "SELECT * FROM "
-							+ matchCoeffTableName + " WHERE FIELDNAME='"
-							+ field + "' AND PECASTYPE=" + coverageType;						
-					} else{
-						sqlString = "SELECT * FROM "
-							+ matchCoeffTableName + " WHERE FIELDNAME='"
-							+ field + "' AND PECASTYPE='" + ((char) coverageType) + "'";
+					if (isIntegerSpaceTypeCode) {
+						sqlString = "SELECT * FROM " + matchCoeffTableName
+								+ " WHERE FIELDNAME='" + field + "' AND PECASTYPE="
+								+ coverageType;
+					}
+					else {
+						sqlString = "SELECT * FROM " + matchCoeffTableName
+								+ " WHERE FIELDNAME='" + field + "' AND PECASTYPE='"
+								+ (char) coverageType + "'";
 					}
 
-					ResultSet coeffs = statement2.executeQuery(sqlString);
+					final ResultSet coeffs = statement2.executeQuery(sqlString);
 
-					ArrayList<String> fieldsList = new ArrayList<String>();
-					ArrayList<Double> coeffValuesList = new ArrayList<Double>();
-					ArrayList<Double> farCoeffsList = new ArrayList<Double>();
+					final ArrayList<String> fieldsList = new ArrayList<String>();
+					final ArrayList<Double> coeffValuesList = new ArrayList<Double>();
+					final ArrayList<Double> farCoeffsList = new ArrayList<Double>();
 
-					while (coeffs.next()){
+					while (coeffs.next()) {
 						fieldsList.add(coeffs.getString("FIELDVALUE"));
 						coeffValuesList.add(coeffs.getDouble("MATCH"));
-						farCoeffsList.add(coeffs.getDouble("FARTARGET"));				
+						farCoeffsList.add(coeffs.getDouble("FARTARGET"));
 					}
 
 					statement2.close();
 
-					/* 
-					//coeffs.last();
-					int number = 2 ;// coeffs.getRow();
-					//coeffs.first();
+					/*
+					 * //coeffs.last(); int number = 2 ;// coeffs.getRow();
+					 * //coeffs.first();
+					 * 
+					 * String[] fields = new String[number]; double[] coeffValues = new
+					 * double[number]; double[] farCoeffs = new double[number]; int
+					 * fieldNum = 0; do { fields[fieldNum] =
+					 * coeffs.getString("FIELDVALUE"); coeffValues[fieldNum] =
+					 * coeffs.getDouble("MATCH"); farCoeffs[fieldNum] =
+					 * coeffs.getDouble("FARTARGET"); fieldNum++; } while (coeffs.next());
+					 */
+					final String[] fields = new String[fieldsList.size()];
+					final double[] coeffValues = new double[coeffValuesList.size()];
+					final double[] farCoeffs = new double[farCoeffsList.size()];
 
-					String[] fields = new String[number];
-					double[] coeffValues = new double[number];
-					double[] farCoeffs = new double[number];
-					int fieldNum = 0;
-					do {
-						fields[fieldNum] = coeffs.getString("FIELDVALUE");
-						coeffValues[fieldNum] = coeffs.getDouble("MATCH");
-						farCoeffs[fieldNum] = coeffs.getDouble("FARTARGET");
-						fieldNum++;
-					} while (coeffs.next());
-					 */ 
-					String[] fields = new String[fieldsList.size()];
-					double[] coeffValues = new double[coeffValuesList.size()];
-					double[] farCoeffs = new double[farCoeffsList.size()];
-
-					for (int i=0; i<coeffValuesList.size(); i++){
+					for (int i = 0; i < coeffValuesList.size(); i++) {
 						fields[i] = fieldsList.get(i);
-						coeffValues[i] = (coeffValuesList.get(i));		
-						farCoeffs[i]   = (farCoeffsList.get(i));
+						coeffValues[i] = coeffValuesList.get(i);
+						farCoeffs[i] = farCoeffsList.get(i);
 					}
 
-					ps.addHint(new ParcelScorer.HintList(field, fields,	coeffValues, farCoeffs));
+					ps.addHint(new ParcelScorer.HintList(field, fields, coeffValues,
+							farCoeffs));
 
-				} //end of while
+				} // end of while
 				parcelScorers.put(coverageType, ps);
 				statement1.close();
 			}
-			String msg ="Closing Initial setup Connection.";
-			closeConnection(localConn, msg); 
-		} catch (Exception e) {
+			final String msg = "Closing Initial setup Connection.";
+			closeConnection(localConn, msg);
+		}
+		catch (final Exception e) {
 			System.out.println("Error in sq feet to grid");
 			System.out.println(e);
 			e.printStackTrace();
@@ -453,27 +490,28 @@ public abstract class AssignSquareFeetToParcel {
 	}
 
 	public void assignSquareFeet() {
-		try{
+		try {
 			// get next zone number from zone number queue
 			int zoneConuter = 0;
 			Integer zoneNumberInteger = null;
 			do {
 				zoneNumberInteger = zoneNumberQueue.getNext();
-				if (zoneNumberInteger !=null) {
+				if (zoneNumberInteger != null) {
 					zoneConuter++;
 
-					int taz = zoneNumberInteger.intValue();
+					final int taz = zoneNumberInteger.intValue();
 					assignSquareFeetForTAZ(zoneConuter, taz);
 
-
 				}
-			} while (zoneNumberInteger!=null);
+			} while (zoneNumberInteger != null);
 			logger.info("TAZ Queue is empty. Thread should be ending.");
-		} catch (Exception e) {
+		}
+		catch (final Exception e) {
 			System.out.println("Error in sq feet to grid");
 			System.out.println(e);
 			e.printStackTrace();
-		} catch (OutOfMemoryError e) {
+		}
+		catch (final OutOfMemoryError e) {
 			System.out.println("Error in sq feet to grid");
 			System.out.println(e);
 			e.printStackTrace();
@@ -481,54 +519,55 @@ public abstract class AssignSquareFeetToParcel {
 	}
 
 	/**
-	 * @param zoneNumber: A sequential number to indicate the number of zones processed by the thread.  
-	 * @param stmt: 
-	 * @param taz: zone number to be processed.
+	 * @param zoneNumber
+	 *          : A sequential number to indicate the number of zones processed by
+	 *          the thread.
+	 * @param stmt
+	 *          :
+	 * @param taz
+	 *          : zone number to be processed.
 	 * @throws SQLException
 	 */
-	private void assignSquareFeetForTAZ(int zoneNumber, Integer taz) throws SQLException {
+	private void assignSquareFeetForTAZ(int zoneNumber, Integer taz)
+			throws SQLException {
 		// make our lists of sorted parcels
-		sortedParcelLists = new Hashtable<Integer,List<ParcelInterface>>();
+		sortedParcelLists = new Hashtable<Integer, List<ParcelInterface>>();
 
-		Enumeration<Integer> coverageTypeEnumeration = parcelScorers.keys();
-		int coverageType; 
+		final Enumeration<Integer> coverageTypeEnumeration = parcelScorers.keys();
+		int coverageType;
 
 		// Set current TAZ.
-		Iterator<ParcelScorer> myIterator = parcelScorers.values().iterator();
-		while(myIterator.hasNext())
-		{
-			ParcelScorer ps = myIterator.next();
+		final Iterator<ParcelScorer> myIterator = parcelScorers.values().iterator();
+		while (myIterator.hasNext()) {
+			final ParcelScorer ps = myIterator.next();
 			ps.setCurrentTaz(taz);
 		}
-
 
 		while (coverageTypeEnumeration.hasMoreElements()) {
 			coverageType = coverageTypeEnumeration.nextElement();
 			sortedParcelLists.put(coverageType, new ArrayList<ParcelInterface>());
 		}
 
-		System.out.println("Progress: now starting zone " + taz + "(sequence " + zoneNumber
-				+ " for thread)");
-
+		logger.info("Progress: now starting zone " + taz + "(sequence "
+				+ zoneNumber + " for thread)");
 
 		assignSquareFeetForTAZ(taz);
 
 		// this is necessary to delete cache of scores
-		for (ParcelScorer ps : parcelScorers.values()) {
+		for (final ParcelScorer ps : parcelScorers.values()) {
 			ps.clearScoreRecord();
 		}
 
 		sortedParcelLists.clear();
 
-		//Added by Eric
+		// Added by Eric
 		sortedParcelLists = null;
 
 	}
 
-	private void assignSquareFeetForTAZ(Integer taz)
-	throws SQLException {
-		SizeAndChunk[] inventoryForZone = (SizeAndChunk[]) inventoryMap
-		.get(taz);
+	private void assignSquareFeetForTAZ(Integer taz) throws SQLException {
+		final SizeAndChunk[] inventoryForZone = (SizeAndChunk[]) inventoryMap
+				.get(taz);
 		if (inventoryForZone != null) {
 
 			if (!putParcelsInArray(taz)) {
@@ -536,14 +575,14 @@ public abstract class AssignSquareFeetToParcel {
 				return;
 			}
 			// now sort each of the lists;
-			Enumeration coverageTypeIterator = sortedParcelLists.keys();
+			final Enumeration coverageTypeIterator = sortedParcelLists.keys();
 			while (coverageTypeIterator.hasMoreElements()) {
-				int coverageType = (Integer) coverageTypeIterator.nextElement();
-				//System.out.println((char) coverageType );
-				System.out.println("sorting parcels for usage " + coverageType
-						+ " in " + parcelZoneColumnName + " " + taz);
-				List parcelList = sortedParcelLists.get(coverageType);
-				ParcelScorer parcelScorer = parcelScorers.get(coverageType);
+				final int coverageType = (Integer) coverageTypeIterator.nextElement();
+				// System.out.println((char) coverageType );
+				logger.info("sorting parcels for usage " + coverageType + " in "
+						+ parcelZoneColumnName + " " + taz);
+				final List parcelList = sortedParcelLists.get(coverageType);
+				final ParcelScorer parcelScorer = parcelScorers.get(coverageType);
 				Collections.sort(parcelList, parcelScorer);
 			}
 
@@ -552,14 +591,14 @@ public abstract class AssignSquareFeetToParcel {
 			// so that a use with only a small amount of square feet doesn't get
 			// first dibs on
 			// the best parcels in the zone
-			double[] ratiosForZone = new double[typeCount];
+			final double[] ratiosForZone = new double[typeCount];
 			double totalInventoryForZone = 0;
 			for (int type = 0; type < typeCount; type++) {
 				totalInventoryForZone += inventoryForZone[type].size;
 			}
 			for (int type = 0; type < typeCount; type++) {
 				ratiosForZone[type] = inventoryForZone[type].size
-				/ totalInventoryForZone;
+						/ totalInventoryForZone;
 			}
 
 			// now go through the types assigning chunks
@@ -575,46 +614,49 @@ public abstract class AssignSquareFeetToParcel {
 				}
 				done = true;
 				for (int type = 0; type < typeCount; type++) {
-					while ((inventoryForZone[type].size > 0)
-							&& (inventoryForZone[type].size
-									/ remainingSquareFeet >= ratiosForZone[type] /*- .00001*/)) {
+					while (inventoryForZone[type].size > 0
+							&& inventoryForZone[type].size / remainingSquareFeet >= ratiosForZone[type]) {
 
-						done = false; // keep going until we've assigned everything
+						done = false; // keep going until we've assigned
+						// everything
 						String typeName = typeNames[type];
 						float amount = (float) inventoryForZone[type].chunk;
 						if (inventoryForZone[type].size < amount) {
 							amount = (float) inventoryForZone[type].size;
 							inventoryForZone[type].size = 0;
 							remainingSquareFeet -= amount;
-						} else {
+						}
+						else {
 							inventoryForZone[type].size -= amount;
 							remainingSquareFeet -= amount;
 						}
 
 						// find the right sorted list
-						int intTypeName=0;
-						if (isIntegerSpaceTypeCode) 
-						{
+						int intTypeName = 0;
+						if (isIntegerSpaceTypeCode) {
 							intTypeName = Integer.valueOf(typeName);
 						}
 						else {
-							intTypeName  = '_'; // EMPTY COVERAGE PLACEHOLDER for char is '_'
+							intTypeName = '_'; // EMPTY COVERAGE PLACEHOLDER for
+							// char is '_'
 							typeName = typeName.trim();
-							if (!typeName.isEmpty()){
-								intTypeName = typeName.charAt(0); //OK
-							}	
+							if (!typeName.isEmpty()) {
+								intTypeName = typeName.charAt(0); // OK
+							}
 						}
 
-						List parcelList = sortedParcelLists.get(intTypeName); 
+						final List parcelList = sortedParcelLists.get(intTypeName);
 						if (parcelList == null) {
 							logger.error("No parcel list for " + typeName);
-						}else						{
+						}
+						else {
 							if (parcelList.size() == 0) {
-								logger.error("NoSuitableParcel," + typeName + ","
-										+ taz + "," + amount);
-							} else {
-								ParcelInterface theParcel = (ParcelInterface) parcelList
-								.get(parcelList.size() - 1);
+								logger.error("NoSuitableParcel," + typeName + "," + taz + ","
+										+ amount);
+							}
+							else {
+								final ParcelInterface theParcel = (ParcelInterface) parcelList
+										.get(parcelList.size() - 1);
 
 								removeForRescoring(theParcel);
 								// some debugging information, SACRAMENTO COUNTY
@@ -629,56 +671,63 @@ public abstract class AssignSquareFeetToParcel {
 
 								int currentCoverage = theParcel.getCoverage();
 
-								if (theParcel.isVacantCoverege()) {	
+								if (theParcel.isVacantCoverege()) {
 									theParcel.setCoverage(typeNames[type]);
 
-
 									if (isIntegerSpaceTypeCode) {
-										currentCoverage = Integer.parseInt(typeNames[type]);												
+										currentCoverage = Integer.parseInt(typeNames[type]);
 									}
-									else{
-										currentCoverage = typeNames[type].trim().charAt(0); //OK!																			
+									else {
+										currentCoverage = typeNames[type].trim().charAt(0); // OK!
 									}
 								}
-								if (theParcel.isSameSpaceType(typeNames[type]))
+								if (theParcel.isSameSpaceType(typeNames[type])) {
 									theParcel.addSqFtAssigned(amount);
-								else
-								{
-									// now we have to deal with the fact that the
+								}
+								else {
+									// now we have to deal with the fact that
+									// the
 									// best scored parcel
-									// already has another coverage assigned. The
+									// already has another coverage assigned.
+									// The
 									// strategy is to
 									// find another parcel with blank or current
 									// coverage and see if it's better
-									// to put the new chunk of floorspace onto the
+									// to put the new chunk of floorspace onto
+									// the
 									// other parcel,
-									// or whether to put the new chunk of floorspace
+									// or whether to put the new chunk of
+									// floorspace
 									// onto the original
 									// best scored parcel, and swap the existing
 									// assigned floorspace
-									// so that each parcel still only has one type
+									// so that each parcel still only has one
+									// type
 									// of floorspace
 									ParcelInterface anotherParcel = null;
 									for (int i = parcelList.size() - 1; i >= 0; i--) {
-										anotherParcel = (ParcelInterface) parcelList.get(i);										
-										if (anotherParcel.isVacantCoverege() || anotherParcel.isSameSpaceType(typeNames[type])){
+										anotherParcel = (ParcelInterface) parcelList.get(i);
+										if (anotherParcel.isVacantCoverege()
+												|| anotherParcel.isSameSpaceType(typeNames[type])) {
 											break;
 										}
 										anotherParcel = null;
 									}
 									if (anotherParcel == null) {
 
-										logger.error("NotEnoughParcelsForCoverageTypesInTaz,"+ typeName
-												+ ","+ taz+ "," + amount);										
-									} else {
-										possibleSwapSpaceTypes(theParcel, anotherParcel, currentCoverage,
-												type, amount);
+										logger.error("NotEnoughParcelsForCoverageTypesInTaz,"
+												+ typeName + "," + taz + "," + amount);
+									}
+									else {
+										possibleSwapSpaceTypes(theParcel, anotherParcel,
+												currentCoverage, type, amount);
 
 									}
 
-								} // end of else							
-								// now the parcel has changed, it needs to be
-								// reinserted into each of the sorted lists
+								} // end of else
+									// now the parcel has changed, it needs to
+									// be
+									// reinserted into each of the sorted lists
 								rescoreParcel(theParcel);
 
 							}
@@ -687,20 +736,19 @@ public abstract class AssignSquareFeetToParcel {
 				}
 				if (lastSquareFeetReported == -1) {
 					lastSquareFeetReported = remainingSquareFeet;
-					System.out
-					.println("******************************************");
-					System.out.println("Assigning " + remainingSquareFeet
-							+ " in " + parcelZoneColumnName + " " + taz);
-				} else if (lastSquareFeetReported - remainingSquareFeet > 50000) {
-					System.out.println(remainingSquareFeet
-							+ " sqft of buildings still to be assigned");
+					logger.info("******************************************");
+					logger.info("Assigning " + remainingSquareFeet + " in "
+							+ parcelZoneColumnName + " " + taz);
+				}
+				else if (lastSquareFeetReported - remainingSquareFeet > 50000) {
+					logger.info(remainingSquareFeet
+							+ " sqft of buildings still to be assigned in taz " + taz);
 					lastSquareFeetReported = remainingSquareFeet;
 				}
 			} while (!done);
 			finishedProcessingTAZ();
 		}
 	}
-
 
 	/**
 	 * @param theParcel
@@ -710,33 +758,35 @@ public abstract class AssignSquareFeetToParcel {
 	 * @param amount
 	 */
 	private void possibleSwapSpaceTypes(ParcelInterface theParcel,
-			ParcelInterface anotherParcel, int currentCoverage, int type,
-			float amount) {
+			ParcelInterface anotherParcel, int currentCoverage, int type, float amount) {
 		// first try adding space to parcel without
 		// swapping coverage
 		removeForRescoring(anotherParcel);
-		if (anotherParcel.isVacantCoverege()){
+		if (anotherParcel.isVacantCoverege()) {
 			anotherParcel.setCoverage(typeNames[type]);
 		}
 
 		anotherParcel.addSqFtAssigned(amount);
-		ParcelScorer addingTypeScorer = getScorer(typeNames[type]);
-		ParcelScorer bumpingTypeScorer = getScorer(currentCoverage);
-		double score1 = addingTypeScorer.score(anotherParcel)
-		+ bumpingTypeScorer.score(theParcel);
+		final ParcelScorer addingTypeScorer = getScorer(typeNames[type]);
+		final ParcelScorer bumpingTypeScorer = getScorer(currentCoverage);
+		final double score1 = addingTypeScorer.score(anotherParcel)
+				+ bumpingTypeScorer.score(theParcel);
 
 		// now try swapping them
-		float inventorySwap = anotherParcel.getQuantity();
-		/// 
+		final float inventorySwap = anotherParcel.getQuantity();
+		// /
 		;
-		/// This variable includes either the string of an integer coverage value such as "11" or a character coverage value, e.g. "a" or "b". This is based on whether 
-		/// the gridcode\coveragetype is of type integer or character.		
+		// / This variable includes either the string of an integer coverage
+		// value such as "11" or a character coverage value, e.g. "a" or "b".
+		// This is based on whether
+		// / the gridcode\coveragetype is of type integer or character.
 
 		String strCurrentCoverage;
-		if (isIntegerSpaceTypeCode){
-			// convert int coverage (e.g. 65) to string ("65") 
+		if (isIntegerSpaceTypeCode) {
+			// convert int coverage (e.g. 65) to string ("65")
 			strCurrentCoverage = Integer.toString(currentCoverage);
-		} else{
+		}
+		else {
 			// convert int (e.g. 65) to char ('A'), then to string ("A")
 			strCurrentCoverage = Character.toString((char) currentCoverage);
 		}
@@ -745,10 +795,8 @@ public abstract class AssignSquareFeetToParcel {
 		theParcel.setCoverage(typeNames[type]);
 		theParcel.setQuantity(inventorySwap);
 
-		double score2 = addingTypeScorer
-		.score(theParcel)
-		+ bumpingTypeScorer
-		.score(anotherParcel);
+		final double score2 = addingTypeScorer.score(theParcel)
+				+ bumpingTypeScorer.score(anotherParcel);
 		if (score1 > score2) {
 			// ok, the first option is better, put
 			// it back
@@ -761,8 +809,7 @@ public abstract class AssignSquareFeetToParcel {
 		rescoreParcel(anotherParcel);
 	}
 
-	protected abstract boolean putParcelsInArray(Integer taz)
-	throws SQLException ;
+	protected abstract boolean putParcelsInArray(Integer taz) throws SQLException;
 
 	protected void finishedProcessingTAZ() throws SQLException {
 		theParcelsSQLResultSet.close();
@@ -771,24 +818,22 @@ public abstract class AssignSquareFeetToParcel {
 	private ParcelScorer getScorer(int currentCoverage) {
 		String coverageName = null;
 		for (int i = 0; i < typeNames.length; i++) {
-			if (isIntegerSpaceTypeCode) 
-			{
+			if (isIntegerSpaceTypeCode) {
 				if (Integer.parseInt(typeNames[i]) == currentCoverage) {
 					// just a check for duplicates
 					if (coverageName != null) {
-						throw new RuntimeException("Coverage " + coverageName
-								+ " and " + typeNames[i]
-								                      + " both start with the same character...error");
+						throw new RuntimeException("Coverage " + coverageName + " and "
+								+ typeNames[i] + " both start with the same character...error");
 					}
 					coverageName = typeNames[i];
 				}
-			} else{ //Coverage is a character
-				if (typeNames[i].charAt(0) == currentCoverage) { 
+			}
+			else { // Coverage is a character
+				if (typeNames[i].charAt(0) == currentCoverage) {
 					// just a check for duplicates
 					if (coverageName != null) {
-						throw new RuntimeException("Coverage " + coverageName
-								+ " and " + typeNames[i]
-								                      + " both start with the same character...error");
+						throw new RuntimeException("Coverage " + coverageName + " and "
+								+ typeNames[i] + " both start with the same character...error");
 					}
 					coverageName = typeNames[i];
 				}
@@ -797,55 +842,56 @@ public abstract class AssignSquareFeetToParcel {
 		return getScorer(coverageName);
 	}
 
-	private ParcelScorer getScorer(String string) {	
+	private ParcelScorer getScorer(String string) {
 		ParcelScorer result;
-		if (isIntegerSpaceTypeCode) 
-		{
+		if (isIntegerSpaceTypeCode) {
 			result = parcelScorers.get(Integer.valueOf(string));
 		}
-		else
-		{		
+		else {
 			result = parcelScorers.get(Integer.valueOf(string.charAt(0)));
 		}
 		return result;
 	}
 
 	/**
-	 * If a parcel has changed, it's scores may have changed as well.
-	 * This method removes the parcel from each of the sorted lists
-	 * and reinserts it so that it is again in score order.
+	 * If a parcel has changed, it's scores may have changed as well. This method
+	 * removes the parcel from each of the sorted lists and reinserts it so that
+	 * it is again in score order.
+	 * 
 	 * @param theParcel
 	 */
 	public void rescoreParcel(ParcelInterface theParcel) {
-		Enumeration spaceTypeIterator = sortedParcelLists.keys();
+		final Enumeration spaceTypeIterator = sortedParcelLists.keys();
 		while (spaceTypeIterator.hasMoreElements()) {
-			int spaceType = (Integer) spaceTypeIterator.nextElement();
-			List parcelList = sortedParcelLists.get(spaceType);
+			final int spaceType = (Integer) spaceTypeIterator.nextElement();
+			final List parcelList = sortedParcelLists.get(spaceType);
 
 			/* Now reinsert the parcel into the sorted list */
-			ParcelScorer parcelScorer = parcelScorers.get(spaceType);
-			int location = Collections.binarySearch(parcelList, theParcel, parcelScorer);
+			final ParcelScorer parcelScorer = parcelScorers.get(spaceType);
+			final int location = Collections.binarySearch(parcelList, theParcel,
+					parcelScorer);
 			if (location >= 0) {
 				parcelList.add(location, theParcel);
-			} else {
+			}
+			else {
 				parcelList.add(-(location + 1), theParcel);
 			}
 		}
 	}
 
 	private void removeForRescoring(ParcelInterface theParcel) {
-		Enumeration spaceTypeIterator = sortedParcelLists.keys();
+		final Enumeration spaceTypeIterator = sortedParcelLists.keys();
 		while (spaceTypeIterator.hasMoreElements()) {
-			int spaceType = (Integer) spaceTypeIterator.nextElement();
-			List parcelList = sortedParcelLists.get(spaceType);
-			int size = parcelList.size();
+			final int spaceType = (Integer) spaceTypeIterator.nextElement();
+			final List parcelList = sortedParcelLists.get(spaceType);
+			final int size = parcelList.size();
 			if (!parcelList.remove(theParcel)) {
 				throw new Error("Can't remove " + theParcel + " from list "
 						+ parcelList);
 			}
 			if (parcelList.remove(theParcel)) {
-				throw new Error("Parcel " + theParcel + " was in list "
-						+ parcelList + " more than once!");
+				throw new Error("Parcel " + theParcel + " was in list " + parcelList
+						+ " more than once!");
 			}
 		}
 	}

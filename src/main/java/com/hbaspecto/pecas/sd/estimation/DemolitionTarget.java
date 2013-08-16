@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class DemolitionTarget extends EstimationTarget implements ExpectedValue {
+public abstract class DemolitionTarget extends EstimationTarget implements
+		ExpectedValue {
 
 	private double modelledValue;
 	private double[] derivs;
@@ -29,16 +30,18 @@ public abstract class DemolitionTarget extends EstimationTarget implements Expec
 		// Demolition is not new space
 		return 0;
 	}
-	
-	public abstract double getModelledDemolishQuantityForParcel(int spacetype, double quantity);
-	
-	public abstract double getModelledDemolishDerivativeForParcel(int spacetype, double quantity);
+
+	public abstract double getModelledDemolishQuantityForParcel(int spacetype,
+			double quantity);
+
+	public abstract double getModelledDemolishDerivativeForParcel(int spacetype,
+			double quantity);
 
 	@Override
 	public void setModelledValue(double value) {
 		modelledValue = value;
 	}
-	
+
 	@Override
 	public double getModelledValue() {
 		return modelledValue;
@@ -46,7 +49,7 @@ public abstract class DemolitionTarget extends EstimationTarget implements Expec
 
 	@Override
 	public List<ExpectedValue> getAssociatedExpectedValues() {
-		return Collections.<ExpectedValue>singletonList(this);
+		return Collections.<ExpectedValue> singletonList(this);
 	}
 
 	@Override

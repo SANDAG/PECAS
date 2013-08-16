@@ -19,6 +19,6 @@
 package com.hbaspecto.pecas.aa.travelAttributes;
 
 public class DistanceAndTime implements TravelAttributesInterface {
-    public float distance;
-    public float time;
+	public float distance;
+	public float time;
 }

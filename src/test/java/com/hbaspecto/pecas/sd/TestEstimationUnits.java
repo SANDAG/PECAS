@@ -11,8 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ TestDevelopmentAlternativeEstimationMethods.class,
 		TestDevelopNewAlternative.class, TestDevelopMoreAlternative.class,
 		TestEasyAlternatives.class, TestExpectedValueFormula.class,
-		//TestGaussBayesianObjective.class, TestMarquardtMinimizer.class 
-		})
+		TestGaussBayesianObjective.class, TestMarquardtMinimizer.class })
 public class TestEstimationUnits {
 
 }

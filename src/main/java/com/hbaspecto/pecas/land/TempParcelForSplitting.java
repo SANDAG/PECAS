@@ -7,23 +7,24 @@ public class TempParcelForSplitting implements ParcelInterface {
 	private double landArea, SpaceQuantity;
 	private boolean isDerelict;
 	private boolean isBrownfield;
-	
-	public TempParcelForSplitting(ParcelsTemp currentParcel, long maxPecasID){
-		set_SpaceTypeId(currentParcel.get_SpaceTypeId());				
+
+	public TempParcelForSplitting(ParcelsTemp currentParcel, long maxPecasID) {
+		set_SpaceTypeId(currentParcel.get_SpaceTypeId());
 		set_ParcelId(currentParcel.get_ParcelId());
 		set_AvailableServicesCode(currentParcel.get_AvailableServicesCode());
-		set_YearBuilt(currentParcel.get_YearBuilt());	
+		set_YearBuilt(currentParcel.get_YearBuilt());
 		set_IsDerelict(currentParcel.get_IsDerelict());
 		set_IsBrownfield(currentParcel.get_IsBrownfield());
-		
-		//This new parcel should get a new PECAS Parcel num, new SpaceQuantity, and new LAnd Area.
-		set_PecasParcelNum(maxPecasID);				
+
+		// This new parcel should get a new PECAS Parcel num, new SpaceQuantity,
+		// and new LAnd Area.
+		set_PecasParcelNum(maxPecasID);
 		set_SpaceQuantity(-1);
 		set_LandArea(-1);
 	}
 
 	@Override
-	public String get_ParcelId() {		
+	public String get_ParcelId() {
 		return parcelID;
 	}
 
@@ -41,7 +42,7 @@ public class TempParcelForSplitting implements ParcelInterface {
 	public double get_LandArea() {
 		return landArea;
 	}
-	
+
 	@Override
 	public int get_SpaceTypeId() {
 		return spaceTypeID;
@@ -54,7 +55,7 @@ public class TempParcelForSplitting implements ParcelInterface {
 
 	@Override
 	public void set_LandArea(double value) {
-		landArea= value;
+		landArea = value;
 	}
 
 	@Override
@@ -68,13 +69,13 @@ public class TempParcelForSplitting implements ParcelInterface {
 	}
 
 	@Override
-	public void set_SpaceQuantity(double value) {		
+	public void set_SpaceQuantity(double value) {
 		SpaceQuantity = value;
 	}
 
 	@Override
 	public void set_SpaceTypeId(int value) {
-		spaceTypeID= value;
+		spaceTypeID = value;
 	}
 
 	@Override
@@ -89,7 +90,7 @@ public class TempParcelForSplitting implements ParcelInterface {
 
 	@Override
 	public void set_AvailableServicesCode(int value) {
-		avaliableServiceCode = value;		
+		avaliableServiceCode = value;
 	}
 
 	@Override
@@ -99,8 +100,8 @@ public class TempParcelForSplitting implements ParcelInterface {
 
 	@Override
 	public void set_IsDerelict(boolean isDerelict) {
-		this.isDerelict= isDerelict;
-		
+		this.isDerelict = isDerelict;
+
 	}
 
 	@Override
@@ -111,6 +112,6 @@ public class TempParcelForSplitting implements ParcelInterface {
 	@Override
 	public void set_IsBrownfield(boolean isBrownfield) {
 		this.isBrownfield = isBrownfield;
-		
+
 	}
 }

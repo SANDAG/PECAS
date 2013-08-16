@@ -5,10 +5,12 @@ import java.io.Writer;
 
 import org.apache.log4j.Logger;
 
-public class LogisticPlusLinearWithOverrideFunction implements	SingleParameterFunction {
-	
-	static Logger logger = Logger.getLogger(LogisticPlusLinearWithOverrideFunction.class);
-	
+public class LogisticPlusLinearWithOverrideFunction implements
+		SingleParameterFunction {
+
+	static Logger logger = Logger
+			.getLogger(LogisticPlusLinearWithOverrideFunction.class);
+
 	private LogisticPlusLinearFunction baseFunction;
 
 	private double overridePoint;
@@ -45,21 +47,23 @@ public class LogisticPlusLinearWithOverrideFunction implements	SingleParameterFu
 
 	public void setExponent(double exponent) {
 		this.exponent = exponent;
-		if (exponent <1) {
-			String msg = "Exponent on override function should be >= 1 to ensure continuous derivatives";
+		if (exponent < 1) {
+			final String msg = "Exponent on override function should be >= 1 to ensure continuous derivatives";
 			logger.fatal(msg);
 			throw new RuntimeException(msg);
 		}
 
 	}
 
-	public LogisticPlusLinearWithOverrideFunction(LogisticPlusLinearFunction myFunction, double overridePoint, double overrideQuantity, double exponent) {
-		this.baseFunction = myFunction;
-		this.overridePoint=overridePoint;
-		this.overrideQuantity=overrideQuantity;
-		this.exponent=exponent;
-		if (exponent <1) {
-			String msg = "Exponent on override function should be >= 1 to ensure continuous derivatives";
+	public LogisticPlusLinearWithOverrideFunction(
+			LogisticPlusLinearFunction myFunction, double overridePoint,
+			double overrideQuantity, double exponent) {
+		baseFunction = myFunction;
+		this.overridePoint = overridePoint;
+		this.overrideQuantity = overrideQuantity;
+		this.exponent = exponent;
+		if (exponent < 1) {
+			final String msg = "Exponent on override function should be >= 1 to ensure continuous derivatives";
 			logger.fatal(msg);
 			throw new RuntimeException(msg);
 		}
@@ -69,7 +73,7 @@ public class LogisticPlusLinearWithOverrideFunction implements	SingleParameterFu
 	public double evaluate(double point) {
 		double result = baseFunction.evaluate(point);
 		if (point > overridePoint) {
-			result += overrideQuantity*Math.pow(point-overridePoint,exponent);
+			result += overrideQuantity * Math.pow(point - overridePoint, exponent);
 		}
 		return result;
 	}
@@ -78,18 +82,21 @@ public class LogisticPlusLinearWithOverrideFunction implements	SingleParameterFu
 	public double derivative(double point) {
 		double result = baseFunction.derivative(point);
 		if (point > overridePoint) {
-			if (exponent ==1 ){
+			if (exponent == 1) {
 				result += overrideQuantity;
-			} else {
-				result += exponent*overrideQuantity*Math.pow(point-overridePoint, exponent-1);
+			}
+			else {
+				result += exponent * overrideQuantity
+						* Math.pow(point - overridePoint, exponent - 1);
 			}
 		}
 		return result;
 	}
 
 	public void logOverrides(double point, String context) {
-		if (point>overridePoint) {
-			logger.warn("Override of "+overrideQuantity*Math.pow(point-overridePoint, exponent)+" in "+context);
+		if (point > overridePoint) {
+			logger.warn("Override of " + overrideQuantity
+					* Math.pow(point - overridePoint, exponent) + " in " + context);
 		}
 	}
 
@@ -97,11 +104,16 @@ public class LogisticPlusLinearWithOverrideFunction implements	SingleParameterFu
 		return "Zone,Commodity,Price,TotalQuantity,OverrideQuantity";
 	}
 
-	public void writeOverride(Writer stream, int zone, String commodityName, double price) throws IOException {
+	public void writeOverride(Writer stream, int zone, String commodityName,
+			double price) throws IOException {
 		double overrideAmount = 0;
-		if (price > overridePoint) overrideAmount = overrideQuantity*Math.pow(price-overridePoint,exponent);
-		stream.write(zone+","+commodityName+","+price+","+evaluate(price)+","+overrideAmount+"\n");
-		
+		if (price > overridePoint) {
+			overrideAmount = overrideQuantity
+					* Math.pow(price - overridePoint, exponent);
+		}
+		stream.write(zone + "," + commodityName + "," + price + ","
+				+ evaluate(price) + "," + overrideAmount + "\n");
+
 	}
 
 }
