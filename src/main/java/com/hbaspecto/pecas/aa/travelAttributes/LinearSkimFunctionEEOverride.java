@@ -17,54 +17,56 @@
 package com.hbaspecto.pecas.aa.travelAttributes;
 
 public class LinearSkimFunctionEEOverride extends LinearFunctionOfSomeSkims
-        implements TravelUtilityCalculatorInterface {
+		implements TravelUtilityCalculatorInterface {
 
-    boolean[] isOverRidden;
-    double overRideValue;
-    
-    public LinearSkimFunctionEEOverride(int[] overRides, double overRideValue) {
-        super();
-        this.overRideValue = overRideValue;
-        isOverRidden = new boolean[maxValue(overRides)+1];
-        for (int i=0;i<isOverRidden.length;i++) {
-            isOverRidden[i]=false;
-        }
-        for (int j=0;j<overRides.length;j++) {
-            isOverRidden[overRides[j]]=true;            
-        }
-    }
+	boolean[] isOverRidden;
+	double overRideValue;
 
-    private static int maxValue(int[] anArray) {
-        int maxValue =0;
-        for (int i=0;i<anArray.length;i++) {
-            maxValue = Math.max(maxValue,anArray[i]);            
-        }
-        return maxValue;
-    }
+	public LinearSkimFunctionEEOverride(int[] overRides, double overRideValue) {
+		super();
+		this.overRideValue = overRideValue;
+		isOverRidden = new boolean[maxValue(overRides) + 1];
+		for (int i = 0; i < isOverRidden.length; i++) {
+			isOverRidden[i] = false;
+		}
+		for (int j = 0; j < overRides.length; j++) {
+			isOverRidden[overRides[j]] = true;
+		}
+	}
 
-    @Override
-    public double getUtility(int origin, int destination, TravelAttributesInterface travelConditions) {
-        if (origin<isOverRidden.length&&destination<isOverRidden.length) {
-            if (isOverRidden[origin]&& isOverRidden[destination]) {
-                return overRideValue;
-            }
-        }
-        return super.getUtility(origin, destination, travelConditions);
-    }
+	private static int maxValue(int[] anArray) {
+		int maxValue = 0;
+		for (int i = 0; i < anArray.length; i++) {
+			maxValue = Math.max(maxValue, anArray[i]);
+		}
+		return maxValue;
+	}
 
-    @Override
-    public double[] getUtilityComponents(int origin, int destination, TravelAttributesInterface travelConditions) {
-        double[] wouldBe = super.getUtilityComponents(origin, destination, travelConditions);
-        if (origin<isOverRidden.length&&destination<isOverRidden.length) {
-            if (isOverRidden[origin]&& isOverRidden[destination]) {
-                wouldBe[0] = overRideValue;
-                for (int i=1;i<wouldBe.length;i++) {
-                    wouldBe[i] = 0;
-                }
-            }
-        }
-        return wouldBe;
-    }
+	@Override
+	public double getUtility(int origin, int destination,
+			TravelAttributesInterface travelConditions) {
+		if (origin < isOverRidden.length && destination < isOverRidden.length) {
+			if (isOverRidden[origin] && isOverRidden[destination]) {
+				return overRideValue;
+			}
+		}
+		return super.getUtility(origin, destination, travelConditions);
+	}
 
-    
+	@Override
+	public double[] getUtilityComponents(int origin, int destination,
+			TravelAttributesInterface travelConditions) {
+		final double[] wouldBe = super.getUtilityComponents(origin, destination,
+				travelConditions);
+		if (origin < isOverRidden.length && destination < isOverRidden.length) {
+			if (isOverRidden[origin] && isOverRidden[destination]) {
+				wouldBe[0] = overRideValue;
+				for (int i = 1; i < wouldBe.length; i++) {
+					wouldBe[i] = 0;
+				}
+			}
+		}
+		return wouldBe;
+	}
+
 }

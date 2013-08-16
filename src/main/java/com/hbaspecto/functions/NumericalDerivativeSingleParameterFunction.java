@@ -16,15 +16,17 @@
  */
 package com.hbaspecto.functions;
 
-public abstract class NumericalDerivativeSingleParameterFunction implements SingleParameterFunction {
-    double delta;
-    public NumericalDerivativeSingleParameterFunction(double delta) {
-        this.delta=delta;
-    }
+public abstract class NumericalDerivativeSingleParameterFunction implements
+		SingleParameterFunction {
+	double delta;
 
-    @Override
-    public double derivative(double point){
-          double perturbed = evaluate(point+delta);
-          return (perturbed-evaluate(point))/delta;
-    }
+	public NumericalDerivativeSingleParameterFunction(double delta) {
+		this.delta = delta;
+	}
+
+	@Override
+	public double derivative(double point) {
+		final double perturbed = evaluate(point + delta);
+		return (perturbed - evaluate(point)) / delta;
+	}
 }

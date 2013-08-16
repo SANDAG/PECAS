@@ -18,69 +18,84 @@
 
 package com.hbaspecto.pecas.aa.travelAttributes;
 
+public class TimeAndDistanceTravelUtilityCalculator implements
+		TravelUtilityCalculatorInterface {
 
+	public double valueOfTime;
+	public double scale = 1.0;
+	public double costOfDistance;
 
-public class TimeAndDistanceTravelUtilityCalculator implements TravelUtilityCalculatorInterface {
+	public TimeAndDistanceTravelUtilityCalculator(double valueOfTime,
+			double costOfDistance) {
+		this.valueOfTime = valueOfTime;
+		this.costOfDistance = costOfDistance;
+	}
 
-    public double valueOfTime;
-    public double scale = 1.0;
-    public double costOfDistance;
+	public TimeAndDistanceTravelUtilityCalculator(double valueOfTime,
+			double costOfDistance, double scale) {
+		this.costOfDistance = costOfDistance;
+		this.valueOfTime = valueOfTime;
+		this.scale = scale;
+	}
 
-    public TimeAndDistanceTravelUtilityCalculator(double valueOfTime, double costOfDistance) {
-        this.valueOfTime = valueOfTime;
-        this.costOfDistance = costOfDistance;
-    }
+	public double getValueOfTime() {
+		return valueOfTime;
+	}
 
-    public TimeAndDistanceTravelUtilityCalculator(double valueOfTime, double costOfDistance, double scale) {
-        this.costOfDistance = costOfDistance;
-        this.valueOfTime = valueOfTime;
-        this.scale = scale;
-    }
+	public void setValueOfTime(double valueOfTime) {
+		this.valueOfTime = valueOfTime;
+	}
 
-    public double getValueOfTime() {
-        return valueOfTime;
-    }
+	@Override
+	public double getUtility(int origin, int destination,
+			TravelAttributesInterface travelAttributes) {
+		if (travelAttributes instanceof DistanceAndTime) {
+			final DistanceAndTime dAndT = (DistanceAndTime) travelAttributes;
+			// debug February 26 2002 -- workaround NaN skim distances by
+			// setting costOfDistance=0
+			double compositeUtility;
+			if (costOfDistance == 0) {
+				compositeUtility = valueOfTime * dAndT.time;
+			}
+			else {
+				compositeUtility = dAndT.distance * costOfDistance + valueOfTime
+						* dAndT.time;
+			}
+			return compositeUtility * scale;
+		}
+		throw new Error(
+				"TimeAndDistanceTravelUtilityCalculator doesn't know how to deal with TravelAttributes of type "
+						+ travelAttributes.getClass().getName());
+	}
 
-    public void setValueOfTime(double valueOfTime) {
-        this.valueOfTime = valueOfTime;
-    }
+	@Override
+	public String toString() {
+		return "Utility Calculator: VOT=" + valueOfTime + " COD=" + costOfDistance
+				+ " scale=" + scale;
+	}
 
-    @Override
-    public double getUtility(int origin, int destination, TravelAttributesInterface travelAttributes) {
-        if (travelAttributes instanceof DistanceAndTime) {
-            DistanceAndTime dAndT = (DistanceAndTime) travelAttributes;
-            // debug February 26 2002 -- workaround NaN skim distances by setting costOfDistance=0
-            double compositeUtility;
-            if (costOfDistance == 0)
-                compositeUtility = valueOfTime * dAndT.time;
-            else
-                compositeUtility = dAndT.distance * costOfDistance + valueOfTime * dAndT.time;
-            return compositeUtility * scale;
-        }
-        throw new Error("TimeAndDistanceTravelUtilityCalculator doesn't know how to deal with TravelAttributes of type " + travelAttributes.getClass().getName());
-    }
-
-     @Override
-    public String toString() {
-        return "Utility Calculator: VOT=" + valueOfTime + " COD=" + costOfDistance + " scale=" + scale;
-    }
-
-    /* (non-Javadoc)
-     * @see com.pb.models.pecas.TravelUtilityCalculatorInterface#getUtilityComponents(int, int, com.pb.models.pecas.TravelAttributesInterface)
-     */
-    @Override
-    public double[] getUtilityComponents(int fromZoneUserNumber, int toZoneUserNumber, TravelAttributesInterface travelAttributes) {
-        if (travelAttributes instanceof DistanceAndTime) {
-            DistanceAndTime dAndT = (DistanceAndTime) travelAttributes;
-            // debug February 26 2002 -- workaround NaN skim distances by setting costOfDistance=0
-            double[] components = new double[2];
-            components[1] = valueOfTime * dAndT.time;
-            components[0] = costOfDistance* dAndT.distance;
-            return components;
-        }
-        throw new Error("TimeAndDistanceTravelUtilityCalculator doesn't know how to deal with TravelAttributes of type " + travelAttributes.getClass().getName());
-    };
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.pb.models.pecas.TravelUtilityCalculatorInterface#getUtilityComponents
+	 * (int, int, com.pb.models.pecas.TravelAttributesInterface)
+	 */
+	@Override
+	public double[] getUtilityComponents(int fromZoneUserNumber,
+			int toZoneUserNumber, TravelAttributesInterface travelAttributes) {
+		if (travelAttributes instanceof DistanceAndTime) {
+			final DistanceAndTime dAndT = (DistanceAndTime) travelAttributes;
+			// debug February 26 2002 -- workaround NaN skim distances by
+			// setting costOfDistance=0
+			final double[] components = new double[2];
+			components[1] = valueOfTime * dAndT.time;
+			components[0] = costOfDistance * dAndT.distance;
+			return components;
+		}
+		throw new Error(
+				"TimeAndDistanceTravelUtilityCalculator doesn't know how to deal with TravelAttributes of type "
+						+ travelAttributes.getClass().getName());
+	};
 
 }
-

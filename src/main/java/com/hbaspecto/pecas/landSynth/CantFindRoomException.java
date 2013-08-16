@@ -17,11 +17,8 @@
 
 package com.hbaspecto.pecas.landSynth;
 
-
 public class CantFindRoomException extends Exception {
-  public CantFindRoomException(String s) {
-    super(s);
-  }
+	public CantFindRoomException(String s) {
+		super(s);
+	}
 }
-
-

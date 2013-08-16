@@ -4,7 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class RenovationTarget extends EstimationTarget implements ExpectedValue {
+public abstract class RenovationTarget extends EstimationTarget implements
+		ExpectedValue {
 
 	private double modelledValue;
 	private double[] derivs;
@@ -29,35 +30,36 @@ public abstract class RenovationTarget extends EstimationTarget implements Expec
 		// TODO Renovation is not new space
 		return 0;
 	}
-	
-	public abstract double getModelledRenovateQuantityForParcel(int spacetype, double quantity);
-	
-	public abstract double getModelledRenovateDerivativeForParcel(int spacetype, double quantity);
+
+	public abstract double getModelledRenovateQuantityForParcel(int spacetype,
+			double quantity);
+
+	public abstract double getModelledRenovateDerivativeForParcel(int spacetype,
+			double quantity);
 
 	@Override
 	public void setModelledValue(double value) {
-	    modelledValue = value;
+		modelledValue = value;
 	}
 
 	@Override
 	public double getModelledValue() {
-	    return modelledValue;
+		return modelledValue;
 	}
 
 	@Override
 	public List<ExpectedValue> getAssociatedExpectedValues() {
-	    return Collections.<ExpectedValue>singletonList(this);
+		return Collections.<ExpectedValue> singletonList(this);
 	}
 
 	@Override
 	public void setDerivatives(double[] derivatives) {
-	    derivs = Arrays.copyOf(derivatives, derivatives.length);
+		derivs = Arrays.copyOf(derivatives, derivatives.length);
 	}
 
 	@Override
 	public double[] getDerivatives() {
-	    return Arrays.copyOf(derivs, derivs.length);
+		return Arrays.copyOf(derivs, derivs.length);
 	}
-
 
 }

@@ -1,0 +1,104 @@
+Activity,TotalAmount,Year
+Agriculture,977717085.934610840000,2015
+Construction Non-Building production (including mining),2143915847.865659000000,2015
+Construction Non-Building office support (including mining),239735516.676581320000,2015
+Utilities production,7863088610.752243000000,2015
+Utilities office support,570901675.262670640000,2015
+Construction of Buildings production,10652496554.799591000000,2015
+Construction of Buildings office support,1046597920.448716600000,2015
+Manufacturing production,38003286348.057922000000,2015
+Manufacturing office support,4600944435.610645300000,2015
+Wholesale and Warehousing,10594773002.182343000000,2015
+Transportation Activity,2487909140.648889100000,2015
+Retail Activity,15480479059.591438000000,2015
+Professional and Business Services,82592739136.111893000000,2015
+Professional and Business Services (Building Maintenance),7181997483.368526500000,2015
+Private Education K-12,633032445.928381920000,2015
+Private Education Post-Secondary (Post K-12) and Other,1818942251.528527700000,2015
+Health Services,14884761177.341078000000,2015
+Personal Services Office Based,2398484979.714752700000,2015
+Amusement Services,3488054593.011794600000,2015
+Hotels and Motels,3388514055.950930600000,2015
+Restaurants and Bars,7168472193.318624500000,2015
+Personal Services Retail Based,6543771098.202117000000,2015
+Religious Activity,849934925.308769580000,2015
+Private Households,398795976.295250590000,2015
+State and Local Government Enterprises Activity,3135088826.223996600000,2015
+Federal Non-Military Activity,4873900154.639264100000,2015
+Federal Military Activity,9613895677.315650900000,2015
+State and Local Government Non-Education Activity production,8829587489.432479900000,2015
+State and Local Government Non-Education Activity office support,4150013902.835398700000,2015
+Public Education K-12,2652957936.859489400000,2015
+Public Education Post K-12 and Other,884360561.611326810000,2015
+Owner-Occupied Dwellings Management and Maintenance Activity,12355772124.604467000000,2015
+Federal Government Accounts,59210815094.368973000000,2015
+State and Local Government Accounts,33646151912.649174000000,2015
+Capital Accounts,60631406110.956924000000,2015
+Households less than 25k annual income and 2 or less people,122327.535801295070,2015
+Households less than 25k annual income and 3 or more people,39087.215881520438,2015
+Households 25 to 150k annual income and 2 or less people,345772.186583188770,2015
+Households 25 to 150k annual income and 3 or more people,321905.566389478340,2015
+Households 150k or more annual income and 2 or less people,110279.091882695940,2015
+Households 150k or more annual income and 3 or more people,105667.050741135420,2015
+Households Military 2 or less people,29569.771790925835,2015
+Households Military 3 or more people,40555.580929760225,2015
+College Dormitory Population,24456.000000000000,2015
+Agriculture Exporters,1005399227.202533500000,2015
+Utilities Exporters,9555921663.662916200000,2015
+Construction of Buildings Exporters,10652496554.799591000000,2015
+Construction Non-Building (including mining) Exporters,2187934550.377890600000,2015
+Manufacturing Exporters,37890464622.948929000000,2015
+Wholesale and Warehousing Exporters,10598296211.503595000000,2015
+Transportation Activity Exporters,2826943243.557309600000,2015
+Retail Activity Exporters,16496692940.021931000000,2015
+Professional and Business Services Exporters,82271546388.299728000000,2015
+Professional and Business Services (Building Maintenance) Exporters,7212071325.707312600000,2015
+Private Education K-12 Exporters,722195530.583559990000,2015
+Private Education Post K-12 and Other Exporters,2595755916.495834800000,2015
+Health Services Exporters,16806287812.805260000000,2015
+Amusement Services (events tracks theme parks country clubs) Exporters,3583145062.389473900000,2015
+Personal Services Office Based Exporters,2072726191.361732500000,2015
+Personal Services Retail Based Exporters,6566947543.081815700000,2015
+Restaurants and Bars Activity Exporters,7393553186.650744400000,2015
+Private Households Exporters,337018142.083237470000,2015
+Hotels Activity Exporters,3428792660.279110900000,2015
+Religious Activity Exporters,849934925.308769580000,2015
+State and Local Non-Education Activity Exporters,8829587489.432479900000,2015
+Federal Military Activity Exporters,9613895677.315650900000,2015
+Federal Non-Military Activity Exporters,4722475575.532288600000,2015
+Scrap and Other Exporters,723335572.410919070000,2015
+Adjustments Exporters,1257179237.768714700000,2015
+Agriculture Importers,1229609368.372948200000,2015
+Utilities Importers,5382244193.558382000000,2015
+Construction of Buildings Importers,15133203025.826466000000,2015
+Construction Non-Building (including mining) Importers,5711137139.304666500000,2015
+Manufacturing Importers,66528793003.056297000000,2015
+Wholesale and Warehousing Importers,12278848926.052170000000,2015
+Transportation Activity Importers,5768758997.544754000000,2015
+Retail Activity Importers,15987927761.519873000000,2015
+Professional and Business Services Importers,71332945624.381027000000,2015
+Professional and Business Services (Building Maintenance) Importers,7739491432.588609700000,2015
+Private Education K-12 Importers,635073882.358304140000,2015
+Private Education Post K-12 and Other Importers,2914209074.290859700000,2015
+Health Services Importers,18075861718.525055000000,2015
+Amusement Services (events tracks theme parks country clubs) Importers,3187414286.668001200000,2015
+Personal Services Office Based Importers,2448978537.599804900000,2015
+Personal Services Retail Based Importers,4669245879.726404200000,2015
+Restaurants and Bars Activity Importers,6301045091.368322400000,2015
+Hotels Activity Importers,2107479323.909896600000,2015
+Religious Activity Importers,741539411.720587250000,2015
+State and Local Government Enterprises Activity Importers,916685776.815454480000,2015
+Federal Non-Military Activity Importers,4459040853.177122100000,2015
+Scrap and Other Importers,1344406330.205888500000,2015
+Management Business Science and Arts Labor Exporters,39763004569.577614000000,2015
+Services Labor Exporters,6944143247.618785900000,2015
+Sales and Office Labor Exporters,16824589212.317230000000,2015
+Natural Resources Construction and Maintenance Labor Exporters,5868614826.410053300000,2015
+Production Transportation and Material Moving Labor Exporters,4439940574.610586200000,2015
+Military Labor Exporters,4873564124.124291400000,2015
+Management Business Science and Arts Labor Importers,34629883614.056320000000,2015
+Services Labor Importers,7384212138.492385900000,2015
+Sales and Office Labor Importers,15184536563.241140000000,2015
+Natural Resources Construction and Maintenance Labor Importers,5029136129.118491200000,2015
+Production Transportation and Material Moving Labor Importers,3949210640.991438900000,2015
+Military Labor Importers,5236462743.159050000000,2015

@@ -1,0 +1,104 @@
+Activity,TotalAmount,Year
+Agriculture,1164858550.138704800000,2007
+Construction Non-Building production (including mining),3193071920.454291300000,2007
+Construction Non-Building office support (including mining),357053541.722576140000,2007
+Utilities production,8021869282.371832800000,2007
+Utilities office support,582429988.869997980000,2007
+Construction of Buildings production,14382375602.176987000000,2007
+Construction of Buildings office support,1413055082.338300000000,2007
+Manufacturing production,41233063952.141228000000,2007
+Manufacturing office support,4991963969.018083600000,2007
+Wholesale and Warehousing,11723259465.421577000000,2007
+Transportation Activity,2568120516.261748800000,2007
+Retail Activity,15644260629.673973000000,2007
+Professional and Business Services,84395332859.992279000000,2007
+Professional and Business Services (Building Maintenance),7711378902.827578500000,2007
+Private Education K-12,495402399.967027540000,2007
+Private Education Post-Secondary (Post K-12) and Other,1423478942.674303800000,2007
+Health Services,11671049366.629898000000,2007
+Personal Services Office Based,1974031160.956290700000,2007
+Amusement Services,3343519465.820478900000,2007
+Hotels and Motels,3246695843.974500700000,2007
+Restaurants and Bars,6692013627.909931200000,2007
+Personal Services Retail Based,5370333743.290530200000,2007
+Religious Activity,798132292.200307370000,2007
+Private Households,400326320.436907290000,2007
+State and Local Government Enterprises Activity,2895899515.742294800000,2007
+Federal Non-Military Activity,4277147419.894870800000,2007
+Federal Military Activity,9613895677.315650900000,2007
+State and Local Government Non-Education Activity production,8155940565.693189600000,2007
+State and Local Government Non-Education Activity office support,3833391625.467824500000,2007
+Public Education K-12,2450552450.180293600000,2007
+Public Education Post K-12 and Other,816888918.964506980000,2007
+Owner-Occupied Dwellings Management and Maintenance Activity,11779886881.663685000000,2007
+Federal Government Accounts,51961135225.491013000000,2007
+State and Local Government Accounts,31079143345.289959000000,2007
+Capital Accounts,59744167792.934456000000,2007
+Households less than 25k annual income and 2 or less people,149838.000000000000,2007
+Households less than 25k annual income and 3 or more people,47634.000000000000,2007
+Households 25 to 150k annual income and 2 or less people,335109.000000000000,2007
+Households 25 to 150k annual income and 3 or more people,308986.000000000000,2007
+Households 150k or more annual income and 2 or less people,78094.000000000000,2007
+Households 150k or more annual income and 3 or more people,74028.000000000000,2007
+Households Military 2 or less people,29569.000000000000,2007
+Households Military 3 or more people,40555.000000000000,2007
+College Dormitory Population,19906.142857142855,2007
+Agriculture Exporters,1190074525.800593100000,2007
+Utilities Exporters,9582269087.992361100000,2007
+Construction of Buildings Exporters,14382375602.176987000000,2007
+Construction Non-Building (including mining) Exporters,3231690034.937911000000,2007
+Manufacturing Exporters,41108700688.816002000000,2007
+Wholesale and Warehousing Exporters,11726351298.487507000000,2007
+Transportation Activity Exporters,2881288271.896347500000,2007
+Retail Activity Exporters,16676671034.026993000000,2007
+Professional and Business Services Exporters,84025847092.197189000000,2007
+Professional and Business Services (Building Maintenance) Exporters,7731345237.465263400000,2007
+Private Education K-12 Exporters,577873051.876455190000,2007
+Private Education Post K-12 and Other Exporters,2144940934.254128000000,2007
+Health Services Exporters,13445974531.933353000000,2007
+Amusement Services (events tracks theme parks country clubs) Exporters,3436705359.476815700000,2007
+Personal Services Office Based Exporters,1705921081.217244400000,2007
+Personal Services Retail Based Exporters,5391741958.248377800000,2007
+Restaurants and Bars Activity Exporters,6897375436.259554900000,2007
+Private Households Exporters,338311419.272642370000,2007
+Hotels Activity Exporters,3281250190.248410700000,2007
+Religious Activity Exporters,798132292.200307370000,2007
+State and Local Non-Education Activity Exporters,8155940565.693189600000,2007
+Federal Military Activity Exporters,9613895677.315650900000,2007
+Federal Non-Military Activity Exporters,4144263030.127554400000,2007
+Scrap and Other Exporters,704206414.155937190000,2007
+Adjustments Exporters,1234467425.532157200000,2007
+Agriculture Importers,1236759114.685549500000,2007
+Utilities Importers,5256320342.424058900000,2007
+Construction of Buildings Importers,14842129265.022625000000,2007
+Construction Non-Building (including mining) Importers,5643874902.728506100000,2007
+Manufacturing Importers,66561390406.750923000000,2007
+Wholesale and Warehousing Importers,12291263960.612434000000,2007
+Transportation Activity Importers,5754021960.536565800000,2007
+Retail Activity Importers,15551921224.411079000000,2007
+Professional and Business Services Importers,70300147938.804886000000,2007
+Professional and Business Services (Building Maintenance) Importers,7622245013.332924800000,2007
+Private Education K-12 Importers,578235868.819113850000,2007
+Private Education Post K-12 and Other Importers,2723300679.864947300000,2007
+Health Services Importers,17170456991.173035000000,2007
+Amusement Services (events tracks theme parks country clubs) Importers,3044538748.657966600000,2007
+Personal Services Office Based Importers,2324186331.938626300000,2007
+Personal Services Retail Based Importers,4451623099.536951100000,2007
+Restaurants and Bars Activity Importers,5959120678.272601100000,2007
+Hotels Activity Importers,2036895957.231965800000,2007
+Religious Activity Importers,694982898.135226490000,2007
+State and Local Government Enterprises Activity Importers,881911552.483248230000,2007
+Federal Non-Military Activity Importers,3989217452.965432200000,2007
+Scrap and Other Importers,1343422491.315580400000,2007
+Management Business Science and Arts Labor Exporters,34654769564.269379000000,2007
+Services Labor Exporters,6643858175.554209700000,2007
+Sales and Office Labor Exporters,15252533499.237885000000,2007
+Natural Resources Construction and Maintenance Labor Exporters,5538122984.323928800000,2007
+Production Transportation and Material Moving Labor Exporters,4197862132.723864100000,2007
+Military Labor Exporters,5086289240.151625600000,2007
+Management Business Science and Arts Labor Importers,33726297664.869339000000,2007
+Services Labor Importers,6889192060.864765200000,2007
+Sales and Office Labor Importers,15225443516.702221000000,2007
+Natural Resources Construction and Maintenance Labor Importers,5732382875.791544900000,2007
+Production Transportation and Material Moving Labor Importers,4088579951.898357400000,2007
+Military Labor Importers,5236462743.159050000000,2007

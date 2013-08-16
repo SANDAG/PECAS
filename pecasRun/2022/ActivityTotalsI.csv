@@ -1,0 +1,104 @@
+Activity,TotalAmount,Year
+Agriculture,934226783.019954440000,2022
+Construction Non-Building production (including mining),2020345846.152232600000,2022
+Construction Non-Building office support (including mining),225917755.015839700000,2022
+Utilities production,8614488169.179426200000,2022
+Utilities office support,625457243.428482060000,2022
+Construction of Buildings production,12241127967.764526000000,2022
+Construction of Buildings office support,1202679485.424157100000,2022
+Manufacturing production,38446746210.224487000000,2022
+Manufacturing office support,4654632797.363500600000,2022
+Wholesale and Warehousing,11774082804.088224000000,2022
+Transportation Activity,2757419418.011405900000,2022
+Retail Activity,16140159003.335373000000,2022
+Professional and Business Services,90650983468.695694000000,2022
+Professional and Business Services (Building Maintenance),7903876098.519760100000,2022
+Private Education K-12,684383556.467405800000,2022
+Private Education Post-Secondary (Post K-12) and Other,1966493463.513181000000,2022
+Health Services,16138723776.570896000000,2022
+Personal Services Office Based,2593336137.108276800000,2022
+Amusement Services,3906014594.618711500000,2022
+Hotels and Motels,3685649638.192537300000,2022
+Restaurants and Bars,7805254032.404072800000,2022
+Personal Services Retail Based,7075336545.957845700000,2022
+Religious Activity,919275636.535245780000,2022
+Private Households,427933893.198542710000,2022
+State and Local Government Enterprises Activity,3271698219.316567900000,2022
+Federal Non-Military Activity,4913929337.756886500000,2022
+Federal Military Activity,9613895677.315650900000,2022
+State and Local Government Non-Education Activity production,9214330842.826368300000,2022
+State and Local Government Non-Education Activity office support,4330847975.493845900000,2022
+Public Education K-12,2768558799.783365700000,2022
+Public Education Post K-12 and Other,922895979.997618440000,2022
+Owner-Occupied Dwellings Management and Maintenance Activity,13327032985.083538000000,2022
+Federal Government Accounts,59697111588.912476000000,2022
+State and Local Government Accounts,35112260417.850121000000,2022
+Capital Accounts,65010966566.748398000000,2022
+Households less than 25k annual income and 2 or less people,114615.558258947000,2022
+Households less than 25k annual income and 3 or more people,36623.314850206596,2022
+Households 25 to 150k annual income and 2 or less people,367488.577353058440,2022
+Households 25 to 150k annual income and 3 or more people,342123.355468467630,2022
+Households 150k or more annual income and 2 or less people,138828.194541593460,2022
+Households 150k or more annual income and 3 or more people,133022.646807040870,2022
+Households Military 2 or less people,29569.771790925835,2022
+Households Military 3 or more people,40555.580929760225,2022
+College Dormitory Population,26456.000000000000,2022
+Agriculture Exporters,963064728.087300660000,2022
+Utilities Exporters,10379318185.631838000000,2022
+Construction of Buildings Exporters,12241127967.764526000000,2022
+Construction Non-Building (including mining) Exporters,2068979371.585070400000,2022
+Manufacturing Exporters,38335828484.457413000000,2022
+Wholesale and Warehousing Exporters,11777634949.412804000000,2022
+Transportation Activity Exporters,3111226710.068712700000,2022
+Retail Activity Exporters,17251815459.487358000000,2022
+Professional and Business Services Exporters,90258956461.829697000000,2022
+Professional and Business Services (Building Maintenance) Exporters,7932294739.720866200000,2022
+Private Education K-12 Exporters,777402544.102186080000,2022
+Private Education Post K-12 and Other Exporters,2779310418.421184100000,2022
+Health Services Exporters,18143979646.526382000000,2022
+Amusement Services (events tracks theme parks country clubs) Exporters,4004460057.583488500000,2022
+Personal Services Office Based Exporters,2241112944.150460200000,2022
+Personal Services Retail Based Exporters,7099522888.880169900000,2022
+Restaurants and Bars Activity Exporters,8038191110.188250500000,2022
+Private Households Exporters,361642278.741158430000,2022
+Hotels Activity Exporters,3724287514.942935500000,2022
+Religious Activity Exporters,919275636.535245780000,2022
+State and Local Non-Education Activity Exporters,9214330842.826368300000,2022
+Federal Military Activity Exporters,9613895677.315650900000,2022
+Federal Non-Military Activity Exporters,4761261113.517005900000,2022
+Scrap and Other Exporters,771097987.712200520000,2022
+Adjustments Exporters,1329375596.160043200000,2022
+Agriculture Importers,1300231508.298486900000,2022
+Utilities Importers,5746367666.399332000000,2022
+Construction of Buildings Importers,16203415286.770527000000,2022
+Construction Non-Building (including mining) Importers,6105777408.473881700000,2022
+Manufacturing Importers,70441820226.670654000000,2022
+Wholesale and Warehousing Importers,13063132402.114656000000,2022
+Transportation Activity Importers,6200947947.703755400000,2022
+Retail Activity Importers,17254968681.929188000000,2022
+Professional and Business Services Importers,76429711028.209045000000,2022
+Professional and Business Services (Building Maintenance) Importers,8366683037.983609200000,2022
+Private Education K-12 Importers,700155752.969573860000,2022
+Private Education Post K-12 and Other Importers,3159439140.504952000000,2022
+Health Services Importers,19461450091.111923000000,2022
+Amusement Services (events tracks theme parks country clubs) Importers,3475731087.771190200000,2022
+Personal Services Office Based Importers,2652016474.685712800000,2022
+Personal Services Retail Based Importers,5036563803.360343900000,2022
+Restaurants and Bars Activity Importers,6794809101.895310400000,2022
+Hotels Activity Importers,2281958575.805172900000,2022
+Religious Activity Importers,805496152.336212280000,2022
+State and Local Government Enterprises Activity Importers,985760674.477847460000,2022
+Federal Non-Military Activity Importers,4561026667.261951400000,2022
+Scrap and Other Importers,1439233078.269879300000,2022
+Management Business Science and Arts Labor Exporters,45001887406.635841000000,2022
+Services Labor Exporters,7436262983.530278200000,2022
+Sales and Office Labor Exporters,18613371704.007744000000,2022
+Natural Resources Construction and Maintenance Labor Exporters,6328375401.104647600000,2022
+Production Transportation and Material Moving Labor Exporters,4784628819.605305700000,2022
+Military Labor Exporters,4732932841.591060600000,2022
+Management Business Science and Arts Labor Importers,37109889801.478996000000,2022
+Services Labor Importers,7890937412.175561000000,2022
+Sales and Office Labor Importers,16291212777.838285000000,2022
+Natural Resources Construction and Maintenance Labor Importers,5427888122.529187200000,2022
+Production Transportation and Material Moving Labor Importers,4163142247.152158300000,2022
+Military Labor Importers,5236462743.159050000000,2022

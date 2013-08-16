@@ -1,0 +1,104 @@
+Activity,TotalAmount,Year
+Agriculture,880361323.022079110000,2035
+Construction Non-Building production (including mining),2121662722.639165400000,2035
+Construction Non-Building office support (including mining),237247142.667334080000,2035
+Utilities production,9600535289.129653900000,2035
+Utilities office support,697049461.262290720000,2035
+Construction of Buildings production,14144440803.404552000000,2035
+Construction of Buildings office support,1389678208.727820900000,2035
+Manufacturing production,37998306584.260658000000,2035
+Manufacturing office support,4600341550.472662900000,2035
+Wholesale and Warehousing,12668443676.110952000000,2035
+Transportation Activity,3127619529.334743000000,2035
+Retail Activity,16897152741.797144000000,2035
+Professional and Business Services,102278759550.357440000000,2035
+Professional and Business Services (Building Maintenance),8841071632.960308100000,2035
+Private Education K-12,736182333.346689340000,2035
+Private Education Post-Secondary (Post K-12) and Other,2115330990.640325800000,2035
+Health Services,17614480727.685692000000,2035
+Personal Services Office Based,2786485699.098554600000,2035
+Amusement Services,4354394966.102253000000,2035
+Hotels and Motels,4015144103.493654700000,2035
+Restaurants and Bars,8589239815.403280300000,2035
+Personal Services Retail Based,7602799018.194209100000,2035
+Religious Activity,984559642.753855710000,2035
+Private Households,462662927.677872600000,2035
+State and Local Government Enterprises Activity,3436940582.954950800000,2035
+Federal Non-Military Activity,4818531343.295615200000,2035
+Federal Military Activity,9613895677.315650900000,2035
+State and Local Government Non-Education Activity production,9679715394.135242500000,2035
+State and Local Government Non-Education Activity office support,4549584395.559692400000,2035
+Public Education K-12,2908389300.422759500000,2035
+Public Education Post K-12 and Other,969508321.021854280000,2035
+Owner-Occupied Dwellings Management and Maintenance Activity,14696730148.874809000000,2035
+Federal Government Accounts,58538164373.909866000000,2035
+State and Local Government Accounts,36885661420.997665000000,2035
+Capital Accounts,70230005989.596268000000,2035
+Households less than 25k annual income and 2 or less people,103105.392210516660,2035
+Households less than 25k annual income and 3 or more people,32946.070453010645,2035
+Households 25 to 150k annual income and 2 or less people,391616.738741641750,2035
+Households 25 to 150k annual income and 3 or more people,364586.834397596830,2035
+Households 150k or more annual income and 2 or less people,185921.096252897170,2035
+Households 150k or more annual income and 3 or more people,178143.515223650930,2035
+Households Military 2 or less people,29569.771790925835,2035
+Households Military 3 or more people,40555.580929760225,2035
+College Dormitory Population,27432.000000000000,2035
+Agriculture Exporters,910490579.376772400000,2035
+Utilities Exporters,11452119100.422144000000,2035
+Construction of Buildings Exporters,14144440803.404552000000,2035
+Construction Non-Building (including mining) Exporters,2174265473.772443300000,2035
+Manufacturing Exporters,37896335647.238510000000,2035
+Wholesale and Warehousing Exporters,12671926860.830544000000,2035
+Transportation Activity Exporters,3499296431.997486100000,2035
+Retail Activity Exporters,18145226504.796078000000,2035
+Professional and Business Services Exporters,101768324036.188450000000,2035
+Professional and Business Services (Building Maintenance) Exporters,8867023908.319374100000,2035
+Private Education K-12 Exporters,833878135.958224300000,2035
+Private Education Post K-12 and Other Exporters,2972605861.743800600000,2035
+Health Services Exporters,19721015260.109138000000,2035
+Amusement Services (events tracks theme parks country clubs) Exporters,4459542760.637153600000,2035
+Personal Services Office Based Exporters,2408029209.781987200000,2035
+Personal Services Retail Based Exporters,7628206931.140522000000,2035
+Restaurants and Bars Activity Exporters,8830051003.989580200000,2035
+Private Households Exporters,390991408.051086840000,2035
+Hotels Activity Exporters,4052477057.583999200000,2035
+Religious Activity Exporters,984559642.753855710000,2035
+State and Local Non-Education Activity Exporters,9679715394.135242500000,2035
+Federal Military Activity Exporters,9613895677.315650900000,2035
+Federal Non-Military Activity Exporters,4668826987.969871500000,2035
+Scrap and Other Exporters,828306176.825001120000,2035
+Adjustments Exporters,1421495756.906597900000,2035
+Agriculture Importers,1386691676.955166800000,2035
+Utilities Importers,6210614579.997907600000,2035
+Construction of Buildings Importers,17484739373.280094000000,2035
+Construction Non-Building (including mining) Importers,6606706905.494391400000,2035
+Manufacturing Importers,74923549960.893295000000,2035
+Wholesale and Warehousing Importers,13998053439.041538000000,2035
+Transportation Activity Importers,6748101719.079399100000,2035
+Retail Activity Importers,18933434816.105408000000,2035
+Professional and Business Services Importers,82816920765.019699000000,2035
+Professional and Business Services (Building Maintenance) Importers,9162305895.985885600000,2035
+Private Education K-12 Importers,792991172.304922940000,2035
+Private Education Post K-12 and Other Importers,3494692397.894469300000,2035
+Health Services Importers,21345989010.901352000000,2035
+Amusement Services (events tracks theme parks country clubs) Importers,3852687230.161938200000,2035
+Personal Services Office Based Importers,2930235195.808738200000,2035
+Personal Services Retail Based Importers,5527954839.842486400000,2035
+Restaurants and Bars Activity Importers,7453038509.096390700000,2035
+Hotels Activity Importers,2515154102.491860900000,2035
+Religious Activity Importers,894834986.212927940000,2035
+State and Local Government Enterprises Activity Importers,1076366665.172160100000,2035
+Federal Non-Military Activity Importers,4583354524.803652800000,2035
+Scrap and Other Importers,1562129048.859044100000,2035
+Management Business Science and Arts Labor Exporters,52869248510.011765000000,2035
+Services Labor Exporters,8071224279.900646200000,2035
+Sales and Office Labor Exporters,21189517261.466755000000,2035
+Natural Resources Construction and Maintenance Labor Exporters,6923323585.487213100000,2035
+Production Transportation and Material Moving Labor Exporters,5235243165.755374900000,2035
+Military Labor Exporters,4529627477.452223800000,2035
+Management Business Science and Arts Labor Importers,40151447187.530685000000,2035
+Services Labor Importers,8484614671.382694200000,2035
+Sales and Office Labor Importers,17603026553.582016000000,2035
+Natural Resources Construction and Maintenance Labor Importers,5935774893.877370800000,2035
+Production Transportation and Material Moving Labor Importers,4378145525.445676800000,2035
+Military Labor Importers,5236462743.159050000000,2035

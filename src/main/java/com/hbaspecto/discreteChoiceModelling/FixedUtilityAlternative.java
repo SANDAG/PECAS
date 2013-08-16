@@ -16,22 +16,39 @@
  */
 package com.hbaspecto.discreteChoiceModelling;
 
+import com.hbaspecto.pecas.ChoiceModelOverflowException;
+
 /**
  * 
  */
 public class FixedUtilityAlternative implements Alternative {
-    public FixedUtilityAlternative(double utilityValue) {
-      this.utilityValue=utilityValue;
-    }
+	public FixedUtilityAlternative(double utilityValue) {
+		this.utilityValue = utilityValue;
+	}
 
-    @Override
-    public double getUtility(double dispersion) {return utilityValue;}
+	@Override
+	public double getUtility(double dispersionParameterForSizeTermCalculation)
+			throws ChoiceModelOverflowException {
+		return getUtilityNoSizeEffect();
+	}
 
-    public double getUtilityValue(){ return utilityValue; }
+	@Override
+	public double getUtilityNoSizeEffect() {
+		return utilityValue;
+	}
 
-    public void setUtilityValue(double utilityValue){ this.utilityValue = utilityValue; }
+	public double getUtilityValue() {
+		return utilityValue;
+	}
 
-    private double utilityValue;
-    @Override
-    public String toString() {return "FixedUtility - "+utilityValue;};
+	public void setUtilityValue(double utilityValue) {
+		this.utilityValue = utilityValue;
+	}
+
+	private double utilityValue;
+
+	@Override
+	public String toString() {
+		return "FixedUtility - " + utilityValue;
+	};
 }
