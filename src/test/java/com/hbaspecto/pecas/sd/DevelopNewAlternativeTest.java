@@ -428,8 +428,8 @@ public class DevelopNewAlternativeTest {
 			}
 		}
 		for (int b = 0; b < bins.length; b++) {
-			System.out.println(b * .1 + ", " + bins[b] / (float) samples
-					+ ", expected = " + expectedProportions[b]);
+			//System.out.println(b * .1 + ", " + bins[b] / (float) samples
+			//		+ ", expected = " + expectedProportions[b]);
 			if (bins[b] / (float) samples > expectedProportions[b] + 1000.0 / samples) {
 				fail("bin " + b + " expected proportion:" + expectedProportions[b]
 						+ " but got " + bins[b] / (float) samples);

@@ -23,26 +23,26 @@ isScenDirOnDatabaseServer=False
 
 # for Cube Voyager integration it would be better if the scenario was on the same physical machine as the PostgreSQL database server.
 # if scenario is on database server, we need to tell the database server exactly where it is in the servers file system
-EXACTPATH="F:/PECASSandag/S22/"
+EXACTPATH="F:/PECASSandag/pecasRun/"
 # Folder path on local computer to the mapped drive on pele where developmentEvents.csv gets written
-LOGFILEPATH="F:/PECASSandag/S22/AllYears/Outputs/"
+LOGFILEPATH="F:/PECASSandag/pecasRun/AllYears/Outputs/"
 # Folder path on pele where developmentEvents.csv is placed
-DEVEVENTPATH="F:/PECASSandag/S22/AllYears/Outputs/"
+DEVEVENTPATH="F:/PECASSandag/pecasRun/AllYears/Outputs/"
 # unc path is easiest for bulk inserts on network (don't need to worry about users and mapping)
-local_unc_path = '//pele/PECASSandag/S22/'
-tm_input_dir="//sandag.org/transdata/data/data/sr12/PECAS/pecas_s22/"
-tm_output_dir="//sandag.org/transdata/projects/sr12/OWP/pecas/pecas_s22/"
+local_unc_path = '//pele/PECASSandag/pecasRun/'
+tm_input_dir="//sandag.org/transdata/data/data/sr12/PECAS/pecas_pecasRun/"
+tm_output_dir="//sandag.org/transdata/projects/sr12/OWP/pecas/pecas_pecasRun/"
 
 
 # PECAS run configuration
 
-scendir = "F:/PECASSandag/S22/" #"./" means current directory, i.e. usually the same directory where this file is located 
+scendir = "F:/PECASSandag/pecasRun/" #"./" means current directory, i.e. usually the same directory where this file is located 
 sd_host="pele.sandag.org"
 sd_database="pecas_sd_run"
 aa_database = "pecas_sr13"
 aa_scenario_id = 22
 # For SQL Server sd_schema has to be blank in SD.Properties and the default schema needs to be set for the database user using management studio (#CHECK WHEN WRITING TO USE sd_rents table).
-sd_schema="s22"
+sd_schema="pecasRun"
 sd_user=""
 sd_password=""
 sd_port=1433
@@ -64,7 +64,7 @@ mapit_host="pele.sandag.org"
 mapit_port=5432
 mapit_schema="output"
 mapit_database='db_sandag'
-scenario='s22'
+scenario='pecasRun'
 
 # installation configuration
 #Windows 
