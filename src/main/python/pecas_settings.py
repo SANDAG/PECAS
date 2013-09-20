@@ -12,16 +12,21 @@ sql_system = sqlserver
 pguser = ""
 pgpassword = ""
 # password can sometimes also be in .pgpass file in user's home directory
-# WARNING the default installation template for MAPIT does not have enough permissions for the usrPostgres user.  If usrPostgres is not a
-# 'superuser' in the database you will have to change the ownership of the tables in the mapit schema to usrPostgres (using right-click in pgAdminIII
+# WARNING the default installation template for MAPIT does not have enough permissions for the usrPostgres user.  
+# If usrPostgres is not a
+# 'superuser' in the database you will have to change the ownership of the tables in the mapit schema to usrPostgres 
+# (using right-click in pgAdminIII
 # or the database command 'ALTER TABLE output.loaded_scenarios OWNER TO "usrPostgres"')
 
-# If the scenario directory is on the same physical machine as the PostgreSQL database server there is a faster way to load the files that doesn't need psycopg2
-# HOWEVER this only works if the pguser (specified above) is a superuser in the database.  Normally usrPostgres is NOT a superuser while postgres is a superuser,
+# If the scenario directory is on the same physical machine as the PostgreSQL database server there is a faster way 
+# to load the files that doesn't need psycopg2
+# HOWEVER this only works if the pguser (specified above) is a superuser in the database.  Normally usrPostgres is 
+#NOT a superuser while postgres is a superuser,
 # (depends on how postgresql was installed)
 isScenDirOnDatabaseServer = False
 
-# for Cube Voyager integration it would be better if the scenario was on the same physical machine as the PostgreSQL database server.
+# for Cube Voyager integration it would be better if the scenario was on the same physical machine as the 
+# PostgreSQL database server.
 # if scenario is on database server, we need to tell the database server exactly where it is in the servers file system
 EXACTPATH = "F:/PECASSandag/pecasRun/"
 # Folder path on local computer to the mapped drive on pele where developmentEvents.csv gets written
@@ -36,12 +41,14 @@ tm_output_dir = "//sandag.org/transdata/projects/sr12/OWP/pecas/pecas_pecasRun/"
 
 # PECAS run configuration
 
-scendir = "F:/PECASSandag/pecasRun/"  # "./" means current directory, i.e. usually the same directory where this file is located
+# "./" means current directory, i.e. usually the same directory where this file is located
+scendir = "F:/PECASSandag/pecasRun/"  
 sd_host = "pele.sandag.org"
 sd_database = "pecas_sd_run"
 aa_database = "pecas_sr13"
 aa_scenario_id = 22
-# For SQL Server sd_schema has to be blank in SD.Properties and the default schema needs to be set for the database user using management studio (#CHECK WHEN WRITING TO USE sd_rents table).
+# For SQL Server sd_schema has to be blank in SD.Properties and the default schema needs to be set for the 
+# database user using management studio (#CHECK WHEN WRITING TO USE sd_rents table).
 sd_schema = "pecasRun"
 sd_user = ""
 sd_password = ""
@@ -92,4 +99,3 @@ simpleormjar = "simple_orm_r3004.jar"
 flItaz = "TAZ"
 flIcommodity = "Commodity"
 flIquantity = "Quantity"
-

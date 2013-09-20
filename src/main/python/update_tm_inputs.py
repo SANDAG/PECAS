@@ -1,4 +1,3 @@
-import os
 import random
 import csv
 import numpy as np
@@ -26,7 +25,8 @@ def roundEmp(filename):
     head = []
     header = {}
     empdata = []
-    cat = ['emp_agmin', 'emp_cons', 'emp_mfg', 'emp_whtrade', 'emp_retrade', 'emp_twu', 'emp_fre', 'emp_info', 'emp_pbs', 'emp_lh', 'emp_os', 'emp_edhs', 'emp_gov', 'emp_sedw']
+    cat = ['emp_agmin', 'emp_cons', 'emp_mfg', 'emp_whtrade', 'emp_retrade', 'emp_twu', 'emp_fre', 'emp_info', 
+           'emp_pbs', 'emp_lh', 'emp_os', 'emp_edhs', 'emp_gov', 'emp_sedw']
 
     with open(filename, 'rU') as fi:
         freader = csv.reader(fi)
@@ -223,7 +223,7 @@ def roundLUData(filename, scenario_id, yr):
         head = sorted(header, key = header.get)
         writer.writerow(head)
         for line in luarray:
-                writer.writerow([int(line[0]), int(line[1]), float(line[2]), float(line[3]), int(line[4])])
+            writer.writerow([int(line[0]), int(line[1]), float(line[2]), float(line[3]), int(line[4])])
         for line in miladd:
             writer.writerow(line)
 
@@ -281,8 +281,3 @@ def roundPASEF(pfn, hhfn):
         writer.writerow(head)
         for line in parray.astype(int):
             writer.writerow(line)
-
-
-
-
-
