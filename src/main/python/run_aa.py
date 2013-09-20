@@ -14,10 +14,7 @@ def runAA(year,skimfile,skimyear):
     #setup some variables that are constructed with code
     os.environ['PGPASSWORD']=ps.pgpassword
     command = os.path.join(ps.pgpath, "psql")
-    classpath=pr.buildClassPath(ps.codepath+"/"+ps.pecasjar, ps.codepath+"/"+ps.commonbasejar,
-        ps.codepath+"/or124.jar",ps.codepath+"/mtj.jar",ps.codepath+"/log4j-1.2.9.jar",
-        ps.codepath+"/postgresql-8.4-701.jdbc4.jar",ps.codepath+"/sqljdbc4.jar",ps.codepath+"/"+ps.simpleormjar,
-        ps.codepath+"/")
+    classpath=classpath=pr.buildClassPath(ps.codepath+"/"+ps.pecasjar, ps.codepath+"/"+ps.commonbasejar,ps.codepath+"/*"+ps.commonbasejar,ps.codepath+'/*',ps.codepath+"/")
     
     #----------------------------------------------------------------------------------------------------------------------#
     #do model runs (beginning of do-while loop, while year < endyear)
