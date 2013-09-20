@@ -6,7 +6,9 @@ package com.hbaspecto.pecas.sd.orm;
  * class
  **/
 
-public class ObservedDevelopmentEvents extends ObservedDevelopmentEvents_gen
-		implements java.io.Serializable {
+public class ObservedDevelopmentEvents
+        extends ObservedDevelopmentEvents_gen
+        implements java.io.Serializable
+{
 
 }

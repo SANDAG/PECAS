@@ -1,14 +1,17 @@
 /*
  * Copyright 2005 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.aa.commodity;
 
@@ -19,8 +22,9 @@ import com.hbaspecto.pecas.OverflowException;
 import com.hbaspecto.pecas.zones.PECASZone;
 
 /**
- * These are the exchanges, i.e. the market for a commodity in a zone. Here are the commodity prices that need to be adjusted to acheive no shortage
- * or no surplus in the zone at equilibrium
+ * These are the exchanges, i.e. the market for a commodity in a zone. Here are
+ * the commodity prices that need to be adjusted to acheive no shortage or no
+ * surplus in the zone at equilibrium
  * 
  * @author John Abraham
  */
@@ -30,16 +34,19 @@ public class Exchange
     private static Logger               logger                       = Logger.getLogger("com.pb.models.pecas.exchange");
 
     /**
-     * Whether to adjust the price in this zone (and include this exchange in convergence monitoring). If you like the input price and want to model
-     * to solve for the supply and demand, set this to false
+     * Whether to adjust the price in this zone (and include this exchange in
+     * convergence monitoring). If you like the input price and want to model to
+     * solve for the supply and demand, set this to false
      */
     private boolean                     doSearch                     = true;
     /**
-     * Whether to monitor the exchange in this zone, writing additional info to the log file.
+     * Whether to monitor the exchange in this zone, writing additional info to
+     * the log file.
      */
     public boolean                      monitor                      = false;
     /**
-     * An attribute that represents the average price of the commodity when exchanged in the zone
+     * An attribute that represents the average price of the commodity when
+     * exchanged in the zone
      */
     private double                      price                        = 0;
     /**
@@ -58,7 +65,8 @@ public class Exchange
     private double                      sellingToExchangeDerivative  = 0;
 
     /**
-     * This is the flow of all of this commodity into and out of this exchange zone Do NOT manually add flows to this vector. The constructor for
+     * This is the flow of all of this commodity into and out of this exchange
+     * zone Do NOT manually add flows to this vector. The constructor for
      * CommodityFlow automatically adds itself into this vector.
      */
     protected final CommodityZUtility[] sellingToExchangeFlows;
@@ -175,9 +183,11 @@ public class Exchange
     }
 
     /**
-     * determine the net surplus in the zone, by summing all the selling quantities and subtracting the sum of the buying quantities
+     * determine the net surplus in the zone, by summing all the selling
+     * quantities and subtracting the sum of the buying quantities
      * 
-     * @return returns the net surplus or shortage in the zone at the given price
+     * @return returns the net surplus or shortage in the zone at the given
+     *         price
      */
     public double exchangeSurplus()
     {
@@ -191,9 +201,11 @@ public class Exchange
     }
 
     /**
-     * determine the derivative of the net surplus in the zone, by summing all the selling quantities and subtracting the sum of the buying quantities
+     * determine the derivative of the net surplus in the zone, by summing all
+     * the selling quantities and subtracting the sum of the buying quantities
      * 
-     * @return returns the net surplus or shortage in the zone at the given price
+     * @return returns the net surplus or shortage in the zone at the given
+     *         price
      */
     public double exchangeDerivative()
     {
@@ -207,10 +219,12 @@ public class Exchange
     }
 
     /**
-     * determine the net surplus in the zone, by summing all the selling quantities and subtracting the sum of the buying quantities. Also returns an
-     * approximation of the derivative of the surplus w.r.t. price
+     * determine the net surplus in the zone, by summing all the selling
+     * quantities and subtracting the sum of the buying quantities. Also returns
+     * an approximation of the derivative of the surplus w.r.t. price
      * 
-     * @return returns the net surplus or shortage in the zone at the given price
+     * @return returns the net surplus or shortage in the zone at the given
+     *         price
      */
     public double[] exchangeSurplusAndDerivative()
     {
@@ -224,7 +238,9 @@ public class Exchange
         // some debug code //
 
         /*
-         * if (myCommodity.name.equals("HEALTH SERVICES") && exchangeLocation.getZoneIndex() == 0) { debug = true; System.out.println
+         * if (myCommodity.name.equals("HEALTH SERVICES") &&
+         * exchangeLocation.getZoneIndex() == 0) { debug = true;
+         * System.out.println
          * ("debug info for exchange "+this+" with price "+price); }
          */
 
@@ -247,7 +263,8 @@ public class Exchange
             sellingString = new StringBuffer();
         }
         for (int i = 0; i < buyingFromExchangeFlows.length; i++)
-        {// all origin
+        {
+            // all origin
             // and
             // destination
             // zones
@@ -267,7 +284,8 @@ public class Exchange
                 } else
                 {
                     productionOrConsumptionPoint = sellingToExchangeFlows[i];
-                    quantity = sellingQuantities[i];// these are positive values
+                    // these are positive values
+                    quantity = sellingQuantities[i];
                     lastCalculatedSellingTotal += quantity;
                     if (monitor && productionOrConsumptionPoint != null)
                     {
@@ -520,9 +538,11 @@ public class Exchange
     }
 
     /**
-     * Returns the amount of imports in an exchange zone given the price in the exchange zone, and the amount of exports in an exchange zone given the
-     * price in the exchange zone. This is a convenience routine for the exchange zone -- each exchange zone can call this routine to determine the
-     * imports and exports in that zone.
+     * Returns the amount of imports in an exchange zone given the price in the
+     * exchange zone, and the amount of exports in an exchange zone given the
+     * price in the exchange zone. This is a convenience routine for the
+     * exchange zone -- each exchange zone can call this routine to determine
+     * the imports and exports in that zone.
      * <p>
      * The default implementation uses a simple exponential routine
      * 
@@ -591,7 +611,8 @@ public class Exchange
     /**
      * @param maxChangePortion
      *            compare change in size terms with this (as a proportion)
-     * @return true if the maximum change in size term was less than maxChangePortion
+     * @return true if the maximum change in size term was less than
+     *         maxChangePortion
      */
     public boolean setSizeTermsBasedOnCurrentQuantities(double maxChangePortion)
     {

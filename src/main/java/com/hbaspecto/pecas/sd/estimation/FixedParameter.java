@@ -14,37 +14,43 @@ import no.uib.cipr.matrix.Vector;
  * @author Graham
  * 
  */
-public class FixedParameter implements Constraint {
+public class FixedParameter
+        implements Constraint
+{
 
-	private final int paramIndex;
-	private final double fixedValue;
+    private final int    paramIndex;
+    private final double fixedValue;
 
-	public FixedParameter(int param, double value) {
-		paramIndex = param;
-		fixedValue = value;
-	}
+    public FixedParameter(int param, double value)
+    {
+        paramIndex = param;
+        fixedValue = value;
+    }
 
-	@Override
-	public double getPenaltyFunction(Vector params, double looseness) {
-		final double param = params.get(paramIndex);
-		final double diff = param - fixedValue;
-		return diff * diff / Math.sqrt(looseness);
-	}
+    @Override
+    public double getPenaltyFunction(Vector params, double looseness)
+    {
+        final double param = params.get(paramIndex);
+        final double diff = param - fixedValue;
+        return diff * diff / Math.sqrt(looseness);
+    }
 
-	@Override
-	public Vector getPenaltyFunctionGradient(Vector params, double looseness) {
-		final double param = params.get(paramIndex);
-		final double diff = param - fixedValue;
-		final Vector result = new DenseVector(params.size());
-		result.set(paramIndex, 2 * diff / Math.sqrt(looseness));
-		return result;
-	}
+    @Override
+    public Vector getPenaltyFunctionGradient(Vector params, double looseness)
+    {
+        final double param = params.get(paramIndex);
+        final double diff = param - fixedValue;
+        final Vector result = new DenseVector(params.size());
+        result.set(paramIndex, 2 * diff / Math.sqrt(looseness));
+        return result;
+    }
 
-	@Override
-	public Matrix getPenaltyFunctionHessian(Vector params, double looseness) {
-		final Matrix result = new DenseMatrix(params.size(), params.size());
-		result.set(paramIndex, paramIndex, 2 / Math.sqrt(looseness));
-		return result;
-	}
+    @Override
+    public Matrix getPenaltyFunctionHessian(Vector params, double looseness)
+    {
+        final Matrix result = new DenseMatrix(params.size(), params.size());
+        result.set(paramIndex, paramIndex, 2 / Math.sqrt(looseness));
+        return result;
+    }
 
 }

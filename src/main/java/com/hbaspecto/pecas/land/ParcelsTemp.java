@@ -1,10 +1,8 @@
 package com.hbaspecto.pecas.land;
 
 import java.util.List;
-
 import simpleorm.dataset.SQuery;
 import simpleorm.sessionjdbc.SSessionJdbc;
-
 import com.hbaspecto.pecas.sd.orm.ParcelsTemp_gen;
 
 /**
@@ -13,44 +11,47 @@ import com.hbaspecto.pecas.sd.orm.ParcelsTemp_gen;
  * class
  **/
 
-public class ParcelsTemp extends ParcelsTemp_gen implements
-		java.io.Serializable, ParcelInterface {
-	public static List<ParcelsTemp> getParcelsForTaz(SSessionJdbc session,
-			int tazNumber) {
+public class ParcelsTemp
+        extends ParcelsTemp_gen
+        implements java.io.Serializable, ParcelInterface
+{
+    public static List<ParcelsTemp> getParcelsForTaz(SSessionJdbc session, int tazNumber)
+    {
 
-		System.out.println("Getting parcels ..." + tazNumber);
+        System.out.println("Getting parcels ..." + tazNumber);
 
-		final SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(
-				ParcelsTemp_gen.meta).eq(Taz, tazNumber);
+        final SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(ParcelsTemp_gen.meta).eq(Taz,
+                tazNumber);
 
-		final List<ParcelsTemp> parcelsInCurrentTAZ = session.query(query);
+        final List<ParcelsTemp> parcelsInCurrentTAZ = session.query(query);
 
-		return parcelsInCurrentTAZ;
-	}
+        return parcelsInCurrentTAZ;
+    }
 
-	public static List<ParcelsTemp> getParcelsWithRandomNumber(
-			SSessionJdbc session, int RandomNumber) {
+    public static List<ParcelsTemp> getParcelsWithRandomNumber(SSessionJdbc session,
+            int RandomNumber)
+    {
 
-		System.out.println("Getting parcels with random number: " + RandomNumber);
+        System.out.println("Getting parcels with random number: " + RandomNumber);
 
-		final SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(
-				ParcelsTemp_gen.meta).eq(Randnum, RandomNumber);
+        final SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(ParcelsTemp_gen.meta).eq(Randnum,
+                RandomNumber);
 
-		final List<ParcelsTemp> parcelsWithCurrentNumber = session.query(query);
+        final List<ParcelsTemp> parcelsWithCurrentNumber = session.query(query);
 
-		return parcelsWithCurrentNumber;
-	}
+        return parcelsWithCurrentNumber;
+    }
 
-	public static List<ParcelsTemp> getAllParcels(SSessionJdbc session) {
+    public static List<ParcelsTemp> getAllParcels(SSessionJdbc session)
+    {
 
-		System.out.println("Getting all parcels ...");
+        System.out.println("Getting all parcels ...");
 
-		final SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(
-				ParcelsTemp_gen.meta);
+        final SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(ParcelsTemp_gen.meta);
 
-		final List<ParcelsTemp> allParcels = session.query(query);
+        final List<ParcelsTemp> allParcels = session.query(query);
 
-		return allParcels;
-	}
+        return allParcels;
+    }
 
 }

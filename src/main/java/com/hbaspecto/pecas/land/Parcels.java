@@ -1,7 +1,6 @@
 package com.hbaspecto.pecas.land;
 
 import simpleorm.sessionjdbc.SSessionJdbc;
-
 import com.hbaspecto.pecas.sd.orm.Parcels_gen;
 
 /**
@@ -10,19 +9,21 @@ import com.hbaspecto.pecas.sd.orm.Parcels_gen;
  * class
  **/
 
-public class Parcels extends Parcels_gen implements java.io.Serializable,
-		ParcelInterface {
-	protected static long getMaximumPecasParcelNum(SSessionJdbc session) {
-		final long maxNum = ((Long) session.rawQuerySingle(
-				"SELECT max(pecas_parcel_num) FROM parcels", false, new Object[0]))
-				.longValue();
-		return maxNum;
-	}
+public class Parcels
+        extends Parcels_gen
+        implements java.io.Serializable, ParcelInterface
+{
+    protected static long getMaximumPecasParcelNum(SSessionJdbc session)
+    {
+        final long maxNum = ((Long) session.rawQuerySingle(
+                "SELECT max(pecas_parcel_num) FROM parcels", false, new Object[0])).longValue();
+        return maxNum;
+    }
 
-	protected static long getMinimumPecasParcelNum(SSessionJdbc session) {
-		final long minNum = ((Long) session.rawQuerySingle(
-				"SELECT min(pecas_parcel_num) FROM parcels", false, new Object[0]))
-				.longValue();
-		return minNum;
-	}
+    protected static long getMinimumPecasParcelNum(SSessionJdbc session)
+    {
+        final long minNum = ((Long) session.rawQuerySingle(
+                "SELECT min(pecas_parcel_num) FROM parcels", false, new Object[0])).longValue();
+        return minNum;
+    }
 }

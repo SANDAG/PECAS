@@ -14,75 +14,83 @@ import no.uib.cipr.matrix.Vector;
  * @author Graham
  * 
  */
-public class OrderingConstraint implements Constraint {
+public class OrderingConstraint
+        implements Constraint
+{
 
-	private final int paramIndex1;
-	private final int paramIndex2;
-	// An integer that encodes the type of ordering.
-	// Should be 1 for param1 > param2, -1 for param1 < param2.
-	private final int boundmod;
+    private final int paramIndex1;
+    private final int paramIndex2;
+    // An integer that encodes the type of ordering.
+    // Should be 1 for param1 > param2, -1 for param1 < param2.
+    private final int boundmod;
 
-	/**
-	 * Constructs an <code>OrderingConstraint</code> with the given properties.
-	 * 
-	 * @param firstParam
-	 *          The index of the first parameter that the constraint will apply
-	 *          to.
-	 * @param secondParam
-	 *          The index of the second parameter that the constraint will apply
-	 *          to.
-	 * @param greaterThan
-	 *          True if the first parameter must be greater than the second; false
-	 *          if the first parameter must be less than the second.
-	 */
-	public OrderingConstraint(int firstParam, int secondParam, boolean greaterThan) {
-		paramIndex1 = firstParam;
-		paramIndex2 = secondParam;
-		boundmod = greaterThan ? 1 : -1;
-	}
+    /**
+     * Constructs an <code>OrderingConstraint</code> with the given properties.
+     * 
+     * @param firstParam
+     *            The index of the first parameter that the constraint will
+     *            apply to.
+     * @param secondParam
+     *            The index of the second parameter that the constraint will
+     *            apply to.
+     * @param greaterThan
+     *            True if the first parameter must be greater than the second;
+     *            false if the first parameter must be less than the second.
+     */
+    public OrderingConstraint(int firstParam, int secondParam, boolean greaterThan)
+    {
+        paramIndex1 = firstParam;
+        paramIndex2 = secondParam;
+        boundmod = greaterThan ? 1 : -1;
+    }
 
-	@Override
-	public double getPenaltyFunction(Vector params, double looseness) {
-		final double param1 = params.get(paramIndex1);
-		final double param2 = params.get(paramIndex2);
-		final double diff = boundmod * (param1 - param2);
-		if (diff <= 0) {
-			return Double.POSITIVE_INFINITY;
-		}
-		else {
-			return looseness / diff;
-		}
-	}
+    @Override
+    public double getPenaltyFunction(Vector params, double looseness)
+    {
+        final double param1 = params.get(paramIndex1);
+        final double param2 = params.get(paramIndex2);
+        final double diff = boundmod * (param1 - param2);
+        if (diff <= 0)
+        {
+            return Double.POSITIVE_INFINITY;
+        } else
+        {
+            return looseness / diff;
+        }
+    }
 
-	@Override
-	public Vector getPenaltyFunctionGradient(Vector params, double looseness) {
-		final double param1 = params.get(paramIndex1);
-		final double param2 = params.get(paramIndex2);
-		final double diff = boundmod * (param1 - param2);
-		final Vector result = new DenseVector(params.size());
-		if (diff > 0) {
-			final double deriv = boundmod * looseness / (diff * diff);
-			result.set(paramIndex1, -deriv);
-			result.set(paramIndex2, deriv);
-		}
-		return result;
-	}
+    @Override
+    public Vector getPenaltyFunctionGradient(Vector params, double looseness)
+    {
+        final double param1 = params.get(paramIndex1);
+        final double param2 = params.get(paramIndex2);
+        final double diff = boundmod * (param1 - param2);
+        final Vector result = new DenseVector(params.size());
+        if (diff > 0)
+        {
+            final double deriv = boundmod * looseness / (diff * diff);
+            result.set(paramIndex1, -deriv);
+            result.set(paramIndex2, deriv);
+        }
+        return result;
+    }
 
-	@Override
-	public Matrix getPenaltyFunctionHessian(Vector params, double looseness) {
-		final double param1 = params.get(paramIndex1);
-		final double param2 = params.get(paramIndex2);
-		final double diff = boundmod * (param1 - param2);
-		final Matrix result = new DenseMatrix(params.size(), params.size());
-		if (diff > 0) {
-			final double deriv = 2 * boundmod * boundmod * looseness
-					/ (diff * diff * diff);
-			result.set(paramIndex1, paramIndex1, deriv);
-			result.set(paramIndex1, paramIndex2, -deriv);
-			result.set(paramIndex2, paramIndex1, -deriv);
-			result.set(paramIndex2, paramIndex2, deriv);
-		}
-		return result;
-	}
+    @Override
+    public Matrix getPenaltyFunctionHessian(Vector params, double looseness)
+    {
+        final double param1 = params.get(paramIndex1);
+        final double param2 = params.get(paramIndex2);
+        final double diff = boundmod * (param1 - param2);
+        final Matrix result = new DenseMatrix(params.size(), params.size());
+        if (diff > 0)
+        {
+            final double deriv = 2 * boundmod * boundmod * looseness / (diff * diff * diff);
+            result.set(paramIndex1, paramIndex1, deriv);
+            result.set(paramIndex1, paramIndex2, -deriv);
+            result.set(paramIndex2, paramIndex1, -deriv);
+            result.set(paramIndex2, paramIndex2, deriv);
+        }
+        return result;
+    }
 
 }

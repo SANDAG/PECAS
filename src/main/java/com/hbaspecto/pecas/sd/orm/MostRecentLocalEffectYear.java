@@ -6,7 +6,9 @@ package com.hbaspecto.pecas.sd.orm;
  * class
  **/
 
-public class MostRecentLocalEffectYear extends MostRecentLocalEffectYear_gen
-		implements java.io.Serializable {
+public class MostRecentLocalEffectYear
+        extends MostRecentLocalEffectYear_gen
+        implements java.io.Serializable
+{
 
 }

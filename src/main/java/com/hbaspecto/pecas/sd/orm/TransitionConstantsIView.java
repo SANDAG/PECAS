@@ -6,7 +6,9 @@ package com.hbaspecto.pecas.sd.orm;
  * class
  **/
 
-public class TransitionConstantsIView extends TransitionConstantsIView_gen
-		implements java.io.Serializable {
+public class TransitionConstantsIView
+        extends TransitionConstantsIView_gen
+        implements java.io.Serializable
+{
 
 }
