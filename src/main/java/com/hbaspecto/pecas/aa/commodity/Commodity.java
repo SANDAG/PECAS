@@ -1,14 +1,17 @@
 /*
  * Copyright 2005 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.aa.commodity;
 
@@ -26,12 +29,14 @@ import com.hbaspecto.pecas.zones.PECASZone;
 import com.pb.common.matrix.Matrix;
 
 /**
- * These are the thingies (goods or services) that need to be transported on the network. E.g. "labour", "manufactured appliances", "personal grooming
- * services", etc. Not really commodities in the economic sense because they are heterogeneous in the model.
+ * These are the thingies (goods or services) that need to be transported on the
+ * network. E.g. "labour", "manufactured appliances", "personal grooming
+ * services", etc. Not really commodities in the economic sense because they are
+ * heterogeneous in the model.
  * 
  * @author John Abraham
  */
-public class Commodity
+public final class Commodity
         extends AbstractCommodity
 {
 
@@ -277,12 +282,14 @@ public class Commodity
     }
 
     /**
-     * This gets the ZUtility for a commodity in a zone, either the selling ZUtility or the buying ZUtility.
+     * This gets the ZUtility for a commodity in a zone, either the selling
+     * ZUtility or the buying ZUtility.
      * 
      * @param t
      *            the PECASZone to get the buying or selling utility of
      * @param selling
-     *            if true, get the selling utility. Otherwise get the buying utility
+     *            if true, get the selling utility. Otherwise get the buying
+     *            utility
      */
     @Override
     public double calcZUtility(AbstractZone t, boolean selling) throws OverflowException
@@ -328,7 +335,8 @@ public class Commodity
     }
 
     /*
-     * This method is called by the Exchange constructor to add an Exchange to this Commodity's list of Exchanges
+     * This method is called by the Exchange constructor to add an Exchange to
+     * this Commodity's list of Exchanges
      */
     public void addExchange(Exchange ex)
     {
@@ -534,7 +542,7 @@ public class Commodity
                 zoneNumbers[exchange + 1] = AbstractZone.getZone(exchange).getZoneUserNumber();
                 for (int consumption = 0; consumption < nZones; consumption++)
                 { // consumption
-                    // zones
+                  // zones
                     try
                     {
                         flows[exchange][consumption] = (float) -ex
@@ -605,7 +613,8 @@ public class Commodity
     }
 
     /**
-     * In PECAS Software User Guide this is AveExchgTotal [SumC(VergeWtc2 SumK(0.5*(TSupc,k + TDem c,k))2 ] ^(1/2)
+     * In PECAS Software User Guide this is AveExchgTotal [SumC(VergeWtc2
+     * SumK(0.5*(TSupc,k + TDem c,k))2 ] ^(1/2)
      * 
      * @return measure of weighted total bought and sold for commodity
      */

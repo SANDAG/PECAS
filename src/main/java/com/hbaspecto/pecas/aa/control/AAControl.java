@@ -1,14 +1,17 @@
 /*
  * Copyright 2005 PB Consult Inc and HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.aa.control;
 
@@ -24,7 +27,8 @@ import com.hbaspecto.pecas.aa.commodity.Commodity;
 import com.pb.common.util.ResourceUtil;
 
 /**
- * This class runs aa. It loads the data, instantiates the AAModel and writes out the data at the end of aa.
+ * This class runs aa. It loads the data, instantiates the AAModel and writes
+ * out the data at the end of aa.
  * 
  * @author Christi Willison
  * @version Mar 16, 2004
@@ -36,7 +40,12 @@ public class AAControl
     private final int            timePeriod;
     private final ResourceBundle aaRb;
     protected AAPProcessor       aaReaderWriter;
-    protected int                exitValue          = 1;                                // 1=aa exited with errors i.o.w. didn't
+    protected int                exitValue          = 1;                                // 1=aa
+                                                                                         // exited
+                                                                                         // with
+                                                                                         // errors
+                                                                                         // i.o.w.
+                                                                                         // didn't
     // converge, 0=aa exited without errors iow.
     // converged
     private int                  constraintIteration;
@@ -108,7 +117,8 @@ public class AAControl
     }
 
     /**
-     * This method performs the price search to try to clear all markets for all commodities
+     * This method performs the price search to try to clear all markets for all
+     * commodities
      * 
      * @return 0 if it all worked, >0 otherwise
      */
@@ -146,11 +156,14 @@ public class AAControl
         if (isParallel)
         {
             aa = new com.hbaspecto.pecas.aa.jppf.JppfAAModel(aaRb);
-            logger.info("AA is running in multi-machine mode. To modify this configuration, refer to the aa.jppfParallel property in aa.properties file.");
+            logger.info("AA is running in multi-machine mode. To modify this configuration, "
+                    + "refer to the aa.jppfParallel property in aa.properties file.");
         } else
         {
             aa = new AAModel(aaRb);
-            logger.info("\nAA is NOT running in multi-machine mode (but is using all the cores in the current machine).  To modify this configuration, refer to the aa.jppfParallel property in aa.properties file.");
+            logger.info("\nAA is NOT running in multi-machine mode (but is using all the cores in the current "
+                    + "machine).  To modify this configuration, refer to the aa.jppfParallel property in "
+                    + "aa.properties file.");
         }
 
         // aa = new AAModel(aaRb, globalRb);
@@ -273,7 +286,8 @@ public class AAControl
                     aa.calculateNewPricesUsingBlockDerivatives(calcDeltaUsingDerivatives);
                 } else
                 {
-                    logger.error("Don't use diagonal approximation anymore, please set aa.calculateAveragePrices to true or remove entry from properties file");
+                    logger.error("Don't use diagonal approximation anymore, please set aa.calculateAveragePrices to "
+                            + "true or remove entry from properties file");
                     aa.calculateNewPricesUsingDiagonalApproximation();
                 }
 
@@ -510,7 +524,8 @@ public class AAControl
                             + " at iteration "
                             + iteration
                             + ". "
-                            + "This is usually not an issue, but if this message persists for more than a few iterations, there may be a problem with the inputs.");
+                            + "This is usually not an issue, but if this message persists for more than a few "
+                            + "iterations, there may be a problem with the inputs.");
         } else
         {
             AAStatusLogger.logGraph(title, iteration, tClear, "Iteration", "tClear");
@@ -531,7 +546,8 @@ public class AAControl
     }
 
     /**
-     * Run PECAS AA module. Note this is duplicated in AAModel.startModel(), if you change here please change it there too.
+     * Run PECAS AA module. Note this is duplicated in AAModel.startModel(), if
+     * you change here please change it there too.
      * 
      * @param args
      */
@@ -596,7 +612,7 @@ public class AAControl
             do
             {
                 logger.fatal(e.getMessage());
-                final StackTraceElement elements[] = e.getStackTrace();
+                final StackTraceElement[] elements = e.getStackTrace();
                 for (int i = 0; i < elements.length; i++)
                 {
                     logger.fatal(elements[i].toString());

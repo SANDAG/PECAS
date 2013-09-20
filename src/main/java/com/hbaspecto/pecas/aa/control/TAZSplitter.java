@@ -33,8 +33,10 @@ public class TAZSplitter
     private final PECASZone[]                     zones;
 
     /**
-     * An N-dimensional array of make and use coefficients. ZonalMakeUse.csv stored in an array Dimension 0 is production activities Dimension 1 is
-     * beta zone Dimension 2 is commodity name Dimension 3 is "M" or "U" for make or use
+     * An N-dimensional array of make and use coefficients. ZonalMakeUse.csv
+     * stored in an array Dimension 0 is production activities Dimension 1 is
+     * beta zone Dimension 2 is commodity name Dimension 3 is "M" or "U" for
+     * make or use
      */
     private final StringIndexedNDimensionalMatrix zonalMakeUseCoefficients;
     StringIndexedNDimensionalMatrix               alphaZonalMake;
@@ -124,7 +126,7 @@ public class TAZSplitter
 
                         double totalFloorspaceConsumption = 0;
                         double[] amounts = null;
-                        ;
+
                         try
                         {
                             amounts = cf.calcAmounts(buyingZUtilities, sellingZUtilities,
@@ -194,7 +196,7 @@ public class TAZSplitter
         }
         writeBinaryAlphaZoneTotalMakeUse();
         writeAsciiAlphaZoneTotalMakeUse(commodityNames);
-    }// end writeFloorspaceZoneTables
+    } // end writeFloorspaceZoneTables
 
     private void writeAsciiAlphaZoneTotalMakeUse(String[] commodityNames)
     {
@@ -476,7 +478,7 @@ public class TAZSplitter
 
                 } // endif for checking floorspace commodity type
             } // endif for checking to see if commodity is null
-        }// endfor for iterating through commodities
+        } // endfor for iterating through commodities
     }
 
     private void splitActivityTotalEquallyAcrossTAZs(double[] activityLocationsSplit,

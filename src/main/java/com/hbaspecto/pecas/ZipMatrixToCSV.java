@@ -4,8 +4,12 @@ import java.io.File;
 import com.pb.common.matrix.CSVMatrixWriter;
 import com.pb.common.matrix.ZipMatrixReader;
 
-public class ZipMatrixToCSV
+public final class ZipMatrixToCSV
 {
+    private ZipMatrixToCSV()
+    {
+    }
+
     public static void main(String[] args)
     {
         final File fromFile = new File(args[0]);

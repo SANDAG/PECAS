@@ -1,14 +1,17 @@
 /*
  * Copyright 2005 PB Consult Inc and HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.aa.control;
 
@@ -47,11 +50,16 @@ import drasys.or.matrix.Matrix;
 import drasys.or.matrix.SMFWriter;
 
 /**
- * aaModel essentially has to: 1) Call migrationAndAllocation for each ProductionActivity for a given time step. 2) if some Production Activities are
- * modelled as being in equilibrium with each other, aaModel will need to adjust prices/utilities and then call reMigrationAndReAllocation for those
- * ProductionActivities repeatedly, adjusting prices until an equilibrium is achived Note that different ProductionActivities could have different
- * time steps. Thus a DisaggregateActivity could be simulated with a monthly time step with some prices adjusted after each month, while a set of
- * AggregateActivities are simulated as being in equilibrium at the end of each one-year time period.
+ * aaModel essentially has to: 1) Call migrationAndAllocation for each
+ * ProductionActivity for a given time step. 2) if some Production Activities
+ * are modelled as being in equilibrium with each other, aaModel will need to
+ * adjust prices/utilities and then call reMigrationAndReAllocation for those
+ * ProductionActivities repeatedly, adjusting prices until an equilibrium is
+ * achived Note that different ProductionActivities could have different time
+ * steps. Thus a DisaggregateActivity could be simulated with a monthly time
+ * step with some prices adjusted after each month, while a set of
+ * AggregateActivities are simulated as being in equilibrium at the end of each
+ * one-year time period.
  * 
  * @author John Abraham
  */
@@ -60,22 +68,40 @@ public class AAModel
 
     protected static Logger      logger                             = Logger.getLogger(AAModel.class);
 
-    private double               conFac                             = 0.01;                           // default value
+    private double               conFac                             = 0.01;                           // default
+                                                                                                       // value
 
-    private double               minimumStepSize                    = 1.0E-4;                         // default value
+    private double               minimumStepSize                    = 1.0E-4;                         // default
+                                                                                                       // value
 
-    private double               stepSize                           = .5;                             // actual stepSize that will be used by aa,
+    private double               stepSize                           = .5;                             // actual
+                                                                                                       // stepSize
+                                                                                                       // that
+                                                                                                       // will
+                                                                                                       // be
+                                                                                                       // used
+                                                                                                       // by
+                                                                                                       // aa,
     // will go up or down depending on the
 
     // merit measure. It is changed via the "increaseStepSize"
     // and "decreaseStepSizeAndAdjustPrices" method.
-    private double               maximumStepSize                    = 1.0;                            // default value
+    private double               maximumStepSize                    = 1.0;                            // default
+                                                                                                       // value
 
     // re-activate this code if we need some specific adjustments for specific
     // stubborn commodities
-    private double               commoditySpecificScalingAdjustment = 0;                              // default value
+    private double               commoditySpecificScalingAdjustment = 0;                              // default
+                                                                                                       // value
 
-    HashMap                      newPricesC                         = null;                           // a new HashMap will be created every time
+    HashMap                      newPricesC                         = null;                           // a
+                                                                                                       // new
+                                                                                                       // HashMap
+                                                                                                       // will
+                                                                                                       // be
+                                                                                                       // created
+                                                                                                       // every
+                                                                                                       // time
     // "calculateNewPrices" is called
 
     HashMap                      oldPricesC                         = new HashMap();
@@ -86,18 +112,23 @@ public class AAModel
 
     public ResourceBundle        aaRb;
 
-    static public ResourceBundle lastAaRb;
+    public static ResourceBundle lastAaRb;
 
     private static Executor      commodityThreadPool;
 
     private static Executor      activityThreadPool;
 
     /*
-     * This constructor is used by AAControl and by AADAF - The aa.properties file will not be in the classpath when running on the cluster (or even
-     * in the mono-version when running for mulitple years using AO) and therefore we need to pass in the ResourceBundle to aaModel from within the
-     * AAServerTask. Because there may be more than 1 aa.properties file over the course of a 30 year simulation it is not practical to include 30
-     * different location in the classpath. AO will locate the most recent aa.properties file based on the timeInterval and will write it's absolute
-     * path location into a file called 'RunParameters.txt' where it will be read in by AAServerTask in it's 'onStart( ) method and will subsequently
+     * This constructor is used by AAControl and by AADAF - The aa.properties
+     * file will not be in the classpath when running on the cluster (or even in
+     * the mono-version when running for mulitple years using AO) and therefore
+     * we need to pass in the ResourceBundle to aaModel from within the
+     * AAServerTask. Because there may be more than 1 aa.properties file over
+     * the course of a 30 year simulation it is not practical to include 30
+     * different location in the classpath. AO will locate the most recent
+     * aa.properties file based on the timeInterval and will write it's absolute
+     * path location into a file called 'RunParameters.txt' where it will be
+     * read in by AAServerTask in it's 'onStart( ) method and will subsequently
      * be passed to aaModel during the 'new aaModel(rb)' call.
      */
     public AAModel(ResourceBundle aaRb)
@@ -238,15 +269,20 @@ public class AAModel
     }
 
     /*
-     * This method calculates CUBuy and CUSell for each commodity in each zone. These are the logsum of the destination (or origin) choice models.
+     * This method calculates CUBuy and CUSell for each commodity in each zone.
+     * These are the logsum of the destination (or origin) choice models.
      * 
-     * The prices must have been set already in each Exchange object for the Commodity. These prices are effectively the input to this routine,
-     * although they do not appear in the parameter list because a precondition is that the prices have already been set.
+     * The prices must have been set already in each Exchange object for the
+     * Commodity. These prices are effectively the input to this routine,
+     * although they do not appear in the parameter list because a precondition
+     * is that the prices have already been set.
      * 
-     * The Commodity object must also know that the prices have been changed, this can be accomplished by calling the unfixPricesAndConditions method.
+     * The Commodity object must also know that the prices have been changed,
+     * this can be accomplished by calling the unfixPricesAndConditions method.
      * 
-     * The output values are set in the appropriate commodityZUtility object in CommodityZUtility.lastCalculatedUtility, thus this method does not
-     * return any results; the values have been calculated
+     * The output values are set in the appropriate commodityZUtility object in
+     * CommodityZUtility.lastCalculatedUtility, thus this method does not return
+     * any results; the values have been calculated
      */
     public boolean calculateCompositeBuyAndSellUtilities()
     {
@@ -332,8 +368,10 @@ public class AAModel
     }
 
     /**
-     * This method calculates the TC, TP and derivative of TC and derivative of TP for each commodity in each zone. Along the way, it calculates
-     * several utilitiy functions. The TC, TP and dTC, dTP are stored in the appropriate CommodityZUtilitiy object (quantity and derivative)
+     * This method calculates the TC, TP and derivative of TC and derivative of
+     * TP for each commodity in each zone. Along the way, it calculates several
+     * utilitiy functions. The TC, TP and dTC, dTP are stored in the appropriate
+     * CommodityZUtilitiy object (quantity and derivative)
      */
     public boolean calculateLocationConsumptionAndProduction()
     {
@@ -372,8 +410,10 @@ public class AAModel
     }
 
     /**
-     * This method calculates the TC, TP and derivative of TC and derivative of TP for each commodity in each zone. Along the way, it calculates
-     * several utility functions. The TC, TP and dTC, dTP are stored in the appropriate CommodityZUtilitiy object (quantity and derivative)
+     * This method calculates the TC, TP and derivative of TC and derivative of
+     * TP for each commodity in each zone. Along the way, it calculates several
+     * utility functions. The TC, TP and dTC, dTP are stored in the appropriate
+     * CommodityZUtilitiy object (quantity and derivative)
      */
     public boolean recalculateLocationConsumptionAndProduction()
     {
@@ -456,14 +496,17 @@ public class AAModel
     }
 
     /**
-     * This method calculates the Buying and Selling quantities of each commodity produced or consumed in each zone that is allocated to a particular
-     * exchange zone for selling or buying. Bc,z,k and Sc,z,k.
+     * This method calculates the Buying and Selling quantities of each
+     * commodity produced or consumed in each zone that is allocated to a
+     * particular exchange zone for selling or buying. Bc,z,k and Sc,z,k.
      * 
-     * This is the multithreaded version for a shared memory (multicore) machine.
+     * This is the multithreaded version for a shared memory (multicore)
+     * machine.
      * 
      * @param settingSizeTerms
-     *            indicates whether we are currently setting size terms, ignored in this Symmetric Multiprocessing version but in multiple-machine
-     *            subclasses this is important
+     *            indicates whether we are currently setting size terms, ignored
+     *            in this Symmetric Multiprocessing version but in
+     *            multiple-machine subclasses this is important
      */
     public boolean allocateQuantitiesToFlowsAndExchanges(boolean settingSizeTerms)
     {
@@ -473,7 +516,8 @@ public class AAModel
         }
         final long startTime = System.currentTimeMillis();
         boolean nanPresent = false;
-        Commodity.clearAllCommodityExchangeQuantities();// iterates through the
+        Commodity.clearAllCommodityExchangeQuantities();
+        // iterates through the
         // exchange objects
         // inside the commodity
         // objects and sets the sell, buy qtys and the derivatives to 0
@@ -664,7 +708,10 @@ public class AAModel
             {
                 logger.info("\t maxSurp: " + maxSurplusSigned + " in " + maxExchange
                         + ". Current price is " + maxExchange.getPrice() /*
-                                                                          * changing " to " + newPriceAtMaxExchange
+                                                                          * changing
+                                                                          * " to "
+                                                                          * +
+                                                                          * newPriceAtMaxExchange
                                                                           */);
             }
             if (maxPriceExchange != null)
@@ -1110,14 +1157,16 @@ public class AAModel
     }
 
     /**
-     * For each price calculates the difference between the first one and the second one, and returns a new price that is a scaled back step
+     * For each price calculates the difference between the first one and the
+     * second one, and returns a new price that is a scaled back step
      * 
      * @param firstPrices
      *            Hashmap of first set of prices keyed by exchange
      * @param secondPrices
      *            Hashmap of second set of prices keyed by exchange
      * @param howFarBack
-     *            how far back to step (0.5 is halfway back, 0.75 is 3/4 way back)
+     *            how far back to step (0.5 is halfway back, 0.75 is 3/4 way
+     *            back)
      * @return Hashmap of new prices in between the other two
      */
     private static HashMap StepPartwayBackBetweenTwoOtherPrices(HashMap firstPrices,
@@ -1165,10 +1214,13 @@ public class AAModel
     }
 
     /*
-     * This method is called by AO. Before startModel is called the most current aa.properties file has been found in the tn subdirectories and has
-     * been set by calling the setApplicationResourceBundle method (a ModelComponent method) from AO.
+     * This method is called by AO. Before startModel is called the most current
+     * aa.properties file has been found in the tn subdirectories and has been
+     * set by calling the setApplicationResourceBundle method (a ModelComponent
+     * method) from AO.
      * 
-     * This is duplicated code from AAControl.main(). If you change this code please change AAControl.main() as well.
+     * This is duplicated code from AAControl.main(). If you change this code
+     * please change AAControl.main() as well.
      */
     public void startModel(int baseYear, int timeInterval)
     {
@@ -1213,8 +1265,9 @@ public class AAModel
             int runAroundCount = 0;
             double maxAbsChange = 0;
             do
-            {// have to do this iteratively because the logsum denominator
-             // changes
+            {
+                // have to do this iteratively because the logsum denominator
+                // changes
                 maxAbsChange = 0;
                 runAroundCount++;
                 try

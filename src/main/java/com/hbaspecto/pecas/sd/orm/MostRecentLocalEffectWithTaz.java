@@ -6,7 +6,9 @@ package com.hbaspecto.pecas.sd.orm;
  * class
  **/
 
-public class MostRecentLocalEffectWithTaz extends
-		MostRecentLocalEffectWithTaz_gen implements java.io.Serializable {
+public class MostRecentLocalEffectWithTaz
+        extends MostRecentLocalEffectWithTaz_gen
+        implements java.io.Serializable
+{
 
 }

@@ -4,8 +4,12 @@ import java.io.File;
 import com.pb.common.matrix.CSVMatrixReader;
 import com.pb.common.matrix.ZipMatrixWriter;
 
-public class CSVToZipMatrix
+public final class CSVToZipMatrix
 {
+    private CSVToZipMatrix()
+    {
+    }
+
     public static void main(String[] args)
     {
         final File fromFile = new File(args[0]);

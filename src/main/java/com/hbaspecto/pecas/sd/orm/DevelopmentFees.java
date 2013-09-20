@@ -6,7 +6,9 @@ package com.hbaspecto.pecas.sd.orm;
  * class
  **/
 
-public class DevelopmentFees extends DevelopmentFees_gen implements
-		java.io.Serializable {
+public class DevelopmentFees
+        extends DevelopmentFees_gen
+        implements java.io.Serializable
+{
 
 }

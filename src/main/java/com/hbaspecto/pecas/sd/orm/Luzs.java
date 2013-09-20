@@ -6,5 +6,8 @@ package com.hbaspecto.pecas.sd.orm;
  * class
  **/
 
-public class Luzs extends Luzs_gen implements java.io.Serializable {
+public class Luzs
+        extends Luzs_gen
+        implements java.io.Serializable
+{
 }

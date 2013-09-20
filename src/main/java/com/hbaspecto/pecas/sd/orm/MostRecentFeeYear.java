@@ -6,7 +6,9 @@ package com.hbaspecto.pecas.sd.orm;
  * class
  **/
 
-public class MostRecentFeeYear extends MostRecentFeeYear_gen implements
-		java.io.Serializable {
+public class MostRecentFeeYear
+        extends MostRecentFeeYear_gen
+        implements java.io.Serializable
+{
 
 }
