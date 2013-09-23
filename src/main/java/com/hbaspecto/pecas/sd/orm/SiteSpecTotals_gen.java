@@ -32,7 +32,7 @@ public abstract class SiteSpecTotals_gen
     {
         if (meta == null)
         {
-            final String msg = SiteSpecTotals_gen.class.getName() + " was not initialized for ORM";
+            String msg = SiteSpecTotals_gen.class.getName() + " was not initialized for ORM";
             logger.fatal(msg);
             throw new RuntimeException(msg);
         }
@@ -78,7 +78,6 @@ public abstract class SiteSpecTotals_gen
         setDouble(SpaceQuantity, value);
     }
 
-    @Override
     public SRecordMeta<SiteSpecTotals> getMeta()
     {
         return meta;

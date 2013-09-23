@@ -20,7 +20,6 @@ import com.pb.common.util.ResourceUtil;
 public class BaltimoreTester
         implements EstimationReader
 {
-
     private static String url;
     private static String user;
     private static String password;
@@ -35,16 +34,14 @@ public class BaltimoreTester
 
         // StandardSDModel sd = new StandardSDModel();
         /*
-         * try { TestParameterEstimation.writer = new BufferedWriter(new
-         * FileWriter("coeffs.csv")); } catch(IOException e) { }
+         * try { TestParameterEstimation.writer = new BufferedWriter(new FileWriter("coeffs.csv")); } catch(IOException e) { }
          */
         // sd.calibrateModel(new BaltimoreTester(), ZoningRulesI.baseYear,
         // ZoningRulesI.currentYear,
         // 1E-5, 50);
         // SSessionJdbc.getThreadLocalSession().commit();
         /*
-         * try { TestParameterEstimation.writer.close(); } catch(IOException e)
-         * { }
+         * try { TestParameterEstimation.writer.close(); } catch(IOException e) { }
          */
 
         System.exit(0);

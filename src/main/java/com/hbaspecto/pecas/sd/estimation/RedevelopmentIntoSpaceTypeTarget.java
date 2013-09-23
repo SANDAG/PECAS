@@ -11,7 +11,7 @@ public class RedevelopmentIntoSpaceTypeTarget
         implements ExpectedValue
 {
 
-    private final int          spaceType;
+    private int                spaceType;
     private double             modelledValue;
     private double[]           derivs;
     public static final String NAME = "redevel";
@@ -38,15 +38,9 @@ public class RedevelopmentIntoSpaceTypeTarget
     {
         // Must not be vacant to be counted.
         if (SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(ZoningRulesI.land.getCoverage())
-                .isVacant())
-        {
-            return 0;
-        }
+                .isVacant()) return 0;
         // Must be in the correct spacetype to be counted.
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (spaceType != spacetype) return 0;
         return expectedAddedSpace + expectedNewSpace;
     }
 
@@ -55,14 +49,8 @@ public class RedevelopmentIntoSpaceTypeTarget
             double expectedAddedSpace, double expectedNewSpace)
     {
         if (SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(ZoningRulesI.land.getCoverage())
-                .isVacant())
-        {
-            return 0;
-        }
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+                .isVacant()) return 0;
+        if (spaceType != spacetype) return 0;
         return 1;
     }
 
@@ -71,14 +59,8 @@ public class RedevelopmentIntoSpaceTypeTarget
             double expectedAddedSpace, double expectedNewSpace)
     {
         if (SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(ZoningRulesI.land.getCoverage())
-                .isVacant())
-        {
-            return 0;
-        }
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+                .isVacant()) return 0;
+        if (spaceType != spacetype) return 0;
         return 1;
     }
 

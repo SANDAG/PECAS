@@ -1,6 +1,11 @@
 package com.hbaspecto.pecas.sd;
 
 import java.util.ResourceBundle;
+import simpleorm.sessionjdbc.SSessionJdbc;
+import com.hbaspecto.pecas.land.Parcels;
+import com.hbaspecto.pecas.land.PostgreSQLLandInventory;
+import com.hbaspecto.pecas.land.SimpleORMLandInventory;
+import com.hbaspecto.pecas.sd.ZoningRulesI;
 import com.hbaspecto.pecas.sd.estimation.CSVEstimationReader;
 import com.pb.common.util.ResourceUtil;
 
@@ -16,28 +21,28 @@ public class SDEstimation
         {
             ZoningRulesI.baseYear = Integer.valueOf(args[0]);
             ZoningRulesI.currentYear = Integer.valueOf(args[0]) + Integer.valueOf(args[1]);
-        } catch (final Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
             throw new RuntimeException("Put base year and time interval on command line"
                     + "\n For example, 1990 1");
         }
 
-        final ResourceBundle rb = ResourceUtil.getResourceBundle("sd");
+        ResourceBundle rb = ResourceUtil.getResourceBundle("sd");
         StandardSDModel.initOrm(rb);
 
-        final double epsilon = ResourceUtil.getDoubleProperty(rb, "EstimationConvergence", 1E-4);
-        final int maxits = ResourceUtil.getIntegerProperty(rb, "EstimationMaxIterations", 1);
-        final String parameters = ResourceUtil.checkAndGetProperty(rb, "EstimationParameterFile");
-        final String targets = ResourceUtil.checkAndGetProperty(rb, "EstimationTargetFile");
+        double epsilon = ResourceUtil.getDoubleProperty(rb, "EstimationConvergence", 1E-4);
+        int maxits = ResourceUtil.getIntegerProperty(rb, "EstimationMaxIterations", 1);
+        String parameters = ResourceUtil.checkAndGetProperty(rb, "EstimationParameterFile");
+        String targets = ResourceUtil.checkAndGetProperty(rb, "EstimationTargetFile");
 
-        final boolean paramsDiag = ResourceUtil.getBooleanProperty(rb,
+        boolean paramsDiag = ResourceUtil.getBooleanProperty(rb,
                 "EstimationParameterVarianceAsDiagonal", false);
-        final boolean targetsDiag = ResourceUtil.getBooleanProperty(rb,
+        boolean targetsDiag = ResourceUtil.getBooleanProperty(rb,
                 "EstimationTargetVarianceAsDiagonal", false);
 
-        final StandardSDModel sd = new StandardSDModel();
-        final CSVEstimationReader csv = new CSVEstimationReader(targets, targetsDiag, parameters,
+        StandardSDModel sd = new StandardSDModel();
+        CSVEstimationReader csv = new CSVEstimationReader(targets, targetsDiag, parameters,
                 paramsDiag);
 
         sd.calibrateModel(csv, ZoningRulesI.baseYear, ZoningRulesI.currentYear, epsilon, maxits);

@@ -1,17 +1,14 @@
 /*
  * Copyright 2005 PB Consult Inc and HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
+ * under the License.
  */
 package com.hbaspecto.pecas.aa.control;
 
@@ -86,8 +83,7 @@ import com.pb.common.sql.JDBCConnection;
 import com.pb.common.util.ResourceUtil;
 
 /**
- * This class is responsible for reading in the AA input files and setting up
- * objects used by AAModel. It is created by the AAControl class which is
+ * This class is responsible for reading in the AA input files and setting up objects used by AAModel. It is created by the AAControl class which is
  * responsible for setting the ResourceBundle and the timePeriod
  * 
  * @author Christi Willison, John Abraham
@@ -111,10 +107,8 @@ public abstract class AAPProcessor
     protected ResourceBundle                              aaRb;
     private final HashMap<String, TableDataSetCollection> collections             = new HashMap<String, TableDataSetCollection>();
 
-    protected PECASZone[]                                 zones;                                                                  // will
-                                                                                                                                   // be
-                                                                                                                                   // initialized
-                                                                                                                                   // in
+    protected PECASZone[]                                 zones;                                                                  // will be
+                                                                                                                                   // initialized in
                                                                                                                                    // setUpZones
                                                                                                                                    // method
     // after length has been determined.
@@ -134,8 +128,7 @@ public abstract class AAPProcessor
         String            categorizationSkim;
         private Commodity com        = null;
         /**
-         * <code>boundaries</code> contains Float objects describing the
-         * histogram band boundaries
+         * <code>boundaries</code> contains Float objects describing the histogram band boundaries
          */
         ArrayList         boundaries = new ArrayList();
 
@@ -188,11 +181,11 @@ public abstract class AAPProcessor
         // betapkdist.zip
         setUpProductionActivities(); // read in ActivitiesI.csv and initalize an
         // array of aggregate activities
-        setUpExchangesAndZUtilities(); // read in ExchangeImportExportI.csv,
+        setUpExchangesAndZUtilities();// read in ExchangeImportExportI.csv,
         // create an 'Exchanges'
         // table data set and link the exchanges to commodities.
         setExchangePrices();
-        setUpMakeAndUse(); // read in MakeUseI.csv and create a 'MakeUse' table
+        setUpMakeAndUse();// read in MakeUseI.csv and create a 'MakeUse' table
         // data set.
         // Or in case of AASetupWithTechnologySubstitution
         // class, it reads TechnologyOptionsI.csv
@@ -202,13 +195,11 @@ public abstract class AAPProcessor
         {
             logger.info("aa.automaticTechnologySizeTerms is true, not setting FloorspaceBuyingSizeTerms");
             setFloorspaceProportionsForTechnologySizeTerms(floorspaceInventoryByLUZ);
-            logger.info("Since you are using technology size terms, ActivitySizeTermsI should only have "
-                    + "entries for activities that do not use space");
+            logger.info("Since you are using technology size terms, ActivitySizeTermsI should only have entries for activities that do not use space");
             recalcActivitySizeTerms(floorspaceInventoryByLUZ);
         } else
         {
-            logger.warn("aa.automaticTechnologySizeTerms is false, using FloorspaceBuyingSizeTerms instead, "
-                    + "this is deprecated functionality, please upgrade your model");
+            logger.warn("aa.automaticTechnologySizeTerms is false, using FloorspaceBuyingSizeTerms instead, this is deprecated functionality, please upgrade your model");
             recalcActivitySizeTerms(floorspaceInventoryByLUZ);
             logger.info("Since you are not using technology size terms, be sure ActivitySizeTermsI has entries for all activities that use space");
             recalcFloorspaceBuyingSizeTerms();
@@ -278,8 +269,7 @@ public abstract class AAPProcessor
         {
             if (ResourceUtil.getBooleanProperty(aaRb, "calculateExchangeSizes", false))
             {
-                final String msg = "No ManualSizeTerms column in CommoditiesI, calculateExchangeSizes=true, "
-                        + "calculating size terms for all non-floorspace commodities";
+                final String msg = "No ManualSizeTerms column in CommoditiesI, calculateExchangeSizes=true, calculating size terms for all non-floorspace commodities";
                 Commodity.setCalculateSizeTerms(true);
                 logger.info(msg);
             } else
@@ -294,9 +284,7 @@ public abstract class AAPProcessor
             Commodity.setCalculateSizeTerms(true);
             if (!ResourceUtil.getBooleanProperty(aaRb, "calculateExchangeSizes", true))
             {
-                logger.warn("calculateExchangeSizes=false in properties file, this conflicts with "
-                        + "the existance of the ManualSizeTerms column in CommoditiesI, "
-                        + "ignoring entry in properties file");
+                logger.warn("calculateExchangeSizes=false in properties file, this conflicts with the existance of the ManualSizeTerms column in CommoditiesI, ignoring entry in properties file");
             }
         }
         final int[] overRideExternalZones = PECASZone.getOverrideExternalZones();
@@ -679,8 +667,7 @@ public abstract class AAPProcessor
                         xc = new Exchange(c, zones[z], zones.length);
                     }
                     if (!found)
-                    {
-                        // backup default data.
+                    {// backup default data.
                         if (++numExchangeNotFoundErrors < 20 && !c.isFloorspaceCommodity())
                         {
                             logger.info("Can't locate size term for Commodity "
@@ -785,8 +772,7 @@ public abstract class AAPProcessor
         final int fixedPriceColumn = initialPrices.getColumnPosition("FixedPrice");
         if (commodityNameColumn * priceColumn * zoneNumberColumn <= 0)
         {
-            logger.fatal("Missing column in Exchange Results -- check for Commodity, Price and ZoneNumber columns.  "
-                    + "Continuing without initial prices");
+            logger.fatal("Missing column in Exchange Results -- check for Commodity, Price and ZoneNumber columns.  Continuing without initial prices");
         }
         for (int row = 1; row <= initialPrices.getRowCount(); row++)
         {
@@ -1310,8 +1296,7 @@ public abstract class AAPProcessor
         double exportSlope = 1;
         if (deltaString != null)
         {
-            logger.fatal("aa.floorspaceDelta is specified in properties file; this is deprecated, "
-                    + "please specify FloorspaceSupplyI input table instead");
+            logger.fatal("aa.floorspaceDelta is specified in properties file; this is deprecated, please specify FloorspaceSupplyI input table instead");
             throw new RuntimeException(
                     "aa.floorspaceDelta is specified in properties file; this is deprecated, please specify FloorspaceSupplyI input table instead");
         }
@@ -1537,8 +1522,7 @@ public abstract class AAPProcessor
             {
                 if (aZoneMake == null || aZoneUse == null)
                 {
-                    final String msg = "Can't build TAZTripList without splitting quantities to TAZ; "
-                            + "set aa.splitOutputToFloorspaceZones to true if aa.TAZTripList is true";
+                    final String msg = "Can't build TAZTripList without splitting quantities to TAZ; set aa.splitOutputToFloorspaceZones to true if aa.TAZTripList is true";
                     logger.error(msg);
                 } else
                 {
@@ -1908,7 +1892,7 @@ public abstract class AAPProcessor
                 }
             }
         }
-    } // end writeZonalMakeUse
+    }// end writeZonalMakeUse
 
     private void writeCommodityAndActivityFiles()
     {
@@ -1955,13 +1939,11 @@ public abstract class AAPProcessor
             if (logitTechnologyChoice)
             {
                 locationsFile
-                        .write("Activity,ZoneNumber,Quantity,TechnologyLogsum,SizeUtility,ZoneConstant,Constrained,"
-                                + "ConstraintValue,LocationUtility,FullEmbeddedSize,Size\n");
+                        .write("Activity,ZoneNumber,Quantity,TechnologyLogsum,SizeUtility,ZoneConstant,Constrained,ConstraintValue,LocationUtility,FullEmbeddedSize,Size\n");
             } else
             {
                 locationsFile
-                        .write("Activity,ZoneNumber,Quantity,ProductionUtility,ConsumptionUtility,SizeUtility,"
-                                + "ZoneConstant,Constrained,ConstraintValue,LocationUtility\n");
+                        .write("Activity,ZoneNumber,Quantity,ProductionUtility,ConsumptionUtility,SizeUtility,ZoneConstant,Constrained,ConstraintValue,LocationUtility\n");
             }
             final Iterator it = ProductionActivity.getAllProductionActivities().iterator();
             while (it.hasNext())
@@ -2006,9 +1988,7 @@ public abstract class AAPProcessor
                     "aa.writeUtilityComponents");
             if (writeComponents)
             {
-                os.write("Commodity,Zone,BuyingOrSelling,Quantity,zUtility,VariationComponent,PriceComponent,"
-                        + "SizeComponent,TransportComponent1,TransportComponent2,TransportComponent3,"
-                        + "TransportComponent4\n");
+                os.write("Commodity,Zone,BuyingOrSelling,Quantity,zUtility,VariationComponent,PriceComponent,SizeComponent,TransportComponent1,TransportComponent2,TransportComponent3,TransportComponent4\n");
             } else
             {
                 os.write("Commodity,Zone,BuyingOrSelling,Quantity,zUtility\n");
@@ -2088,7 +2068,7 @@ public abstract class AAPProcessor
             logger.fatal("Can't create CommodityZUtilities output file");
             e.printStackTrace();
         }
-    } // end writeZUtilities()
+    }// end writeZUtilities()
 
     public void writeExchangeResults()
     {
@@ -2381,9 +2361,8 @@ public abstract class AAPProcessor
                 {
                     final float boundary = histogramSpecTable.getValueAt(row, column);
                     if (boundary > lastHistogramBoundary)
-                    {
-                        // force increasing
-                        // boudaries
+                    {// force increasing
+                     // boudaries
                         hspec.boundaries.add(new Float(boundary));
                         lastHistogramBoundary = boundary;
                     }
@@ -2412,8 +2391,7 @@ public abstract class AAPProcessor
                     .write("Commodity,BuyingSelling,BandNumber,LowerBound,Quantity,AverageLength\n");
             final PrintWriter pctFile = new PrintWriter(new BufferedWriter(new FileWriter(
                     getOutputPath() + "PctIntrazonalxCommodityxBzone.csv")));
-            pctFile.println("Bzone,Commodity,BuyIntra,BuyFrom,BuyTo,BuyPctIntraFrom,BuyPctIntraTo,SellIntra,"
-                    + "SellFrom,SellTo,SellPctIntraFrom,SellPctIntraTo");
+            pctFile.println("Bzone,Commodity,BuyIntra,BuyFrom,BuyTo,BuyPctIntraFrom,BuyPctIntraTo,SellIntra,SellFrom,SellTo,SellPctIntraFrom,SellPctIntraTo");
             final Iterator com = AbstractCommodity.getAllCommodities().iterator();
             while (com.hasNext())
             {
@@ -2475,18 +2453,15 @@ public abstract class AAPProcessor
         try
         {
             /*
-             * for daf version, we have to write out a file for each commodity
-             * so we create a new file each time this routine is called, write
-             * to the file and then close it. In the monolithic version, we just
-             * write lines to a single file as we iterate over the commodities
-             * and the file will be closed by the calling method.
+             * for daf version, we have to write out a file for each commodity so we create a new file each time this routine is called, write to the
+             * file and then close it. In the monolithic version, we just write lines to a single file as we iterate over the commodities and the file
+             * will be closed by the calling method.
              */
             if (writer == null)
             {
                 writer = new PrintWriter(new BufferedWriter(new FileWriter(getOutputPath()
                         + "PctIntrazonalxBetazone_" + name + ".csv")));
-                writer.println("Bzone,Commodity,BuyIntra,BuyFrom,BuyTo,BuyPctIntraFrom,BuyPctIntraTo,SellIntra,"
-                        + "SellFrom,SellTo,SellPctIntraFrom,SellPctIntraTo");
+                writer.println("Bzone,Commodity,BuyIntra,BuyFrom,BuyTo,BuyPctIntraFrom,BuyPctIntraTo,SellIntra,SellFrom,SellTo,SellPctIntraFrom,SellPctIntraTo");
                 closePctFile = true;
             }
 
@@ -2529,8 +2504,7 @@ public abstract class AAPProcessor
             }
 
             /*
-             * close the file if we are running the DAF version of aa otherwise
-             * the file will be closed after we have iterated thru all the
+             * close the file if we are running the DAF version of aa otherwise the file will be closed after we have iterated thru all the
              * commodities.
              */
             if (writer != null && closePctFile == true)
@@ -2549,8 +2523,7 @@ public abstract class AAPProcessor
      * @param name
      *            name of the commodity to write histograms for
      * @param stream
-     *            stream to write to, can be null in which case a file will be
-     *            created and used
+     *            stream to write to, can be null in which case a file will be created and used
      */
     public void writeFlowHistograms(String name, Writer stream)
     {
@@ -2576,9 +2549,7 @@ public abstract class AAPProcessor
 
     /**
      * @param histogramFile
-     *            the file to write the histogram to. Can be "null" in which
-     *            case a file named histograms_commodityName.csv will be
-     *            created.
+     *            the file to write the histogram to. Can be "null" in which case a file named histograms_commodityName.csv will be created.
      * @param commodityName
      * @param buyingMatrix
      * @param sellingMatrix
@@ -2717,11 +2688,9 @@ public abstract class AAPProcessor
                     writer.write(String.valueOf(x.getFlowQuantity(tazIndex, selling)));
                 }
                 /*
-                 * if (myFlows.timeAndDistanceUtilities && myFlows.peakAutoSkims
-                 * != null) { writer.write("," +
-                 * myFlows.peakAutoSkims.getDistance(tazUserID, tazUserID));
-                 * writer.write("," + myFlows.peakAutoSkims.getTime(tazUserID,
-                 * tazUserID)); }
+                 * if (myFlows.timeAndDistanceUtilities && myFlows.peakAutoSkims != null) { writer.write("," +
+                 * myFlows.peakAutoSkims.getDistance(tazUserID, tazUserID)); writer.write("," + myFlows.peakAutoSkims.getTime(tazUserID, tazUserID));
+                 * }
                  */
                 writer.write("\n");
             } else
@@ -2741,11 +2710,8 @@ public abstract class AAPProcessor
                             writer.write(tazUserID + ",");
                             writer.write(String.valueOf(-x.getFlowQuantity(tazIndex, selling)));
                             /*
-                             * if (myFlows.timeAndDistanceUtilities &&
-                             * myFlows.peakAutoSkims != null) { writer.write(","
-                             * + myFlows.peakAutoSkims.getDistance(exchangeID,
-                             * tazUserID)); writer.write("," +
-                             * myFlows.peakAutoSkims.getTime(exchangeID,
+                             * if (myFlows.timeAndDistanceUtilities && myFlows.peakAutoSkims != null) { writer.write("," +
+                             * myFlows.peakAutoSkims.getDistance(exchangeID, tazUserID)); writer.write("," + myFlows.peakAutoSkims.getTime(exchangeID,
                              * tazUserID)); }
                              */
                             writer.write("\n");
@@ -2755,11 +2721,8 @@ public abstract class AAPProcessor
                             writer.write(exchangeID + ",");
                             writer.write(String.valueOf(x.getFlowQuantity(tazIndex, selling)));
                             /*
-                             * if (myFlows.timeAndDistanceUtilities &&
-                             * myFlows.peakAutoSkims != null) { writer.write(","
-                             * + myFlows.peakAutoSkims.getDistance(tazUserID,
-                             * exchangeID)); writer.write("," +
-                             * myFlows.peakAutoSkims.getTime(tazUserID,
+                             * if (myFlows.timeAndDistanceUtilities && myFlows.peakAutoSkims != null) { writer.write("," +
+                             * myFlows.peakAutoSkims.getDistance(tazUserID, exchangeID)); writer.write("," + myFlows.peakAutoSkims.getTime(tazUserID,
                              * exchangeID)); }
                              */
                             writer.write("\n");
@@ -2884,9 +2847,8 @@ public abstract class AAPProcessor
     }
 
     /**
-     * To stop from breaking existing code, use this method. If we are using SQL
-     * inputs we specify them in aa.datasource. If we are using CSV inputs we
-     * look in aa.base.data.
+     * To stop from breaking existing code, use this method. If we are using SQL inputs we specify them in aa.datasource. If we are using CSV inputs
+     * we look in aa.base.data.
      * 
      * @return the default TableDataSetCollection
      */
@@ -2902,20 +2864,15 @@ public abstract class AAPProcessor
     }
 
     /**
-     * Gets a TableDataSetCollection which will read from inputSource and write
-     * to outputDirectory if aa.useSQLInputs is set to true in the properties
-     * file then inputSource must be a property which defines the name of a
-     * defined jdbc datasource defined in the OS or a database. If
-     * aa.useSQLInputs is set to false (the default value) then inputSource is a
-     * property which defines the name of a directory containing inputs csv
+     * Gets a TableDataSetCollection which will read from inputSource and write to outputDirectory if aa.useSQLInputs is set to true in the properties
+     * file then inputSource must be a property which defines the name of a defined jdbc datasource defined in the OS or a database. If
+     * aa.useSQLInputs is set to false (the default value) then inputSource is a property which defines the name of a directory containing inputs csv
      * files.
      * 
      * @param inputSource
-     *            the name of a property in the aa.properties file which defines
-     *            the inputs source (directory or jdbc database)
+     *            the name of a property in the aa.properties file which defines the inputs source (directory or jdbc database)
      * @param outputSource
-     *            the name of a property in the aa.properties file which defines
-     *            the output directory
+     *            the name of a property in the aa.properties file which defines the output directory
      * @return a TableDataSetCollection which can be used to read and write
      */
     protected TableDataSetCollection getTableDataSetCollection(String inputSource,
@@ -2960,15 +2917,13 @@ public abstract class AAPProcessor
     }
 
     /**
-     * Load a table data set from our specified input source. Calls
-     * loadTableDataSet(string,string,true)
+     * Load a table data set from our specified input source. Calls loadTableDataSet(string,string,true)
      * 
      * @param tableName
      *            name of table to get
      * @param source
      *            location (aa.base.data, etc.)
-     * @return the table data set (guaranteed to be non-null, throws a
-     *         RuntimeException if it can't find the data)
+     * @return the table data set (guaranteed to be non-null, throws a RuntimeException if it can't find the data)
      */
     public final TableDataSet loadTableDataSet(String tableName, String source)
     {
@@ -2976,22 +2931,17 @@ public abstract class AAPProcessor
     };
 
     /**
-     * Load a table data set from our specified input source. Checks
-     * "aa.useSQLInputs" If aa.useSQLInputs is true, tries to get it in the SQL
-     * table (a JDBC connection) Otherwise, tries to read a .csv file. Note that
-     * the override version in AASetupWithTechnologySubstitution will look for a
-     * .CSV file first, then look in JDBC if it isn't there.
+     * Load a table data set from our specified input source. Checks "aa.useSQLInputs" If aa.useSQLInputs is true, tries to get it in the SQL table (a
+     * JDBC connection) Otherwise, tries to read a .csv file. Note that the override version in AASetupWithTechnologySubstitution will look for a .CSV
+     * file first, then look in JDBC if it isn't there.
      * 
      * @param tableName
      *            name of table to get
      * @param source
-     *            source location (aa.base.data, etc., specified in properties
-     *            file)
+     *            source location (aa.base.data, etc., specified in properties file)
      * @param check
-     *            if true, will throw a RuntimeException if it can't find the
-     *            data
-     * @return the table data set, or null if the data was not found and
-     *         check=false
+     *            if true, will throw a RuntimeException if it can't find the data
+     * @return the table data set, or null if the data was not found and check=false
      */
     protected TableDataSet loadTableDataSet(String tableName, String source, boolean check)
     {

@@ -8,24 +8,24 @@ public class SpaceGroupDemolitionTarget
 {
     static Logger              logger = Logger.getLogger(SpaceGroupDemolitionTarget.class);
 
-    private final int[]        spaceTypes;
+    private int[]              spaceTypes;
     public static final String NAME   = "demotarg";
 
     public SpaceGroupDemolitionTarget(int[] spacetypes)
     {
-        spaceTypes = spacetypes;
+        this.spaceTypes = spacetypes;
     }
 
     public SpaceGroupDemolitionTarget(String[] pieces)
     {
-        spaceTypes = new int[pieces.length - 1];
+        this.spaceTypes = new int[pieces.length - 1];
         for (int i = 1; i < pieces.length; i++)
         {
             int type = 0;
             try
             {
                 type = Integer.valueOf(pieces[i]).intValue();
-            } catch (final NumberFormatException e)
+            } catch (NumberFormatException e)
             {
                 logger.error("Can't interpret space type " + pieces[i] + " in "
                         + this.getClass().getName());
@@ -48,8 +48,8 @@ public class SpaceGroupDemolitionTarget
     @Override
     public String getName()
     {
-        final StringBuffer buf = new StringBuffer(NAME);
-        for (final int type : spaceTypes)
+        StringBuffer buf = new StringBuffer(NAME);
+        for (int type : spaceTypes)
         {
             buf.append("-");
             buf.append(type);
@@ -60,12 +60,9 @@ public class SpaceGroupDemolitionTarget
     @Override
     public double getModelledDemolishQuantityForParcel(int checkSpaceType, double quantity)
     {
-        for (final int spaceType : spaceTypes)
+        for (int spaceType : spaceTypes)
         {
-            if (spaceType == checkSpaceType)
-            {
-                return quantity;
-            }
+            if (spaceType == checkSpaceType) return quantity;
         }
         return 0;
     }
@@ -73,12 +70,9 @@ public class SpaceGroupDemolitionTarget
     @Override
     public double getModelledDemolishDerivativeForParcel(int checkSpaceType, double quantity)
     {
-        for (final int spaceType : spaceTypes)
+        for (int spaceType : spaceTypes)
         {
-            if (spaceType == checkSpaceType)
-            {
-                return 1;
-            }
+            if (spaceType == checkSpaceType) return 1;
         }
         return 0;
     }

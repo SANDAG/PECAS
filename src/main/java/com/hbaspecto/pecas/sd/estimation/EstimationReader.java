@@ -5,15 +5,15 @@ import com.hbaspecto.discreteChoiceModelling.Coefficient;
 
 public interface EstimationReader
 {
-    List<EstimationTarget> readTargets();
+    public List<EstimationTarget> readTargets();
 
-    double[][] readTargetVariance(List<EstimationTarget> targets);
+    public double[][] readTargetVariance(List<EstimationTarget> targets);
 
-    List<Coefficient> readCoeffs();
+    public List<Coefficient> readCoeffs();
 
-    double[] readPriorMeans(List<Coefficient> coeffs);
+    public double[] readPriorMeans(List<Coefficient> coeffs);
 
-    double[][] readPriorVariance(List<Coefficient> coeffs);
+    public double[][] readPriorVariance(List<Coefficient> coeffs);
 
-    double[] readStartingValues(List<Coefficient> coeffs);
+    public double[] readStartingValues(List<Coefficient> coeffs);
 }

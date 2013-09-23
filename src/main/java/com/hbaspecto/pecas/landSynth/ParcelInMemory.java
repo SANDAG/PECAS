@@ -3,17 +3,14 @@
  * 
  * Copyright 2008 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
+ * under the License.
  */
 
 package com.hbaspecto.pecas.landSynth;
@@ -85,6 +82,9 @@ public class ParcelInMemory
     // HashMap<String,String>();
     // protected Object[] otherValues = null;
 
+    /**
+	 * 
+	 */
     public ParcelInMemory(Long long1, FieldNameReference fr)
     {
         assert numberOfSpaceTypeIDs > 0 : "Need to set numberOfSpaceTypeIDs before calling the constructor";
@@ -258,8 +258,7 @@ public class ParcelInMemory
         }
         // TODO Put this check
         /*
-         * if (set.next()) { // more than 1 parcel with same id! String
-         * msg=parcelIdField+" is not unique, more than one entry for "+getId();
+         * if (set.next()) { // more than 1 parcel with same id! String msg=parcelIdField+" is not unique, more than one entry for "+getId();
          * logger.fatal(msg); throw new RuntimeException(msg); }
          */
 
@@ -269,8 +268,7 @@ public class ParcelInMemory
     /*
      * (non-Javadoc)
      * 
-     * @see com.hbaspecto.pecas.landSynth.ParcelInterface#setCoverage(int) You
-     * should consider the data type of coverage code; int or char
+     * @see com.hbaspecto.pecas.landSynth.ParcelInterface#setCoverage(int) You should consider the data type of coverage code; int or char
      */
 
     /*

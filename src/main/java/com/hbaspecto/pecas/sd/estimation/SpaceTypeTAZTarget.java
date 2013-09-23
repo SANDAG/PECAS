@@ -10,8 +10,8 @@ public class SpaceTypeTAZTarget
         implements ExpectedValue
 {
 
-    private final int          taz;
-    private final int          spaceType;
+    private int                taz;
+    private int                spaceType;
     private double             modelledValue;
     private double[]           derivs;
     public static final String NAME = "taztarg";
@@ -43,15 +43,9 @@ public class SpaceTypeTAZTarget
             double expectedNewSpace)
     {
         // Must be in the correct TAZ to be counted.
-        if (ZoningRulesI.land.getTaz() != taz)
-        {
-            return 0;
-        }
+        if (ZoningRulesI.land.getTaz() != taz) return 0;
         // Must be of the correct spacetype to be counted.
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (spaceType != spacetype) return 0;
         return expectedAddedSpace + expectedNewSpace;
     }
 
@@ -59,14 +53,8 @@ public class SpaceTypeTAZTarget
     public double getModelledTotalNewDerivativeWRTAddedSpace(int spacetype,
             double expectedAddedSpace, double expectedNewSpace)
     {
-        if (ZoningRulesI.land.getTaz() != taz)
-        {
-            return 0;
-        }
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (ZoningRulesI.land.getTaz() != taz) return 0;
+        if (spaceType != spacetype) return 0;
         return 1;
     }
 
@@ -74,14 +62,8 @@ public class SpaceTypeTAZTarget
     public double getModelledTotalNewDerivativeWRTNewSpace(int spacetype,
             double expectedAddedSpace, double expectedNewSpace)
     {
-        if (ZoningRulesI.land.getTaz() != taz)
-        {
-            return 0;
-        }
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (ZoningRulesI.land.getTaz() != taz) return 0;
+        if (spaceType != spacetype) return 0;
         return 1;
     }
 

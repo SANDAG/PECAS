@@ -5,16 +5,15 @@ import simpleorm.sessionjdbc.SSessionJdbc;
 import com.hbaspecto.discreteChoiceModelling.Coefficient;
 import com.hbaspecto.pecas.sd.SpaceTypesI;
 
-public final class TransitionConstant
+public class TransitionConstant
         implements Coefficient
 {
-    private final int                                                           spacetype1;
-    private final int                                                           spacetype2;
+    private int                                                                 spacetype1;
+    private int                                                                 spacetype2;
 
     public static final String                                                  TRANSITION_CONST = "trans";
 
-    private static final HashMap<Integer, HashMap<Integer, TransitionConstant>> theCoeffs        
-        = new HashMap<Integer, HashMap<Integer, TransitionConstant>>();
+    private static final HashMap<Integer, HashMap<Integer, TransitionConstant>> theCoeffs        = new HashMap<Integer, HashMap<Integer, TransitionConstant>>();
 
     private TransitionConstant(int oldtype, int newtype)
     {
@@ -25,7 +24,7 @@ public final class TransitionConstant
     @Override
     public double getValue()
     {
-        final SSessionJdbc sess = SSessionJdbc.getThreadLocalSession();
+        SSessionJdbc sess = SSessionJdbc.getThreadLocalSession();
         return SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(spacetype1)
                 .getTransitionConstantTo(sess, spacetype2);
     }
@@ -33,7 +32,7 @@ public final class TransitionConstant
     @Override
     public void setValue(double v)
     {
-        final SSessionJdbc sess = SSessionJdbc.getThreadLocalSession();
+        SSessionJdbc sess = SSessionJdbc.getThreadLocalSession();
         SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(spacetype1).setTransitionConstantTo(
                 sess, spacetype2, v);
     }
@@ -88,21 +87,19 @@ public final class TransitionConstant
     {
         if (theCoeffs.containsKey(oldtype))
         {
-            final HashMap<Integer, TransitionConstant> spaceTypeCoeffs = theCoeffs.get(oldtype);
-            if (spaceTypeCoeffs.containsKey(newtype))
+            HashMap<Integer, TransitionConstant> spaceTypeCoeffs = theCoeffs.get(oldtype);
+            if (spaceTypeCoeffs.containsKey(newtype)) return spaceTypeCoeffs.get(newtype);
+            else
             {
-                return spaceTypeCoeffs.get(newtype);
-            } else
-            {
-                final TransitionConstant newCoeff = new TransitionConstant(oldtype, newtype);
+                TransitionConstant newCoeff = new TransitionConstant(oldtype, newtype);
                 spaceTypeCoeffs.put(newtype, newCoeff);
                 return newCoeff;
             }
         } else
         {
-            final HashMap<Integer, TransitionConstant> spaceTypeCoeffs = new HashMap<Integer, TransitionConstant>();
+            HashMap<Integer, TransitionConstant> spaceTypeCoeffs = new HashMap<Integer, TransitionConstant>();
             theCoeffs.put(oldtype, spaceTypeCoeffs);
-            final TransitionConstant newCoeff = new TransitionConstant(oldtype, newtype);
+            TransitionConstant newCoeff = new TransitionConstant(oldtype, newtype);
             spaceTypeCoeffs.put(newtype, newCoeff);
             return newCoeff;
         }

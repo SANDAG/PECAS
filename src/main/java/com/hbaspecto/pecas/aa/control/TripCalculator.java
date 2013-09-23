@@ -73,14 +73,11 @@ public class TripCalculator
      * @param a2b
      *            correspondence between TAZ (alpha zones) and LUZ (beta zones)
      * @param spec
-     *            describing how certain trips are to be generated from flow
-     *            rates
+     *            describing how certain trips are to be generated from flow rates
      * @param alphaZonalMake
-     *            2 dimensional matrix of make amounts, first index is commodity
-     *            second index is TAZ zone
+     *            2 dimensional matrix of make amounts, first index is commodity second index is TAZ zone
      * @param alphaZonalUse
-     *            2 dimensional matrix of use amounts, first index is commodity
-     *            second index is TAZ zone
+     *            2 dimensional matrix of use amounts, first index is commodity second index is TAZ zone
      * @param maxTaz
      *            maximum TAZ number
      * @return

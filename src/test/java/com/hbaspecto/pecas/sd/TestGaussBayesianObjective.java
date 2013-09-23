@@ -184,7 +184,7 @@ public class TestGaussBayesianObjective
         assertEquals(190.454, gradient.get(2, 2), 0.001);
     }
 
-    private static final class TestModel
+    private static class TestModel
             implements DifferentiableModel
     {
         List<Coefficient> myCoeffs;
@@ -260,7 +260,7 @@ public class TestGaussBayesianObjective
         }
     }
 
-    private static final class TestAlternative
+    private static class TestAlternative
             extends DevelopmentAlternative
     {
         private final Coefficient   intensityDispersion;
@@ -385,7 +385,7 @@ public class TestGaussBayesianObjective
 
     }
 
-    private static final class TestCoefficient
+    private static class TestCoefficient
             implements Coefficient
     {
         private final String myName;
@@ -440,7 +440,7 @@ public class TestGaussBayesianObjective
 
     }
 
-    private static final class TestTarget
+    private static class TestTarget
             extends EstimationTarget
             implements ExpectedValue
     {

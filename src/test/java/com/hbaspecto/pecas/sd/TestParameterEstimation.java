@@ -1135,10 +1135,8 @@ public class TestParameterEstimation
         final int[] spacetypes = {3, 5};
         final int[] zones = {11, 12, 21, 22};
         /*
-         * double[][] spaceTypeTazTargets = new double[][] {{30, 0, 32, 12}, {0,
-         * 65932, 422, 12209}}; double[] redevelopmentIntoSpaceTypeTargets = new
-         * double[] {90, 60099}; double[] spaceTypeIntensityTargets = new
-         * double[] {0.0003, 0.102};
+         * double[][] spaceTypeTazTargets = new double[][] {{30, 0, 32, 12}, {0, 65932, 422, 12209}}; double[] redevelopmentIntoSpaceTypeTargets = new
+         * double[] {90, 60099}; double[] spaceTypeIntensityTargets = new double[] {0.0003, 0.102};
          */
         final double[][] spaceTypeTazTargets = new double[][] { {2, 0, 39, 22},
                 {0, 36057, 684, 11855}};
@@ -1181,10 +1179,8 @@ public class TestParameterEstimation
     public void checkTargetVariance(double[][] variance)
     {
         /*
-         * result[0][0] = 9; result[1][1] = 1E-12; result[2][2] = 10.24;
-         * result[3][3] = 1.44; result[4][4] = 1E-12; result[5][5] = 43470286;
-         * result[6][6] = 1780.84; result[7][7] = 1490597; result[8][8] = 81;
-         * result[9][9] = 36118898; result[10][10] = 9E-10; result[11][11] =
+         * result[0][0] = 9; result[1][1] = 1E-12; result[2][2] = 10.24; result[3][3] = 1.44; result[4][4] = 1E-12; result[5][5] = 43470286;
+         * result[6][6] = 1780.84; result[7][7] = 1490597; result[8][8] = 81; result[9][9] = 36118898; result[10][10] = 9E-10; result[11][11] =
          * 0.000104;
          */
         assertEquals(0.04, variance[0][0]);
@@ -1488,28 +1484,17 @@ public class TestParameterEstimation
         // in the same order as the coefficients provided.
 
         /*
-         * result[0][0] = 1.69; result[1][1] = 4.84; result[2][2] = 1E-12;
-         * result[3][3] = 0.01; result[4][4] = 0.01; result[5][5] = 0.01;
-         * result[6][6] = 3469.21; result[7][7] = 1.2769; result[8][8] = 1E+99;
-         * result[9][9] = 30.5809; result[10][10] = 49; result[11][11] = 1E-12;
-         * result[12][12] = 0.01; result[13][13] = 0.01; result[14][14] = 0.01;
-         * result[15][15] = 0.01; result[16][16] = 0.01; result[17][17] = 0.01;
-         * result[18][18] = 2070.25; result[19][19] = 12.25; result[20][20] =
-         * 1E+99; result[21][21] = 100; result[22][22] = 100; result[23][23] =
-         * 1E+99; result[24][24] = 0.01; result[25][25] = 0.01; result[26][26] =
-         * 0.01; result[27][27] = 2410.81; result[28][28] = 118.81;
-         * result[29][29] = 2905.21; result[30][30] = 0.01; result[31][31] =
-         * 0.01; result[32][32] = 0.01; result[33][33] = 1E-12; result[34][34] =
-         * 1E-12; result[35][35] = 1E-12; result[36][36] = 0.01; result[37][37]
-         * = 0.01; result[38][38] = 0.01; result[39][39] = 0.01; result[40][40]
-         * = 0.01; result[41][41] = 0.01; result[42][42] = 686.44;
-         * result[43][43] = 3.5344; result[44][44] = 1E+99; result[45][45] =
-         * 686.44; result[46][46] = 3.5344; result[47][47] = 1E+99;
-         * result[48][48] = 0.2304; result[49][49] = 0.1296; result[50][50] =
-         * 1E-12; result[51][51] = 4; result[52][52] = 2.25; result[53][53] =
-         * 1E-12; result[54][54] = 74.4769; result[55][55] = 148.84;
-         * result[56][56] = 2.5281; result[57][57] = 91.7764; result[58][58] =
-         * 1413.76; result[59][59] = 2401;
+         * result[0][0] = 1.69; result[1][1] = 4.84; result[2][2] = 1E-12; result[3][3] = 0.01; result[4][4] = 0.01; result[5][5] = 0.01; result[6][6]
+         * = 3469.21; result[7][7] = 1.2769; result[8][8] = 1E+99; result[9][9] = 30.5809; result[10][10] = 49; result[11][11] = 1E-12; result[12][12]
+         * = 0.01; result[13][13] = 0.01; result[14][14] = 0.01; result[15][15] = 0.01; result[16][16] = 0.01; result[17][17] = 0.01; result[18][18] =
+         * 2070.25; result[19][19] = 12.25; result[20][20] = 1E+99; result[21][21] = 100; result[22][22] = 100; result[23][23] = 1E+99; result[24][24]
+         * = 0.01; result[25][25] = 0.01; result[26][26] = 0.01; result[27][27] = 2410.81; result[28][28] = 118.81; result[29][29] = 2905.21;
+         * result[30][30] = 0.01; result[31][31] = 0.01; result[32][32] = 0.01; result[33][33] = 1E-12; result[34][34] = 1E-12; result[35][35] =
+         * 1E-12; result[36][36] = 0.01; result[37][37] = 0.01; result[38][38] = 0.01; result[39][39] = 0.01; result[40][40] = 0.01; result[41][41] =
+         * 0.01; result[42][42] = 686.44; result[43][43] = 3.5344; result[44][44] = 1E+99; result[45][45] = 686.44; result[46][46] = 3.5344;
+         * result[47][47] = 1E+99; result[48][48] = 0.2304; result[49][49] = 0.1296; result[50][50] = 1E-12; result[51][51] = 4; result[52][52] =
+         * 2.25; result[53][53] = 1E-12; result[54][54] = 74.4769; result[55][55] = 148.84; result[56][56] = 2.5281; result[57][57] = 91.7764;
+         * result[58][58] = 1413.76; result[59][59] = 2401;
          */
 
         assertEquals(16.9, variance[0][0]);

@@ -7,22 +7,18 @@ package com.hbaspecto.functions;
  * erf(z) = 2 / sqrt(pi) * integral(exp(-t*t), t = 0..z)
  * 
  * 
- * % java ErrorFunction 1.0 erf(1.0) = 0.8427007877600067 // actual =
- * 0.84270079294971486934 Phi(1.0) = 0.8413447386043253 // actual = 0.8413447460
+ * % java ErrorFunction 1.0 erf(1.0) = 0.8427007877600067 // actual = 0.84270079294971486934 Phi(1.0) = 0.8413447386043253 // actual = 0.8413447460
  * 
  * 
- * % java ErrorFunction -1.0 erf(-1.0) = -0.8427007877600068 Phi(-1.0) =
- * 0.15865526139567465
+ * % java ErrorFunction -1.0 erf(-1.0) = -0.8427007877600068 Phi(-1.0) = 0.15865526139567465
  * 
- * % java ErrorFunction 3.0 erf(3.0) = 0.9999779095015785 // actual =
- * 0.99997790950300141456 Phi(3.0) = 0.9986501019267444
+ * % java ErrorFunction 3.0 erf(3.0) = 0.9999779095015785 // actual = 0.99997790950300141456 Phi(3.0) = 0.9986501019267444
  * 
  * % java ErrorFunction 30 erf(30.0) = 1.0 Phi(30.0) = 1.0
  * 
  * % java ErrorFunction -30 erf(-30.0) = -1.0 Phi(-30.0) = 0.0
  * 
- * % java ErrorFunction 1E-20 erf(1.0E-20) = -3.0000000483809686E-8 // true
- * anser 1.13E-20 Phi(1.0E-20) = 0.49999998499999976
+ * % java ErrorFunction 1E-20 erf(1.0E-20) = -3.0000000483809686E-8 // true anser 1.13E-20 Phi(1.0E-20) = 0.49999998499999976
  * 
  * @author Robert Sedgewick and Kevin Wayne, modified by John Abraham
  * 

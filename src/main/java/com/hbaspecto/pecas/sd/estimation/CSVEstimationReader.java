@@ -14,9 +14,8 @@ import org.apache.log4j.Logger;
 import com.hbaspecto.discreteChoiceModelling.Coefficient;
 
 /**
- * Class that reads the estimation inputs from CSV files (see documentation for
- * format). Reads the files in their entirety on construction, returning the
- * appropriate information in the read methods.
+ * Class that reads the estimation inputs from CSV files (see documentation for format). Reads the files in their entirety on construction, returning
+ * the appropriate information in the read methods.
  * 
  * @author Graham
  * 
@@ -46,10 +45,7 @@ public class CSVEstimationReader
 
     private Set<Integer> getGroup(int groupNum)
     {
-        if (groups == null)
-        {
-            readGroupFile("tazgroups.csv");
-        }
+        if (groups == null) readGroupFile("tazgroups.csv");
         return groups.get(groupNum);
     }
 
@@ -68,15 +64,15 @@ public class CSVEstimationReader
                     line = reader.readLine();
                     if (line != null)
                     {
-                        final String[] arrline = line.split(",");
+                        String[] arrline = line.split(",");
                         if (arrline.length != 2)
                         {
                             logger.fatal("Error in tazgroups.csv file, in line " + line);
                             throw new RuntimeException("Error in tazgroups.csv file, in line "
                                     + line);
                         }
-                        final int taz = Integer.parseInt(arrline[0]);
-                        final int groupNum = Integer.parseInt(arrline[1]);
+                        int taz = Integer.parseInt(arrline[0]);
+                        int groupNum = Integer.parseInt(arrline[1]);
                         if (!groups.containsKey(groupNum))
                         {
                             groups.put(groupNum, new TreeSet<Integer>());
@@ -86,12 +82,9 @@ public class CSVEstimationReader
                 } while (line != null);
             } finally
             {
-                if (reader != null)
-                {
-                    reader.close();
-                }
+                if (reader != null) reader.close();
             }
-        } catch (final IOException e)
+        } catch (IOException e)
         {
             logger.fatal("Can't read TAZ Groups file " + filename
                     + " which is needed since you have a target of type grouptarg");
@@ -115,29 +108,27 @@ public class CSVEstimationReader
                 line = reader.readLine();
                 if (line != null)
                 {
-                    final String[] arrline = line.split(",");
-                    final EstimationTarget target = targetForName(arrline[0]);
+                    String[] arrline = line.split(",");
+                    EstimationTarget target = targetForName(arrline[0]);
                     target.setTargetValue(Double.parseDouble(arrline[1]));
                     readTargets.add(target);
 
                     // Put the matrix in a useful format.
-                    final Map<EstimationTarget, Double> row = new HashMap<EstimationTarget, Double>();
+                    Map<EstimationTarget, Double> row = new HashMap<EstimationTarget, Double>();
                     targetDevcor.put(target, row);
                     if (diagonal)
                     {
-                        final double value = Double.parseDouble(arrline[2]);
+                        double value = Double.parseDouble(arrline[2]);
                         row.put(target, value);
                     } else
                     {
                         for (int i = 0; i < readTargets.size(); i++)
                         {
                             if (i + 2 >= arrline.length)
-                            {
                                 throw new RuntimeException("Not enough entries for target "
                                         + arrline[0]);
-                            }
-                            final double value = Double.parseDouble(arrline[i + 2]);
-                            final EstimationTarget currTarget = readTargets.get(i);
+                            double value = Double.parseDouble(arrline[i + 2]);
+                            EstimationTarget currTarget = readTargets.get(i);
                             row.put(currTarget, value);
                             targetDevcor.get(currTarget).put(target, value);
                         }
@@ -146,43 +137,40 @@ public class CSVEstimationReader
             } while (line != null);
         } finally
         {
-            if (reader != null)
-            {
-                reader.close();
-            }
+            if (reader != null) reader.close();
         }
     }
 
     private EstimationTarget targetForName(String name)
     {
-        final String[] pieces = name.split("-");
+        String[] pieces = name.split("-");
         if (pieces[0].equalsIgnoreCase(SpaceTypeTAZTarget.NAME))
         {
-            final int spacetype = Integer.parseInt(pieces[1]);
-            final int zone = Integer.parseInt(pieces[2]);
+            int spacetype = Integer.parseInt(pieces[1]);
+            int zone = Integer.parseInt(pieces[2]);
             return new SpaceTypeTAZTarget(zone, spacetype);
         } else if (pieces[0].equalsIgnoreCase(SpaceTypeLUZTarget.NAME))
         {
-            final int spacetype = Integer.parseInt(pieces[1]);
-            final int zone = Integer.parseInt(pieces[2]);
+            int spacetype = Integer.parseInt(pieces[1]);
+            int zone = Integer.parseInt(pieces[2]);
             return new SpaceTypeLUZTarget(zone, spacetype);
         } else if (pieces[0].equalsIgnoreCase(SpaceTypeTotalTarget.NAME))
         {
-            final int spacetype = Integer.parseInt(pieces[1]);
+            int spacetype = Integer.parseInt(pieces[1]);
             return new SpaceTypeTotalTarget(spacetype);
         } else if (pieces[0].equalsIgnoreCase(RedevelopmentIntoSpaceTypeTarget.NAME))
         {
-            final int spacetype = Integer.parseInt(pieces[1]);
+            int spacetype = Integer.parseInt(pieces[1]);
             return new RedevelopmentIntoSpaceTypeTarget(spacetype);
         } else if (pieces[0].equalsIgnoreCase(SpaceTypeIntensityTarget.NAME))
         {
-            final int spacetype = Integer.parseInt(pieces[1]);
+            int spacetype = Integer.parseInt(pieces[1]);
             return new SpaceTypeIntensityTarget(spacetype);
         } else if (pieces[0].equalsIgnoreCase(SpaceTypeTAZGroupTarget.NAME))
         {
-            final int spacetype = Integer.parseInt(pieces[1]);
-            final int groupNum = Integer.parseInt(pieces[2]);
-            final Set<Integer> group = getGroup(groupNum);
+            int spacetype = Integer.parseInt(pieces[1]);
+            int groupNum = Integer.parseInt(pieces[2]);
+            Set<Integer> group = getGroup(groupNum);
             return new SpaceTypeTAZGroupTarget(groupNum, group, spacetype);
 
         } else if (pieces[0].equalsIgnoreCase(SpaceGroupRenovationTarget.NAME))
@@ -196,13 +184,8 @@ public class CSVEstimationReader
             return new AdditionIntoSpaceTypeTarget(Integer.parseInt(pieces[1]));
         } else if (pieces[0].equalsIgnoreCase(AdditionIntoSpaceTypesTarget.NAME))
         {
-            return new AdditionIntoSpaceTypesTarget(pieces); // plural, more
-            // than one
-            // space type
-        } else
-        {
-            throw new IllegalArgumentException("Target type not recognized: " + pieces[0]);
-        }
+            return new AdditionIntoSpaceTypesTarget(pieces); // plural, more than one space type
+        } else throw new IllegalArgumentException("Target type not recognized: " + pieces[0]);
     }
 
     private void readCoeffsFile(String filename, boolean diagonal) throws IOException
@@ -221,36 +204,34 @@ public class CSVEstimationReader
                 line = reader.readLine();
                 if (line != null)
                 {
-                    final String[] arrline = line.split(",");
+                    String[] arrline = line.split(",");
                     if (diagonal && arrline.length != 4)
                     {
                         logger.fatal("Invalid format in coefficient file: \"" + line + "\"");
                         throw new RuntimeException("Invalid format in coefficient file: \"" + line
                                 + "\"");
                     }
-                    final Coefficient coeff = coeffForName(arrline[0]);
+                    Coefficient coeff = coeffForName(arrline[0]);
                     coeffMeans.put(coeff, new Double(arrline[1]));
                     coeffStartingValues.put(coeff, new Double(arrline[2]));
                     readCoeffs.add(coeff);
 
                     // Put the matrix in a useful format.
-                    final Map<Coefficient, Double> row = new HashMap<Coefficient, Double>();
+                    Map<Coefficient, Double> row = new HashMap<Coefficient, Double>();
                     coeffDevcor.put(coeff, row);
                     if (diagonal)
                     {
-                        final double value = Double.parseDouble(arrline[3]);
+                        double value = Double.parseDouble(arrline[3]);
                         row.put(coeff, value);
                     } else
                     {
                         for (int i = 0; i < readCoeffs.size(); i++)
                         {
                             if (i + 3 >= arrline.length)
-                            {
                                 throw new RuntimeException("Not enough entries for parameter "
                                         + arrline[0]);
-                            }
-                            final double value = Double.parseDouble(arrline[i + 3]);
-                            final Coefficient currCoeff = readCoeffs.get(i);
+                            double value = Double.parseDouble(arrline[i + 3]);
+                            Coefficient currCoeff = readCoeffs.get(i);
                             row.put(currCoeff, value);
                             coeffDevcor.get(currCoeff).put(coeff, value);
                         }
@@ -259,82 +240,57 @@ public class CSVEstimationReader
             } while (line != null);
         } finally
         {
-            if (reader != null)
-            {
-                reader.close();
-            }
+            if (reader != null) reader.close();
         }
     }
 
     private Coefficient coeffForName(String name)
     {
-        final String[] pieces = name.split("-");
-        final int spacetype = Integer.parseInt(pieces[1]);
-        if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.ABOVE_STEP_POINT_ADJ))
+        String[] pieces = name.split("-");
+        int spacetype = Integer.parseInt(pieces[1]);
+        if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.ABOVE_STEP_POINT_ADJ)) return SpaceTypeCoefficient
+                .getAboveStepPointAdj(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.ADD_NEW_DISP)) return SpaceTypeCoefficient
+                .getAddNewDisp(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.ADD_TRANSITION_CONST)) return SpaceTypeCoefficient
+                .getAddTransitionConst(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.BELOW_STEP_POINT_ADJ)) return SpaceTypeCoefficient
+                .getBelowStepPointAdj(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.CHANGE_OPTIONS_DISP)) return SpaceTypeCoefficient
+                .getChangeOptionsDisp(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.DEMOLISH_DERELICT_DISP)) return SpaceTypeCoefficient
+                .getDemolishDerelictDisp(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.DEMOLISH_TRANSITION_CONST)) return SpaceTypeCoefficient
+                .getDemolishTransitionConst(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.DERELICT_TRANSITION_CONST)) return SpaceTypeCoefficient
+                .getDerelictTransitionConst(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.INTENSITY_DISP)) return SpaceTypeCoefficient
+                .getIntensityDisp(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.NEW_FROM_TRANSITION_CONST)) return SpaceTypeCoefficient
+                .getNewFromTransitionConst(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.NEW_TO_TRANSITION_CONST)) return SpaceTypeCoefficient
+                .getNewToTransitionConst(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.NEW_TYPE_DISP)) return SpaceTypeCoefficient
+                .getNewTypeDisp(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.NO_CHANGE_CONST)) return SpaceTypeCoefficient
+                .getNoChangeConst(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.NO_CHANGE_DISP)) return SpaceTypeCoefficient
+                .getNoChangeDisp(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.RENOVATE_ADD_NEW_DISP)) return SpaceTypeCoefficient
+                .getRenovateAddNewDisp(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.RENOVATE_DERELICT_CONST)) return SpaceTypeCoefficient
+                .getRenovateDerelictConst(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.RENOVATE_TRANSITION_CONST)) return SpaceTypeCoefficient
+                .getRenovateTransitionConst(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.STEP_POINT)) return SpaceTypeCoefficient
+                .getStepPoint(spacetype);
+        else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.STEP_POINT_AMOUNT)) return SpaceTypeCoefficient
+                .getStepPointAmount(spacetype);
+        else if (pieces[0].equalsIgnoreCase(TransitionConstant.TRANSITION_CONST))
         {
-            return SpaceTypeCoefficient.getAboveStepPointAdj(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.ADD_NEW_DISP))
-        {
-            return SpaceTypeCoefficient.getAddNewDisp(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.ADD_TRANSITION_CONST))
-        {
-            return SpaceTypeCoefficient.getAddTransitionConst(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.BELOW_STEP_POINT_ADJ))
-        {
-            return SpaceTypeCoefficient.getBelowStepPointAdj(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.CHANGE_OPTIONS_DISP))
-        {
-            return SpaceTypeCoefficient.getChangeOptionsDisp(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.DEMOLISH_DERELICT_DISP))
-        {
-            return SpaceTypeCoefficient.getDemolishDerelictDisp(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.DEMOLISH_TRANSITION_CONST))
-        {
-            return SpaceTypeCoefficient.getDemolishTransitionConst(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.DERELICT_TRANSITION_CONST))
-        {
-            return SpaceTypeCoefficient.getDerelictTransitionConst(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.INTENSITY_DISP))
-        {
-            return SpaceTypeCoefficient.getIntensityDisp(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.NEW_FROM_TRANSITION_CONST))
-        {
-            return SpaceTypeCoefficient.getNewFromTransitionConst(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.NEW_TO_TRANSITION_CONST))
-        {
-            return SpaceTypeCoefficient.getNewToTransitionConst(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.NEW_TYPE_DISP))
-        {
-            return SpaceTypeCoefficient.getNewTypeDisp(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.NO_CHANGE_CONST))
-        {
-            return SpaceTypeCoefficient.getNoChangeConst(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.NO_CHANGE_DISP))
-        {
-            return SpaceTypeCoefficient.getNoChangeDisp(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.RENOVATE_ADD_NEW_DISP))
-        {
-            return SpaceTypeCoefficient.getRenovateAddNewDisp(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.RENOVATE_DERELICT_CONST))
-        {
-            return SpaceTypeCoefficient.getRenovateDerelictConst(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.RENOVATE_TRANSITION_CONST))
-        {
-            return SpaceTypeCoefficient.getRenovateTransitionConst(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.STEP_POINT))
-        {
-            return SpaceTypeCoefficient.getStepPoint(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(SpaceTypeCoefficient.STEP_POINT_AMOUNT))
-        {
-            return SpaceTypeCoefficient.getStepPointAmount(spacetype);
-        } else if (pieces[0].equalsIgnoreCase(TransitionConstant.TRANSITION_CONST))
-        {
-            final int tospace = Integer.parseInt(pieces[2]);
+            int tospace = Integer.parseInt(pieces[2]);
             return TransitionConstant.getCoeff(spacetype, tospace);
-        } else
-        {
-            throw new IllegalArgumentException("Parameter type not recognized: " + pieces[0]);
-        }
+        } else throw new IllegalArgumentException("Parameter type not recognized: " + pieces[0]);
     }
 
     @Override
@@ -348,22 +304,17 @@ public class CSVEstimationReader
     {
         double[][] result = new double[targets.size()][targets.size()];
         int i = 0;
-        for (final EstimationTarget target1 : targets)
+        for (EstimationTarget target1 : targets)
         {
             int j = 0;
-            final Map<EstimationTarget, Double> row = targetDevcor.get(target1);
+            Map<EstimationTarget, Double> row = targetDevcor.get(target1);
             if (row != null)
             {
-                for (final EstimationTarget target2 : targets)
+                for (EstimationTarget target2 : targets)
                 {
-                    final Double value = row.get(target2);
-                    if (value == null)
-                    {
-                        result[i][j] = 0;
-                    } else
-                    {
-                        result[i][j] = value;
-                    }
+                    Double value = row.get(target2);
+                    if (value == null) result[i][j] = 0;
+                    else result[i][j] = value;
                     j++;
                 }
             }
@@ -382,9 +333,9 @@ public class CSVEstimationReader
     @Override
     public double[] readPriorMeans(List<Coefficient> coeffs)
     {
-        final double[] result = new double[coeffs.size()];
+        double[] result = new double[coeffs.size()];
         int i = 0;
-        for (final Coefficient coeff : coeffs)
+        for (Coefficient coeff : coeffs)
         {
             result[i] = coeffMeans.get(coeff);
             i++;
@@ -396,9 +347,9 @@ public class CSVEstimationReader
     @Override
     public double[] readStartingValues(List<Coefficient> coeffs)
     {
-        final double[] result = new double[coeffs.size()];
+        double[] result = new double[coeffs.size()];
         int i = 0;
-        for (final Coefficient coeff : coeffs)
+        for (Coefficient coeff : coeffs)
         {
             result[i] = coeffStartingValues.get(coeff);
             i++;
@@ -412,22 +363,17 @@ public class CSVEstimationReader
     {
         double[][] result = new double[coeffs.size()][coeffs.size()];
         int i = 0;
-        for (final Coefficient coeff1 : coeffs)
+        for (Coefficient coeff1 : coeffs)
         {
             int j = 0;
-            final Map<Coefficient, Double> row = coeffDevcor.get(coeff1);
+            Map<Coefficient, Double> row = coeffDevcor.get(coeff1);
             if (row != null)
             {
-                for (final Coefficient coeff2 : coeffs)
+                for (Coefficient coeff2 : coeffs)
                 {
-                    final Double value = row.get(coeff2);
-                    if (value == null)
-                    {
-                        result[i][j] = 0;
-                    } else
-                    {
-                        result[i][j] = value;
-                    }
+                    Double value = row.get(coeff2);
+                    if (value == null) result[i][j] = 0;
+                    else result[i][j] = value;
                     j++;
                 }
             }
@@ -437,20 +383,16 @@ public class CSVEstimationReader
         return result;
     }
 
-    // Converts a deviation-correlation matrix into a variance matrix
-    // (in-place).
+    // Converts a deviation-correlation matrix into a variance matrix (in-place).
     private double[][] devcorToVariance(double[][] devcor)
     {
         // Convert off-diagonals first.
-        final double[][] variance = devcor;
+        double[][] variance = devcor;
         for (int i = 0; i < devcor.length; i++)
         {
             for (int j = 0; j < devcor[i].length; j++)
             {
-                if (j != i)
-                {
-                    variance[i][j] = devcor[i][j] * devcor[i][i] * devcor[j][j];
-                }
+                if (j != i) variance[i][j] = devcor[i][j] * devcor[i][i] * devcor[j][j];
             }
         }
         // Convert diagonals.
