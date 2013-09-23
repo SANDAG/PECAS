@@ -3,14 +3,16 @@ package com.hbaspecto.functions;
 public class InverseCumulativeNormal
 {
     /**
-     * Class contains the implementation of: - Inverse Normal Cummulative Distribution Function Algorythm - Error Function Algorythm - Complimentary
-     * Error Function Algorythm
+     * Class contains the implementation of: - Inverse Normal Cummulative
+     * Distribution Function Algorythm - Error Function Algorythm -
+     * Complimentary Error Function Algorythm
      * 
      * @author Sherali Karimov (sherali.karimov@proxima-tech.com)
      */
     /* ********************************************
-     * Original algorythm and Perl implementation can be found at: http://www.math.uio.no/~jacklam/notes/invnorm/index.html Author: Peter J. Acklam
-     * jacklam@math.uio.no ******************************************
+     * Original algorythm and Perl implementation can be found at:
+     * http://www.math.uio.no/~jacklam/notes/invnorm/index.html Author: Peter J.
+     * Acklam jacklam@math.uio.no ******************************************
      */
     private static final double P_LOW    = 0.02425D;
     private static final double P_HIGH   = 1.0D - P_LOW;
@@ -114,7 +116,8 @@ public class InverseCumulativeNormal
     private static final double THRESHOLD = 0.46875D;
 
     /* **************************************
-     * Hardware dependant constants were calculated on Dell "Dimension 4100": - Pentium III 800 MHz running Microsoft Windows 2000
+     * Hardware dependant constants were calculated on Dell "Dimension 4100": -
+     * Pentium III 800 MHz running Microsoft Windows 2000
      * *************************************
      */
     private static final double X_MIN     = Double.MIN_VALUE;
@@ -128,18 +131,32 @@ public class InverseCumulativeNormal
     private static double calerf(double X, int jint)
     {
         /* ******************************************
-         * ORIGINAL FORTRAN version can be found at: http://www.netlib.org/specfun/erf *******************************************
-         * C------------------------------------------------------------------ C C THIS PACKET COMPUTES THE ERROR AND COMPLEMENTARY ERROR FUNCTIONS C
-         * FOR REAL ARGUMENTS ARG. IT CONTAINS TWO FUNCTION TYPE C SUBPROGRAMS, ERF AND ERFC (OR DERF AND DERFC), AND ONE C SUBROUTINE TYPE
-         * SUBPROGRAM, CALERF. THE CALLING STATEMENTS C FOR THE PRIMARY ENTRIES ARE C C Y=ERF(X) (OR Y=DERF(X) ) C AND C Y=ERFC(X) (OR Y=DERFC(X) ). C
-         * C THE ROUTINE CALERF IS INTENDED FOR INTERNAL PACKET USE ONLY, C ALL COMPUTATIONS WITHIN THE PACKET BEING CONCENTRATED IN THIS C ROUTINE.
-         * THE FUNCTION SUBPROGRAMS INVOKE CALERF WITH THE C STATEMENT C CALL CALERF(ARG,RESULT,JINT) C WHERE THE PARAMETER USAGE IS AS FOLLOWS C C
-         * FUNCTION PARAMETERS FOR CALERF C CALL ARG RESULT JINT C ERF(ARG) ANY REAL ARGUMENT ERF(ARG) 0 C ERFC(ARG) ABS(ARG) .LT. XMAX ERFC(ARG) 1 C
-         * C THE MAIN COMPUTATION EVALUATES NEAR MINIMAX APPROXIMATIONS C FROM "RATIONAL CHEBYSHEV APPROXIMATIONS FOR THE ERROR FUNCTION" C BY W. J.
-         * CODY, MATH. COMP., 1969, PP. 631-638. THIS C TRANSPORTABLE PROGRAM USES RATIONAL FUNCTIONS THAT THEORETICALLY C APPROXIMATE ERF(X) AND
-         * ERFC(X) TO AT LEAST 18 SIGNIFICANT C DECIMAL DIGITS. THE ACCURACY ACHIEVED DEPENDS ON THE ARITHMETIC C SYSTEM, THE COMPILER, THE INTRINSIC
-         * FUNCTIONS, AND PROPER C SELECTION OF THE MACHINE-DEPENDENT CONSTANTS. C C AUTHOR: W. J. CODY C MATHEMATICS AND COMPUTER SCIENCE DIVISION C
-         * ARGONNE NATIONAL LABORATORY C ARGONNE, IL 60439 C C LATEST MODIFICATION: JANUARY 8, 1985 C
+         * ORIGINAL FORTRAN version can be found at:
+         * http://www.netlib.org/specfun/erf
+         * *******************************************
+         * C------------------------------------------------------------------ C
+         * C THIS PACKET COMPUTES THE ERROR AND COMPLEMENTARY ERROR FUNCTIONS C
+         * FOR REAL ARGUMENTS ARG. IT CONTAINS TWO FUNCTION TYPE C SUBPROGRAMS,
+         * ERF AND ERFC (OR DERF AND DERFC), AND ONE C SUBROUTINE TYPE
+         * SUBPROGRAM, CALERF. THE CALLING STATEMENTS C FOR THE PRIMARY ENTRIES
+         * ARE C C Y=ERF(X) (OR Y=DERF(X) ) C AND C Y=ERFC(X) (OR Y=DERFC(X) ).
+         * C C THE ROUTINE CALERF IS INTENDED FOR INTERNAL PACKET USE ONLY, C
+         * ALL COMPUTATIONS WITHIN THE PACKET BEING CONCENTRATED IN THIS C
+         * ROUTINE. THE FUNCTION SUBPROGRAMS INVOKE CALERF WITH THE C STATEMENT
+         * C CALL CALERF(ARG,RESULT,JINT) C WHERE THE PARAMETER USAGE IS AS
+         * FOLLOWS C C FUNCTION PARAMETERS FOR CALERF C CALL ARG RESULT JINT C
+         * ERF(ARG) ANY REAL ARGUMENT ERF(ARG) 0 C ERFC(ARG) ABS(ARG) .LT. XMAX
+         * ERFC(ARG) 1 C C THE MAIN COMPUTATION EVALUATES NEAR MINIMAX
+         * APPROXIMATIONS C FROM
+         * "RATIONAL CHEBYSHEV APPROXIMATIONS FOR THE ERROR FUNCTION" C BY W. J.
+         * CODY, MATH. COMP., 1969, PP. 631-638. THIS C TRANSPORTABLE PROGRAM
+         * USES RATIONAL FUNCTIONS THAT THEORETICALLY C APPROXIMATE ERF(X) AND
+         * ERFC(X) TO AT LEAST 18 SIGNIFICANT C DECIMAL DIGITS. THE ACCURACY
+         * ACHIEVED DEPENDS ON THE ARITHMETIC C SYSTEM, THE COMPILER, THE
+         * INTRINSIC FUNCTIONS, AND PROPER C SELECTION OF THE MACHINE-DEPENDENT
+         * CONSTANTS. C C AUTHOR: W. J. CODY C MATHEMATICS AND COMPUTER SCIENCE
+         * DIVISION C ARGONNE NATIONAL LABORATORY C ARGONNE, IL 60439 C C LATEST
+         * MODIFICATION: JANUARY 8, 1985 C
          * C------------------------------------------------------------------
          */
         double result = 0;
@@ -264,8 +281,10 @@ public class InverseCumulativeNormal
     }
 
     /* ****************************************************
-     * Refining algorytm is based on Halley rational method for finding roots of equations as described at:
-     * http://www.math.uio.no/~jacklam/notes/invnorm/index.html by: Peter J. Acklam jacklam@math.uio.no
+     * Refining algorytm is based on Halley rational method for finding roots of
+     * equations as described at:
+     * http://www.math.uio.no/~jacklam/notes/invnorm/index.html by: Peter J.
+     * Acklam jacklam@math.uio.no
      * **************************************************
      */
     public static double refine(double x, double d)

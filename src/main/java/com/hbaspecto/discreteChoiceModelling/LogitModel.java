@@ -1,14 +1,17 @@
 /*
  * Copyright 2005 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.discreteChoiceModelling;
 
@@ -174,7 +177,8 @@ public class LogitModel
     }
 
     /**
-     * Returns the coefficient object representing the dispersion parameter, if this parameter was set using a coefficient object. Otherwise returns
+     * Returns the coefficient object representing the dispersion parameter, if
+     * this parameter was set using a coefficient object. Otherwise returns
      * null.
      * 
      * @return The coefficient object, or null if there isn't one.
@@ -269,7 +273,8 @@ public class LogitModel
     }
 
     /**
-     * Returns an array of the derivatives of the probabilities of each alternative with respect to the utility of each alternative. (rows are
+     * Returns an array of the derivatives of the probabilities of each
+     * alternative with respect to the utility of each alternative. (rows are
      * probabilities of alternatives, columns are utilities of alternatives)
      * 
      * @return
@@ -373,7 +378,8 @@ public class LogitModel
     }
 
     /**
-     * Picks one of the alternatives based on the logit model probabilities; use this if you want to give method random number
+     * Picks one of the alternatives based on the logit model probabilities; use
+     * this if you want to give method random number
      */
     @Override
     public Alternative monteCarloChoice(double randomNumber) throws NoAlternativeAvailable,
@@ -459,7 +465,8 @@ public class LogitModel
     }
 
     /**
-     * Returns the coefficient object representing the constant utility, if this parameter was set using a coefficient object. Otherwise returns null.
+     * Returns the coefficient object representing the constant utility, if this
+     * parameter was set using a coefficient object. Otherwise returns null.
      * 
      * @return The coefficient object, or null if there isn't one.
      */

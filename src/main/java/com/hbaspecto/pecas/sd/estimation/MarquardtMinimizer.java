@@ -44,15 +44,18 @@ public class MarquardtMinimizer
     private boolean                penaltyConverged;
 
     /**
-     * Constructs a new optimizer that minimizes the given objective function. By default, the minimum step size is 0.0001, the maximum step size is
-     * 1, and the initial Marquardt weighting factor is 0.01.
+     * Constructs a new optimizer that minimizes the given objective function.
+     * By default, the minimum step size is 0.0001, the maximum step size is 1,
+     * and the initial Marquardt weighting factor is 0.01.
      * 
      * @param obj
      *            The objective function.
      * @param initialGuess
-     *            Values of the objective function's parameters to use as an initial guess.
+     *            Values of the objective function's parameters to use as an
+     *            initial guess.
      * @throws OptimizationException
-     *             if the initial guess causes an error in the objective function.
+     *             if the initial guess causes an error in the objective
+     *             function.
      */
     public MarquardtMinimizer(ObjectiveFunction objective, Vector initialGuess)
             throws OptimizationException
@@ -85,12 +88,14 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Readies the optimizer for a new optimization, using the given initial guess.
+     * Readies the optimizer for a new optimization, using the given initial
+     * guess.
      * 
      * @param initialGuess
      *            The new initial guess.
      * @throws OptimizationException
-     *             if the initial guess causes an error in the objective function.
+     *             if the initial guess causes an error in the objective
+     *             function.
      */
     public void reset(Vector initialGuess) throws OptimizationException
     {
@@ -110,13 +115,16 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Readies the optimizer for a new constrained optimization, using the given initial guess. This method is similar to <code>reset</code> except
-     * that it also resets the constraint looseness and number of penalty function iterations.
+     * Readies the optimizer for a new constrained optimization, using the given
+     * initial guess. This method is similar to <code>reset</code> except that
+     * it also resets the constraint looseness and number of penalty function
+     * iterations.
      * 
      * @param initialGuess
      *            The new initial guess.
      * @throws OptimizationException
-     *             if the initial guess causes an error in the objective function.
+     *             if the initial guess causes an error in the objective
+     *             function.
      */
     public void resetPenalty(Vector initialGuess) throws OptimizationException
     {
@@ -133,7 +141,8 @@ public class MarquardtMinimizer
      * @param maxStepSize
      *            The maximum step size allowed for an iteration.
      * @param initialMarquardtFactor
-     *            The factor at which the diagonal matrix B in the Marquardt method is weighted compared to the Hessian.
+     *            The factor at which the diagonal matrix B in the Marquardt
+     *            method is weighted compared to the Hessian.
      */
     public void setOptimizationParameters(double minStepSize, double maxStepSize,
             double initialMarquardtFactor)
@@ -145,7 +154,8 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Sets the initial Newton/gradient descent factor (large values make the step size smaller and more like gradient descent).
+     * Sets the initial Newton/gradient descent factor (large values make the
+     * step size smaller and more like gradient descent).
      * 
      * @param initialMarquardtFactor
      *            The initial factor.
@@ -157,7 +167,8 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Adds a constraint to the minimizer, confining the solution into a feasible region.
+     * Adds a constraint to the minimizer, confining the solution into a
+     * feasible region.
      * 
      * @param cons
      *            The constraint.
@@ -188,7 +199,8 @@ public class MarquardtMinimizer
     /**
      * Performs a single iteration of the Marquardt method.
      * 
-     * @return The new values of the objective function's parameters after the iteration.
+     * @return The new values of the objective function's parameters after the
+     *         iteration.
      */
     public Vector doOneIteration() throws OptimizationException
     {
@@ -222,7 +234,8 @@ public class MarquardtMinimizer
             }
         }
 
-        // TODO if hessian has NaN's the PREVIOUS step was bad. Should check for those.
+        // TODO if hessian has NaN's the PREVIOUS step was bad. Should check for
+        // those.
         Matrix correction = getMarquardtCorrection(origHessian);
 
         boolean foundValidStep = false;
@@ -230,7 +243,8 @@ public class MarquardtMinimizer
         Vector newparams = null;
         while (!foundValidStep)
         {
-            // add lambda*correction to hessian, to adjust step size (large lambda means small step size and more like steepest descent)
+            // add lambda*correction to hessian, to adjust step size (large
+            // lambda means small step size and more like steepest descent)
             Matrix hessian = origHessian.copy();
             hessian.add(lambda, correction);
 
@@ -249,7 +263,8 @@ public class MarquardtMinimizer
             {
                 double newobj = obj.getValue() + getPenaltyFunction(newparams);
                 obj.logTargetAndObjective(logger);
-                // Determine if the step is acceptable, readjust parameters for next iteration.
+                // Determine if the step is acceptable, readjust parameters for
+                // next iteration.
                 if (newobj < currentObjective)
                 {
                     // Step may be is acceptable.
@@ -278,7 +293,8 @@ public class MarquardtMinimizer
                 } else
                 {
                     logger.info("Step leads to worse goodness of fit, backing up");
-                    // foundValidStep = interpolateStepSize(step, gradient, hessian, newobj);
+                    // foundValidStep = interpolateStepSize(step, gradient,
+                    // hessian, newobj);
                     lambda = 2 * lambda;
                     logger.info("Interpolated step, now setting lambda to " + lambda);
                 }
@@ -327,7 +343,8 @@ public class MarquardtMinimizer
     }
 
     // Returns true if a valid step size was found.
-    // private boolean interpolateStepSize(Vector step, Vector gradient, Matrix hessian, double newobj) {
+    // private boolean interpolateStepSize(Vector step, Vector gradient, Matrix
+    // hessian, double newobj) {
     // Vector currentStep = new DenseVector(step.size());
     // Vector currentParams = new DenseVector(parameters.size());
     // double currentObj = newobj;
@@ -338,10 +355,13 @@ public class MarquardtMinimizer
     // double gamma = -quadraticForm(gradient, hessian);
     //
     // while(currentObj >= currentObjective) {
-    // double stepstar = gamma * stepsize * stepsize / (2 * (gamma * stepsize + currentObjective - currentObj));
-    // stepsize = Math.max(0.25 * stepsize, Math.min(0.75 * stepsize, stepstar));
+    // double stepstar = gamma * stepsize * stepsize / (2 * (gamma * stepsize +
+    // currentObjective - currentObj));
+    // stepsize = Math.max(0.25 * stepsize, Math.min(0.75 * stepsize,
+    // stepstar));
     // if(stepsize <= minstep)
-    // // We can't find a valid step size (i.e. in that direction, everything is uphill). Keep the old parameter values.
+    // // We can't find a valid step size (i.e. in that direction, everything is
+    // uphill). Keep the old parameter values.
     // return false;
     //
     // // Apply step and compute new objective function.
@@ -353,7 +373,8 @@ public class MarquardtMinimizer
     // boolean foundObj = false;
     // while(!foundObj)
     // try {
-    // currentObj = obj.getValue(currentParams) + getPenaltyFunction(currentParams);
+    // currentObj = obj.getValue(currentParams) +
+    // getPenaltyFunction(currentParams);
     // damper++;
     // foundObj = true;
     // } catch(OptimizationException e) {
@@ -413,17 +434,24 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Performs iterations of the Marquardt method until convergence occurs. Convergence is deemed to have occurred if the coefficients in three
-     * successive iterations differ by less than <code>epsilon</code>. This method will find the minimum for a single weighting of any penalty
-     * functions; use <code>minimize()</code> to do the full solution, including reducing the weighting of the penalty function until the solution is
+     * Performs iterations of the Marquardt method until convergence occurs.
+     * Convergence is deemed to have occurred if the coefficients in three
+     * successive iterations differ by less than <code>epsilon</code>. This
+     * method will find the minimum for a single weighting of any penalty
+     * functions; use <code>minimize()</code> to do the full solution, including
+     * reducing the weighting of the penalty function until the solution is
      * found.
      * 
      * @param epsilon
-     *            The threshold at which the optimization is deemed to have converged. There is a separate epsilon for each coefficient, so that
-     *            coefficients with different orders of magnitude can be handled properly; the epsilons must be given in the same order as the
-     *            coefficients.
+     *            The threshold at which the optimization is deemed to have
+     *            converged. There is a separate epsilon for each coefficient,
+     *            so that coefficients with different orders of magnitude can be
+     *            handled properly; the epsilons must be given in the same order
+     *            as the coefficients.
      * @param maxIterations
-     *            The maximum number of iterations - after that number of iterations, the method will return its results even if it has not converged.
+     *            The maximum number of iterations - after that number of
+     *            iterations, the method will return its results even if it has
+     *            not converged.
      * @return The values of the parameters at the optimum.
      */
     public Vector iterateToConvergence(Vector epsilon, int maxIterations,
@@ -472,22 +500,34 @@ public class MarquardtMinimizer
     }
 
     /**
-     * !!! Note - this method is not currently supported !!! Finds the minimum of the objective function, subject to the constraints provided using
-     * the <code>addConstraint</code> method. This method calls <code>iterateToConvergence</code> repeatedly while making the constraints "looser"
-     * until that method's output changes by less than <code>penaltyEpsilon</code> for three consecutive iterations. The methods
-     * <code>lastRunConverged</code>, <code>lastRunMaxIterations</code>, and <code>lastRunInvalidStep</code> refer to the termination cause for the
-     * last call to <code>iterateToConvergence</code> (with the loosest constraint), since it is that iteration's termination that is relevant for
-     * this method (e.g. if the last iteration returns normally, this indicates a valid solution, even if an earlier iteration terminated because of
-     * an exception). Note that if no constraints have been added, this method does exactly the same thing as <code>iterateToConvergence</code>.
+     * !!! Note - this method is not currently supported !!! Finds the minimum
+     * of the objective function, subject to the constraints provided using the
+     * <code>addConstraint</code> method. This method calls
+     * <code>iterateToConvergence</code> repeatedly while making the constraints
+     * "looser" until that method's output changes by less than
+     * <code>penaltyEpsilon</code> for three consecutive iterations. The methods
+     * <code>lastRunConverged</code>, <code>lastRunMaxIterations</code>, and
+     * <code>lastRunInvalidStep</code> refer to the termination cause for the
+     * last call to <code>iterateToConvergence</code> (with the loosest
+     * constraint), since it is that iteration's termination that is relevant
+     * for this method (e.g. if the last iteration returns normally, this
+     * indicates a valid solution, even if an earlier iteration terminated
+     * because of an exception). Note that if no constraints have been added,
+     * this method does exactly the same thing as
+     * <code>iterateToConvergence</code>.
      * 
      * @param epsilon
-     *            The <code>epsilon</code> parameter to pass to <code>iterateToConvergence</code>.
+     *            The <code>epsilon</code> parameter to pass to
+     *            <code>iterateToConvergence</code>.
      * @param maxIterations
-     *            The <code>maxIterations</code> parameter to pass to <code>iterateToConvergence</code>.
+     *            The <code>maxIterations</code> parameter to pass to
+     *            <code>iterateToConvergence</code>.
      * @param penaltyEpsilon
-     *            The threshold at which the minimum is deemed to have been found.
+     *            The threshold at which the minimum is deemed to have been
+     *            found.
      * @param penaltyMaxIterations
-     *            The maximum number of calls allowed to <code>iterateToConvergence</code>.
+     *            The maximum number of calls allowed to
+     *            <code>iterateToConvergence</code>.
      * @return The values of the parameters at the optimum.
      * @throws OptimizationException
      *             if the current parameters are invalid.
@@ -516,7 +556,8 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Returns the current value of the objective function after the most recent iteration or reset.
+     * Returns the current value of the objective function after the most recent
+     * iteration or reset.
      * 
      * @return The current value of the objective function.
      */
@@ -526,7 +567,8 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Returns the number of iterations performed since the last call to <code>reset()</code>.
+     * Returns the number of iterations performed since the last call to
+     * <code>reset()</code>.
      * 
      * @return The number of iterations.
      */
@@ -536,7 +578,8 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Returns the number of penalty function iterations performed since the last call to <code>resetPenalty()</code>.
+     * Returns the number of penalty function iterations performed since the
+     * last call to <code>resetPenalty()</code>.
      * 
      * @return The number of penalty function iterations.
      */
@@ -546,10 +589,12 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Determines whether the last execution of <code>iterateToConvergence</code> converged on a solution.
+     * Determines whether the last execution of
+     * <code>iterateToConvergence</code> converged on a solution.
      * 
-     * @return True if the optimizer converged on a solution, and false otherwise (including if <code>iterateToConvergence</code> has never been
-     *         invoked.
+     * @return True if the optimizer converged on a solution, and false
+     *         otherwise (including if <code>iterateToConvergence</code> has
+     *         never been invoked.
      */
     public boolean lastRunConverged()
     {
@@ -557,9 +602,12 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Determines whether the last execution of <code>iterateToConvergence</code> hit the maximum number of iterations before finding a solution.
+     * Determines whether the last execution of
+     * <code>iterateToConvergence</code> hit the maximum number of iterations
+     * before finding a solution.
      * 
-     * @return True if the optimizer ran out of iterations, and false otherwise (including if <code>iterateToConvergence</code> has never been
+     * @return True if the optimizer ran out of iterations, and false otherwise
+     *         (including if <code>iterateToConvergence</code> has never been
      *         invoked.
      */
     public boolean lastRunMaxIterations()
@@ -568,9 +616,12 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Determines whether the last execution of <code>minimize</code> converged on a solution
+     * Determines whether the last execution of <code>minimize</code> converged
+     * on a solution
      * 
-     * @return True of the optimizer converged on a solution, and false otherwise (including if <code>minimize</code> has never been invoked.
+     * @return True of the optimizer converged on a solution, and false
+     *         otherwise (including if <code>minimize</code> has never been
+     *         invoked.
      */
     public boolean lastRunPenaltyConverged()
     {
@@ -578,9 +629,11 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Determines whether the last execution of <code>minimize</code> hit the maximum number of iterations before finding a solution.
+     * Determines whether the last execution of <code>minimize</code> hit the
+     * maximum number of iterations before finding a solution.
      * 
-     * @return True if the optimizer ran out of iterations, and false otherwise (including if <code>minimize</code> has never been invoked.
+     * @return True if the optimizer ran out of iterations, and false otherwise
+     *         (including if <code>minimize</code> has never been invoked.
      */
     public boolean lastRunPenaltyMaxIterations()
     {
@@ -588,11 +641,15 @@ public class MarquardtMinimizer
     }
 
     /**
-     * Determines whether the last execution of <code>iterateToConvergence</code> halted because a valid step (i.e. one that decreased the objective
-     * function) could not be found. In particular, returns true if the objective function threw an exception for every step tried.
+     * Determines whether the last execution of
+     * <code>iterateToConvergence</code> halted because a valid step (i.e. one
+     * that decreased the objective function) could not be found. In particular,
+     * returns true if the objective function threw an exception for every step
+     * tried.
      * 
-     * @return True if the optimizer converged on a solution, and false otherwise (including if <code>iterateToConvergence</code> has never been
-     *         invoked.
+     * @return True if the optimizer converged on a solution, and false
+     *         otherwise (including if <code>iterateToConvergence</code> has
+     *         never been invoked.
      */
     public boolean lastRunInvalidStep()
     {

@@ -13,8 +13,9 @@ import com.pb.common.util.ResourceUtil;
 
 /**
  * Base class of table exchange_results.<br>
- * Do not rerun the SimpleORMGenerator, as this class has been modified to not use final static members for the meta and the field definition.
- * Generated on Fri Sep 25 16:13:29 MDT 2009
+ * Do not rerun the SimpleORMGenerator, as this class has been modified to not
+ * use final static members for the meta and the field definition. Generated on
+ * Fri Sep 25 16:13:29 MDT 2009
  ***/
 public abstract class ExchangeResults_gen
         extends SRecordInstance

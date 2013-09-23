@@ -33,7 +33,8 @@ import com.pb.common.datafile.TableDataSet;
 import com.pb.common.sql.JDBCConnection;
 import com.pb.common.util.ResourceUtil;
 
-// What is the purpose of this class is it a replacement for PostgreSQL or AbstractSQL inventoy or what?
+// What is the purpose of this class is it a replacement for PostgreSQL or
+// AbstractSQL inventoy or what?
 public abstract class SimpleORMLandInventory
         implements LandInventory
 {
@@ -69,8 +70,9 @@ public abstract class SimpleORMLandInventory
     private QueueItem<LocalEffectDistances>               localEffectQueueItem;
 
     /**
-     * This valrable is used to keep track of the maximum value of PECAS_parcel_num this is value is assigned to the new parcel produced when calling
-     * splitParcel() method
+     * This valrable is used to keep track of the maximum value of
+     * PECAS_parcel_num this is value is assigned to the new parcel produced
+     * when calling splitParcel() method
      */
     protected Long                                        minPecasParcelNum, maxPecasParcelNum;
 
@@ -460,9 +462,12 @@ public abstract class SimpleORMLandInventory
     }
 
     /*
-     * protected boolean findNextZoneNumber(){ if (tazNumbersIterator == null) { tazNumbersIterator = Tazs.getZoneNumbers(session).iterator(); } if
-     * (tazNumbersIterator.hasNext()){ currentZone = tazNumbersIterator.next().intValue();
-     * logger.info("Now trying parcels with currentZone = "+currentZone); return true; } else { return false; } }
+     * protected boolean findNextZoneNumber(){ if (tazNumbersIterator == null) {
+     * tazNumbersIterator = Tazs.getZoneNumbers(session).iterator(); } if
+     * (tazNumbersIterator.hasNext()){ currentZone =
+     * tazNumbersIterator.next().intValue();
+     * logger.info("Now trying parcels with currentZone = "+currentZone); return
+     * true; } else { return false; } }
      */
 
     @Override
@@ -489,7 +494,8 @@ public abstract class SimpleORMLandInventory
         } else
         {
             logger.info("No more parcels found in the current zone."/*
-                                                                     * : " + currentZone
+                                                                     * : " +
+                                                                     * currentZone
                                                                      */);
             try
             {
@@ -506,7 +512,8 @@ public abstract class SimpleORMLandInventory
                     {
                         localEffectQueueItem.getDataSet().destroy();
                         /*
-                         * for (LocalEffectDistances l : localEffectDistances) { l.getDataSet().removeRecord(l); }
+                         * for (LocalEffectDistances l : localEffectDistances) {
+                         * l.getDataSet().removeRecord(l); }
                          */
 
                     }
@@ -541,9 +548,13 @@ public abstract class SimpleORMLandInventory
     }
 
     /*
-     * private List<LocalEffectDistances> cacheLocalEffectDistances(int tazNumber) { // forget all the old localEffects, we are done with them if
-     * (localEffectDistances!=null) { for (LocalEffectDistances l : localEffectDistances) { session.getDataSet().removeRecord(l); } } // also get all
-     * the local effects for the TAZ, so that // we get them all in one query return LocalEffectDistances.getLocalEffectDistancesForTaz(tazNumber); }
+     * private List<LocalEffectDistances> cacheLocalEffectDistances(int
+     * tazNumber) { // forget all the old localEffects, we are done with them if
+     * (localEffectDistances!=null) { for (LocalEffectDistances l :
+     * localEffectDistances) { session.getDataSet().removeRecord(l); } } // also
+     * get all the local effects for the TAZ, so that // we get them all in one
+     * query return
+     * LocalEffectDistances.getLocalEffectDistancesForTaz(tazNumber); }
      */
 
     private void displayRateNumbers(SpaceTypesI spaceType)
@@ -602,8 +613,9 @@ public abstract class SimpleORMLandInventory
 
     /**
      * @param spaceType
-     * @return The representative average unfactored costs for all potential transitions to update space type per unit of space across the set of
-     *         parcels considered in the n batch processed up to this point.
+     * @return The representative average unfactored costs for all potential
+     *         transitions to update space type per unit of space across the set
+     *         of parcels considered in the n batch processed up to this point.
      */
     private double getTrCostRep(SpaceTypesI spaceType)
     {

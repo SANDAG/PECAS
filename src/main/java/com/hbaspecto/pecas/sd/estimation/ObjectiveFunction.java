@@ -7,7 +7,8 @@ import no.uib.cipr.matrix.Vector;
 public interface ObjectiveFunction
 {
     /**
-     * Computes the value of the objective function at the given parameter values.
+     * Computes the value of the objective function at the given parameter
+     * values.
      * 
      * @param params
      *            The parameter values.
@@ -16,7 +17,8 @@ public interface ObjectiveFunction
     double getValue() throws OptimizationException;
 
     /**
-     * Computes the gradient of the objective function at the given parameter values, with respect to those parameter values.
+     * Computes the gradient of the objective function at the given parameter
+     * values, with respect to those parameter values.
      * 
      * @param params
      *            The parameter values.
@@ -25,7 +27,8 @@ public interface ObjectiveFunction
     public Vector getGradient(Vector params) throws OptimizationException;
 
     /**
-     * Computes the Hessian (or an approximation to it) of the objective function at the given parameter values, with respect to those parameter
+     * Computes the Hessian (or an approximation to it) of the objective
+     * function at the given parameter values, with respect to those parameter
      * values.
      * 
      * @param params

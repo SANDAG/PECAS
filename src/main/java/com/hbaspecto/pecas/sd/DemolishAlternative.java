@@ -3,14 +3,17 @@
  * 
  * Copyright 2005 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.sd;
 
@@ -35,7 +38,11 @@ class DemolishAlternative
 {
 
     // ZoningPermissions zoningReg;
-    double        sizeTerm;                                            // size term for change alternatives.
+    double        sizeTerm;                                            // size
+                                                                        // term
+                                                                        // for
+                                                                        // change
+                                                                        // alternatives.
     static Logger logger = Logger.getLogger(DemolishAlternative.class);
 
     public DemolishAlternative()
@@ -48,7 +55,8 @@ class DemolishAlternative
         if (ZoningRulesI.land.getCoverage() == LandInventory.VACANT_ID)
             return Double.NEGATIVE_INFINITY;
 
-        // Equation is: 1/LotSize * (-EArea(v) * TrCostsS(v,h=vEx)) + TrConst(v,h=vEx)
+        // Equation is: 1/LotSize * (-EArea(v) * TrCostsS(v,h=vEx)) +
+        // TrConst(v,h=vEx)
         double Trhjp = getUtilityPerUnitLand();
 
         return Trhjp + getTransitionConstant().getValue();
@@ -66,7 +74,8 @@ class DemolishAlternative
         if (size > ZoningRulesI.land.getMaxParcelSize())
         {
             // If development occurs on a parcel that is greater than n acres,
-            // split off n acres into a new "pseudo parcel" and add the new pseudo parcel into the database
+            // split off n acres into a new "pseudo parcel" and add the new
+            // pseudo parcel into the database
             long orig_parcel_num = ZoningRulesI.land.getPECASParcelNumber();
             int splits = ((int) (size / ZoningRulesI.land.getMaxParcelSize())) + 1;
             double parcelSizes = size / splits;

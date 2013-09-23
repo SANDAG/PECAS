@@ -6,7 +6,8 @@ import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
 
 /**
- * A constraint that forces two parameters to be equal. The penalty function is <i>h</i><sup>2</sup>/sqrt(<i>a</i>), where <i>a</i> is the looseness
+ * A constraint that forces two parameters to be equal. The penalty function is
+ * <i>h</i><sup>2</sup>/sqrt(<i>a</i>), where <i>a</i> is the looseness
  * parameter and <i>h</i> is the distance between the two parameters.
  * 
  * @author Graham

@@ -1,14 +1,17 @@
 /*
  * Copyright 2005 HBA Specto Incorporated and PB Consult Inc.
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package com.hbaspecto.pecas.landSynth;
@@ -39,7 +42,8 @@ import com.pb.common.sql.JDBCConnection;
 import com.pb.common.util.ResourceUtil;
 
 /**
- * This class creates grid cells in a zone based on the aggregate characteristics of the built form in the zone
+ * This class creates grid cells in a zone based on the aggregate
+ * characteristics of the built form in the zone
  * 
  * @author John Abraham
  */
@@ -49,7 +53,11 @@ public class GridCellSynthesizer
     private static Logger           logger          = Logger.getLogger(GridCellSynthesizer.class);
     protected static long           gridCellCounter = 1;
 
-    protected static LandCategory[] landCategories;                                               // needs to be static since
+    protected static LandCategory[] landCategories;                                               // needs
+                                                                                                   // to
+                                                                                                   // be
+                                                                                                   // static
+                                                                                                   // since
 
     // each type needs access to
     // the forestry/protected
@@ -82,9 +90,12 @@ public class GridCellSynthesizer
     String[]                                             names        = new String[255];
     TableDataWriter                                      myWriter     = null;
     /**
-     * Description: ID1 - taz number ID2 - grid cell number incremented over all cells (String) PH4BetaZone - place holder for land use zone (luz)
-     * number. AmountOfLand - grid cell size DevelopmentType - code for dev type, see lookup table AmountOfDevelopment - empl. spaces, acres or sqft
-     * depending on devtype. YearBuilt - year of development ZoningScheme - 1 of 9 categories, see lookup table.
+     * Description: ID1 - taz number ID2 - grid cell number incremented over all
+     * cells (String) PH4BetaZone - place holder for land use zone (luz) number.
+     * AmountOfLand - grid cell size DevelopmentType - code for dev type, see
+     * lookup table AmountOfDevelopment - empl. spaces, acres or sqft depending
+     * on devtype. YearBuilt - year of development ZoningScheme - 1 of 9
+     * categories, see lookup table.
      */
     // String[] gridCellDataTableHeader = {"ID1","ID2", "PH4BetaZone",
     // "AmountOfLand","DevelopmentTypeCode","AmountOfDevelopment","YearBuilt","ZoningSchemeCode"};
@@ -357,12 +368,15 @@ public class GridCellSynthesizer
     class LandCategory
     {
         final char   code;                    // development type code
-        float        observedLand;            // number of acres from the Land.csv table
-        float        space;                   // inventory value from the FloorspaceInventory file
+        float        observedLand;            // number of acres from the
+                                               // Land.csv table
+        float        space;                   // inventory value from the
+                                               // FloorspaceInventory file
         // generated in LD?
         final String title;
         double       intensity    = 0;
-        double       synthLandQuantity;       // the number of acres after the intensity has
+        double       synthLandQuantity;       // the number of acres after the
+                                               // intensity has
         // been adjusted (if necessary) - if
         // intensity falls within min,max
         // range, then this number should be the
@@ -375,7 +389,8 @@ public class GridCellSynthesizer
         double       servicesPerUnit;
 
         /**
-         * Use this constructor when you want to create a LandCategory but not initialize it yet. You'll need to call LandCategory.initialize(...)
+         * Use this constructor when you want to create a LandCategory but not
+         * initialize it yet. You'll need to call LandCategory.initialize(...)
          * later
          * 
          * @param code
@@ -388,13 +403,15 @@ public class GridCellSynthesizer
         }
 
         /**
-         * Use this constructor to create a LandCategory and assign a quantity of observed land based on a TableDataSet, but not yet initialize it.
+         * Use this constructor to create a LandCategory and assign a quantity
+         * of observed land based on a TableDataSet, but not yet initialize it.
          * Call LandCategory.initialize(...) later.
          * 
          * @param code
          *            the code representing the development type
          * @param landTdis
-         *            the TableDataSetIndexedValue where the retrieveValue() will get the quantity of land
+         *            the TableDataSetIndexedValue where the retrieveValue()
+         *            will get the quantity of land
          */
         LandCategory(char code, TableDataSetIndexedValue landTdis, String myTitle)
         {
@@ -410,9 +427,12 @@ public class GridCellSynthesizer
          * @param code
          *            the code representing the development type
          * @param inventoryTdis
-         *            used to retrieve the inventory of space to be applied to the land (column name already set)
+         *            used to retrieve the inventory of space to be applied to
+         *            the land (column name already set)
          * @param landTdis
-         *            used to retrieve the quantity of land on which the inventory is to be applied, using column names specified in landCategories
+         *            used to retrieve the quantity of land on which the
+         *            inventory is to be applied, using column names specified
+         *            in landCategories
          * @param landCategories
          *            a list of the land categories to be used.
          * @param minIntensity
@@ -453,9 +473,11 @@ public class GridCellSynthesizer
          * @param code
          *            the code representing the development type
          * @param inventoryTdis
-         *            used to retrieve the inventory of space to be applied to the land (column name already set)
+         *            used to retrieve the inventory of space to be applied to
+         *            the land (column name already set)
          * @param landTdis
-         *            used to retrieve the quantity of land on which the inventory is to be applied (column name already set)
+         *            used to retrieve the quantity of land on which the
+         *            inventory is to be applied (column name already set)
          */
         LandCategory(char code, TableDataSetIndexedValue inventoryTdis,
                 TableDataSetIndexedValue landTdis, String myTitle)
@@ -477,13 +499,15 @@ public class GridCellSynthesizer
         }
 
         /**
-         * Creates an unitialized LandCategory, observed land is set but nothing else is. Call initialize(...) later.
+         * Creates an unitialized LandCategory, observed land is set but nothing
+         * else is. Call initialize(...) later.
          * 
          * @param c
          *            the code representing the development type
          * @param landTdis
-         *            landTdis used to retrieve the quantity of land on which the inventory is to be applied, using column names specified in
-         *            landCategories
+         *            landTdis used to retrieve the quantity of land on which
+         *            the inventory is to be applied, using column names
+         *            specified in landCategories
          * @param landCategories
          *            a list of the land categories to be used.
          */
@@ -593,8 +617,10 @@ public class GridCellSynthesizer
         }
 
         /**
-         * This method will borrow a Ag and Forest/Protected cells based on a percentage of total available cells to borrow. If there are no cells to
-         * borrow, the method will return and the intensities will stay as they are.
+         * This method will borrow a Ag and Forest/Protected cells based on a
+         * percentage of total available cells to borrow. If there are no cells
+         * to borrow, the method will return and the intensities will stay as
+         * they are.
          */
         private double borrowSomeAgForestCells()
         {

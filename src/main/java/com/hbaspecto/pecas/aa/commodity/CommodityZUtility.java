@@ -1,14 +1,17 @@
 /*
  * Copyright 2005 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.aa.commodity;
 
@@ -21,11 +24,15 @@ import com.hbaspecto.pecas.aa.travelAttributes.TravelUtilityCalculatorInterface;
 import com.hbaspecto.pecas.zones.PECASZone;
 
 /**
- * The Zutility of a commodity in a zone, whether it is the selling Zutility or the buying Zutility, is based on the prices in the relevant exchange
- * zones and the transport costs to the relevant exchange zones. Generally (e.g. for ODOT), each commodity will either have one exchange zone for its
- * buying zutility (and multiple exchange zones for its selling zutility) or it will have one exchange zone for its selling zutility (and multiple
- * exchagne zone for its buying zutility). Thus the cardinaility of this relationship will be 1 in about half of the instances of Zutility objects,
- * and N=number-of-zones in the remainder of the instances
+ * The Zutility of a commodity in a zone, whether it is the selling Zutility or
+ * the buying Zutility, is based on the prices in the relevant exchange zones
+ * and the transport costs to the relevant exchange zones. Generally (e.g. for
+ * ODOT), each commodity will either have one exchange zone for its buying
+ * zutility (and multiple exchange zones for its selling zutility) or it will
+ * have one exchange zone for its selling zutility (and multiple exchagne zone
+ * for its buying zutility). Thus the cardinaility of this relationship will be
+ * 1 in about half of the instances of Zutility objects, and N=number-of-zones
+ * in the remainder of the instances
  */
 
 abstract public class CommodityZUtility
@@ -40,21 +47,31 @@ abstract public class CommodityZUtility
     private final TravelUtilityCalculatorInterface temporaryTravelPreferences         = null;
     private final boolean                          useRouteChoice                     = false;
     /**
-     * This attribute represents the amount bought or sold in the zone. Changing the quantity in the zone does <b> not </b> automatically change the
-     * quantities in the flows and exchanges. The method allocateQuantityToFlowsAndExchanges must be called to update the amounts in the flows and
-     * exchanges
+     * This attribute represents the amount bought or sold in the zone. Changing
+     * the quantity in the zone does <b> not </b> automatically change the
+     * quantities in the flows and exchanges. The method
+     * allocateQuantityToFlowsAndExchanges must be called to update the amounts
+     * in the flows and exchanges
      * 
      * @see CommodityZUtility#allocateQuantityToFlowsAndExchanges()
      * @see CommodityFlowArray
      * @see Exchange
      */
-    private double                                 quantity                           = 0;                                      // TC or TP depending
-                                                                                                                                 // on whether the
+    private double                                 quantity                           = 0;                                      // TC
+                                                                                                                                 // or
+                                                                                                                                 // TP
+                                                                                                                                 // depending
+                                                                                                                                 // on
+                                                                                                                                 // whether
+                                                                                                                                 // the
                                                                                                                                  // commZUtil
     // is a buy or sell Utility
     public Commodity                               myCommodity;
-    private double                                 lastCalculatedUtility;                                                       // CUBuy or CUSell
-                                                                                                                                 // depending on
+    private double                                 lastCalculatedUtility;                                                       // CUBuy
+                                                                                                                                 // or
+                                                                                                                                 // CUSell
+                                                                                                                                 // depending
+                                                                                                                                 // on
     // whether the commZUtil is a buy or
     // sell util
     public CommodityFlowArray                      myFlows;
@@ -69,7 +86,8 @@ abstract public class CommodityZUtility
     // for profiling int utilityCalcCount = 0;
 
     /**
-     * sets up one-way associations. Should only be called by a subclass, which can inform the PECASZone and the Commodity to set up the other-way
+     * sets up one-way associations. Should only be called by a subclass, which
+     * can inform the PECASZone and the Commodity to set up the other-way
      * associations.
      */
     protected CommodityZUtility(Commodity c, PECASZone z, TravelUtilityCalculatorInterface tp)
@@ -140,7 +158,9 @@ abstract public class CommodityZUtility
     {
         // debug June 5 2002
         /*
-         * if (myCommodity.name.equals("FLR Agriculture") && myTaz.getZoneIndex()==726) { System.out.println(this + " quantity changing from "
+         * if (myCommodity.name.equals("FLR Agriculture") &&
+         * myTaz.getZoneIndex()==726) { System.out.println(this +
+         * " quantity changing from "
          * +this.quantity+" to "+(this.quantity+change)); }
          */
         quantity += change;
@@ -151,11 +171,13 @@ abstract public class CommodityZUtility
     }
 
     /*
-     * ------------------ GETTERS and SETTERS -----------------------------------------------------------
+     * ------------------ GETTERS and SETTERS
+     * -----------------------------------------------------------
      */
     /**
      * @param d
-     *            the amount that the quantity will change if the composite utility of buying or selling changes by 1 unit.
+     *            the amount that the quantity will change if the composite
+     *            utility of buying or selling changes by 1 unit.
      * @throws OverflowException
      */
     public synchronized void setDerivative(double d) throws OverflowException
@@ -177,7 +199,8 @@ abstract public class CommodityZUtility
     }
 
     /**
-     * @return amount that the quantity will change with respect to changes in the composite utility measure.
+     * @return amount that the quantity will change with respect to changes in
+     *         the composite utility measure.
      */
     public double getDerivative()
     {
@@ -186,7 +209,9 @@ abstract public class CommodityZUtility
 
     /**
      * @param quantity
-     *            quantity bought or sold -- always should be positive, when it is an amount purchased the subclass will apply appropriate sign change
+     *            quantity bought or sold -- always should be positive, when it
+     *            is an amount purchased the subclass will apply appropriate
+     *            sign change
      * @throws OverflowException
      */
     public synchronized void setQuantity(double quantity) throws OverflowException
@@ -199,7 +224,8 @@ abstract public class CommodityZUtility
     }
 
     /**
-     * @return quantity bought or sold. Always should be positive whether it is bought or sold; subclass determines whether it is bought or sold
+     * @return quantity bought or sold. Always should be positive whether it is
+     *         bought or sold; subclass determines whether it is bought or sold
      */
     public double getQuantity()
     {
@@ -282,7 +308,8 @@ abstract public class CommodityZUtility
     }
 
     /*
-     * This method just resets the quantities and derviative to 0 to prepare for the next iteration
+     * This method just resets the quantities and derviative to 0 to prepare for
+     * the next iteration
      */
     static public void resetCommodityBoughtAndSoldQuantities()
     {
@@ -318,61 +345,91 @@ abstract public class CommodityZUtility
     // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
-     * Has to use its logit model of exchange zones and inspect the knowledge of transport conditions to figure out the composite utility of buying or
+     * Has to use its logit model of exchange zones and inspect the knowledge of
+     * transport conditions to figure out the composite utility of buying or
      * selling
      */
     /*
-     * LogitModel getMyLogitModelOfExchangeAlternatives() { if (myLogitModelOfExchangeAlternatives == null) { myLogitModelOfExchangeAlternatives = new
-     * LogitModel(); Iterator it = flows.values().iterator(); while (it.hasNext()) { myLogitModelOfExchangeAlternatives
-     * .addAlternative((CommodityFlow)it.next()); // message #1.2.3.1.3.1.1 to travelConditions:com.pb.despair.ts.TransportKnowledge with arguments:
-     * commodityTravelPreferences // Object unnamed = travelConditions.getRutilities(TravelPreferences); // message #1.2.3.1.3.1.2 to
-     * allExchanges:com.pb.models.pecas.Exchange // double unnamed = allExchanges.getPrice(); }
-     * myLogitModelOfExchangeAlternatives.setDispersionParameter (getDispersionParameter()); } return myLogitModelOfExchangeAlternatives; }
+     * LogitModel getMyLogitModelOfExchangeAlternatives() { if
+     * (myLogitModelOfExchangeAlternatives == null) {
+     * myLogitModelOfExchangeAlternatives = new LogitModel(); Iterator it =
+     * flows.values().iterator(); while (it.hasNext()) {
+     * myLogitModelOfExchangeAlternatives
+     * .addAlternative((CommodityFlow)it.next()); // message #1.2.3.1.3.1.1 to
+     * travelConditions:com.pb.despair.ts.TransportKnowledge with arguments:
+     * commodityTravelPreferences // Object unnamed =
+     * travelConditions.getRutilities(TravelPreferences); // message
+     * #1.2.3.1.3.1.2 to allExchanges:com.pb.models.pecas.Exchange // double
+     * unnamed = allExchanges.getPrice(); }
+     * myLogitModelOfExchangeAlternatives.setDispersionParameter
+     * (getDispersionParameter()); } return myLogitModelOfExchangeAlternatives;
+     * }
      */
 
     /**
-     * Has to use its logit model of exchange zones and inspect the knowledge of transport conditions to figure out the composite utility of buying or
+     * Has to use its logit model of exchange zones and inspect the knowledge of
+     * transport conditions to figure out the composite utility of buying or
      * selling
      */
     /*
-     * public double calcUtilityForPreferences(TravelUtilityCalculatorInterface tp, boolean withRouteChoice) { double bob; synchronized(this) {
-     * temporaryTravelPreferences = tp; this.useRouteChoice = withRouteChoice; bob = getUtility(); temporaryTravelPreferences = null;
-     * this.useRouteChoice = false; } return bob; // message #1.2.3.1.3.1.1 to travelConditions:com.pb.despair.ts.TransportKnowledge with arguments:
-     * commodityTravelPreferences // Object unnamed = travelConditions.getRutilities(TravelPreferences); // message #1.2.3.1.3.1.2 to
-     * allExchanges:com.pb.models.pecas.Exchange // double unnamed = allExchanges.getPrice(); }
+     * public double calcUtilityForPreferences(TravelUtilityCalculatorInterface
+     * tp, boolean withRouteChoice) { double bob; synchronized(this) {
+     * temporaryTravelPreferences = tp; this.useRouteChoice = withRouteChoice;
+     * bob = getUtility(); temporaryTravelPreferences = null;
+     * this.useRouteChoice = false; } return bob; // message #1.2.3.1.3.1.1 to
+     * travelConditions:com.pb.despair.ts.TransportKnowledge with arguments:
+     * commodityTravelPreferences // Object unnamed =
+     * travelConditions.getRutilities(TravelPreferences); // message
+     * #1.2.3.1.3.1.2 to allExchanges:com.pb.models.pecas.Exchange // double
+     * unnamed = allExchanges.getPrice(); }
      */
 
     /*
-     * CommodityFlow monteCarloChoiceOfExchange() throws NoAlternativeAvailable { LogitModel exc = getMyLogitModelOfExchangeAlternatives(); return
+     * CommodityFlow monteCarloChoiceOfExchange() throws NoAlternativeAvailable
+     * { LogitModel exc = getMyLogitModelOfExchangeAlternatives(); return
      * (CommodityFlow)exc.monteCarloChoice(); }
      */
 
     /*
-     * CommodityFlow monteCarloChoiceOfExchangeForPreferences(TravelUtilityCalculatorInterface tp) throws NoAlternativeAvailable {
-     * temporaryTravelPreferences = tp; LogitModel exc = getMyLogitModelOfExchangeAlternatives(); CommodityFlow cf =
-     * (CommodityFlow)exc.monteCarloChoice(); temporaryTravelPreferences = null; return cf; }
+     * CommodityFlow
+     * monteCarloChoiceOfExchangeForPreferences(TravelUtilityCalculatorInterface
+     * tp) throws NoAlternativeAvailable { temporaryTravelPreferences = tp;
+     * LogitModel exc = getMyLogitModelOfExchangeAlternatives(); CommodityFlow
+     * cf = (CommodityFlow)exc.monteCarloChoice(); temporaryTravelPreferences =
+     * null; return cf; }
      */
 
     /*
-     * public void addFlowIfNotAlreadyThere(CommodityFlow f) { if (!(flows.containsKey(f.theExchange))) flows.put(f.theExchange, f); }
+     * public void addFlowIfNotAlreadyThere(CommodityFlow f) { if
+     * (!(flows.containsKey(f.theExchange))) flows.put(f.theExchange, f); }
      */
 
     /*
-     * public CommodityFlow findExistingCommodityFlow(Exchange ex) { return (CommodityFlow) flows.get(ex); }
+     * public CommodityFlow findExistingCommodityFlow(Exchange ex) { return
+     * (CommodityFlow) flows.get(ex); }
      * 
-     * /* public CommodityFlow findExistingCommodityFlow(PECASZone ex) { Iterator it = flows.iterator(); while (it.hasNext()) { CommodityFlow cf =
-     * (CommodityFlow)it.next(); if (cf.theExchange.exchangeLocation.equals(ex)) return cf; } return null; }
+     * /* public CommodityFlow findExistingCommodityFlow(PECASZone ex) {
+     * Iterator it = flows.iterator(); while (it.hasNext()) { CommodityFlow cf =
+     * (CommodityFlow)it.next(); if (cf.theExchange.exchangeLocation.equals(ex))
+     * return cf; } return null; }
      */
 
     /*
-     * for(int i=0;i<myFlows.theExchanges.length;i++) { if (myFlows.theExchanges[i]!=null) { try { table.insertRow(false);
-     * table.setString("Commodity", myCommodity.toString()); if (this instanceof BuyingZUtility) {
-     * table.setInt("OriginZone",myFlows.theExchanges[i].exchangeLocation .getZoneUserNumber());
-     * table.setInt("DestinationZone",myTaz.getZoneUserNumber()); table.setDouble("Quantity",-myFlows.quantities[i]); } else {
-     * table.setInt("OriginZone",myTaz.getZoneUserNumber()); table.setInt("DestinationZone"
-     * ,myFlows.theExchanges[i].exchangeLocation.getZoneUserNumber()); table.setDouble("Quantity",myFlows.quantities[i]); } table.post(); } catch
-     * (com.borland.dx.dataset.DataSetException e) { System.err.println("Error adding commodity flow to commodity flow table" ); e.printStackTrace();
-     * } } } }
+     * for(int i=0;i<myFlows.theExchanges.length;i++) { if
+     * (myFlows.theExchanges[i]!=null) { try { table.insertRow(false);
+     * table.setString("Commodity", myCommodity.toString()); if (this instanceof
+     * BuyingZUtility) {
+     * table.setInt("OriginZone",myFlows.theExchanges[i].exchangeLocation
+     * .getZoneUserNumber());
+     * table.setInt("DestinationZone",myTaz.getZoneUserNumber());
+     * table.setDouble("Quantity",-myFlows.quantities[i]); } else {
+     * table.setInt("OriginZone",myTaz.getZoneUserNumber());
+     * table.setInt("DestinationZone"
+     * ,myFlows.theExchanges[i].exchangeLocation.getZoneUserNumber());
+     * table.setDouble("Quantity",myFlows.quantities[i]); } table.post(); }
+     * catch (com.borland.dx.dataset.DataSetException e) {
+     * System.err.println("Error adding commodity flow to commodity flow table"
+     * ); e.printStackTrace(); } } } }
      */
 
 }

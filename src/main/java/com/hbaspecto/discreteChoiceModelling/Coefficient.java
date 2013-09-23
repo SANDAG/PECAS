@@ -1,8 +1,10 @@
 package com.hbaspecto.discreteChoiceModelling;
 
 /**
- * Represents an arbitrary coefficient in a choice model. The coefficient has two values, an "internal" value and a "transformed" value, related by a
- * transformation, and setting either value changes the other according to the transformation. The transformed value should be normally distributed.
+ * Represents an arbitrary coefficient in a choice model. The coefficient has
+ * two values, an "internal" value and a "transformed" value, related by a
+ * transformation, and setting either value changes the other according to the
+ * transformation. The transformed value should be normally distributed.
  * Coefficients should not override equals() or hashCode().
  * 
  */
@@ -40,14 +42,16 @@ public interface Coefficient
     public void setTransformedValue(double v);
 
     /**
-     * Finds the derivative of the transformed value of the coefficient with respect to its internal value.
+     * Finds the derivative of the transformed value of the coefficient with
+     * respect to its internal value.
      * 
      * @return The derivative at the current value.
      */
     public double getTransformationDerivative();
 
     /**
-     * Finds the derivative of the internal value of the coefficient with respect to its transformed value.
+     * Finds the derivative of the internal value of the coefficient with
+     * respect to its transformed value.
      * 
      * @return The derivative at the current value.
      */

@@ -3,8 +3,9 @@ package com.hbaspecto.pecas.sd.estimation;
 import com.hbaspecto.pecas.sd.SpaceTypesI;
 
 /**
- * A coefficient representing a dispersion parameter. Dispersion parameters are calibrated assuming a log-normal prior, so they apply a natural
- * logarithm transformation.
+ * A coefficient representing a dispersion parameter. Dispersion parameters are
+ * calibrated assuming a log-normal prior, so they apply a natural logarithm
+ * transformation.
  * 
  */
 public abstract class DispersionParameter
@@ -68,7 +69,8 @@ public abstract class DispersionParameter
     }
 
     /**
-     * Returns the demolish/derelict dispersion parameter for the given spacetype.
+     * Returns the demolish/derelict dispersion parameter for the given
+     * spacetype.
      */
     public static SpaceTypeCoefficient getDemolishDerelictDisp(int spacetype)
     {
@@ -82,7 +84,8 @@ public abstract class DispersionParameter
     }
 
     /**
-     * Returns the renovate/add space/build new dispersion parameter for the given spacetype.
+     * Returns the renovate/add space/build new dispersion parameter for the
+     * given spacetype.
      */
     public static SpaceTypeCoefficient getRenovateAddNewDisp(int spacetype)
     {
@@ -96,7 +99,8 @@ public abstract class DispersionParameter
     }
 
     /**
-     * Returns the add space/build new dispersion parameter for the given spacetype.
+     * Returns the add space/build new dispersion parameter for the given
+     * spacetype.
      */
     public static SpaceTypeCoefficient getAddNewDisp(int spacetype)
     {
@@ -124,7 +128,8 @@ public abstract class DispersionParameter
     }
 
     /**
-     * Returns the building intensity dispersion parameter for the given spacetype.
+     * Returns the building intensity dispersion parameter for the given
+     * spacetype.
      */
     public static SpaceTypeCoefficient getIntensityDisp(int spacetype)
     {

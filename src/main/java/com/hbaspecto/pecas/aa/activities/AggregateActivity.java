@@ -1,14 +1,17 @@
 /*
  * Copyright 2005-2007 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.aa.activities;
 
@@ -23,7 +26,8 @@ import com.hbaspecto.pecas.aa.technologyChoice.ProductionFunction;
 import com.hbaspecto.pecas.zones.AbstractZone;
 
 /**
- * This is the class that represents a certain type of activity using aggregate quantities and prices. There is no microsimulation in this class
+ * This is the class that represents a certain type of activity using aggregate
+ * quantities and prices. There is no microsimulation in this class
  * 
  * @author J. Abraham
  */
@@ -64,15 +68,21 @@ public class AggregateActivity
     }
 
     /**
-     * This is the main workhorse routine that allocates the regional production to zones. PA calls this for each production activity. To simulate
-     * economic equilibrium, aaModel may have to call this function once, then repeatedly call reMigrateAndReAllocate. Note, though, that not all
-     * activities are in spatial equilibrium. For ODOT, for instance, household transitions are not in equilibrium. This routine models a discrete
-     * time step. It's important to be able to adjust the time step if necessary, and in fact different things may need different time steps. So these
-     * routines should be careful to use this parameter. A longer time step implies larger changes.
+     * This is the main workhorse routine that allocates the regional production
+     * to zones. PA calls this for each production activity. To simulate
+     * economic equilibrium, aaModel may have to call this function once, then
+     * repeatedly call reMigrateAndReAllocate. Note, though, that not all
+     * activities are in spatial equilibrium. For ODOT, for instance, household
+     * transitions are not in equilibrium. This routine models a discrete time
+     * step. It's important to be able to adjust the time step if necessary, and
+     * in fact different things may need different time steps. So these routines
+     * should be careful to use this parameter. A longer time step implies
+     * larger changes.
      * 
      * @param timeStep
-     *            the amount of time that has passed since this function was last called. If zero, then the ProductionActivity is to redo the previous
-     *            allocation
+     *            the amount of time that has passed since this function was
+     *            last called. If zero, then the ProductionActivity is to redo
+     *            the previous allocation
      */
     public void migrationAndAllocation(double timeStep) throws ChoiceModelOverflowException
     {
@@ -96,7 +106,9 @@ public class AggregateActivity
     /*
      * (non-Javadoc)
      * 
-     * @see com.pb.models.pecas.ProductionActivity#migrationAndAllocation(double, double, double)
+     * @see
+     * com.pb.models.pecas.ProductionActivity#migrationAndAllocation(double,
+     * double, double)
      */
     @Override
     public void migrationAndAllocation(double timeStep, double inMigration, double outMigration)
@@ -116,14 +128,19 @@ public class AggregateActivity
     }
 
     /**
-     * For certain types of ProductionActivity, including most AggregateActivities, there is a need to do the allocation, then adjust the prices and
-     * redo the allocation repeatedly to find the economic equilibrium. Thus aaModel needs to call migrationAndAllocation once, to set the in
-     * migration, out migration and time period and to reset the previous time point. Then aaModel can adjust the prices that result and have the
-     * ProductionActivity reallocate itself and redo the migration in response to different prices by calling this method.
+     * For certain types of ProductionActivity, including most
+     * AggregateActivities, there is a need to do the allocation, then adjust
+     * the prices and redo the allocation repeatedly to find the economic
+     * equilibrium. Thus aaModel needs to call migrationAndAllocation once, to
+     * set the in migration, out migration and time period and to reset the
+     * previous time point. Then aaModel can adjust the prices that result and
+     * have the ProductionActivity reallocate itself and redo the migration in
+     * response to different prices by calling this method.
      * 
      * @throws CantRedoError
-     *             not all types of ProductionActivity can redo their allocation. Obviously, then, they can't be modelled as being in spatial economic
-     *             equilibrium
+     *             not all types of ProductionActivity can redo their
+     *             allocation. Obviously, then, they can't be modelled as being
+     *             in spatial economic equilibrium
      */
     @Override
     public void reMigrationAndReAllocation() throws CantRedoError

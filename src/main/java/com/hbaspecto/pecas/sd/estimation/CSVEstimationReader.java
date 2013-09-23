@@ -14,8 +14,9 @@ import org.apache.log4j.Logger;
 import com.hbaspecto.discreteChoiceModelling.Coefficient;
 
 /**
- * Class that reads the estimation inputs from CSV files (see documentation for format). Reads the files in their entirety on construction, returning
- * the appropriate information in the read methods.
+ * Class that reads the estimation inputs from CSV files (see documentation for
+ * format). Reads the files in their entirety on construction, returning the
+ * appropriate information in the read methods.
  * 
  * @author Graham
  * 
@@ -184,7 +185,9 @@ public class CSVEstimationReader
             return new AdditionIntoSpaceTypeTarget(Integer.parseInt(pieces[1]));
         } else if (pieces[0].equalsIgnoreCase(AdditionIntoSpaceTypesTarget.NAME))
         {
-            return new AdditionIntoSpaceTypesTarget(pieces); // plural, more than one space type
+            return new AdditionIntoSpaceTypesTarget(pieces); // plural, more
+                                                             // than one space
+                                                             // type
         } else throw new IllegalArgumentException("Target type not recognized: " + pieces[0]);
     }
 
@@ -383,7 +386,8 @@ public class CSVEstimationReader
         return result;
     }
 
-    // Converts a deviation-correlation matrix into a variance matrix (in-place).
+    // Converts a deviation-correlation matrix into a variance matrix
+    // (in-place).
     private double[][] devcorToVariance(double[][] devcor)
     {
         // Convert off-diagonals first.

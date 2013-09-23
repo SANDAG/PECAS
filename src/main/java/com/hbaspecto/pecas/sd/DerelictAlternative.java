@@ -35,7 +35,8 @@ public class DerelictAlternative
 
         int oldCoverage = ZoningRulesI.land.getCoverage();
         SpaceTypesI spaceType = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(oldCoverage);
-        // You can't choose derelict for an already derelict land or a vacant space type of land.
+        // You can't choose derelict for an already derelict land or a vacant
+        // space type of land.
         if (spaceType.isVacant() || ZoningRulesI.land.isDerelict())
             return Double.NEGATIVE_INFINITY;
 
@@ -55,7 +56,8 @@ public class DerelictAlternative
         if (size > ZoningRulesI.land.getMaxParcelSize())
         {
             // If development occurs on a parcel that is greater than n acres,
-            // split off n acres into a new "pseudo parcel" and add the new pseudo parcel into the database
+            // split off n acres into a new "pseudo parcel" and add the new
+            // pseudo parcel into the database
             int splits = ((int) (size / ZoningRulesI.land.getMaxParcelSize())) + 1;
             double parcelSizes = size / splits;
             ParcelInterface newBit;

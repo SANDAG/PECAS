@@ -33,8 +33,10 @@ public class TAZSplitter
     private final PECASZone[]                     zones;
 
     /**
-     * An N-dimensional array of make and use coefficients. ZonalMakeUse.csv stored in an array Dimension 0 is production activities Dimension 1 is
-     * beta zone Dimension 2 is commodity name Dimension 3 is "M" or "U" for make or use
+     * An N-dimensional array of make and use coefficients. ZonalMakeUse.csv
+     * stored in an array Dimension 0 is production activities Dimension 1 is
+     * beta zone Dimension 2 is commodity name Dimension 3 is "M" or "U" for
+     * make or use
      */
     private final StringIndexedNDimensionalMatrix zonalMakeUseCoefficients;
     StringIndexedNDimensionalMatrix               alphaZonalMake;

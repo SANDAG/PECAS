@@ -1,14 +1,17 @@
 /*
  * Copyright 2006 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.aa.technologyChoice;
 
@@ -45,7 +48,8 @@ public class LogitTechnologyChoice
 
     // private double lambda;
     /**
-     * Will be null if doFinalSetupAndSetCommodityOrder has not been called, or setup routines have been called after.
+     * Will be null if doFinalSetupAndSetCommodityOrder has not been called, or
+     * setup routines have been called after.
      */
     private List<Commodity> myCommodityOrder;
 
@@ -84,18 +88,23 @@ public class LogitTechnologyChoice
     }
 
     /*
-     * public void setBuyingUtilities(double[] buyingUtilitiesParam) { buyingUtilities = buyingUtilitiesParam; }
+     * public void setBuyingUtilities(double[] buyingUtilitiesParam) {
+     * buyingUtilities = buyingUtilitiesParam; }
      * 
-     * public void setSellingUtilities(double[] sellingUtilitiesParam) { sellingUtilities = sellingUtilitiesParam; }
+     * public void setSellingUtilities(double[] sellingUtilitiesParam) {
+     * sellingUtilities = sellingUtilitiesParam; }
      */
 
     /**
-     * This method calculates the composite utility of all of the technology options available to an Activity
+     * This method calculates the composite utility of all of the technology
+     * options available to an Activity
      * 
      * @param buyingUtilitiesParam
-     *            the buying utilities (composite utility of exchange choice for buying for each commodity)
+     *            the buying utilities (composite utility of exchange choice for
+     *            buying for each commodity)
      * @param sellingUtilitiesParam
-     *            the selling utilities (composite utility of exchange choice for selling for each commodity)
+     *            the selling utilities (composite utility of exchange choice
+     *            for selling for each commodity)
      * @return the composite utility over all of the options
      * @throws ChoiceModelOverflowException
      */
@@ -226,14 +235,16 @@ public class LogitTechnologyChoice
     }
 
     /**
-     * Calculates the partial derivatives of quantities bought wrt utility of buying, and the partial derivatives of quantities sold wrt utility of
+     * Calculates the partial derivatives of quantities bought wrt utility of
+     * buying, and the partial derivatives of quantities sold wrt utility of
      * selling
      * 
      * @param buyingCommodityUtilities
      *            utility of buying different commodities
      * @param sellingCommodityUtilities
      *            utility of selling different commodities
-     * @return First elements in matrix are the partials of buying (buying amounts are negative), next are partials of selling
+     * @return First elements in matrix are the partials of buying (buying
+     *         amounts are negative), next are partials of selling
      */
     public double[] amountsDerivatives(double[] buyingCommodityUtilities,
             double[] sellingCommodityUtilities, int zoneIndex)
@@ -264,14 +275,16 @@ public class LogitTechnologyChoice
     }
 
     /**
-     * Calculates the partial derivatives of quantities bought wrt utility of buying, and the partial derivatives of quantities sold wrt utility of
+     * Calculates the partial derivatives of quantities bought wrt utility of
+     * buying, and the partial derivatives of quantities sold wrt utility of
      * selling
      * 
      * @param buyingCommodityUtilities
      *            utility of buying different commodities
      * @param sellingCommodityUtilities
      *            utility of selling different commodities
-     * @return First elements in matrix are the partials of buying, next are partials of selling
+     * @return First elements in matrix are the partials of buying, next are
+     *         partials of selling
      */
     public Matrix amountsDerivativesMatrix(double[] buyingCommodityUtilities,
             double[] sellingCommodityUtilities, int zoneIndex)
@@ -421,14 +434,16 @@ public class LogitTechnologyChoice
     }
 
     /**
-     * Calculate the derivative of the logsum term wrt changes in buying utilities or selling utilities
+     * Calculate the derivative of the logsum term wrt changes in buying
+     * utilities or selling utilities
      * 
      * @param buyingCommodityUtilities
      *            utility of buying different commodities
      * @param sellingCommodityUtilities
      *            utility of selling different commodities
-     * @return first c elements are partial derivative of composite utility wrt changes in buyingCommodityUtilities, next c elements are wrt changes
-     *         in sellingCommodityUtilities
+     * @return first c elements are partial derivative of composite utility wrt
+     *         changes in buyingCommodityUtilities, next c elements are wrt
+     *         changes in sellingCommodityUtilities
      * @throws NoAlternativeAvailable
      */
     public double[] compositeUtilityDerivatives(double[] buyingCommodityUtilities,

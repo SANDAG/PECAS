@@ -3,14 +3,17 @@
  * 
  * Copyright 2006 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.sd;
 
@@ -128,7 +131,8 @@ public class StandardSDModel
         } finally
         {
             if (mySD.land != null) mySD.land.disconnect();
-            if (!worked) System.exit(1); // don't need to manually call exit if everything worked ok.
+            if (!worked) System.exit(1); // don't need to manually call exit if
+                                         // everything worked ok.
         }
     }
 
@@ -225,11 +229,13 @@ public class StandardSDModel
 
         TableDataSetCollection inputDatabase = new TableDataSetCollection(inputTableReader,
                 inputTableWriter);
-        // TableDataSet developmentTypesI = inputDatabase.getTableDataSet("spacetypesi");
+        // TableDataSet developmentTypesI =
+        // inputDatabase.getTableDataSet("spacetypesi");
         // TableDataSet transitionConstantsI = inputDatabase
         // .getTableDataSet("TransitionConstantsI");
 
-        // FIXME read in the LUZ table or make sure it can be read in record-by-record on demand using SimpleORM
+        // FIXME read in the LUZ table or make sure it can be read in
+        // record-by-record on demand using SimpleORM
         // PECASZone.setUpZones(inputDatabase.getTableDataSet("PECASZonesI"));
 
         // ZoningRulesI.setUpZoningSchemes(inputDatabase
@@ -246,7 +252,8 @@ public class StandardSDModel
         setUpDevelopmentTypes();
         TableDataFileReader reader = setUpCsvReaderWriter();
 
-        // if (ResourceUtil.getBooleanProperty(rbSD, "sd.aaUsesDifferentZones",false))
+        // if (ResourceUtil.getBooleanProperty(rbSD,
+        // "sd.aaUsesDifferentZones",false))
         // readFloorspaceZones(inputDatabase
         // .getTableDataSet("FloorspaceZonesI"));
 
@@ -335,7 +342,8 @@ public class StandardSDModel
                 if (prepareEstimationData)
                 {
 
-                    // Keeping the csv file opened for the whole period of the run might not be a good idea.
+                    // Keeping the csv file opened for the whole period of the
+                    // run might not be a good idea.
                     eDataSet.compileEstimationRow(land);
                     eDataSet.writeEstimationRow();
                 } else
@@ -387,22 +395,35 @@ public class StandardSDModel
                     targetVariance, means, variance);
 
             // DEBUG
-            // This section prints out targets with perturbation so that we can check numerical derivatives.
+            // This section prints out targets with perturbation so that we can
+            // check numerical derivatives.
             /*
-             * double delta = 0.01; Vector targetValues; BufferedWriter writer = null; try { writer = new BufferedWriter(new
-             * FileWriter("perturbed.csv")); // Write target names across the top. for(EstimationTarget target: targets) writer.write("," +
-             * target.getName()); writer.newLine(); // Write unperturbed target values. try { targetValues = theModel.getTargetValues(targets, means);
-             * writer.write("Unperturbed"); for(int i = 0; i < targetValues.size(); i++) writer.write("," + targetValues.get(i)); writer.newLine(); }
+             * double delta = 0.01; Vector targetValues; BufferedWriter writer =
+             * null; try { writer = new BufferedWriter(new
+             * FileWriter("perturbed.csv")); // Write target names across the
+             * top. for(EstimationTarget target: targets) writer.write("," +
+             * target.getName()); writer.newLine(); // Write unperturbed target
+             * values. try { targetValues = theModel.getTargetValues(targets,
+             * means); writer.write("Unperturbed"); for(int i = 0; i <
+             * targetValues.size(); i++) writer.write("," +
+             * targetValues.get(i)); writer.newLine(); }
              * catch(OptimizationException e) {}
              * 
-             * // Perturb each coefficient in turn. for(int i = 0; i < means.size(); i++) { Vector perturbed = means.copy(); perturbed.set(i,
-             * perturbed.get(i) + delta); try { targetValues = theModel.getTargetValues(targets, perturbed); writer.write(coeffs.get(i).getName());
-             * for(int j = 0; j < targetValues.size(); j++) writer.write("," + targetValues.get(j)); writer.newLine(); } catch(OptimizationException
-             * e) {} } } catch(IOException e) {} finally { if(writer != null) try { writer.close(); } catch(IOException e) {} }
+             * // Perturb each coefficient in turn. for(int i = 0; i <
+             * means.size(); i++) { Vector perturbed = means.copy();
+             * perturbed.set(i, perturbed.get(i) + delta); try { targetValues =
+             * theModel.getTargetValues(targets, perturbed);
+             * writer.write(coeffs.get(i).getName()); for(int j = 0; j <
+             * targetValues.size(); j++) writer.write("," +
+             * targetValues.get(j)); writer.newLine(); }
+             * catch(OptimizationException e) {} } } catch(IOException e) {}
+             * finally { if(writer != null) try { writer.close(); }
+             * catch(IOException e) {} }
              */
             try
             {
-                land.getSession(); // opens up the session and begins a transaction
+                land.getSession(); // opens up the session and begins a
+                                   // transaction
                 MarquardtMinimizer theMinimizer = new MarquardtMinimizer(theObjective,
                         new DenseVector(reader.readStartingValues(coeffs)));
                 theMinimizer.setInitialMarquardtFactor(initialStepSize);
