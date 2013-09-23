@@ -17,7 +17,7 @@ public interface DifferentiableModel
      *            The parameter values.
      * @return The values of the targets.
      */
-    public Vector getTargetValues(List<EstimationTarget> targets, Vector params)
+    Vector getTargetValues(List<EstimationTarget> targets, Vector params)
             throws OptimizationException;
 
     /**
@@ -32,6 +32,6 @@ public interface DifferentiableModel
      * @return The derivatives of the targets with respect to the parameter
      *         values.
      */
-    public Matrix getJacobian(List<EstimationTarget> targets, Vector params)
+    Matrix getJacobian(List<EstimationTarget> targets, Vector params)
             throws OptimizationException;
 }

@@ -25,7 +25,7 @@ public interface ExpectedValue
      * 
      * @return True if the target is applicable to the current parcel.
      */
-    public abstract boolean appliesToCurrentParcel();
+    boolean appliesToCurrentParcel();
 
     /**
      * Finds the expected value of this target based on the expected quantities
@@ -40,7 +40,7 @@ public interface ExpectedValue
      *            The expected space to be built new.
      * @return The expected value of this target for the current parcel.
      */
-    public abstract double getModelledTotalNewValueForParcel(int spacetype,
+    double getModelledTotalNewValueForParcel(int spacetype,
             double expectedAddedSpace, double expectedNewSpace);
 
     /**
@@ -55,7 +55,7 @@ public interface ExpectedValue
      *            The expected space to be built new.
      * @return The derivative of the expected value for the current parcel.
      */
-    public abstract double getModelledTotalNewDerivativeWRTAddedSpace(int spacetype,
+    double getModelledTotalNewDerivativeWRTAddedSpace(int spacetype,
             double expectedAddedSpace, double expectedNewSpace);
 
     /**
@@ -70,7 +70,7 @@ public interface ExpectedValue
      *            The expected space to be built new.
      * @return The derivative of the expected value for the current parcel.
      */
-    public abstract double getModelledTotalNewDerivativeWRTNewSpace(int spacetype,
+    double getModelledTotalNewDerivativeWRTNewSpace(int spacetype,
             double expectedAddedSpace, double expectedNewSpace);
 
     /**
@@ -80,7 +80,7 @@ public interface ExpectedValue
      * @param value
      *            The modelled value.
      */
-    public abstract void setModelledValue(double value);
+    void setModelledValue(double value);
 
     /**
      * Sets the derivatives of the modelled value with respect to each
@@ -90,5 +90,5 @@ public interface ExpectedValue
      * @param derivatives
      *            The derivatives.
      */
-    public abstract void setDerivatives(double[] derivatives);
+    void setDerivatives(double[] derivatives);
 }

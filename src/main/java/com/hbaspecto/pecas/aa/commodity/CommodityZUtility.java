@@ -35,7 +35,7 @@ import com.hbaspecto.pecas.zones.PECASZone;
  * in the remainder of the instances
  */
 
-abstract public class CommodityZUtility
+public abstract class CommodityZUtility
         implements Alternative
 {
     private static Logger                          logger                             = Logger.getLogger("com.pb.models.pecas");
@@ -311,7 +311,7 @@ abstract public class CommodityZUtility
      * This method just resets the quantities and derviative to 0 to prepare for
      * the next iteration
      */
-    static public void resetCommodityBoughtAndSoldQuantities()
+    public static void resetCommodityBoughtAndSoldQuantities()
     {
         final Iterator cit = AbstractCommodity.getAllCommodities().iterator();
         while (cit.hasNext())

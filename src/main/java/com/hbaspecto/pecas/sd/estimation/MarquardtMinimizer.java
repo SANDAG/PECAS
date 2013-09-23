@@ -5,13 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import org.apache.log4j.Logger;
 import no.uib.cipr.matrix.BandMatrix;
+import no.uib.cipr.matrix.DenseCholesky;
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
-import no.uib.cipr.matrix.DenseCholesky;
+import org.apache.log4j.Logger;
 
 public class MarquardtMinimizer
 {
@@ -428,7 +428,7 @@ public class MarquardtMinimizer
         return result;
     }
 
-    abstract public static class EachIterationCallback
+    public abstract static class EachIterationCallback
     {
         public abstract void finishedIteration(int iteration);
     }

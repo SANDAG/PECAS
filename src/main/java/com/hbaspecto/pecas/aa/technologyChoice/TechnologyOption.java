@@ -29,7 +29,7 @@ public class TechnologyOption
 
     static final Logger         logger                = Logger.getLogger("com.pb.models.pecas");
     int[]                       commodityIndexNumbers = null;
-    final public String         myName;
+    public final String         myName;
 
     final LogitTechnologyChoice myChoiceModel;
 
@@ -117,7 +117,8 @@ public class TechnologyOption
     {
         if (commodityIndexNumbers == null)
         {
-            final String msg = "For TechnologyOptions after creating options you need to call sortToMatch first before trying to calculate their utility";
+            final String msg = "For TechnologyOptions after creating options you need to call sortToMatch first before "
+                    + "trying to calculate their utility";
             logger.fatal(msg);
             throw new RuntimeException(msg);
         }
@@ -153,7 +154,8 @@ public class TechnologyOption
     {
         if (commodityIndexNumbers == null)
         {
-            final String msg = "For TechnologyOptions after creating options you need to call sortToMatch first before trying to calculate their utility";
+            final String msg = "For TechnologyOptions after creating options you need to call sortToMatch first before "
+                    + "trying to calculate their utility";
             logger.fatal(msg);
             throw new RuntimeException(msg);
         }
@@ -189,7 +191,8 @@ public class TechnologyOption
     {
         if (commodityIndexNumbers == null)
         {
-            final String msg = "For TechnologyOptions after creating options you need to call sortToMatch first before trying to calculate their utility";
+            final String msg = "For TechnologyOptions after creating options you need to call sortToMatch first before"
+                    + " trying to calculate their utility";
             logger.fatal(msg);
             throw new RuntimeException(msg);
         }

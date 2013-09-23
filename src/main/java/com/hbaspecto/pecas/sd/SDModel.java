@@ -23,14 +23,10 @@ import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 import simpleorm.dataset.SQuery;
 import simpleorm.sessionjdbc.SSessionJdbc;
-import com.pb.common.datafile.TableDataReader;
+import com.hbaspecto.pecas.land.LandInventory;
 import com.pb.common.datafile.TableDataSet;
 import com.pb.common.datafile.TableDataSetCollection;
-import com.pb.common.matrix.HashtableAlphaToBeta;
 import com.pb.common.util.ResourceUtil;
-import com.hbaspecto.pecas.land.LandInventory;
-import com.hbaspecto.pecas.land.SimpleORMLandInventory;
-import com.hbaspecto.pecas.zones.AbstractZone;
 
 /**
  * @author Abdel An example of a SD model indepedent of what type of land

@@ -24,7 +24,7 @@ import com.pb.common.datafile.TableDataSet;
  * 
  * @author J. Abraham
  */
-public class PECASZone
+public final class PECASZone
         extends AbstractZone
         implements UnitOfLand
 {
@@ -50,7 +50,7 @@ public class PECASZone
      */
     public static PECASZone createTaz(int zoneIndex)
     {
-        final AbstractZone zones[] = getAllZones();
+        final AbstractZone[] zones = getAllZones();
         if (zoneIndex >= zones.length || zoneIndex < 0)
         {
             throw new Error("Need to index zones consecutively within the allocated array size");
@@ -65,7 +65,7 @@ public class PECASZone
     public static PECASZone createTaz(int zoneIndex, int zoneUserNumber, String zoneName,
             boolean external)
     {
-        final AbstractZone zones[] = getAllZones();
+        final AbstractZone[] zones = getAllZones();
         if (zoneIndex >= zones.length || zoneIndex < 0)
         {
             throw new Error("Need to index zones consecutively within the allocated array size");

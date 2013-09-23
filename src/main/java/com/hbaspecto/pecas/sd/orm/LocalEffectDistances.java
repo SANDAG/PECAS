@@ -1,12 +1,10 @@
 package com.hbaspecto.pecas.sd.orm;
 
 import java.util.List;
-import com.hbaspecto.pecas.land.ParcelsTemp;
-import com.hbaspecto.pecas.land.SimpleORMLandInventory;
 import simpleorm.dataset.SFieldReference;
 import simpleorm.dataset.SQuery;
-import simpleorm.dataset.SQueryTable;
 import simpleorm.sessionjdbc.SSessionJdbc;
+import com.hbaspecto.pecas.land.ParcelsTemp;
 
 /**
  * Business rules class for table local_effect_distances.<br>

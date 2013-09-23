@@ -37,7 +37,7 @@ import drasys.or.linear.algebra.Algebra;
 public class CommodityPriceSurplusDerivativeMatrix
 {
 
-    public final double    data[][];
+    public final double[][]    data;
 
     public final Commodity commodity;
 

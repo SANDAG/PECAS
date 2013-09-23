@@ -19,7 +19,7 @@ public interface ParameterSearchAlternative
      *            The list of target measures.
      * @return The vector of expected values.
      */
-    public Vector getExpectedTargetValues(List<ExpectedValue> ts) throws NoAlternativeAvailable,
+    Vector getExpectedTargetValues(List<ExpectedValue> ts) throws NoAlternativeAvailable,
             ChoiceModelOverflowException;
 
     /**
@@ -33,7 +33,7 @@ public interface ParameterSearchAlternative
      *            The list of parameters.
      * @return The vector of derivatives.
      */
-    public Vector getUtilityDerivativesWRTParameters(List<Coefficient> cs)
+    Vector getUtilityDerivativesWRTParameters(List<Coefficient> cs)
             throws NoAlternativeAvailable, ChoiceModelOverflowException;
 
     /**
@@ -51,7 +51,7 @@ public interface ParameterSearchAlternative
      *            The list of parameters.
      * @return The matrix of derivatives.
      */
-    public Matrix getExpectedTargetDerivativesWRTParameters(List<ExpectedValue> ts,
+    Matrix getExpectedTargetDerivativesWRTParameters(List<ExpectedValue> ts,
             List<Coefficient> cs) throws NoAlternativeAvailable, ChoiceModelOverflowException;
 
     /**
@@ -60,10 +60,10 @@ public interface ParameterSearchAlternative
      * that affect the calculations will change until <code>endCaching()</code>
      * is called.
      */
-    public void startCaching();
+    void startCaching();
 
     /**
      * Instructs the alternative to resume recalculating values.
      */
-    public void endCaching();
+    void endCaching();
 }

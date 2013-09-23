@@ -20,30 +20,30 @@ package com.hbaspecto.pecas.sd;
 public interface SpaceTypeInterface
 {
     // Methods to get the various costs from the Transition_costs table.
-    public double getConstructionCost(int costScheduleID);
+    double getConstructionCost(int costScheduleID);
 
-    public double getAdditionCost(int costScheduleID);
+    double getAdditionCost(int costScheduleID);
 
-    public double getDemolitionCost(int costScheduleID);
+    double getDemolitionCost(int costScheduleID);
 
-    public double getRenovationCost(int costScheduleID);
+    double getRenovationCost(int costScheduleID);
 
     // Methods to get the various fees from the Development_fees table.
-    public double getDevlopmentFeePerUnitSpaceInitial(int feeScheduleID);
+    double getDevlopmentFeePerUnitSpaceInitial(int feeScheduleID);
 
-    public double getDevlopmentFeePerUnitLandInitial(int feeScheduleID);
+    double getDevlopmentFeePerUnitLandInitial(int feeScheduleID);
 
-    public double getDevlopmentFeePerUnitSpaceOngoing(int feeScheduleID);
+    double getDevlopmentFeePerUnitSpaceOngoing(int feeScheduleID);
 
-    public double getDevlopmentFeePerUnitLandOngoing(int feeScheduleID);
+    double getDevlopmentFeePerUnitLandOngoing(int feeScheduleID);
 
-    public String getName();
+    String getName();
 
     /**
      * Method getGridCode.
      * 
      * @return String
      */
-    public int getSpaceTypeID();
+    int getSpaceTypeID();
 
 }

@@ -70,6 +70,6 @@ public abstract class DiscreteChoiceModel
     public abstract double[] getChoiceProbabilities() throws ChoiceModelOverflowException,
             NoAlternativeAvailable;
 
-    abstract public void allocateQuantity(double amount) throws ChoiceModelOverflowException;
+    public abstract void allocateQuantity(double amount) throws ChoiceModelOverflowException;
 
 }

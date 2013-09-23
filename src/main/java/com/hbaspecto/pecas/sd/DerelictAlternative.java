@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 import com.hbaspecto.discreteChoiceModelling.Coefficient;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
-import com.hbaspecto.pecas.land.ParcelInterface;
 import com.hbaspecto.pecas.land.LandInventory.NotSplittableException;
+import com.hbaspecto.pecas.land.ParcelInterface;
 import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
 import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
 

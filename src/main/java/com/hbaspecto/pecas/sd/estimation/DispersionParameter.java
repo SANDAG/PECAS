@@ -144,7 +144,7 @@ public abstract class DispersionParameter
 
     // Types of dispersion parameters.
 
-    private static class NoChangeDispersion
+    private static final class NoChangeDispersion
             extends DispersionParameter
     {
         private NoChangeDispersion(int spacetype)
@@ -167,7 +167,7 @@ public abstract class DispersionParameter
         }
     }
 
-    private static class ChangeOptionsDispersion
+    private static final class ChangeOptionsDispersion
             extends DispersionParameter
     {
         private ChangeOptionsDispersion(int spacetype)
@@ -190,7 +190,7 @@ public abstract class DispersionParameter
         }
     }
 
-    private static class DemolishDerelictDispersion
+    private static final class DemolishDerelictDispersion
             extends DispersionParameter
     {
         private DemolishDerelictDispersion(int spacetype)
@@ -213,7 +213,7 @@ public abstract class DispersionParameter
         }
     }
 
-    private static class RenovateAddNewDispersion
+    private static final class RenovateAddNewDispersion
             extends DispersionParameter
     {
         private RenovateAddNewDispersion(int spacetype)
@@ -236,7 +236,7 @@ public abstract class DispersionParameter
         }
     }
 
-    private static class AddNewDispersion
+    private static final class AddNewDispersion
             extends DispersionParameter
     {
         private AddNewDispersion(int spacetype)
@@ -259,7 +259,7 @@ public abstract class DispersionParameter
         }
     }
 
-    private static class NewTypeDispersion
+    private static final class NewTypeDispersion
             extends DispersionParameter
     {
         private NewTypeDispersion(int spacetype)
@@ -282,7 +282,7 @@ public abstract class DispersionParameter
         }
     }
 
-    private static class IntensityDispersion
+    private static final class IntensityDispersion
             extends DispersionParameter
     {
         private IntensityDispersion(int spacetype)

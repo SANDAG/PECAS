@@ -17,15 +17,9 @@
  */
 package com.hbaspecto.pecas.sd;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.DenseVector;
@@ -34,8 +28,6 @@ import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
 import org.apache.log4j.Logger;
 import simpleorm.dataset.SQuery;
-import simpleorm.dataset.SRecordMeta;
-import simpleorm.sessionjdbc.SSessionJdbc;
 import com.hbaspecto.discreteChoiceModelling.Coefficient;
 import com.hbaspecto.pecas.land.ExchangeResults;
 import com.hbaspecto.pecas.land.Parcels;
@@ -43,7 +35,6 @@ import com.hbaspecto.pecas.land.PostgreSQLLandInventory;
 import com.hbaspecto.pecas.land.SimpleORMLandInventory;
 import com.hbaspecto.pecas.sd.estimation.DifferentiableModel;
 import com.hbaspecto.pecas.sd.estimation.EstimationDataSet;
-import com.hbaspecto.pecas.sd.estimation.EstimationMatrix;
 import com.hbaspecto.pecas.sd.estimation.EstimationReader;
 import com.hbaspecto.pecas.sd.estimation.EstimationTarget;
 import com.hbaspecto.pecas.sd.estimation.ExpectedTargetModel;
@@ -51,15 +42,9 @@ import com.hbaspecto.pecas.sd.estimation.GaussBayesianObjective;
 import com.hbaspecto.pecas.sd.estimation.MarquardtMinimizer;
 import com.hbaspecto.pecas.sd.estimation.ObjectiveFunction;
 import com.hbaspecto.pecas.sd.estimation.OptimizationException;
-import com.hbaspecto.pecas.sd.estimation.RedevelopmentIntoSpaceTypeTarget;
-import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
-import com.hbaspecto.pecas.sd.estimation.SpaceTypeIntensityTarget;
-import com.hbaspecto.pecas.sd.estimation.SpaceTypeTAZTarget;
-import com.hbaspecto.pecas.sd.estimation.TransitionConstant;
 import com.hbaspecto.pecas.sd.orm.ObservedDevelopmentEvents;
 import com.hbaspecto.pecas.sd.orm.SiteSpecTotals;
 import com.hbaspecto.pecas.sd.orm.SpaceTypesGroup;
-import com.pb.common.datafile.CSVFileReader;
 import com.pb.common.datafile.CSVFileWriter;
 import com.pb.common.datafile.GeneralDecimalFormat;
 import com.pb.common.datafile.JDBCTableReader;
@@ -120,7 +105,7 @@ public class StandardSDModel
             do
             {
                 logger.fatal(e.getMessage());
-                StackTraceElement elements[] = e.getStackTrace();
+                StackTraceElement[] elements = e.getStackTrace();
                 for (int i = 0; i < elements.length; i++)
                 {
                     logger.fatal(elements[i].toString());

@@ -9,18 +9,14 @@ import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
 import org.apache.log4j.Logger;
-import simpleorm.sessionjdbc.SSessionJdbc;
 import com.hbaspecto.discreteChoiceModelling.Coefficient;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
-import com.hbaspecto.pecas.land.ParcelInterface;
 import com.hbaspecto.pecas.land.LandInventory.NotSplittableException;
+import com.hbaspecto.pecas.land.ParcelInterface;
 import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
 import com.hbaspecto.pecas.sd.estimation.RenovationTarget;
 import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
-import com.hbaspecto.pecas.sd.orm.DevelopmentFees;
-import com.hbaspecto.pecas.sd.orm.TransitionCostCodes;
-import com.hbaspecto.pecas.sd.orm.TransitionCosts;
 
 /**
  * @author Abdel

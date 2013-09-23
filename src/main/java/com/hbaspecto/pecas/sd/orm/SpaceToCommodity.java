@@ -2,7 +2,6 @@ package com.hbaspecto.pecas.sd.orm;
 
 import java.util.HashMap;
 import java.util.List;
-import simpleorm.dataset.SFieldMeta;
 import simpleorm.dataset.SQuery;
 import simpleorm.sessionjdbc.SSessionJdbc;
 

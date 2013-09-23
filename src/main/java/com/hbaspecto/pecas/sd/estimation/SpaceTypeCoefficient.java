@@ -351,7 +351,7 @@ public abstract class SpaceTypeCoefficient
 
     // A subclass for each type of coefficient.
 
-    private static class NoChangeConstant
+    private static final class NoChangeConstant
             extends SpaceTypeCoefficient
     {
         private NoChangeConstant(int spacetype)
@@ -374,7 +374,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static class DemolishTransitionConstant
+    private static final class DemolishTransitionConstant
             extends SpaceTypeCoefficient
     {
         private DemolishTransitionConstant(int spacetype)
@@ -397,7 +397,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static class DerelictTransitionConstant
+    private static final class DerelictTransitionConstant
             extends SpaceTypeCoefficient
     {
         private DerelictTransitionConstant(int spacetype)
@@ -420,7 +420,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static class RenovateTransitionConstant
+    private static final class RenovateTransitionConstant
             extends SpaceTypeCoefficient
     {
         private RenovateTransitionConstant(int spacetype)
@@ -443,7 +443,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static class RenovateDerelictConstant
+    private static final class RenovateDerelictConstant
             extends SpaceTypeCoefficient
     {
         private RenovateDerelictConstant(int spacetype)
@@ -466,7 +466,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static class AddTransitionConstant
+    private static final class AddTransitionConstant
             extends SpaceTypeCoefficient
     {
         private AddTransitionConstant(int spacetype)
@@ -489,7 +489,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static class NewFromTransitionConstant
+    private static final class NewFromTransitionConstant
             extends SpaceTypeCoefficient
     {
         private NewFromTransitionConstant(int spacetype)
@@ -512,7 +512,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static class NewToTransitionConstant
+    private static final class NewToTransitionConstant
             extends SpaceTypeCoefficient
     {
         private NewToTransitionConstant(int spacetype)
@@ -535,7 +535,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static class StepPoint
+    private static final class StepPoint
             extends SpaceTypeCoefficient
     {
         private StepPoint(int spacetype)
@@ -557,7 +557,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static class BelowStepPointAdjustment
+    private static final class BelowStepPointAdjustment
             extends SpaceTypeCoefficient
     {
         private BelowStepPointAdjustment(int spacetype)
@@ -580,7 +580,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static class AboveStepPointAdjustment
+    private static final class AboveStepPointAdjustment
             extends SpaceTypeCoefficient
     {
         private AboveStepPointAdjustment(int spacetype)
@@ -603,7 +603,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static class StepPointAmount
+    private static final class StepPointAmount
             extends SpaceTypeCoefficient
     {
         private StepPointAmount(int spacetype)

@@ -16,7 +16,7 @@ public interface Coefficient
      * 
      * @return The value.
      */
-    public double getValue();
+    double getValue();
 
     /**
      * Changes the coefficient's value.
@@ -24,14 +24,14 @@ public interface Coefficient
      * @param v
      *            The new value.
      */
-    public void setValue(double v);
+    void setValue(double v);
 
     /**
      * Retrieves the coefficient's transformed value.
      * 
      * @return The transformed value.
      */
-    public double getTransformedValue();
+    double getTransformedValue();
 
     /**
      * Sets the coefficient's transformed value.
@@ -39,7 +39,7 @@ public interface Coefficient
      * @param v
      *            The new transformed value.
      */
-    public void setTransformedValue(double v);
+    void setTransformedValue(double v);
 
     /**
      * Finds the derivative of the transformed value of the coefficient with
@@ -47,7 +47,7 @@ public interface Coefficient
      * 
      * @return The derivative at the current value.
      */
-    public double getTransformationDerivative();
+    double getTransformationDerivative();
 
     /**
      * Finds the derivative of the internal value of the coefficient with
@@ -55,10 +55,10 @@ public interface Coefficient
      * 
      * @return The derivative at the current value.
      */
-    public double getInverseTransformationDerivative();
+    double getInverseTransformationDerivative();
 
     /**
      * Returns the coefficient's name.
      */
-    public String getName();
+    String getName();
 }

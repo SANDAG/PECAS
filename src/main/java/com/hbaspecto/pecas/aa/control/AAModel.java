@@ -112,7 +112,7 @@ public class AAModel
 
     public ResourceBundle        aaRb;
 
-    static public ResourceBundle lastAaRb;
+    public static ResourceBundle lastAaRb;
 
     private static Executor      commodityThreadPool;
 
@@ -1264,8 +1264,9 @@ public class AAModel
             int runAroundCount = 0;
             double maxAbsChange = 0;
             do
-            {// have to do this iteratively because the logsum denominator
-             // changes
+            {
+                // have to do this iteratively because the logsum denominator
+                // changes
                 maxAbsChange = 0;
                 runAroundCount++;
                 try

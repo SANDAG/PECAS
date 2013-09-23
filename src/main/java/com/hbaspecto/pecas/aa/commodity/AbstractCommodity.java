@@ -24,7 +24,7 @@ import com.hbaspecto.pecas.OverflowException;
 import com.hbaspecto.pecas.aa.travelAttributes.TravelUtilityCalculatorInterface;
 import com.hbaspecto.pecas.zones.AbstractZone;
 
-abstract public class AbstractCommodity
+public abstract class AbstractCommodity
 {
 
     private static int                                  nextCommodityNumber     = 0;

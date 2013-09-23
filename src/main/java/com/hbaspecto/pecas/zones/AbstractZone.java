@@ -21,7 +21,7 @@ import java.util.Random;
 import org.apache.log4j.Logger;
 import com.pb.common.datafile.TableDataSet;
 
-abstract public class AbstractZone
+public abstract class AbstractZone
         implements UnitOfLand, Comparable
 {
 
@@ -255,7 +255,7 @@ abstract public class AbstractZone
     private static AbstractZone[] allZonesByUserNumber;
     public final int              zoneIndex;
     private PriceVacancy[]        priceVacancies;
-    static protected Random       theRandom   = new java.util.Random();
+    protected static Random       theRandom   = new java.util.Random();
 
     /**
      * Goes through the grid cells that have the development type and finds out

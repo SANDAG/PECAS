@@ -1,8 +1,8 @@
 package com.hbaspecto.pecas.sd.estimation;
 
-import org.apache.log4j.Logger;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
+import org.apache.log4j.Logger;
 
 public interface ObjectiveFunction
 {
@@ -24,7 +24,7 @@ public interface ObjectiveFunction
      *            The parameter values.
      * @return The gradient of the objective function.
      */
-    public Vector getGradient(Vector params) throws OptimizationException;
+    Vector getGradient(Vector params) throws OptimizationException;
 
     /**
      * Computes the Hessian (or an approximation to it) of the objective
@@ -35,14 +35,14 @@ public interface ObjectiveFunction
      *            The parameter values.
      * @return The Hessian of the objective function.
      */
-    public Matrix getHessian(Vector params) throws OptimizationException;
+    Matrix getHessian(Vector params) throws OptimizationException;
 
-    public void logCurrentValues(Logger logger);
+    void logCurrentValues(Logger logger);
 
     void logParameters(Logger logger);
 
     void logTargetAndObjective(Logger logger);
 
-    public abstract void setParameterValues(Vector params);
+    void setParameterValues(Vector params);
 
 }

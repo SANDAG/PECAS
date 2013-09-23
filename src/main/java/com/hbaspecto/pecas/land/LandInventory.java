@@ -43,13 +43,13 @@ import com.pb.common.datafile.TableDataSet;
 public interface LandInventory
 {
 
-    static final int VACANT_ID = 95;
+    int VACANT_ID = 95;
 
     /**
      * For sequential access to portions of the land inventory, this method will
      * set the internal counter to the first object.
      */
-    public abstract void setToBeforeFirst();
+    void setToBeforeFirst();
 
     /**
      * For sequential access to portions of the land inventory, this method will
@@ -61,11 +61,11 @@ public interface LandInventory
      * 
      * @return true if successful, false if not.
      */
-    public abstract boolean advanceToNext();
+    boolean advanceToNext();
 
-    public abstract DevelopmentLog getDevelopmentLogger();
+    DevelopmentLog getDevelopmentLogger();
 
-    public abstract ParcelErrorLog getParcelErrorLog();
+    ParcelErrorLog getParcelErrorLog();
 
     /**
      * Set the coverage of the current grid/parcel
@@ -74,7 +74,7 @@ public interface LandInventory
      *            character representing the PECAS description of the current
      *            use (building type)
      */
-    public abstract void putCoverage(int coverageCode);
+    void putCoverage(int coverageCode);
 
     /**
      * Set the quantity of building/space on the current grid/parcel
@@ -83,7 +83,7 @@ public interface LandInventory
      *            quantity of space (or other improvements) currently built on
      *            the land
      */
-    public abstract void putQuantity(double quantity);
+    void putQuantity(double quantity);
 
     /**
      * Set the construction year for the current grid/parcel -- used to
@@ -91,7 +91,7 @@ public interface LandInventory
      * 
      * @param yearBuilt
      */
-    public abstract void putYearBuilt(int yearBuilt);
+    void putYearBuilt(int yearBuilt);
 
     /**
      * Set the quantity of service available for the current grid parcel. For
@@ -101,7 +101,7 @@ public interface LandInventory
      * 
      * @param service
      */
-    public abstract void putAvailableServiceCode(int service);
+    void putAvailableServiceCode(int service);
 
     /**
      * Get the construction year for the current grid/parcel -- used to
@@ -112,14 +112,14 @@ public interface LandInventory
      *            second part of unique-ID.
      * @return effective year-built
      */
-    public abstract int getYearBuilt();
+    int getYearBuilt();
 
     /**
      * Get the quantity of building/space on the current grid/parcel
      * 
      * @return quantity of buildings or space
      */
-    public abstract double getQuantity();
+    double getQuantity();
 
     /**
      * Get the type of coverage for the current grid/parcel -- a code that
@@ -127,7 +127,7 @@ public interface LandInventory
      * 
      * @return the type of coverage
      */
-    public abstract int getCoverage();
+    int getCoverage();
 
     /**
      * Get the physical land area size of the current grid/parcel in land units.
@@ -139,7 +139,7 @@ public interface LandInventory
      * 
      * @return a measure of how large, in land area, the parcel/grid is.
      */
-    public abstract double getLandArea();
+    double getLandArea();
 
     /**
      * Get the quantity of service available for the current grid parcel. For
@@ -149,7 +149,7 @@ public interface LandInventory
      * 
      * @return level of service
      */
-    public abstract int getAvailableServiceCode();
+    int getAvailableServiceCode();
 
     /**
      * This returns the integer code that represents the zoning scheme for the
@@ -163,7 +163,7 @@ public interface LandInventory
      * @return index used in the ZoningSchemesI table in the PECAS input
      *         database to determine the regulations
      */
-    public abstract int getZoningRulesCode();
+    int getZoningRulesCode();
 
     /**
      * This method is used to get the price (a.k.a. rent) for the <i>current</i>
@@ -181,9 +181,9 @@ public interface LandInventory
      *            TODO
      * @return price (rent) associated with coverageChar at currentZone, id2
      */
-    public abstract double getPrice(int coverageCode, int currentYear, int baseYear);
+    double getPrice(int coverageCode, int currentYear, int baseYear);
 
-    public String parcelToString();
+    String parcelToString();
 
     // typical implementation
     // public String elementToString(long currentZone, long id2) {
@@ -200,9 +200,9 @@ public interface LandInventory
      * 
      * @return false means the grid will never change due to developer actions
      */
-    public abstract boolean isDevelopable();
+    boolean isDevelopable();
 
-    public abstract boolean isDerelict();
+    boolean isDerelict();
 
     /**
      * Returns the land inventory by TAZ in a TableDataSet format. SD uses this
@@ -210,7 +210,7 @@ public interface LandInventory
      * 
      * @return TableDataSet with three columns: TAZ, Commodity and Quantity.
      */
-    public abstract TableDataSet summarizeInventory();
+    TableDataSet summarizeInventory();
 
     /**
      * This returns a string that represents a concatination of pecas_parcel_num
@@ -219,7 +219,7 @@ public interface LandInventory
      * @return a string that represents a concatination of pecas_parcel_num and
      *         parcel_id attributes.
      */
-    public abstract String getParcelId();
+    String getParcelId();
 
     /**
      * The maximum size of a parcel. If a parcel is larger than this size, it
@@ -235,9 +235,9 @@ public interface LandInventory
      * 
      * @return maximum size of parcel for simulation
      */
-    public abstract double getMaxParcelSize();
+    double getMaxParcelSize();
 
-    public abstract void setMaxParcelSize(double maxParcelSize);
+    void setMaxParcelSize(double maxParcelSize);
 
     public class NotSplittableException
             extends Exception
@@ -276,21 +276,21 @@ public interface LandInventory
      *            size of the new parcel to create
      * @return the new object
      */
-    public abstract ParcelInterface splitParcel(double parcelSizes) throws NotSplittableException;
+    ParcelInterface splitParcel(double parcelSizes) throws NotSplittableException;
 
     /**
      * Housekeeping routine -- if splitParcel is ever called you eventually need
      * to call addNewBits() to add the split parcels to the inventory for future
      * consideration
      */
-    public void addNewBits();
+    void addNewBits();
 
     /**
      * This method is in case the land inventory database queues up changes to
      * be applied all at once; calling this method tells it that you need the
      * changes to be applied
      */
-    public abstract void applyDevelopmentChanges();
+    void applyDevelopmentChanges();
 
     /**
      * Get the code used to determine the costs associated with developing the
@@ -298,29 +298,29 @@ public interface LandInventory
      * 
      * @return code indicating costs
      */
-    public abstract int get_CostScheduleId();
+    int get_CostScheduleId();
 
     /**
      * @return the fee schedule ID used to determine the fees associated with
      *         development
      */
-    public abstract int get_FeeScheduleId();
+    int get_FeeScheduleId();
 
-    public long getPECASParcelNumber();
+    long getPECASParcelNumber();
 
-    public boolean isBrownfield();
+    boolean isBrownfield();
 
-    public void init(int year);
+    void init(int year);
 
-    public abstract int getTaz();
+    int getTaz();
 
-    public abstract void readSpacePrices(TableDataFileReader reader);
+    void readSpacePrices(TableDataFileReader reader);
 
-    public abstract void applyPriceSmoothing(TableDataFileReader reader, TableDataFileWriter writer);
+    void applyPriceSmoothing(TableDataFileReader reader, TableDataFileWriter writer);
 
-    public abstract void putDerelict(boolean isDerelict);
+    void putDerelict(boolean isDerelict);
 
-    public abstract void putBrownfield(boolean b);
+    void putBrownfield(boolean b);
 
     // This method is added for Capacity Constraint feature, but the plan is to
     // have it
@@ -329,9 +329,9 @@ public interface LandInventory
     // public abstract double getConstructionUtilityAdjustment(SpaceTypesI
     // spaceType);
 
-    public abstract SSessionJdbc getSession();
+    SSessionJdbc getSession();
 
-    public abstract void disconnect();
+    void disconnect();
 
-    public abstract void commitAndStayConnected();
+    void commitAndStayConnected();
 }

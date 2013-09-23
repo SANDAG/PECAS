@@ -29,7 +29,7 @@ public interface Constraint
      *            The looseness parameter.
      * @return The value of the penalty function.
      */
-    public double getPenaltyFunction(Vector params, double looseness);
+    double getPenaltyFunction(Vector params, double looseness);
 
     /**
      * Returns the gradient of the penalty function with respect to the
@@ -41,7 +41,7 @@ public interface Constraint
      *            The looseness parameter.
      * @return The gradient of the penalty function.
      */
-    public Vector getPenaltyFunctionGradient(Vector params, double looseness);
+    Vector getPenaltyFunctionGradient(Vector params, double looseness);
 
     /**
      * Returns the Hessian of the penalty function with respect to the
@@ -53,5 +53,5 @@ public interface Constraint
      *            The looseness parameter.
      * @return The Hessian matrix.
      */
-    public Matrix getPenaltyFunctionHessian(Vector params, double looseness);
+    Matrix getPenaltyFunctionHessian(Vector params, double looseness);
 }

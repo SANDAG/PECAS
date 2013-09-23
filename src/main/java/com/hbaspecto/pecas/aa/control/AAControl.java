@@ -156,11 +156,13 @@ public class AAControl
         if (isParallel)
         {
             aa = new com.hbaspecto.pecas.aa.jppf.JppfAAModel(aaRb);
-            logger.info("AA is running in multi-machine mode. To modify this configuration, refer to the aa.jppfParallel property in aa.properties file.");
+            logger.info("AA is running in multi-machine mode. To modify this configuration, refer to the "
+                    + "aa.jppfParallel property in aa.properties file.");
         } else
         {
             aa = new AAModel(aaRb);
-            logger.info("\nAA is NOT running in multi-machine mode (but is using all the cores in the current machine).  To modify this configuration, refer to the aa.jppfParallel property in aa.properties file.");
+            logger.info("\nAA is NOT running in multi-machine mode (but is using all the cores in the current machine)."
+                    + "  To modify this configuration, refer to the aa.jppfParallel property in aa.properties file.");
         }
 
         // aa = new AAModel(aaRb, globalRb);
@@ -283,7 +285,8 @@ public class AAControl
                     aa.calculateNewPricesUsingBlockDerivatives(calcDeltaUsingDerivatives);
                 } else
                 {
-                    logger.error("Don't use diagonal approximation anymore, please set aa.calculateAveragePrices to true or remove entry from properties file");
+                    logger.error("Don't use diagonal approximation anymore, please set aa.calculateAveragePrices to"
+                            + " true or remove entry from properties file");
                     aa.calculateNewPricesUsingDiagonalApproximation();
                 }
 
@@ -520,7 +523,8 @@ public class AAControl
                             + " at iteration "
                             + iteration
                             + ". "
-                            + "This is usually not an issue, but if this message persists for more than a few iterations, there may be a problem with the inputs.");
+                            + "This is usually not an issue, but if this message persists for more than a few "
+                            + "iterations, there may be a problem with the inputs.");
         } else
         {
             AAStatusLogger.logGraph(title, iteration, tClear, "Iteration", "tClear");
@@ -607,7 +611,7 @@ public class AAControl
             do
             {
                 logger.fatal(e.getMessage());
-                final StackTraceElement elements[] = e.getStackTrace();
+                final StackTraceElement[] elements = e.getStackTrace();
                 for (int i = 0; i < elements.length; i++)
                 {
                     logger.fatal(elements[i].toString());

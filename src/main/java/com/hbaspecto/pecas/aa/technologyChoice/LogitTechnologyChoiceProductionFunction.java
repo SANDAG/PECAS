@@ -65,7 +65,8 @@ public class LogitTechnologyChoiceProductionFunction
 
     public double[] amountsDerivatives(double[] individualCommodityUtilities)
     {
-        final String errorString = "Don't know how to calculate amountsDerivatives in technology choice production function, use the techChoice method instead";
+        final String errorString = "Don't know how to calculate amountsDerivatives in technology choice production "
+                + "function, use the techChoice method instead";
         logger.error(errorString);
         throw new RuntimeException(errorString);
     }

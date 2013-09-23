@@ -202,11 +202,13 @@ public abstract class AAPProcessor
         {
             logger.info("aa.automaticTechnologySizeTerms is true, not setting FloorspaceBuyingSizeTerms");
             setFloorspaceProportionsForTechnologySizeTerms(floorspaceInventoryByLUZ);
-            logger.info("Since you are using technology size terms, ActivitySizeTermsI should only have entries for activities that do not use space");
+            logger.info("Since you are using technology size terms, ActivitySizeTermsI should only have entries for "
+                    + "activities that do not use space");
             recalcActivitySizeTerms(floorspaceInventoryByLUZ);
         } else
         {
-            logger.warn("aa.automaticTechnologySizeTerms is false, using FloorspaceBuyingSizeTerms instead, this is deprecated functionality, please upgrade your model");
+            logger.warn("aa.automaticTechnologySizeTerms is false, using FloorspaceBuyingSizeTerms instead, "
+                    + "this is deprecated functionality, please upgrade your model");
             recalcActivitySizeTerms(floorspaceInventoryByLUZ);
             logger.info("Since you are not using technology size terms, be sure ActivitySizeTermsI has entries for all activities that use space");
             recalcFloorspaceBuyingSizeTerms();
@@ -276,7 +278,8 @@ public abstract class AAPProcessor
         {
             if (ResourceUtil.getBooleanProperty(aaRb, "calculateExchangeSizes", false))
             {
-                final String msg = "No ManualSizeTerms column in CommoditiesI, calculateExchangeSizes=true, calculating size terms for all non-floorspace commodities";
+                final String msg = "No ManualSizeTerms column in CommoditiesI, calculateExchangeSizes=true, "
+                        + "calculating size terms for all non-floorspace commodities";
                 Commodity.setCalculateSizeTerms(true);
                 logger.info(msg);
             } else
@@ -291,7 +294,8 @@ public abstract class AAPProcessor
             Commodity.setCalculateSizeTerms(true);
             if (!ResourceUtil.getBooleanProperty(aaRb, "calculateExchangeSizes", true))
             {
-                logger.warn("calculateExchangeSizes=false in properties file, this conflicts with the existance of the ManualSizeTerms column in CommoditiesI, ignoring entry in properties file");
+                logger.warn("calculateExchangeSizes=false in properties file, this conflicts with the existance of "
+                        + "the ManualSizeTerms column in CommoditiesI, ignoring entry in properties file");
             }
         }
         final int[] overRideExternalZones = PECASZone.getOverrideExternalZones();
@@ -674,7 +678,8 @@ public abstract class AAPProcessor
                         xc = new Exchange(c, zones[z], zones.length);
                     }
                     if (!found)
-                    {// backup default data.
+                    {
+                        // backup default data.
                         if (++numExchangeNotFoundErrors < 20 && !c.isFloorspaceCommodity())
                         {
                             logger.info("Can't locate size term for Commodity "
@@ -779,7 +784,8 @@ public abstract class AAPProcessor
         final int fixedPriceColumn = initialPrices.getColumnPosition("FixedPrice");
         if (commodityNameColumn * priceColumn * zoneNumberColumn <= 0)
         {
-            logger.fatal("Missing column in Exchange Results -- check for Commodity, Price and ZoneNumber columns.  Continuing without initial prices");
+            logger.fatal("Missing column in Exchange Results -- check for Commodity, Price and ZoneNumber columns.  "
+                    + "Continuing without initial prices");
         }
         for (int row = 1; row <= initialPrices.getRowCount(); row++)
         {
@@ -1303,7 +1309,8 @@ public abstract class AAPProcessor
         double exportSlope = 1;
         if (deltaString != null)
         {
-            logger.fatal("aa.floorspaceDelta is specified in properties file; this is deprecated, please specify FloorspaceSupplyI input table instead");
+            logger.fatal("aa.floorspaceDelta is specified in properties file; this is deprecated, please specify "
+                    + "FloorspaceSupplyI input table instead");
             throw new RuntimeException(
                     "aa.floorspaceDelta is specified in properties file; this is deprecated, please specify FloorspaceSupplyI input table instead");
         }
@@ -1529,7 +1536,8 @@ public abstract class AAPProcessor
             {
                 if (aZoneMake == null || aZoneUse == null)
                 {
-                    final String msg = "Can't build TAZTripList without splitting quantities to TAZ; set aa.splitOutputToFloorspaceZones to true if aa.TAZTripList is true";
+                    final String msg = "Can't build TAZTripList without splitting quantities to TAZ; set"
+                            + " aa.splitOutputToFloorspaceZones to true if aa.TAZTripList is true";
                     logger.error(msg);
                 } else
                 {
@@ -1899,7 +1907,7 @@ public abstract class AAPProcessor
                 }
             }
         }
-    }// end writeZonalMakeUse
+    } // end writeZonalMakeUse
 
     private void writeCommodityAndActivityFiles()
     {
@@ -1946,11 +1954,13 @@ public abstract class AAPProcessor
             if (logitTechnologyChoice)
             {
                 locationsFile
-                        .write("Activity,ZoneNumber,Quantity,TechnologyLogsum,SizeUtility,ZoneConstant,Constrained,ConstraintValue,LocationUtility,FullEmbeddedSize,Size\n");
+                        .write("Activity,ZoneNumber,Quantity,TechnologyLogsum,SizeUtility,ZoneConstant,Constrained,"
+                                + "ConstraintValue,LocationUtility,FullEmbeddedSize,Size\n");
             } else
             {
                 locationsFile
-                        .write("Activity,ZoneNumber,Quantity,ProductionUtility,ConsumptionUtility,SizeUtility,ZoneConstant,Constrained,ConstraintValue,LocationUtility\n");
+                        .write("Activity,ZoneNumber,Quantity,ProductionUtility,ConsumptionUtility,SizeUtility,"
+                                + "ZoneConstant,Constrained,ConstraintValue,LocationUtility\n");
             }
             final Iterator it = ProductionActivity.getAllProductionActivities().iterator();
             while (it.hasNext())
@@ -1995,7 +2005,9 @@ public abstract class AAPProcessor
                     "aa.writeUtilityComponents");
             if (writeComponents)
             {
-                os.write("Commodity,Zone,BuyingOrSelling,Quantity,zUtility,VariationComponent,PriceComponent,SizeComponent,TransportComponent1,TransportComponent2,TransportComponent3,TransportComponent4\n");
+                os.write("Commodity,Zone,BuyingOrSelling,Quantity,zUtility,VariationComponent,PriceComponent,"
+                        + "SizeComponent,TransportComponent1,TransportComponent2,TransportComponent3,"
+                        + "TransportComponent4\n");
             } else
             {
                 os.write("Commodity,Zone,BuyingOrSelling,Quantity,zUtility\n");
@@ -2075,7 +2087,7 @@ public abstract class AAPProcessor
             logger.fatal("Can't create CommodityZUtilities output file");
             e.printStackTrace();
         }
-    }// end writeZUtilities()
+    } // end writeZUtilities()
 
     public void writeExchangeResults()
     {
@@ -2368,8 +2380,9 @@ public abstract class AAPProcessor
                 {
                     final float boundary = histogramSpecTable.getValueAt(row, column);
                     if (boundary > lastHistogramBoundary)
-                    {// force increasing
-                     // boudaries
+                    {
+                        // force increasing
+                        // boudaries
                         hspec.boundaries.add(new Float(boundary));
                         lastHistogramBoundary = boundary;
                     }
@@ -2398,7 +2411,8 @@ public abstract class AAPProcessor
                     .write("Commodity,BuyingSelling,BandNumber,LowerBound,Quantity,AverageLength\n");
             final PrintWriter pctFile = new PrintWriter(new BufferedWriter(new FileWriter(
                     getOutputPath() + "PctIntrazonalxCommodityxBzone.csv")));
-            pctFile.println("Bzone,Commodity,BuyIntra,BuyFrom,BuyTo,BuyPctIntraFrom,BuyPctIntraTo,SellIntra,SellFrom,SellTo,SellPctIntraFrom,SellPctIntraTo");
+            pctFile.println("Bzone,Commodity,BuyIntra,BuyFrom,BuyTo,BuyPctIntraFrom,BuyPctIntraTo,SellIntra,SellFrom,"
+                    + "SellTo,SellPctIntraFrom,SellPctIntraTo");
             final Iterator com = AbstractCommodity.getAllCommodities().iterator();
             while (com.hasNext())
             {
@@ -2470,7 +2484,8 @@ public abstract class AAPProcessor
             {
                 writer = new PrintWriter(new BufferedWriter(new FileWriter(getOutputPath()
                         + "PctIntrazonalxBetazone_" + name + ".csv")));
-                writer.println("Bzone,Commodity,BuyIntra,BuyFrom,BuyTo,BuyPctIntraFrom,BuyPctIntraTo,SellIntra,SellFrom,SellTo,SellPctIntraFrom,SellPctIntraTo");
+                writer.println("Bzone,Commodity,BuyIntra,BuyFrom,BuyTo,BuyPctIntraFrom,BuyPctIntraTo,SellIntra,"
+                        + "SellFrom,SellTo,SellPctIntraFrom,SellPctIntraTo");
                 closePctFile = true;
             }
 

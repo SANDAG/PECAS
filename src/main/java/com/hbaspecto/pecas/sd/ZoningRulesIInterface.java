@@ -27,13 +27,13 @@ import java.util.Iterator;
 public interface ZoningRulesIInterface
 {
 
-    public abstract String getName();
+    String getName();
 
-    public void noLongerAllowDevelopmentType(SpaceTypeInterface dt);
+    void noLongerAllowDevelopmentType(SpaceTypeInterface dt);
 
-    public double getAllowedFAR(SpaceTypeInterface dt);
+    double getAllowedFAR(SpaceTypeInterface dt);
 
-    public Iterator getAllowedSpaceTypes();
+    Iterator getAllowedSpaceTypes();
 
-    public int size();
+    int size();
 }

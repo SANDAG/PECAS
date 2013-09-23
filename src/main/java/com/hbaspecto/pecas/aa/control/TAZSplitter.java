@@ -196,7 +196,7 @@ public class TAZSplitter
         }
         writeBinaryAlphaZoneTotalMakeUse();
         writeAsciiAlphaZoneTotalMakeUse(commodityNames);
-    }// end writeFloorspaceZoneTables
+    } // end writeFloorspaceZoneTables
 
     private void writeAsciiAlphaZoneTotalMakeUse(String[] commodityNames)
     {
@@ -478,7 +478,7 @@ public class TAZSplitter
 
                 } // endif for checking floorspace commodity type
             } // endif for checking to see if commodity is null
-        }// endfor for iterating through commodities
+        } // endfor for iterating through commodities
     }
 
     private void splitActivityTotalEquallyAcrossTAZs(double[] activityLocationsSplit,

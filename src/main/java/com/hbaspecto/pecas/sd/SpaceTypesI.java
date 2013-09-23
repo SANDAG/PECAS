@@ -17,21 +17,18 @@ package com.hbaspecto.pecas.sd;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
+import org.apache.log4j.Logger;
+import simpleorm.dataset.SQuery;
+import simpleorm.sessionjdbc.SSessionJdbc;
 import com.hbaspecto.pecas.land.LandInventory;
 import com.hbaspecto.pecas.sd.orm.DevelopmentFees;
 import com.hbaspecto.pecas.sd.orm.SpaceTypesGroup;
 import com.hbaspecto.pecas.sd.orm.SpaceTypesI_gen;
 import com.hbaspecto.pecas.sd.orm.TransitionConstantsI;
 import com.hbaspecto.pecas.sd.orm.TransitionCosts;
-import com.sun.media.sound.MidiUtils.TempoCache;
-import org.apache.log4j.Logger;
-import simpleorm.dataset.SQuery;
-import simpleorm.sessionjdbc.SSessionJdbc;
 
 /**
  * A class that represents a type of land development

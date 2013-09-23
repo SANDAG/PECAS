@@ -1,10 +1,10 @@
 package com.hbaspecto.pecas.sd.orm;
 
-import simpleorm.dataset.*;
-import simpleorm.utils.*;
+import simpleorm.dataset.SFieldDouble;
+import simpleorm.dataset.SFieldString;
+import simpleorm.dataset.SRecordInstance;
+import simpleorm.dataset.SRecordMeta;
 import simpleorm.sessionjdbc.SSessionJdbc;
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Base class of table transition_constants_i_view.<br>

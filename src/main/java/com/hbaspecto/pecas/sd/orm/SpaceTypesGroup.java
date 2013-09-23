@@ -4,12 +4,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
-import com.hbaspecto.pecas.aa.technologyChoice.ConsumptionFunction;
-import com.hbaspecto.pecas.land.ParcelsTemp;
-import com.hbaspecto.pecas.sd.SpaceTypesI;
 import simpleorm.dataset.SQuery;
 import simpleorm.dataset.SQueryResult;
 import simpleorm.sessionjdbc.SSessionJdbc;
+import com.hbaspecto.pecas.sd.SpaceTypesI;
 
 /**
  * Business rules class for table space_types_group.<br>

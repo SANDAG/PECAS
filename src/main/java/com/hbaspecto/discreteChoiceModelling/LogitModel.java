@@ -331,7 +331,7 @@ public class LogitModel
     public Alternative alternativeAt(int i)
     {
         return alternatives.get(i);
-    }// should throw an error if out of range
+    } // should throw an error if out of range
 
     /** Picks one of the alternatives based on the logit model probabilities */
     @Override

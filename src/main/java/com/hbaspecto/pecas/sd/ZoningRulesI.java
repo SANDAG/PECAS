@@ -15,16 +15,6 @@
  */
 package com.hbaspecto.pecas.sd;
 
-import com.hbaspecto.discreteChoiceModelling.Alternative;
-import com.hbaspecto.discreteChoiceModelling.Coefficient;
-import com.hbaspecto.discreteChoiceModelling.LogitModel;
-import com.hbaspecto.pecas.*;
-import com.hbaspecto.pecas.land.LandInventory;
-import com.hbaspecto.pecas.sd.estimation.EstimationMatrix;
-import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
-import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
-import com.hbaspecto.pecas.sd.orm.TransitionCostCodes;
-import com.hbaspecto.pecas.sd.orm.ZoningRulesI_gen;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +24,17 @@ import no.uib.cipr.matrix.Vector;
 import org.apache.log4j.Logger;
 import simpleorm.dataset.SQuery;
 import simpleorm.sessionjdbc.SSessionJdbc;
+import com.hbaspecto.discreteChoiceModelling.Alternative;
+import com.hbaspecto.discreteChoiceModelling.Coefficient;
+import com.hbaspecto.discreteChoiceModelling.LogitModel;
+import com.hbaspecto.pecas.ChoiceModelOverflowException;
+import com.hbaspecto.pecas.NoAlternativeAvailable;
+import com.hbaspecto.pecas.land.LandInventory;
+import com.hbaspecto.pecas.sd.estimation.EstimationMatrix;
+import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
+import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
+import com.hbaspecto.pecas.sd.orm.TransitionCostCodes;
+import com.hbaspecto.pecas.sd.orm.ZoningRulesI_gen;
 
 /**
  * A class that represents the regulations that control the DevelopmentTypes

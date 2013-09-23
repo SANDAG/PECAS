@@ -224,7 +224,8 @@ public class AggregateActivity
             {
                 logger.info("More than 99.9% of "
                         + this
-                        + " is constrained, assuming you wanted to constrain 100 and that this is due to rounding error!  Constraints on zones not mentioned in ActivityConstraintsI are being set to 0");
+                        + " is constrained, assuming you wanted to constrain 100 and that this is due to rounding"
+                        + " error!  Constraints on zones not mentioned in ActivityConstraintsI are being set to 0");
                 constrainRemainingZonesToZero(probs);
             }
             if (remainingAmount <= 0 && !allZonesConstrained)
@@ -238,7 +239,8 @@ public class AggregateActivity
             {
                 logger.error("All zones constrained for "
                         + this
-                        + " but constraints do not match total within 0.1%, this should be fixed so that ActivityConstraintsI total up to match ActivityTotalsI");
+                        + " but constraints do not match total within 0.1%, this should be fixed so that "
+                        + "ActivityConstraintsI total up to match ActivityTotalsI");
             }
         }
         for (int i = 0; i < probs.length; i++)
@@ -255,14 +257,17 @@ public class AggregateActivity
                                 + " of "
                                 + this
                                 + " amongst unconstrained zones, but utility of every unconstrained zone is negative infinity");
-                        logger.error("This can happen if the unconstrained zones have no suitable space, in which case the solution is to enter a constraint of zero in any zone with no suitable space");
+                        logger.error("This can happen if the unconstrained zones have no suitable space, in which case"
+                                + " the solution is to enter a constraint of zero in any zone with no suitable space");
                         logger.error("The first unconstrained zone is " + a);
                         throw new OverflowException(
                                 "Allocating "
                                         + remainingAmount
                                         + " of "
                                         + this
-                                        + " amongst unconstrained zones, but utility of every unconstrained zone is negative infinity, perhaps there is no suitable space in the unconstrained zones.  First unconstrained zone is "
+                                        + " amongst unconstrained zones, but utility of every unconstrained zone is "
+                                        + "negative infinity, perhaps there is no suitable space in the unconstrained "
+                                        + "zones.  First unconstrained zone is "
                                         + a);
                     }
                     final double prob = probs[i] / totalProbs;

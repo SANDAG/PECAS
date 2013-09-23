@@ -104,7 +104,8 @@ public class AASetupWithTechnologySubstitution
             {
                 final String msg = "Can't find column "
                         + optionWeightColumnName
-                        + " in TechnologyOptions, if you are new to using Automatic Technology SizeTerms you might have to rename the OptionSize column";
+                        + " in TechnologyOptions, if you are new to using Automatic Technology SizeTerms you might"
+                        + " have to rename the OptionSize column";
                 logger.fatal(msg);
                 throw new RuntimeException(msg);
 
@@ -181,7 +182,8 @@ public class AASetupWithTechnologySubstitution
                         {
                             final String error = "Column \""
                                     + columnName
-                                    + "\" in TechnologyOptionsI does not properly specify the make or use of a commodity -- could be a misspelled commodity name";
+                                    + "\" in TechnologyOptionsI does not properly specify the make or use of a "
+                                    + "commodity -- could be a misspelled commodity name";
                             logger.fatal(error);
                             throw new RuntimeException(error);
                         }
@@ -246,7 +248,8 @@ public class AASetupWithTechnologySubstitution
         }
         if (zonalData == null)
         {
-            logger.info("no ActivitiesZonalValuesI or ActivitiesZonalValuesW in aa.base.data or aa.current.data, trying to get zonal data from previous run (ActivityLocations in aa.previous.data)");
+            logger.info("no ActivitiesZonalValuesI or ActivitiesZonalValuesW in aa.base.data or aa.current.data, "
+                    + "trying to get zonal data from previous run (ActivityLocations in aa.previous.data)");
             zonalData = loadTableDataSet("ActivityLocations", "aa.previous.data", false);
         }
         final Hashtable activityZonalHashtable = new Hashtable();
@@ -304,7 +307,8 @@ public class AASetupWithTechnologySubstitution
             {
                 if (ptab.getValueAt(pRow, otherLambdaColumn) != lambda)
                 {
-                    final String msg = "Using LogitTechnologyChoice but ConsumptionSubstitutionNesting column is present and is not set to be the same and ProductionSubstitutionNesting";
+                    final String msg = "Using LogitTechnologyChoice but ConsumptionSubstitutionNesting column is "
+                            + "present and is not set to be the same and ProductionSubstitutionNesting";
                     logger.fatal(msg);
                     throw new RuntimeException(msg);
                 }
@@ -314,7 +318,9 @@ public class AASetupWithTechnologySubstitution
             {
                 if (ptab.getBooleanValueAt(pRow, "NonModelledProduction"))
                 {
-                    final String error = "NonModelledProduction set to TRUE in ActivitiesI.  Ignored because you are using TechnologyOptionsI where you specify all technology options directly.  Remove this column from ActivitiesI";
+                    final String error = "NonModelledProduction set to TRUE in ActivitiesI.  Ignored because you are "
+                            + "using TechnologyOptionsI where you specify all technology options directly. "
+                            + " Remove this column from ActivitiesI";
                     logger.error(error);
                 }
             }
@@ -322,7 +328,9 @@ public class AASetupWithTechnologySubstitution
             {
                 if (ptab.getBooleanValueAt(pRow, "NonModelledConsumption"))
                 {
-                    final String error = "NonModelledConsumption set to TRUE in ActivitiesI.  Ignored because you are using TechnologyOptionsI where you specify all technology options directly.  Remove this column from ActivitiesI";
+                    final String error = "NonModelledConsumption set to TRUE in ActivitiesI.  Ignored because "
+                            + "you are using TechnologyOptionsI where you specify all technology options directly.  "
+                            + "Remove this column from ActivitiesI";
                     logger.error(error);
                 }
             }

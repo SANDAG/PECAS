@@ -284,7 +284,7 @@ public class ParcelScorer
         currentTaz = taz;
     }
 
-    protected static class RandomTerm
+    protected static final class RandomTerm
     {
         private static RandomTerm randomTerm       = null;
 

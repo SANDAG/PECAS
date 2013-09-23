@@ -28,13 +28,15 @@ import com.hbaspecto.discreteChoiceModelling.Coefficient;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
 import com.hbaspecto.pecas.land.LandInventory;
-import com.hbaspecto.pecas.land.ParcelInterface;
 import com.hbaspecto.pecas.land.LandInventory.NotSplittableException;
+import com.hbaspecto.pecas.land.ParcelInterface;
 import com.hbaspecto.pecas.sd.estimation.DemolitionTarget;
 import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
 import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
 import com.hbaspecto.pecas.sd.estimation.TransitionConstant;
-import com.hbaspecto.pecas.sd.orm.*;
+import com.hbaspecto.pecas.sd.orm.DevelopmentFees;
+import com.hbaspecto.pecas.sd.orm.TransitionCostCodes;
+import com.hbaspecto.pecas.sd.orm.TransitionCosts;
 
 public class DevelopNewAlternative
         extends DevelopmentAlternative

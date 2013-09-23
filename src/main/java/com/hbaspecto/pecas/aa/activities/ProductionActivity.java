@@ -207,7 +207,7 @@ public abstract class ProductionActivity
      *            the amount of activity leaving the region. Net migration is
      *            inMigration-outMigration.
      */
-    abstract public void migrationAndAllocation(double timeStep, double inMigration,
+    public abstract void migrationAndAllocation(double timeStep, double inMigration,
             double outMigration) throws OverflowException;
 
     /**
@@ -225,7 +225,7 @@ public abstract class ProductionActivity
      *                allocation. Obviously, then, they can't be modelled as
      *                being in spatial economic equilibrium
      */
-    abstract public void reMigrationAndReAllocation() throws CantRedoError;
+    public abstract void reMigrationAndReAllocation() throws CantRedoError;
 
     public abstract double getUtility() throws OverflowException;
 

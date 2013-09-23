@@ -4,13 +4,13 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import com.hbaspecto.discreteChoiceModelling.Coefficient;
-import com.hbaspecto.pecas.land.LandInventory;
-import com.hbaspecto.pecas.sd.ZoningRulesI;
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
+import com.hbaspecto.discreteChoiceModelling.Coefficient;
+import com.hbaspecto.pecas.land.LandInventory;
+import com.hbaspecto.pecas.sd.ZoningRulesI;
 
 public class ExpectedTargetModel
         implements DifferentiableModel

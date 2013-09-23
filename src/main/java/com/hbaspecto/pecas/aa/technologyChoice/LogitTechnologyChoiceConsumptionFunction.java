@@ -48,7 +48,8 @@ public class LogitTechnologyChoiceConsumptionFunction
     public double overallUtility(double[] individualCommodityUtilities)
             throws ChoiceModelOverflowException
     {
-        final String msg = "In LogitTechnologyChoice production utility and consumption utility are integrated together, so you cannot calculated consumption utility";
+        final String msg = "In LogitTechnologyChoice production utility and consumption utility are integrated "
+                + "together, so you cannot calculated consumption utility";
         logger.fatal(msg);
         throw new RuntimeException(msg);
 
@@ -89,7 +90,8 @@ public class LogitTechnologyChoiceConsumptionFunction
 
     public double[] amountsDerivatives(double[] individualCommodityUtilities)
     {
-        final String errorString = "Don't know how to calculate amountsDerivatives in technology choice consumption function, use the techChoice method instead";
+        final String errorString = "Don't know how to calculate amountsDerivatives in technology choice consumption"
+                + " function, use the techChoice method instead";
         logger.error(errorString);
         throw new RuntimeException(errorString);
     }

@@ -36,7 +36,7 @@ import com.pb.common.matrix.Matrix;
  * 
  * @author John Abraham
  */
-public class Commodity
+public final class Commodity
         extends AbstractCommodity
 {
 
@@ -535,7 +535,8 @@ public class Commodity
         final float[][] flows = new float[nZones][nZones];
         final int[] zoneNumbers = new int[nZones + 1];
         for (int exchange = 0; exchange < nZones; exchange++)
-        {// exchange zones
+        {
+            // exchange zones
             final Exchange ex = getExchange(exchange);
             if (ex != null)
             {

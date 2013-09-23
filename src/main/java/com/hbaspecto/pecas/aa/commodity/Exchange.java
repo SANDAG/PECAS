@@ -263,10 +263,11 @@ public class Exchange
             sellingString = new StringBuffer();
         }
         for (int i = 0; i < buyingFromExchangeFlows.length; i++)
-        {// all origin
-         // and
-         // destination
-         // zones
+        {
+            // all origin
+            // and
+            // destination
+            // zones
             for (int b = 0; b < 2; b++)
             {
                 double quantity;

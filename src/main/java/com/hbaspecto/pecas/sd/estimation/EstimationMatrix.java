@@ -135,7 +135,7 @@ public class EstimationMatrix
 
     // A wrapper around another list that prevents it from being
     // modified and provides fast lookup via a back-map.
-    private class BackMapList<E>
+    private final class BackMapList<E>
             implements List<E>
     {
         private List<E>           contents;

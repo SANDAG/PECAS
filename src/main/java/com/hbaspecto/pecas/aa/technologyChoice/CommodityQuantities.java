@@ -29,7 +29,7 @@ import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 public interface CommodityQuantities
 {
     // protected float[] commodityQuantities = new float[0];
-    public int size();
+    int size();
 
     /**
      * sorts internally so that when calcAmounts() or overallUtility() are
@@ -38,7 +38,7 @@ public interface CommodityQuantities
      * commodity. This also affects subsequent calls to commodityAt() and must
      * be called before commodityAt() is called.
      */
-    public void doFinalSetupAndSetCommodityOrder(java.util.List commodityList);
+    void doFinalSetupAndSetCommodityOrder(java.util.List commodityList);
 
     /**
      * returns the commodity at the position i from the last sort, i.e. the
@@ -47,7 +47,7 @@ public interface CommodityQuantities
      * 
      * @associates <{com.pb.models.pecas.AbstractCommodity}>
      */
-    public AbstractCommodity commodityAt(int i);
+    AbstractCommodity commodityAt(int i);
 
     /**
      * This function calculates the amount of each commodity given the utility
