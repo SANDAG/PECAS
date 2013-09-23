@@ -30,8 +30,7 @@ public abstract class EstimationTarget
     }
 
     /**
-     * Returns the modelled value. This should be called after
-     * <code>setModelledValue</code> has been invoked on every associated
+     * Returns the modelled value. This should be called after <code>setModelledValue</code> has been invoked on every associated
      * <code>ExpectedValue</code>.
      * 
      * @return The modelled value.
@@ -39,20 +38,16 @@ public abstract class EstimationTarget
     public abstract double getModelledValue();
 
     /**
-     * Returns the derivative of the modelled value with respect to each
-     * coefficient. This should be called after <code>setModelledValue</code>
-     * and <code>setDerivative</code> have been called on every associated
-     * <code>ExpectedValue</code>.
+     * Returns the derivative of the modelled value with respect to each coefficient. This should be called after <code>setModelledValue</code> and
+     * <code>setDerivative</code> have been called on every associated <code>ExpectedValue</code>.
      * 
      * @return The derivatives.
      */
     public abstract double[] getDerivatives();
 
     /**
-     * Returns the list of expected value calculators whose values this target
-     * depends on. Normally, if an <code>EstimationTarget</code> object also
-     * implements <ExpectedValue>, its <code>getComponentTargets()</code> method
-     * should return a collection containing only the object itself.
+     * Returns the list of expected value calculators whose values this target depends on. Normally, if an <code>EstimationTarget</code> object also
+     * implements <ExpectedValue>, its <code>getComponentTargets()</code> method should return a collection containing only the object itself.
      * 
      * @return The list of components.
      */

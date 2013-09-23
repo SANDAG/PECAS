@@ -11,14 +11,14 @@ public class AdditionIntoSpaceTypesTarget
         implements ExpectedValue
 {
 
-    private final int[]        spaceTypes;
+    private int[]              spaceTypes;
     private double             modelledValue;
     private double[]           derivs;
     public static final String NAME = "additiontypes";
 
     public AdditionIntoSpaceTypesTarget(int[] spacetypes)
     {
-        spaceTypes = spacetypes;
+        this.spaceTypes = spacetypes;
     }
 
     public AdditionIntoSpaceTypesTarget(String[] specification)
@@ -42,16 +42,10 @@ public class AdditionIntoSpaceTypesTarget
     {
         // Must not be vacant to be counted.
         if (SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(ZoningRulesI.land.getCoverage())
-                .isVacant())
+                .isVacant()) return 0;
+        for (int spaceTypeIHave : spaceTypes)
         {
-            return 0;
-        }
-        for (final int spaceTypeIHave : spaceTypes)
-        {
-            if (spaceTypeIHave == spacetype)
-            {
-                return expectedAddedSpace;
-            }
+            if (spaceTypeIHave == spacetype) return expectedAddedSpace;
         }
         return 0;
     }
@@ -61,16 +55,10 @@ public class AdditionIntoSpaceTypesTarget
             double expectedAddedSpace, double expectedNewSpace)
     {
         if (SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(ZoningRulesI.land.getCoverage())
-                .isVacant())
+                .isVacant()) return 0;
+        for (int spaceTypeIHave : spaceTypes)
         {
-            return 0;
-        }
-        for (final int spaceTypeIHave : spaceTypes)
-        {
-            if (spaceTypeIHave == spacetype)
-            {
-                return 1;
-            }
+            if (spaceTypeIHave == spacetype) return 1;
         }
         return 0;
     }
@@ -85,8 +73,8 @@ public class AdditionIntoSpaceTypesTarget
     @Override
     public String getName()
     {
-        final StringBuffer buf = new StringBuffer(NAME);
-        for (final int type : spaceTypes)
+        StringBuffer buf = new StringBuffer(NAME);
+        for (int type : spaceTypes)
         {
             buf.append("-");
             buf.append(type);

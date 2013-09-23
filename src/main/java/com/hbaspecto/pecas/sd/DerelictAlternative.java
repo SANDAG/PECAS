@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 import com.hbaspecto.discreteChoiceModelling.Coefficient;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
-import com.hbaspecto.pecas.land.LandInventory.NotSplittableException;
 import com.hbaspecto.pecas.land.ParcelInterface;
+import com.hbaspecto.pecas.land.LandInventory.NotSplittableException;
 import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
 import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
 
@@ -33,15 +33,11 @@ public class DerelictAlternative
     public double getUtilityNoSizeEffect() throws ChoiceModelOverflowException
     {
 
-        final int oldCoverage = ZoningRulesI.land.getCoverage();
-        final SpaceTypesI spaceType = SpaceTypesI
-                .getAlreadyCreatedSpaceTypeBySpaceTypeID(oldCoverage);
-        // You can't choose derelict for an already derelict land or a vacant
-        // space type of land.
+        int oldCoverage = ZoningRulesI.land.getCoverage();
+        SpaceTypesI spaceType = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(oldCoverage);
+        // You can't choose derelict for an already derelict land or a vacant space type of land.
         if (spaceType.isVacant() || ZoningRulesI.land.isDerelict())
-        {
             return Double.NEGATIVE_INFINITY;
-        }
 
         return getTransitionConstant().getValue();
     }
@@ -53,22 +49,20 @@ public class DerelictAlternative
         return getUtilityNoSizeEffect();
     }
 
-    @Override
     public void doDevelopment()
     {
-        final double size = ZoningRulesI.land.getLandArea();
+        double size = ZoningRulesI.land.getLandArea();
         if (size > ZoningRulesI.land.getMaxParcelSize())
         {
             // If development occurs on a parcel that is greater than n acres,
-            // split off n acres into a new "pseudo parcel" and add the new
-            // pseudo parcel into the database
-            final int splits = (int) (size / ZoningRulesI.land.getMaxParcelSize()) + 1;
-            final double parcelSizes = size / splits;
+            // split off n acres into a new "pseudo parcel" and add the new pseudo parcel into the database
+            int splits = ((int) (size / ZoningRulesI.land.getMaxParcelSize())) + 1;
+            double parcelSizes = size / splits;
             ParcelInterface newBit;
             try
             {
                 newBit = ZoningRulesI.land.splitParcel(parcelSizes);
-            } catch (final NotSplittableException e)
+            } catch (NotSplittableException e)
             {
                 logger.fatal("Can't split parcel " + e);
                 throw new RuntimeException("Can't split parcel", e);
@@ -79,7 +73,7 @@ public class DerelictAlternative
                     newBit);
         } else
         {
-            final boolean oldIsDerelict = ZoningRulesI.land.isDerelict();
+            boolean oldIsDerelict = ZoningRulesI.land.isDerelict();
 
             ZoningRulesI.land.putDerelict(true);
             ZoningRulesI.land.getDevelopmentLogger().logDereliction(ZoningRulesI.land,
@@ -100,22 +94,15 @@ public class DerelictAlternative
             throws NoAlternativeAvailable, ChoiceModelOverflowException
     {
         // Derivative wrt derelict constant is 1, all others are 0.
-        final Vector derivatives = new DenseVector(cs.size());
-        final int spacetype = ZoningRulesI.land.getCoverage();
-        final SpaceTypesI spaceType = SpaceTypesI
-                .getAlreadyCreatedSpaceTypeBySpaceTypeID(spacetype);
+        Vector derivatives = new DenseVector(cs.size());
+        int spacetype = ZoningRulesI.land.getCoverage();
+        SpaceTypesI spaceType = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(spacetype);
         // If derelict alternative is not available, return all 0s.
-        if (spaceType.isVacant() || ZoningRulesI.land.isDerelict())
-        {
-            return derivatives;
-        }
+        if (spaceType.isVacant() || ZoningRulesI.land.isDerelict()) return derivatives;
 
-        final Coefficient derelictConst = getTransitionConstant();
-        final int index = cs.indexOf(derelictConst);
-        if (index >= 0)
-        {
-            derivatives.set(index, 1);
-        }
+        Coefficient derelictConst = getTransitionConstant();
+        int index = cs.indexOf(derelictConst);
+        if (index >= 0) derivatives.set(index, 1);
         return derivatives;
     }
 
@@ -129,7 +116,7 @@ public class DerelictAlternative
 
     private Coefficient getTransitionConstant()
     {
-        final int spacetype = ZoningRulesI.land.getCoverage();
+        int spacetype = ZoningRulesI.land.getCoverage();
         return SpaceTypeCoefficient.getDerelictTransitionConst(spacetype);
     }
 

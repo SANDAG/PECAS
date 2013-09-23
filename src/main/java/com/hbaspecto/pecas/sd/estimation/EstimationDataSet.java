@@ -14,7 +14,6 @@ import com.hbaspecto.pecas.sd.ZoningPermissions;
 import com.hbaspecto.pecas.sd.ZoningRulesI;
 import com.hbaspecto.pecas.sd.orm.DevelopmentFees;
 import com.hbaspecto.pecas.sd.orm.ObservedDevelopmentEvents;
-import com.hbaspecto.pecas.sd.orm.ObservedDevelopmentEvents_gen;
 import com.hbaspecto.pecas.sd.orm.TransitionCostCodes;
 import com.hbaspecto.pecas.sd.orm.TransitionCosts;
 import com.pb.common.datafile.GeneralDecimalFormat;
@@ -23,12 +22,12 @@ public class EstimationDataSet
 {
     // private static ArrayList estimationRows = new ArrayList();
     private ArrayList             estimationRow = null;
-    private final double[]        sampledQntys;
+    private double[]              sampledQntys;
     private final int             NUM_SAMPLES   = 5;
     private final double          SAMPLE_RATIO;
     private static BufferedWriter estimationBuffer;
-    private final String          fileNameAndPath;
-    private final NumberFormat    nf            = new GeneralDecimalFormat("#.####E0", 1E7, 1E-2);
+    private String                fileNameAndPath;
+    private NumberFormat          nf            = new GeneralDecimalFormat("#.####E0", 1E7, 1E-2);
 
     public EstimationDataSet(String fileNameAndPath, double sampleRatio)
     {
@@ -46,15 +45,12 @@ public class EstimationDataSet
 
     private BufferedWriter getBufferWriter()
     {
-        if (estimationBuffer != null)
-        {
-            return estimationBuffer;
-        }
+        if (estimationBuffer != null) return estimationBuffer;
         try
         {
             estimationBuffer = new BufferedWriter(new FileWriter(fileNameAndPath));
             return estimationBuffer;
-        } catch (final Exception ex)
+        } catch (Exception ex)
         {
             throw new RuntimeException("Can't open estimation file", ex);
         }
@@ -62,14 +58,11 @@ public class EstimationDataSet
 
     public void writeEstimationRow()
     {
-        if (estimationRow == null)
-        {
-            return;
-        }
-        final StringBuffer row = new StringBuffer("");
+        if (estimationRow == null) return;
+        StringBuffer row = new StringBuffer("");
         for (int i = 0; i < estimationRow.size() - 1; i++)
         {
-            final Object o = estimationRow.get(i);
+            Object o = estimationRow.get(i);
             if (o instanceof Double || o instanceof Float)
             {
                 row.append(nf.format(o));
@@ -77,18 +70,15 @@ public class EstimationDataSet
             {
                 row.append(o.toString());
             }
-            if (i != estimationRow.size() - 1)
-            {
-                row.append(",");
-            }
+            if (i != estimationRow.size() - 1) row.append(",");
         }
         row.append("\n");
 
-        final BufferedWriter estimationBuffer = getBufferWriter();
+        BufferedWriter estimationBuffer = getBufferWriter();
         try
         {
             estimationBuffer.write(row.toString());
-        } catch (final Exception ex)
+        } catch (Exception ex)
         {
             throw new RuntimeException("Can't write to estimation file.");
         }
@@ -98,16 +88,13 @@ public class EstimationDataSet
     public void compileEstimationRow(LandInventory l)
     {
 
-        final SSessionJdbc tempSession = SSessionJdbc.getThreadLocalSession();
-        if (!tempSession.hasBegun())
-        {
-            tempSession.begin();
-        }
+        SSessionJdbc tempSession = SSessionJdbc.getThreadLocalSession();
+        if (!tempSession.hasBegun()) tempSession.begin();
         int choice = 1; // assume no_change by default
         double observationWeight = 1;
 
-        final ObservedDevelopmentEvents devEvn = tempSession.find(
-                ObservedDevelopmentEvents_gen.meta, l.getPECASParcelNumber());
+        ObservedDevelopmentEvents devEvn = tempSession.find(ObservedDevelopmentEvents.meta,
+                l.getPECASParcelNumber());
         if (devEvn == null)
         {
             observationWeight = 1 / SAMPLE_RATIO;
@@ -118,18 +105,9 @@ public class EstimationDataSet
             }
         } else
         {
-            if (devEvn.get_Eventtype().trim().equals("D"))
-            {
-                choice = 2;
-            }
-            if (devEvn.get_Eventtype().trim().equals("L"))
-            {
-                choice = 3;
-            }
-            if (devEvn.get_Eventtype().trim().equals("R"))
-            {
-                choice = 4;
-            }
+            if (devEvn.get_Eventtype().trim().equals("D")) choice = 2;
+            if (devEvn.get_Eventtype().trim().equals("L")) choice = 3;
+            if (devEvn.get_Eventtype().trim().equals("R")) choice = 4;
         }
 
         estimationRow = new ArrayList();
@@ -148,27 +126,24 @@ public class EstimationDataSet
             if (devEvn.get_Eventtype().trim().equals("A"))
             {
                 choice = findClosestSample(devEvn.get_NewSpaceQuantity());
-                // // FIXME: there should be a better system for finding the
-                // choice code
+                // // FIXME: there should be a better system for finding the choice code
                 updateTheChoiceCode(choice + 4, choice + 4);
             }
         }
-        final List<Integer> sortedSpaceTypesIds = SpaceTypesI.getAllSpaceTypesIDs();
+        List<Integer> sortedSpaceTypesIds = SpaceTypesI.getAllSpaceTypesIDs();
         Collections.sort(sortedSpaceTypesIds);
 
-        for (final Integer newSpaceTypeID : sortedSpaceTypesIds)
+        for (Integer newSpaceTypeID : sortedSpaceTypesIds)
         {
-            final SpaceTypesI newST = SpaceTypesI
-                    .getAlreadyCreatedSpaceTypeBySpaceTypeID(newSpaceTypeID.intValue());
+            SpaceTypesI newST = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(newSpaceTypeID
+                    .intValue());
             boolean storeQntySamples = false;
             if (!newST.isVacant())
             {
                 if (devEvn != null)
                 {
                     if (devEvn.get_NewSpaceIypeId() == newST.get_SpaceTypeId())
-                    {
                         storeQntySamples = true;
-                    }
                 }
                 for (int i = 0; i < NUM_SAMPLES; i++)
                 {
@@ -181,13 +156,11 @@ public class EstimationDataSet
         {
             if (devEvn.get_Eventtype().trim().equals("C"))
             {
-                // sampled quantities should be saved only for the new space
-                // type chosed.
+                // sampled quantities should be saved only for the new space type chosed.
                 choice = findClosestSample(devEvn.get_NewSpaceQuantity());
-                // FIXME: there should be a better system for finding the choice
-                // code
-                final int seqChoiceCode = devEvn.get_NewSpaceIypeId() * 5 + 4 + choice;
-                final int choiceCode = devEvn.get_NewSpaceIypeId() * 100 + choice;
+                // FIXME: there should be a better system for finding the choice code
+                int seqChoiceCode = (devEvn.get_NewSpaceIypeId() * 5) + 4 + choice;
+                int choiceCode = (devEvn.get_NewSpaceIypeId() * 100) + choice;
                 updateTheChoiceCode(choiceCode, seqChoiceCode);
             }
         }
@@ -214,7 +187,7 @@ public class EstimationDataSet
         try
         {
             estimationBuffer.close();
-        } catch (final Exception ex)
+        } catch (Exception ex)
         {
             throw new RuntimeException("Couldn't close estimation file", ex);
         }
@@ -223,36 +196,28 @@ public class EstimationDataSet
     private void addBaseInfo(LandInventory l, int choice, double observationWeight)
     {
 
-        final int luz = Tazs.getTazRecord(l.getTaz()).get_LuzNumber();
-        final int year = ZoningRulesI.currentYear;
+        int luz = Tazs.getTazRecord(l.getTaz()).get_LuzNumber();
+        int year = ZoningRulesI.currentYear;
 
         estimationRow.add(new Long(l.getPECASParcelNumber()));
         estimationRow.add(new String(l.getParcelId()));
         estimationRow.add(new Integer(year)); // year
-        estimationRow.add(new Integer(choice)); // Choice. From permit data;
-        // default 1. Index=3
+        estimationRow.add(new Integer(choice)); // Choice. From permit data; default 1. Index=3
         estimationRow.add(new Integer(luz)); // LUZ
         estimationRow.add(l.getTaz());
         estimationRow.add(new Integer(-1)); // Jurisdiction
         estimationRow.add(new Integer(l.getCoverage()));
         estimationRow.add(new Double(l.getQuantity()));
         int isDer = 0;
-        if (l.isDerelict())
-        {
-            isDer = 1;
-        }
+        if (l.isDerelict()) isDer = 1;
         estimationRow.add(new Integer(isDer));
         int isBrown = 0;
-        if (l.isBrownfield())
-        {
-            isBrown = 1;
-        }
+        if (l.isBrownfield()) isBrown = 1;
         estimationRow.add(new Integer(isBrown));
         estimationRow.add(new Double(l.getLandArea()));
-        final int buildingAge = year - l.getYearBuilt();
+        int buildingAge = year - l.getYearBuilt();
         estimationRow.add(new Integer(buildingAge)); // Age of exiting space
-        estimationRow.add(new Double(observationWeight)); // Observation weight;
-        // default 1
+        estimationRow.add(new Double(observationWeight)); // Observation weight; default 1
         estimationRow.add(new Integer(choice)); // Sequential choice code.
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Integer(0)); // Blank field
@@ -267,19 +232,16 @@ public class EstimationDataSet
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Double(l.getQuantity()));
-        estimationRow.add(new Double(l.getQuantity() / l.getLandArea())); // existing
-        // FAR
+        estimationRow.add(new Double(l.getQuantity() / l.getLandArea())); // existing FAR
         double rent = 0;
         double cost = 0;
-        final SpaceTypesI dt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l.getCoverage());
+        SpaceTypesI dt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l.getCoverage());
         if (!dt.isVacant() && !l.isDerelict())
         {
 
-            final int age = ZoningRulesI.currentYear - l.getYearBuilt();
-            // these next two lines are for reference when building the
-            // keep-the-same alternative, where age is non-zero.
-            // No change alternative implies that the space is one year older.
-            // Therefore, adjust the the rent and the maintenance cost.
+            int age = ZoningRulesI.currentYear - l.getYearBuilt();
+            // these next two lines are for reference when building the keep-the-same alternative, where age is non-zero.
+            // No change alternative implies that the space is one year older. Therefore, adjust the the rent and the maintenance cost.
             rent = l.getPrice(dt.getSpaceTypeID(), ZoningRulesI.currentYear, ZoningRulesI.baseYear)
                     * dt.getRentDiscountFactor(age);
             rent = rent * l.getQuantity() / l.getLandArea();
@@ -306,17 +268,13 @@ public class EstimationDataSet
     {
 
         estimationRow.add(new Integer(LandInventory.VACANT_ID));
-        final ZoningRulesI zoning = ZoningRulesI.getZoningRuleByZoningRulesCode(l.getSession(),
+        ZoningRulesI zoning = ZoningRulesI.getZoningRuleByZoningRulesCode(l.getSession(),
                 l.getZoningRulesCode());
-        final SpaceTypesI dt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l.getCoverage());
+        SpaceTypesI dt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l.getCoverage());
 
         int isPermissible = 1;
-        if (!zoning.get_DemolitionPossibilities() || dt.isVacant())
-        {
-            isPermissible = -1;
-        }
-        estimationRow.add(new Integer(isPermissible)); // Alternative
-        // permissible (Zoning)
+        if (!zoning.get_DemolitionPossibilities() || dt.isVacant()) isPermissible = -1;
+        estimationRow.add(new Integer(isPermissible)); // Alternative permissible (Zoning)
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Integer(0)); // amount of space
@@ -326,10 +284,8 @@ public class EstimationDataSet
 
         double demolitionCost = 0;
         if (!dt.isVacant())
-        {
             demolitionCost = dt.getDemolitionCost(l.get_CostScheduleId()) * l.getQuantity()
                     / l.getLandArea();
-        }
 
         estimationRow.add(new Double(demolitionCost)); // Demolish cost
         estimationRow.add(new Integer(0)); // ren/add cost
@@ -351,21 +307,17 @@ public class EstimationDataSet
 
         estimationRow.add(new Integer(l.getCoverage()));
 
-        final ZoningRulesI zoning = ZoningRulesI.getZoningRuleByZoningRulesCode(l.getSession(),
+        ZoningRulesI zoning = ZoningRulesI.getZoningRuleByZoningRulesCode(l.getSession(),
                 l.getZoningRulesCode());
-        final SpaceTypesI dt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l.getCoverage());
+        SpaceTypesI dt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l.getCoverage());
         int isPermissible = 1;
         if (!zoning.get_DerelictionPossibilities() || l.isDerelict() || dt.isVacant())
-        {
             isPermissible = -1;
-        }
-        estimationRow.add(new Integer(isPermissible)); // Alternative
-        // permissible (Zoning)
+        estimationRow.add(new Integer(isPermissible)); // Alternative permissible (Zoning)
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Double(l.getQuantity())); // amount of space
-        estimationRow.add(new Double(l.getQuantity() / l.getLandArea())); // existing
-        // FAR
+        estimationRow.add(new Double(l.getQuantity() / l.getLandArea())); // existing FAR
         estimationRow.add(new Integer(0)); // rent
         estimationRow.add(new Integer(0)); // maintenance cost
         estimationRow.add(new Integer(0)); // Demolish cost
@@ -388,21 +340,16 @@ public class EstimationDataSet
 
         estimationRow.add(new Integer(l.getCoverage()));
 
-        final ZoningRulesI zoning = ZoningRulesI.getZoningRuleByZoningRulesCode(l.getSession(),
+        ZoningRulesI zoning = ZoningRulesI.getZoningRuleByZoningRulesCode(l.getSession(),
                 l.getZoningRulesCode());
-        final SpaceTypesI dt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l.getCoverage());
+        SpaceTypesI dt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l.getCoverage());
         int isPermissible = 1;
-        if (!zoning.get_RenovationPossibilities() || dt.isVacant())
-        {
-            isPermissible = -1;
-        }
-        estimationRow.add(new Integer(isPermissible)); // Alternative
-        // permissible (Zoning)
+        if (!zoning.get_RenovationPossibilities() || dt.isVacant()) isPermissible = -1;
+        estimationRow.add(new Integer(isPermissible)); // Alternative permissible (Zoning)
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Double(l.getQuantity())); // amount of space
-        estimationRow.add(new Double(l.getQuantity() / l.getLandArea())); // existing
-        // FAR
+        estimationRow.add(new Double(l.getQuantity() / l.getLandArea())); // existing FAR
 
         double rent = 0;
         double cost = 0;
@@ -410,7 +357,7 @@ public class EstimationDataSet
         if (!dt.isVacant())
         {
 
-            final int age = 0;
+            int age = 0;
             rent = l.getPrice(dt.getSpaceTypeID(), ZoningRulesI.currentYear, ZoningRulesI.baseYear)
                     * dt.getRentDiscountFactor(age);
             rent = rent * l.getQuantity() / l.getLandArea();
@@ -433,14 +380,11 @@ public class EstimationDataSet
         estimationRow.add(new Double(cost)); // ren/add cost
         estimationRow.add(new Integer(0)); // No fees for renovation.
 
-        final double prepCost = 0;
+        double prepCost = 0;
         /*
-         * if (l.isBrownfield()){ //Ask John: What if land is not brownfield??
-         * prepCost is 0 SSessionJdbc tempSession =
-         * SSessionJdbc.getThreadLocalSession(); TransitionCostCodes costCodes =
-         * tempSession.mustFind(TransitionCostCodes.meta,
-         * l.get_CostScheduleId()); prepCost =
-         * costCodes.get_BrownFieldCleanupCost(); }
+         * if (l.isBrownfield()){ //Ask John: What if land is not brownfield?? prepCost is 0 SSessionJdbc tempSession =
+         * SSessionJdbc.getThreadLocalSession(); TransitionCostCodes costCodes = tempSession.mustFind(TransitionCostCodes.meta,
+         * l.get_CostScheduleId()); prepCost = costCodes.get_BrownFieldCleanupCost(); }
          *//* Brownfield cleanup costs are only on new development */
 
         estimationRow.add(new Double(prepCost)); // site prep
@@ -460,92 +404,74 @@ public class EstimationDataSet
 
         estimationRow.add(new Integer(l.getCoverage()));
 
-        final ZoningRulesI zoningRules = ZoningRulesI.getZoningRuleByZoningRulesCode(
-                l.getSession(), l.getZoningRulesCode());
-        final SpaceTypesI dt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l.getCoverage());
+        ZoningRulesI zoningRules = ZoningRulesI.getZoningRuleByZoningRulesCode(l.getSession(),
+                l.getZoningRulesCode());
+        SpaceTypesI dt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l.getCoverage());
         int isPermissible = 1;
 
-        final double currentFAR = l.getQuantity() / l.getLandArea();
+        double currentFAR = l.getQuantity() / l.getLandArea();
         double minimumFAR = currentFAR;
         double maximumFAR = dt.get_MaxIntensity();
         boolean isParcelFull = false;
-        final ZoningPermissions zoningPermissions = zoningRules.checkZoningForSpaceType(dt);
+        ZoningPermissions zoningPermissions = zoningRules.checkZoningForSpaceType(dt);
         if (zoningPermissions != null)
         {
             maximumFAR = Math.min(dt.get_MaxIntensity(),
                     zoningPermissions.get_MaxIntensityPermitted());
-            // can't build less than is already there as part of the "Add More"
-            // alternative
+            // can't build less than is already there as part of the "Add More" alternative
             minimumFAR = Math.max(dt.get_MinIntensity(),
                     Math.max(currentFAR, zoningPermissions.get_MinIntensityPermitted()));
         }
-        if (currentFAR >= maximumFAR)
-        {
-            isParcelFull = true;
-        }
-        if (minimumFAR > maximumFAR)
-        {
-            maximumFAR = minimumFAR;
-        }
+        if (currentFAR >= maximumFAR) isParcelFull = true;
+        if (minimumFAR > maximumFAR) maximumFAR = minimumFAR;
         if (!zoningRules.get_AdditionPossibilities() || dt.isVacant() || l.isDerelict()
-                || isParcelFull)
-        {
-            isPermissible = -1;
-        }
-        estimationRow.add(new Integer(isPermissible)); // Alternative
-        // permissible (Zoning)
+                || isParcelFull) isPermissible = -1;
+        estimationRow.add(new Integer(isPermissible)); // Alternative permissible (Zoning)
         estimationRow.add(new Double(minimumFAR)); // min FAR
         estimationRow.add(new Double(maximumFAR)); // max FAR
 
         // sample added quantity
-        final double addedQuantity = ((maximumFAR - minimumFAR) / numberOfSamples
+        double addedQuantity = (((maximumFAR - minimumFAR) / numberOfSamples)
                 * (sampleNumber * 2 + 1) / 2.0 + minimumFAR)
                 * l.getLandArea() - l.getQuantity();
 
         sampledQntys[sampleNumber] = addedQuantity;
 
         estimationRow.add(new Double(addedQuantity)); // amount of space added
-        final double newTotalQnty = l.getQuantity() + addedQuantity;
-        estimationRow.add(new Double(newTotalQnty / l.getLandArea())); // FAR
-        // after
-        // addition
+        double newTotalQnty = l.getQuantity() + addedQuantity;
+        estimationRow.add(new Double(newTotalQnty / l.getLandArea())); // FAR after addition
 
         double spaceValue = 0;
         if (!dt.isVacant() && !l.isDerelict())
-        {
             spaceValue = l.getPrice(dt.getSpaceTypeID(), ZoningRulesI.currentYear,
                     ZoningRulesI.baseYear);
-        }
 
-        final int age = ZoningRulesI.currentYear - l.getYearBuilt();
-        final double rentOfExistingSpace = spaceValue * dt.getRentDiscountFactor(age)
-                * l.getQuantity() / l.getLandArea();
-        final int ageOfNew = 0;
+        int age = ZoningRulesI.currentYear - l.getYearBuilt();
+        double rentOfExistingSpace = spaceValue * dt.getRentDiscountFactor(age) * l.getQuantity()
+                / l.getLandArea();
+        int ageOfNew = 0;
 
         // Note: spaceValue = 0 if the parcel is derelict and/or isVacant
-        final double rentOfNew = spaceValue * dt.getRentDiscountFactor(ageOfNew) * addedQuantity
+        double rentOfNew = spaceValue * dt.getRentDiscountFactor(ageOfNew) * addedQuantity
                 / l.getLandArea();
-        final double rent = rentOfNew + rentOfExistingSpace;
+        double rent = rentOfNew + rentOfExistingSpace;
 
-        final double maintenanceCost = dt.getAdjustedMaintenanceCost(age) * l.getQuantity()
+        double maintenanceCost = dt.getAdjustedMaintenanceCost(age) * l.getQuantity()
                 / l.getLandArea() + dt.getAdjustedMaintenanceCost(ageOfNew) * addedQuantity
                 / l.getLandArea();
 
-        final SSessionJdbc tempSession = SSessionJdbc.getThreadLocalSession();
-        if (!tempSession.hasBegun())
-        {
-            tempSession.begin();
-        }
-        final long costScheduleID = l.get_CostScheduleId();
+        SSessionJdbc tempSession = SSessionJdbc.getThreadLocalSession();
+        if (!tempSession.hasBegun()) tempSession.begin();
+        long costScheduleID = l.get_CostScheduleId();
 
         double cost = 0; // in case it's vacant, initialize to zero
         double fees = 0;
         double sitePrepCost = 0;
         if (!dt.isVacant())
         {
-            final TransitionCostCodes costCodes = tempSession.mustFind(TransitionCostCodes.meta,
+            TransitionCostCodes costCodes = tempSession.mustFind(TransitionCostCodes.meta,
                     costScheduleID);
-            final TransitionCosts transitionCost = tempSession.mustFind(TransitionCosts.meta,
+            TransitionCosts transitionCost = tempSession.mustFind(TransitionCosts.meta,
                     costScheduleID, dt.get_SpaceTypeId());
 
             double costPerUnitOfSpace = 0;
@@ -553,9 +479,7 @@ public class EstimationDataSet
             if (zoningPermissions != null)
             {
                 if (zoningPermissions.get_AcknowledgedUse())
-                {
                     costPerUnitOfSpace += zoningPermissions.get_PenaltyAcknowledgedSpace();
-                }
             }
 
             cost = costPerUnitOfSpace * addedQuantity / l.getLandArea();
@@ -569,10 +493,8 @@ public class EstimationDataSet
             }
             if (servicingRequired > l.getAvailableServiceCode())
             {
-                // ENHANCEMENT don't hard code the two servicing code integer
-                // interpretations
-                // ENHANCEMENT put future servicing xref into xref table instead
-                // of inparcel table.
+                // ENHANCEMENT don't hard code the two servicing code integer interpretations
+                // ENHANCEMENT put future servicing xref into xref table instead of inparcel table.
                 if (servicingRequired == 1)
                 {
                     sitePrepCost += costCodes.get_LowCapacityServicesInstallationCost();
@@ -583,8 +505,8 @@ public class EstimationDataSet
                 }
             }
 
-            final DevelopmentFees df = tempSession.mustFind(DevelopmentFees.meta,
-                    l.get_FeeScheduleId(), dt.get_SpaceTypeId());
+            DevelopmentFees df = tempSession.mustFind(DevelopmentFees.meta, l.get_FeeScheduleId(),
+                    dt.get_SpaceTypeId());
             fees = df.get_DevelopmentFeePerUnitSpaceInitial();
             // TODO account for ongoing fees
             // fees += df.get_DevelopmentFeePerUnitSpaceOngoing();
@@ -613,17 +535,16 @@ public class EstimationDataSet
     {
         estimationRow.add(new Integer(newSpaceTypeId));
 
-        final ZoningRulesI zoningRules = ZoningRulesI.getZoningRuleByZoningRulesCode(
-                l.getSession(), l.getZoningRulesCode());
-        final SpaceTypesI theNewSpaceType = SpaceTypesI
+        ZoningRulesI zoningRules = ZoningRulesI.getZoningRuleByZoningRulesCode(l.getSession(),
+                l.getZoningRulesCode());
+        SpaceTypesI theNewSpaceType = SpaceTypesI
                 .getAlreadyCreatedSpaceTypeBySpaceTypeID(newSpaceTypeId);
         int isPermissible = 1;
 
         double minimumFAR = theNewSpaceType.get_MinIntensity();
         double maximumFAR = theNewSpaceType.get_MaxIntensity();
 
-        final ZoningPermissions zoningPermissions = zoningRules
-                .checkZoningForSpaceType(theNewSpaceType);
+        ZoningPermissions zoningPermissions = zoningRules.checkZoningForSpaceType(theNewSpaceType);
         if (zoningPermissions != null)
         {
             maximumFAR = Math.min(theNewSpaceType.get_MaxIntensity(),
@@ -635,64 +556,50 @@ public class EstimationDataSet
             isPermissible = -1;
         }
 
-        if (!zoningRules.get_AdditionPossibilities())
-        {
-            isPermissible = -1;
-        }
-        estimationRow.add(new Integer(isPermissible)); // Alternative
-        // permissible (Zoning)
+        if (!zoningRules.get_AdditionPossibilities()) isPermissible = -1;
+        estimationRow.add(new Integer(isPermissible)); // Alternative permissible (Zoning)
         estimationRow.add(new Double(minimumFAR)); // min FAR
         estimationRow.add(new Double(maximumFAR)); // max FAR
 
         // sample amount of space
-        final double quantity = ((maximumFAR - minimumFAR) / numberOfSamples
-                * (sampleNumber * 2 + 1) / 2.0 + minimumFAR)
+        double quantity = (((maximumFAR - minimumFAR) / numberOfSamples) * (sampleNumber * 2 + 1)
+                / 2.0 + minimumFAR)
                 * l.getLandArea();
-        if (storeQntySamples)
-        {
-            sampledQntys[sampleNumber] = quantity;
-        }
+        if (storeQntySamples) sampledQntys[sampleNumber] = quantity;
 
         estimationRow.add(new Double(quantity)); // amount of space
         estimationRow.add(new Double(quantity / l.getLandArea())); // FAR
 
         double rent = ZoningRulesI.land.getPrice(theNewSpaceType.getSpaceTypeID(),
                 ZoningRulesI.currentYear, ZoningRulesI.baseYear);
-        final int age = 0;
+        int age = 0;
         rent *= theNewSpaceType.getRentDiscountFactor(age) * quantity / l.getLandArea();
-        final double maintenanceCost = theNewSpaceType.getAdjustedMaintenanceCost(age) * quantity
+        double maintenanceCost = theNewSpaceType.getAdjustedMaintenanceCost(age) * quantity
                 / l.getLandArea();
 
-        final SSessionJdbc tempSession = SSessionJdbc.getThreadLocalSession();
-        if (!tempSession.hasBegun())
-        {
-            tempSession.begin();
-        }
-        final long costScheduleID = l.get_CostScheduleId();
-        final TransitionCostCodes costCodes = tempSession.mustFind(TransitionCostCodes.meta,
+        SSessionJdbc tempSession = SSessionJdbc.getThreadLocalSession();
+        if (!tempSession.hasBegun()) tempSession.begin();
+        long costScheduleID = l.get_CostScheduleId();
+        TransitionCostCodes costCodes = tempSession.mustFind(TransitionCostCodes.meta,
                 costScheduleID);
-        final TransitionCosts transitionCost = tempSession.mustFind(TransitionCosts.meta,
-                costScheduleID, theNewSpaceType.get_SpaceTypeId());
+        TransitionCosts transitionCost = tempSession.mustFind(TransitionCosts.meta, costScheduleID,
+                theNewSpaceType.get_SpaceTypeId());
 
         double cost = transitionCost.get_ConstructionCost() * quantity / l.getLandArea();
         if (zoningPermissions != null)
         {
             if (zoningPermissions.get_AcknowledgedUse())
-            {
                 cost += zoningPermissions.get_PenaltyAcknowledgedSpace();
-            }
         }
 
-        final DevelopmentFees df = tempSession.mustFind(DevelopmentFees.meta,
-                l.get_FeeScheduleId(), theNewSpaceType.get_SpaceTypeId());
+        DevelopmentFees df = tempSession.mustFind(DevelopmentFees.meta, l.get_FeeScheduleId(),
+                theNewSpaceType.get_SpaceTypeId());
 
         // TODO: account for ongoing fees too, if they exist
         double fees = 0;
-        fees += df.get_DevelopmentFeePerUnitSpaceInitial();// +
-        // df.get_DevelopmentFeePerUnitSpaceOngoing();
+        fees += df.get_DevelopmentFeePerUnitSpaceInitial();// + df.get_DevelopmentFeePerUnitSpaceOngoing();
         fees *= quantity / l.getLandArea();
-        fees += df.get_DevelopmentFeePerUnitLandInitial();// +
-        // df.get_DevelopmentFeePerUnitLandOngoing();
+        fees += df.get_DevelopmentFeePerUnitLandInitial();// + df.get_DevelopmentFeePerUnitLandOngoing();
 
         double sitePrep = 0;
         if (l.isBrownfield())
@@ -709,10 +616,8 @@ public class EstimationDataSet
         }
         if (servicingRequired > l.getAvailableServiceCode())
         {
-            // ENHANCEMENT don't hard code the two servicing code integer
-            // interpretations
-            // ENHANCEMENT put future servicing xref into xref table instead of
-            // inparcel table.
+            // ENHANCEMENT don't hard code the two servicing code integer interpretations
+            // ENHANCEMENT put future servicing xref into xref table instead of inparcel table.
             if (servicingRequired == 1)
             {
                 sitePrep += costCodes.get_LowCapacityServicesInstallationCost();
@@ -724,11 +629,11 @@ public class EstimationDataSet
         }
 
         double demolishCost = 0;
-        final SpaceTypesI oldSpaceType = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l
+        SpaceTypesI oldSpaceType = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l
                 .getCoverage());
         if (!oldSpaceType.isVacant())
         {
-            final TransitionCosts oldSpaceTypeCosts = tempSession.mustFind(TransitionCosts.meta,
+            TransitionCosts oldSpaceTypeCosts = tempSession.mustFind(TransitionCosts.meta,
                     costScheduleID, oldSpaceType.get_SpaceTypeId());
             demolishCost = oldSpaceTypeCosts.get_DemolitionCost() * l.getQuantity()
                     / l.getLandArea();

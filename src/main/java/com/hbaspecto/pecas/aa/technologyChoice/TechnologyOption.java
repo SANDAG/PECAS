@@ -1,17 +1,14 @@
 /*
  * Copyright 2006 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
+ * under the License.
  */
 package com.hbaspecto.pecas.aa.technologyChoice;
 
@@ -29,7 +26,7 @@ public class TechnologyOption
 
     static final Logger         logger                = Logger.getLogger("com.pb.models.pecas");
     int[]                       commodityIndexNumbers = null;
-    public final String         myName;
+    final public String         myName;
 
     final LogitTechnologyChoice myChoiceModel;
 
@@ -78,15 +75,12 @@ public class TechnologyOption
     }
 
     /**
-     * sorts internally so that when calcAmounts() or overallUtility() are
-     * called with commodity utilities passed in as an array of doubles, the
-     * CommodityQuantities object knows which utility vlaue applies to which
-     * commodity. This also affects subsequent calls to commodityAt() and must
+     * sorts internally so that when calcAmounts() or overallUtility() are called with commodity utilities passed in as an array of doubles, the
+     * CommodityQuantities object knows which utility vlaue applies to which commodity. This also affects subsequent calls to commodityAt() and must
      * be called before commodityAt() is called.
      * 
      * @param commodityList
-     *            an ordered list of commodities, commodity buying and selling
-     *            utilities will be in this order
+     *            an ordered list of commodities, commodity buying and selling utilities will be in this order
      */
     public void sortToMatch(java.util.List commodityList)
     {
@@ -117,8 +111,7 @@ public class TechnologyOption
     {
         if (commodityIndexNumbers == null)
         {
-            final String msg = "For TechnologyOptions after creating options you need to call sortToMatch first before "
-                    + "trying to calculate their utility";
+            final String msg = "For TechnologyOptions after creating options you need to call sortToMatch first before trying to calculate their utility";
             logger.fatal(msg);
             throw new RuntimeException(msg);
         }
@@ -154,8 +147,7 @@ public class TechnologyOption
     {
         if (commodityIndexNumbers == null)
         {
-            final String msg = "For TechnologyOptions after creating options you need to call sortToMatch first "
-                    + "before trying to calculate their utility";
+            final String msg = "For TechnologyOptions after creating options you need to call sortToMatch first before trying to calculate their utility";
             logger.fatal(msg);
             throw new RuntimeException(msg);
         }
@@ -191,8 +183,7 @@ public class TechnologyOption
     {
         if (commodityIndexNumbers == null)
         {
-            final String msg = "For TechnologyOptions after creating options you need to call sortToMatch first before"
-                    + " trying to calculate their utility";
+            final String msg = "For TechnologyOptions after creating options you need to call sortToMatch first before trying to calculate their utility";
             logger.fatal(msg);
             throw new RuntimeException(msg);
         }

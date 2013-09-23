@@ -4,40 +4,38 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
+import com.hbaspecto.discreteChoiceModelling.Coefficient;
 import no.uib.cipr.matrix.DenseCholesky;
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.DenseVector;
-import no.uib.cipr.matrix.Matrices;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
-import org.apache.log4j.Logger;
-import com.hbaspecto.discreteChoiceModelling.Coefficient;
+import no.uib.cipr.matrix.Matrices;
 
 public class GaussBayesianObjective
         implements ObjectiveFunction
 {
-    private final DifferentiableModel    myModel;
-    private final List<EstimationTarget> myTargets;
-    private final List<Coefficient>      myCoeffs;
-    private final Matrix                 myInverseTargetVariance;
-    private final Vector                 myMean;
-    private final Matrix                 myInversePriorVariance;
+    private DifferentiableModel    myModel;
+    private List<EstimationTarget> myTargets;
+    private List<Coefficient>      myCoeffs;
+    private Matrix                 myInverseTargetVariance;
+    private Vector                 myMean;
+    private Matrix                 myInversePriorVariance;
 
-    private final int                    numParams;
+    private int                    numParams;
 
     // Values for logging.
-    private double                       currentObjectiveValue;
-    private double                       currentParameterError;
-    private double                       currentTargetError;
-    private Vector                       currentParameterValues;
-    private double[]                     currentModelledValues;
-    private Vector                       currentGradient;
-    private Matrix                       currentHessian;
+    private double                 currentObjectiveValue;
+    private double                 currentParameterError;
+    private double                 currentTargetError;
+    private Vector                 currentParameterValues;
+    private double[]               currentModelledValues;
 
-    private boolean                      previousValuesExist = false;
-    private double                       previousObjectiveValue;
-    private Vector                       previousParameterValues;
-    private double[]                     previousModelledValues;
+    private boolean                previousValuesExist = false;
+    private double                 previousObjectiveValue;
+    private Vector                 previousParameterValues;
+    private double[]               previousModelledValues;
 
     public GaussBayesianObjective(DifferentiableModel model, List<Coefficient> coeffs,
             List<EstimationTarget> targets, Matrix targetVariance, Vector priorMean,
@@ -71,11 +69,11 @@ public class GaussBayesianObjective
     @Override
     public double getValue() throws OptimizationException
     {
-        final Vector modelledValues = myModel.getTargetValues(myTargets, currentParameterValues);
+        Vector modelledValues = myModel.getTargetValues(myTargets, currentParameterValues);
         currentModelledValues = Matrices.getArray(modelledValues);
-        final Vector targetErrors = modelledValues.copy();
+        Vector targetErrors = modelledValues.copy();
         targetErrors.add(-1, getMyTargetValues());
-        final Vector paramErrors = currentParameterValues.copy();
+        Vector paramErrors = currentParameterValues.copy();
         paramErrors.add(-1, myMean);
 
         currentTargetError = quadraticForm(targetErrors, myInverseTargetVariance);
@@ -87,41 +85,41 @@ public class GaussBayesianObjective
     @Override
     public Vector getGradient(Vector params) throws OptimizationException
     {
-        final Vector modelledValues = myModel.getTargetValues(myTargets, params);
+        Vector modelledValues = myModel.getTargetValues(myTargets, params);
         Vector targetErrors = modelledValues.copy();
         targetErrors.add(-1, getMyTargetValues());
         targetErrors = myInverseTargetVariance.mult(targetErrors, targetErrors.copy());
-        final Vector paramErrors = params.copy();
+        Vector paramErrors = params.copy();
         paramErrors.add(-1, myMean);
 
-        final Matrix jacobian = myModel.getJacobian(myTargets, params);
+        Matrix jacobian = myModel.getJacobian(myTargets, params);
 
-        currentGradient = new DenseVector(numParams);
-        currentGradient = jacobian.transMult(targetErrors, currentGradient);
-        currentGradient = myInversePriorVariance.multAdd(paramErrors, currentGradient);
-        currentGradient.scale(2);
+        Vector gradient = new DenseVector(numParams);
+        gradient = jacobian.transMult(targetErrors, gradient);
+        gradient = myInversePriorVariance.multAdd(paramErrors, gradient);
+        gradient.scale(2);
 
-        return currentGradient;
+        return gradient;
     }
 
     @Override
     public Matrix getHessian(Vector params) throws OptimizationException
     {
-        final Matrix jacobian = myModel.getJacobian(myTargets, params);
+        Matrix jacobian = myModel.getJacobian(myTargets, params);
         Matrix varianceTimesJacobian = new DenseMatrix(jacobian.numRows(), jacobian.numColumns());
         varianceTimesJacobian = myInverseTargetVariance.mult(jacobian, varianceTimesJacobian);
 
-        currentHessian = new DenseMatrix(numParams, numParams);
-        currentHessian = jacobian.transAmult(varianceTimesJacobian, currentHessian);
-        currentHessian.add(myInversePriorVariance);
-        currentHessian.scale(2);
+        Matrix hessian = new DenseMatrix(numParams, numParams);
+        hessian = jacobian.transAmult(varianceTimesJacobian, hessian);
+        hessian.add(myInversePriorVariance);
+        hessian.scale(2);
 
-        return currentHessian;
+        return hessian;
     }
 
     private double quadraticForm(Vector x, Matrix a)
     {
-        final Matrix xm = new DenseMatrix(x);
+        Matrix xm = new DenseMatrix(x);
         Matrix xmt = new DenseMatrix(1, x.size());
         xmt = xm.transpose(xmt);
         xmt = xmt.mult(a, xmt.copy());
@@ -132,9 +130,9 @@ public class GaussBayesianObjective
 
     private Vector getMyTargetValues()
     {
-        final Vector myTargetValues = new DenseVector(myTargets.size());
+        Vector myTargetValues = new DenseVector(myTargets.size());
         int i = 0;
-        for (final EstimationTarget target : myTargets)
+        for (EstimationTarget target : myTargets)
         {
             myTargetValues.set(i, target.getTargetValue());
             i++;
@@ -149,17 +147,17 @@ public class GaussBayesianObjective
 
         logger.info("Parameter values:");
         int i = 0;
-        for (final Coefficient coeff : myCoeffs)
+        for (Coefficient coeff : myCoeffs)
         {
             String line = "Parameter " + coeff.getName() + ": prior mean = " + myMean.get(i)
                     + ", current value = " + currentParameterValues.get(i);
             if (previousValuesExist)
-            {
                 line = line + ", previous value = " + previousParameterValues.get(i);
-            }
             logger.info(line);
             i++;
         }
+
+        previousParameterValues = currentParameterValues;
     }
 
     @Override
@@ -175,130 +173,49 @@ public class GaussBayesianObjective
 
         logger.info("Current value of objective function = " + currentObjectiveValue);
         if (previousValuesExist)
-        {
             logger.info("Previous value of objective function = " + previousObjectiveValue);
-        }
         logger.info("Contribution from parameters = " + currentParameterError);
         logger.info("Contribution from targets = " + currentTargetError);
         logger.info("Parameter values:");
         logger.info("Target values:");
         int i = 0;
-        for (final EstimationTarget target : myTargets)
+        for (EstimationTarget target : myTargets)
         {
             String line = "Target " + target.getName() + ": target value = "
                     + target.getTargetValue() + ", modelled value = " + currentModelledValues[i];
             if (previousValuesExist)
-            {
                 line = line + ", previous value = " + previousModelledValues[i];
-            }
             logger.info(line);
             i++;
         }
-    }
 
-    @Override
-    public void storePreviousValues()
-    {
-        previousParameterValues = currentParameterValues;
         previousObjectiveValue = currentObjectiveValue;
         previousModelledValues = currentModelledValues;
         previousValuesExist = true;
     }
 
-    public void printParameters(BufferedWriter writer) throws IOException
-    {
-        int i = 0;
-        // Header:
-        writer.write("Parameter,PriorMean,CurValue");
-        if (previousValuesExist)
-        {
-            writer.write(",PrevValue");
-        }
-        writer.newLine();
-        for (final Coefficient coeff : myCoeffs)
-        {
-            writer.write(coeff.getName());
-            writer.write("," + myMean.get(i));
-            writer.write("," + currentParameterValues.get(i));
-            if (previousValuesExist)
-            {
-                writer.write("," + previousParameterValues.get(i));
-            }
-            writer.newLine();
-            i++;
-        }
-    }
-
-    public void printTargetAndObjective(BufferedWriter writer) throws IOException
-    {
-        writer.write("CurObj," + currentObjectiveValue);
-        writer.newLine();
-        if (previousValuesExist)
-        {
-            writer.write("PrevObj," + previousObjectiveValue);
-            writer.newLine();
-        }
-        writer.write("ParamError," + currentParameterError);
-        writer.newLine();
-        writer.write("TargetError," + currentTargetError);
-        writer.newLine();
-        // Header:
-        writer.write("TargetName,TargetValue,CurValue");
-        if (previousValuesExist)
-        {
-            writer.write(",PrevValue");
-        }
-        writer.newLine();
-        int i = 0;
-        for (final EstimationTarget target : myTargets)
-        {
-            writer.write(target.getName());
-            writer.write("," + target.getTargetValue());
-            writer.write("," + currentModelledValues[i]);
-            if (previousValuesExist)
-            {
-                writer.write("," + previousModelledValues[i]);
-            }
-            writer.newLine();
-            i++;
-        }
-    }
-
+    // DEBUG
     public void printCurrentDerivatives(BufferedWriter writer) throws IOException
     {
         ((ExpectedTargetModel) myModel).printCurrentDerivatives(writer);
     }
 
-    public void printGradient(BufferedWriter writer) throws IOException
+    public void printHessian(BufferedWriter writer, Matrix hessian) throws IOException
     {
-        // Header:
-        writer.write("Parameter,Derivative");
+        // Prints the Jacobian matrix in a nice table format
+        // First, the parameter names across the top.
+        writer.write(",");
+        for (int j = 0; j < myCoeffs.size(); j++)
+            writer.write("," + myCoeffs.get(j).getName());
+        // The current parameter values.
         writer.newLine();
-        for (int i = 0; i < myCoeffs.size(); i++)
+        for (int i = 0; i < hessian.numRows(); i++)
         {
-            writer.write(myCoeffs.get(i).getName() + "," + currentGradient.get(i));
+            writer.write(myCoeffs.get(i).getName());
+            for (int j = 0; j < myCoeffs.size(); j++)
+                writer.write("," + hessian.get(i, j));
             writer.newLine();
         }
     }
 
-    public void printHessian(BufferedWriter writer) throws IOException
-    {
-        // Prints the Hessian matrix in a nice table format
-        // First, the parameter names across the top.
-        for (int j = 0; j < myCoeffs.size(); j++)
-        {
-            writer.write("," + myCoeffs.get(j).getName());
-        }
-        // The current parameter values.
-        writer.newLine();
-        for (int i = 0; i < currentHessian.numRows(); i++)
-        {
-            writer.write(myCoeffs.get(i).getName());
-            for (int j = 0; j < myCoeffs.size(); j++)
-            {
-                writer.write("," + currentHessian.get(i, j));
-            }
-            writer.newLine();
-        }
-    }
 }

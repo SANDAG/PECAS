@@ -32,9 +32,7 @@ public class JppfAAModel
     /*
      * (non-Javadoc)
      * 
-     * @see
-     * com.hbaspecto.pecas.aa.control.AAModel#allocateQuantitiesToFlowsAndExchanges
-     * (boolean)
+     * @see com.hbaspecto.pecas.aa.control.AAModel#allocateQuantitiesToFlowsAndExchanges (boolean)
      */
     @Override
     public boolean allocateQuantitiesToFlowsAndExchanges(boolean setSizeTerms)

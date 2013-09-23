@@ -1,6 +1,9 @@
 package com.hbaspecto.pecas.sd.estimation;
 
 import org.apache.log4j.Logger;
+import simpleorm.sessionjdbc.SSessionJdbc;
+import com.hbaspecto.pecas.land.Tazs;
+import com.hbaspecto.pecas.sd.ZoningRulesI;
 
 public class SpaceGroupRenovationTarget
         extends RenovationTarget
@@ -8,24 +11,24 @@ public class SpaceGroupRenovationTarget
 {
     static Logger              logger = Logger.getLogger(SpaceGroupRenovationTarget.class);
 
-    private final int[]        spaceTypes;
+    private int[]              spaceTypes;
     public static final String NAME   = "renotarg";
 
     public SpaceGroupRenovationTarget(int[] spacetypes)
     {
-        spaceTypes = spacetypes;
+        this.spaceTypes = spacetypes;
     }
 
     public SpaceGroupRenovationTarget(String[] pieces)
     {
-        spaceTypes = new int[pieces.length - 1];
+        this.spaceTypes = new int[pieces.length - 1];
         for (int i = 1; i < pieces.length; i++)
         {
             int type = 0;
             try
             {
                 type = Integer.valueOf(pieces[i]).intValue();
-            } catch (final NumberFormatException e)
+            } catch (NumberFormatException e)
             {
                 logger.error("Can't interpret space type " + pieces[i] + " in "
                         + this.getClass().getName());
@@ -48,8 +51,8 @@ public class SpaceGroupRenovationTarget
     @Override
     public String getName()
     {
-        final StringBuffer buf = new StringBuffer(NAME);
-        for (final int type : spaceTypes)
+        StringBuffer buf = new StringBuffer(NAME);
+        for (int type : spaceTypes)
         {
             buf.append("-");
             buf.append(type);
@@ -61,12 +64,9 @@ public class SpaceGroupRenovationTarget
     public double getModelledRenovateQuantityForParcel(int checkSpaceType, double quantity)
     {
         // applies to all parcels so don't need to check that.
-        for (final int spaceType : spaceTypes)
+        for (int spaceType : spaceTypes)
         {
-            if (spaceType == checkSpaceType)
-            {
-                return quantity;
-            }
+            if (spaceType == checkSpaceType) return quantity;
         }
         return 0;
     }
@@ -74,12 +74,9 @@ public class SpaceGroupRenovationTarget
     @Override
     public double getModelledRenovateDerivativeForParcel(int checkSpaceType, double quantity)
     {
-        for (final int spaceType : spaceTypes)
+        for (int spaceType : spaceTypes)
         {
-            if (spaceType == checkSpaceType)
-            {
-                return 1;
-            }
+            if (spaceType == checkSpaceType) return 1;
         }
         return 0;
     }

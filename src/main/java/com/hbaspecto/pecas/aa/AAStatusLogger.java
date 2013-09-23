@@ -3,23 +3,17 @@ package com.hbaspecto.pecas.aa;
 import com.pb.models.utils.StatusLogger;
 
 /**
- * This class passes status logging messages to the StatusLogger class, but only
- * if status logging is enabled. Status logging is disabled by default.
+ * This class passes status logging messages to the StatusLogger class, but only if status logging is enabled. Status logging is disabled by default.
  * 
  * @author HBA
  */
-public final class AAStatusLogger
+public class AAStatusLogger
 {
     private static boolean enabled    = false;
     private static boolean inSubgoal  = false;
     private static double  subgoalStart;
     private static double  subgoalScale;
     private static String  moduleName = "default";
-
-    private AAStatusLogger()
-    {
-        // not called
-    }
 
     /**
      * Ensures that status logging is enabled.
@@ -49,14 +43,12 @@ public final class AAStatusLogger
     }
 
     /**
-     * Convenience method to log a text status message with a default title. The
-     * title is formed by taking the first part of the module name (the text up
-     * to the first dot (".")), capitalizing it, and appending " Status" to it.
+     * Convenience method to log a text status message with a default title. The title is formed by taking the first part of the module name (the text
+     * up to the first dot (".")), capitalizing it, and appending " Status" to it.
      * 
      * @param module
-     *            The module logging this message. Should be in the form
-     *            <code>module.submodule.subsubmodule</code>(etc.). An example
-     *            would be <code>pt.ld</code>
+     *            The module logging this message. Should be in the form <code>module.submodule.subsubmodule</code>(etc.). An example would be
+     *            <code>pt.ld</code>
      * 
      * @param text
      *            The status message to log.
@@ -70,17 +62,13 @@ public final class AAStatusLogger
     }
 
     /**
-     * Log a histogram status message. A histogram message can be looked at as
-     * an "amount complete" gauge; it essentially reports how much has been
-     * completed, and how much will have been completed when the model/module is
-     * finished. As the logger semicolon delimits its message (for whatever
-     * processor may use it), semicolons should not be used in any of the
-     * arguments in the message.
+     * Log a histogram status message. A histogram message can be looked at as an "amount complete" gauge; it essentially reports how much has been
+     * completed, and how much will have been completed when the model/module is finished. As the logger semicolon delimits its message (for whatever
+     * processor may use it), semicolons should not be used in any of the arguments in the message.
      * 
      * @param module
-     *            The module logging this message. Should be in the form
-     *            <code>module.submodule.subsubmodule</code>(etc.). An example
-     *            would be <code>pt.ld</code>
+     *            The module logging this message. Should be in the form <code>module.submodule.subsubmodule</code>(etc.). An example would be
+     *            <code>pt.ld</code>
      * 
      * @param title
      *            The title to use for this status entry.
@@ -108,17 +96,13 @@ public final class AAStatusLogger
     }
 
     /**
-     * Log a graph status message. This consists primarily of a pair of points
-     * (x,y) representing the current status of the model/module. A collection
-     * of these points could be read by the processor and graphed to show both
-     * the current status as well as its progression. As the logger semicolon
-     * delimits its message (for whatever processor may use it), semicolons
-     * should not be used in any of the arguments in the message.
+     * Log a graph status message. This consists primarily of a pair of points (x,y) representing the current status of the model/module. A collection
+     * of these points could be read by the processor and graphed to show both the current status as well as its progression. As the logger semicolon
+     * delimits its message (for whatever processor may use it), semicolons should not be used in any of the arguments in the message.
      * 
      * @param module
-     *            The module logging this message. Should be in the form
-     *            <code>module.submodule.subsubmodule</code>(etc.). An example
-     *            would be <code>pt.ld</code>
+     *            The module logging this message. Should be in the form <code>module.submodule.subsubmodule</code>(etc.). An example would be
+     *            <code>pt.ld</code>
      * 
      * @param title
      *            The title to use for this status entry.

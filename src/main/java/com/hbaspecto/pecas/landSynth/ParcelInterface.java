@@ -3,40 +3,40 @@ package com.hbaspecto.pecas.landSynth;
 public interface ParcelInterface
 {
 
-    int getTaz();
+    public int getTaz();
 
-    float getSize();
+    public float getSize();
 
-    float getQuantity();
+    public float getQuantity();
 
-    int getCoverage();
+    public int getCoverage();
 
-    boolean isSameSpaceType(String type);
+    public boolean isSameSpaceType(String type);
 
-    boolean isVacantCoverege();
+    public boolean isVacantCoverege();
 
-    String getValue(String string);
+    public String getValue(String string);
 
-    void setCoverage(String myCode);
+    public void setCoverage(String myCode);
 
     /**
      * @param amount
      */
-    void addSqFtAssigned(float amount);
+    public void addSqFtAssigned(float amount);
 
     /**
      * @param f
      */
-    void setQuantity(float f);
+    public void setQuantity(float f);
 
-    int getRevision();
+    public int getRevision();
 
-    double getInitialFAR();
+    public double getInitialFAR();
 
-    long getId();
+    public long getId();
 
-    double getOldScore(int intCoverageType);
+    public double getOldScore(int intCoverageType);
 
-    void setOldScore(int intCoverageType, double score);
+    public void setOldScore(int intCoverageType, double score);
 
 }

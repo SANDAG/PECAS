@@ -3,20 +3,23 @@ package com.hbaspecto.pecas.sd.estimation;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import simpleorm.sessionjdbc.SSessionJdbc;
+import com.hbaspecto.pecas.land.Tazs;
+import com.hbaspecto.pecas.sd.ZoningRulesI;
 
 public class SpaceTypeTotalTarget
         extends EstimationTarget
         implements ExpectedValue
 {
 
-    private final int          spaceType;
+    private int                spaceType;
     private double             modelledValue;
     private double[]           derivs;
     public static final String NAME = "tottarg";
 
     public SpaceTypeTotalTarget(int spacetype)
     {
-        spaceType = spacetype;
+        this.spaceType = spacetype;
     }
 
     public int getSpacetype()
@@ -35,10 +38,7 @@ public class SpaceTypeTotalTarget
             double expectedNewSpace)
     {
         // Must be of the correct spacetype to be counted.
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (spaceType != spacetype) return 0;
         return expectedAddedSpace + expectedNewSpace;
     }
 
@@ -46,10 +46,7 @@ public class SpaceTypeTotalTarget
     public double getModelledTotalNewDerivativeWRTAddedSpace(int spacetype,
             double expectedAddedSpace, double expectedNewSpace)
     {
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (spaceType != spacetype) return 0;
         return 1;
     }
 
@@ -57,10 +54,7 @@ public class SpaceTypeTotalTarget
     public double getModelledTotalNewDerivativeWRTNewSpace(int spacetype,
             double expectedAddedSpace, double expectedNewSpace)
     {
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (spaceType != spacetype) return 0;
         return 1;
     }
 

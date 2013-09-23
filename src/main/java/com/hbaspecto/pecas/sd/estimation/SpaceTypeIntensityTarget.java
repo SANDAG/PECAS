@@ -9,7 +9,7 @@ public class SpaceTypeIntensityTarget
         extends EstimationTarget
 {
 
-    private final int           spaceType;
+    private int                 spaceType;
     private double              expectedFARSum;
     private double              expectedBuildNewEvents;
     private double[]            expectedFARSumDerivatives;
@@ -42,15 +42,14 @@ public class SpaceTypeIntensityTarget
     @Override
     public double[] getDerivatives()
     {
-        final int numCoeffs = expectedFARSumDerivatives.length;
-        final double[] result = new double[numCoeffs];
+        int numCoeffs = expectedFARSumDerivatives.length;
+        double[] result = new double[numCoeffs];
         for (int i = 0; i < numCoeffs; i++)
         {
-            // Apply the quotient rule to find the derivative of expectedFARSum
-            // / expectedBuildNewEvents.
-            final double loDhi = expectedBuildNewEvents * expectedFARSumDerivatives[i];
-            final double hiDlo = expectedFARSum * expectedBuildNewEventsDerivatives[i];
-            final double denominatorSquared = expectedBuildNewEvents * expectedBuildNewEvents;
+            // Apply the quotient rule to find the derivative of expectedFARSum / expectedBuildNewEvents.
+            double loDhi = expectedBuildNewEvents * expectedFARSumDerivatives[i];
+            double hiDlo = expectedFARSum * expectedBuildNewEventsDerivatives[i];
+            double denominatorSquared = expectedBuildNewEvents * expectedBuildNewEvents;
             result[i] = (loDhi - hiDlo) / denominatorSquared;
         }
 
@@ -70,8 +69,7 @@ public class SpaceTypeIntensityTarget
         return associates;
     }
 
-    // Calculates the expected sum of the FARs of all of the parcels on which
-    // Build-new is selected.
+    // Calculates the expected sum of the FARs of all of the parcels on which Build-new is selected.
     private class ExpectedFARSum
             implements ExpectedValue
     {
@@ -85,10 +83,7 @@ public class SpaceTypeIntensityTarget
         public double getModelledTotalNewValueForParcel(int spacetype, double expectedAddedSpace,
                 double expectedNewSpace)
         {
-            if (spaceType != spacetype)
-            {
-                return 0;
-            }
+            if (spaceType != spacetype) return 0;
             // Only new space counts for this target.
             return expectedNewSpace / ZoningRulesI.land.getLandArea();
         }
@@ -105,10 +100,7 @@ public class SpaceTypeIntensityTarget
         public double getModelledTotalNewDerivativeWRTNewSpace(int spacetype,
                 double expectedAddedSpace, double expectedNewSpace)
         {
-            if (spaceType != spacetype)
-            {
-                return 0;
-            }
+            if (spaceType != spacetype) return 0;
             return 1 / ZoningRulesI.land.getLandArea();
         }
 
@@ -125,8 +117,7 @@ public class SpaceTypeIntensityTarget
         }
     }
 
-    // Class that counts the expected number of times the Build-new alternative
-    // will be selected.
+    // Class that counts the expected number of times the Build-new alternative will be selected.
     private class ExpectedBuildNewEvents
             implements ExpectedValue
     {
@@ -141,13 +132,8 @@ public class SpaceTypeIntensityTarget
         public double getModelledTotalNewValueForParcel(int spacetype, double expectedAddedSpace,
                 double expectedNewSpace)
         {
-            if (spaceType == spacetype && expectedNewSpace > 0)
-            {
-                return 1;
-            } else
-            {
-                return 0;
-            }
+            if (spaceType == spacetype && expectedNewSpace > 0) return 1;
+            else return 0;
         }
 
         @Override

@@ -3,6 +3,7 @@ package com.hbaspecto.pecas.sd.estimation;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import simpleorm.sessionjdbc.SSessionJdbc;
 import com.hbaspecto.pecas.land.Tazs;
 import com.hbaspecto.pecas.sd.ZoningRulesI;
 
@@ -11,8 +12,8 @@ public class SpaceTypeLUZTarget
         implements ExpectedValue
 {
 
-    private final int          luz;
-    private final int          spaceType;
+    private int                luz;
+    private int                spaceType;
     private double             modelledValue;
     private double[]           derivs;
     public static final String NAME = "luztarg";
@@ -20,7 +21,7 @@ public class SpaceTypeLUZTarget
     public SpaceTypeLUZTarget(int zone, int spacetype)
     {
         luz = zone;
-        spaceType = spacetype;
+        this.spaceType = spacetype;
     }
 
     public int getZone()
@@ -44,15 +45,9 @@ public class SpaceTypeLUZTarget
             double expectedNewSpace)
     {
         // Must be in the correct TAZ to be counted.
-        if (Tazs.getTazRecord(ZoningRulesI.land.getTaz()).get_LuzNumber() != luz)
-        {
-            return 0;
-        }
+        if (Tazs.getTazRecord(ZoningRulesI.land.getTaz()).get_LuzNumber() != luz) return 0;
         // Must be of the correct spacetype to be counted.
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (spaceType != spacetype) return 0;
         return expectedAddedSpace + expectedNewSpace;
     }
 
@@ -60,14 +55,8 @@ public class SpaceTypeLUZTarget
     public double getModelledTotalNewDerivativeWRTAddedSpace(int spacetype,
             double expectedAddedSpace, double expectedNewSpace)
     {
-        if (Tazs.getTazRecord(ZoningRulesI.land.getTaz()).get_LuzNumber() != luz)
-        {
-            return 0;
-        }
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (Tazs.getTazRecord(ZoningRulesI.land.getTaz()).get_LuzNumber() != luz) return 0;
+        if (spaceType != spacetype) return 0;
         return 1;
     }
 
@@ -75,14 +64,8 @@ public class SpaceTypeLUZTarget
     public double getModelledTotalNewDerivativeWRTNewSpace(int spacetype,
             double expectedAddedSpace, double expectedNewSpace)
     {
-        if (Tazs.getTazRecord(ZoningRulesI.land.getTaz()).get_LuzNumber() != luz)
-        {
-            return 0;
-        }
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (Tazs.getTazRecord(ZoningRulesI.land.getTaz()).get_LuzNumber() != luz) return 0;
+        if (spaceType != spacetype) return 0;
         return 1;
     }
 

@@ -6,8 +6,7 @@ import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
 
 /**
- * A constraint that forces two parameters to be equal. The penalty function is
- * <i>h</i><sup>2</sup>/sqrt(<i>a</i>), where <i>a</i> is the looseness
+ * A constraint that forces two parameters to be equal. The penalty function is <i>h</i><sup>2</sup>/sqrt(<i>a</i>), where <i>a</i> is the looseness
  * parameter and <i>h</i> is the distance between the two parameters.
  * 
  * @author Graham
@@ -17,8 +16,8 @@ public class EqualityConstraint
         implements Constraint
 {
 
-    private final int paramIndex1;
-    private final int paramIndex2;
+    private int paramIndex1;
+    private int paramIndex2;
 
     public EqualityConstraint(int param1, int param2)
     {
@@ -29,20 +28,20 @@ public class EqualityConstraint
     @Override
     public double getPenaltyFunction(Vector params, double looseness)
     {
-        final double param1 = params.get(paramIndex1);
-        final double param2 = params.get(paramIndex2);
-        final double diff = param1 - param2;
+        double param1 = params.get(paramIndex1);
+        double param2 = params.get(paramIndex2);
+        double diff = param1 - param2;
         return diff * diff / Math.sqrt(looseness);
     }
 
     @Override
     public Vector getPenaltyFunctionGradient(Vector params, double looseness)
     {
-        final double param1 = params.get(paramIndex1);
-        final double param2 = params.get(paramIndex2);
-        final double diff = param1 - param2;
-        final Vector result = new DenseVector(params.size());
-        final double deriv = 2 * diff / Math.sqrt(looseness);
+        double param1 = params.get(paramIndex1);
+        double param2 = params.get(paramIndex2);
+        double diff = param1 - param2;
+        Vector result = new DenseVector(params.size());
+        double deriv = 2 * diff / Math.sqrt(looseness);
         result.set(paramIndex1, deriv);
         result.set(paramIndex2, -deriv);
         return result;
@@ -51,8 +50,8 @@ public class EqualityConstraint
     @Override
     public Matrix getPenaltyFunctionHessian(Vector params, double looseness)
     {
-        final Matrix result = new DenseMatrix(params.size(), params.size());
-        final double deriv = 2 / Math.sqrt(looseness);
+        Matrix result = new DenseMatrix(params.size(), params.size());
+        double deriv = 2 / Math.sqrt(looseness);
         result.set(paramIndex1, paramIndex1, deriv);
         result.set(paramIndex1, paramIndex2, -deriv);
         result.set(paramIndex2, paramIndex1, -deriv);

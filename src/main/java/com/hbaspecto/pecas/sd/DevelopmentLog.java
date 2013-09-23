@@ -25,7 +25,7 @@ public class DevelopmentLog
                     + "old_year_built," + "new_year_built," + "land_area," + "old_is_derelict,"
                     + "new_is_derelict," + "old_is_brownfield," + "new_is_brownfield,"
                     + "zoning_rules_code," + "taz\n");
-        } catch (final IOException e)
+        } catch (IOException e)
         {
             logger.fatal("Can't open development log", e);
             throw new RuntimeException("Can't open development log", e);
@@ -37,7 +37,7 @@ public class DevelopmentLog
         try
         {
             developmentLogBuffer.close();
-        } catch (final IOException e)
+        } catch (IOException e)
         {
             logger.error("Can't close stream");
             e.printStackTrace();
@@ -49,7 +49,7 @@ public class DevelopmentLog
         try
         {
             developmentLogBuffer.flush();
-        } catch (final IOException e)
+        } catch (IOException e)
         {
             logger.error("Can't close stream");
             e.printStackTrace();
@@ -182,7 +182,7 @@ public class DevelopmentLog
                     + new_year_built + "," + land_area + "," + oldIsDerelict + "," + newIsDerelict
                     + "," + oldIsBrownfield + "," + newIsBrownfield + "," + zoning_rules_code + ","
                     + taz + "\n");
-        } catch (final IOException e)
+        } catch (IOException e)
         {
             logger.fatal("Can't write out to development log", e);
             throw new RuntimeException("Can't write out to development log", e);

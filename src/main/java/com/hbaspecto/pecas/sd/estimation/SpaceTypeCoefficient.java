@@ -5,16 +5,14 @@ import com.hbaspecto.discreteChoiceModelling.Coefficient;
 import com.hbaspecto.pecas.sd.SpaceTypesI;
 
 /**
- * A coefficient that has a single spacetype it applies to. This class provides
- * static methods to retrieve each coefficient type. They all guarantee that
- * they will return the same object every time they are called with the same
- * parameters, meaning that they can be compared by object identity.
+ * A coefficient that has a single spacetype it applies to. This class provides static methods to retrieve each coefficient type. They all guarantee
+ * that they will return the same object every time they are called with the same parameters, meaning that they can be compared by object identity.
  */
 public abstract class SpaceTypeCoefficient
         implements Coefficient
 {
-    private final String                                                         name;
-    private final int                                                            spacetype;
+    private String                                                               name;
+    private int                                                                  spacetype;
 
     // Transition constants.
     public static final String                                                   NO_CHANGE_CONST           = "ncconst";
@@ -95,29 +93,19 @@ public abstract class SpaceTypeCoefficient
     {
         if (theCoeffs.containsKey(name))
         {
-            final HashMap<Integer, SpaceTypeCoefficient> spaceTypeCoeffs = theCoeffs.get(name);
-            if (spaceTypeCoeffs.containsKey(spacetype))
-            {
-                return spaceTypeCoeffs.get(spacetype);
-            } else
-            {
-                return null;
-            }
-        } else
-        {
-            return null;
-        }
+            HashMap<Integer, SpaceTypeCoefficient> spaceTypeCoeffs = theCoeffs.get(name);
+            if (spaceTypeCoeffs.containsKey(spacetype)) return spaceTypeCoeffs.get(spacetype);
+            else return null;
+        } else return null;
     }
 
     protected static void insertNewCoefficient(String name, int spacetype,
             SpaceTypeCoefficient newCoeff)
     {
-        if (theCoeffs.containsKey(name))
+        if (theCoeffs.containsKey(name)) theCoeffs.get(name).put(spacetype, newCoeff);
+        else
         {
-            theCoeffs.get(name).put(spacetype, newCoeff);
-        } else
-        {
-            final HashMap<Integer, SpaceTypeCoefficient> spaceTypeCoeffs = new HashMap<Integer, SpaceTypeCoefficient>();
+            HashMap<Integer, SpaceTypeCoefficient> spaceTypeCoeffs = new HashMap<Integer, SpaceTypeCoefficient>();
             theCoeffs.put(name, spaceTypeCoeffs);
             spaceTypeCoeffs.put(spacetype, newCoeff);
         }
@@ -166,8 +154,7 @@ public abstract class SpaceTypeCoefficient
     }
 
     /**
-     * Returns the renovate transition constant for non-derelict space of the
-     * given spacetype.
+     * Returns the renovate transition constant for non-derelict space of the given spacetype.
      */
     public static SpaceTypeCoefficient getRenovateTransitionConst(int spacetype)
     {
@@ -181,8 +168,7 @@ public abstract class SpaceTypeCoefficient
     }
 
     /**
-     * Returns the renovate transition constant for derelict space of the given
-     * spacetype.
+     * Returns the renovate transition constant for derelict space of the given spacetype.
      */
     public static SpaceTypeCoefficient getRenovateDerelictConst(int spacetype)
     {
@@ -210,8 +196,7 @@ public abstract class SpaceTypeCoefficient
     }
 
     /**
-     * Returns the build new from transition constant for the given spacetype,
-     * constant for building anything new on a parcel of this type
+     * Returns the build new from transition constant for the given spacetype, constant for building anything new on a parcel of this type
      */
     public static SpaceTypeCoefficient getNewFromTransitionConst(int spacetype)
     {
@@ -225,8 +210,7 @@ public abstract class SpaceTypeCoefficient
     }
 
     /**
-     * Returns the build new to transition constant for the given spacetype,
-     * constant for building this type new on any existing.
+     * Returns the build new to transition constant for the given spacetype, constant for building this type new on any existing.
      */
     public static SpaceTypeCoefficient getNewToTransitionConst(int spacetype)
     {
@@ -256,8 +240,7 @@ public abstract class SpaceTypeCoefficient
     }
 
     /**
-     * Returns the demolish/derelict dispersion parameter for the given
-     * spacetype.
+     * Returns the demolish/derelict dispersion parameter for the given spacetype.
      */
     public static SpaceTypeCoefficient getDemolishDerelictDisp(int spacetype)
     {
@@ -265,8 +248,7 @@ public abstract class SpaceTypeCoefficient
     }
 
     /**
-     * Returns the renovate/add space/build new dispersion parameter for the
-     * given spacetype.
+     * Returns the renovate/add space/build new dispersion parameter for the given spacetype.
      */
     public static SpaceTypeCoefficient getRenovateAddNewDisp(int spacetype)
     {
@@ -274,8 +256,7 @@ public abstract class SpaceTypeCoefficient
     }
 
     /**
-     * Returns the add space/build new dispersion parameter for the given
-     * spacetype.
+     * Returns the add space/build new dispersion parameter for the given spacetype.
      */
     public static SpaceTypeCoefficient getAddNewDisp(int spacetype)
     {
@@ -291,8 +272,7 @@ public abstract class SpaceTypeCoefficient
     }
 
     /**
-     * Returns the building intensity dispersion parameter for the given
-     * spacetype.
+     * Returns the building intensity dispersion parameter for the given spacetype.
      */
     public static SpaceTypeCoefficient getIntensityDisp(int spacetype)
     {
@@ -300,8 +280,7 @@ public abstract class SpaceTypeCoefficient
     }
 
     /**
-     * Returns the density shaping function's step point for the given
-     * spacetype.
+     * Returns the density shaping function's step point for the given spacetype.
      */
     public static SpaceTypeCoefficient getStepPoint(int spacetype)
     {
@@ -315,8 +294,7 @@ public abstract class SpaceTypeCoefficient
     }
 
     /**
-     * Returns the density shaping function's adjustment below the step point
-     * for the given spacetype.
+     * Returns the density shaping function's adjustment below the step point for the given spacetype.
      */
     public static SpaceTypeCoefficient getBelowStepPointAdj(int spacetype)
     {
@@ -330,8 +308,7 @@ public abstract class SpaceTypeCoefficient
     }
 
     /**
-     * Returns the density shaping function's adjustment above the step point
-     * for the given spacetype.
+     * Returns the density shaping function's adjustment above the step point for the given spacetype.
      */
     public static SpaceTypeCoefficient getAboveStepPointAdj(int spacetype)
     {
@@ -345,8 +322,7 @@ public abstract class SpaceTypeCoefficient
     }
 
     /**
-     * Returns the density shaping function's step point size for the given
-     * spacetype.
+     * Returns the density shaping function's step point size for the given spacetype.
      */
     public static SpaceTypeCoefficient getStepPointAmount(int spacetype)
     {
@@ -361,7 +337,7 @@ public abstract class SpaceTypeCoefficient
 
     // A subclass for each type of coefficient.
 
-    private static final class NoChangeConstant
+    private static class NoChangeConstant
             extends SpaceTypeCoefficient
     {
         private NoChangeConstant(int spacetype)
@@ -384,7 +360,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static final class DemolishTransitionConstant
+    private static class DemolishTransitionConstant
             extends SpaceTypeCoefficient
     {
         private DemolishTransitionConstant(int spacetype)
@@ -407,7 +383,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static final class DerelictTransitionConstant
+    private static class DerelictTransitionConstant
             extends SpaceTypeCoefficient
     {
         private DerelictTransitionConstant(int spacetype)
@@ -430,7 +406,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static final class RenovateTransitionConstant
+    private static class RenovateTransitionConstant
             extends SpaceTypeCoefficient
     {
         private RenovateTransitionConstant(int spacetype)
@@ -453,7 +429,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static final class RenovateDerelictConstant
+    private static class RenovateDerelictConstant
             extends SpaceTypeCoefficient
     {
         private RenovateDerelictConstant(int spacetype)
@@ -476,7 +452,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static final class AddTransitionConstant
+    private static class AddTransitionConstant
             extends SpaceTypeCoefficient
     {
         private AddTransitionConstant(int spacetype)
@@ -499,7 +475,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static final class NewFromTransitionConstant
+    private static class NewFromTransitionConstant
             extends SpaceTypeCoefficient
     {
         private NewFromTransitionConstant(int spacetype)
@@ -522,7 +498,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static final class NewToTransitionConstant
+    private static class NewToTransitionConstant
             extends SpaceTypeCoefficient
     {
         private NewToTransitionConstant(int spacetype)
@@ -545,7 +521,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static final class StepPoint
+    private static class StepPoint
             extends SpaceTypeCoefficient
     {
         private StepPoint(int spacetype)
@@ -567,7 +543,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static final class BelowStepPointAdjustment
+    private static class BelowStepPointAdjustment
             extends SpaceTypeCoefficient
     {
         private BelowStepPointAdjustment(int spacetype)
@@ -590,7 +566,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static final class AboveStepPointAdjustment
+    private static class AboveStepPointAdjustment
             extends SpaceTypeCoefficient
     {
         private AboveStepPointAdjustment(int spacetype)
@@ -613,7 +589,7 @@ public abstract class SpaceTypeCoefficient
         }
     }
 
-    private static final class StepPointAmount
+    private static class StepPointAmount
             extends SpaceTypeCoefficient
     {
         private StepPointAmount(int spacetype)

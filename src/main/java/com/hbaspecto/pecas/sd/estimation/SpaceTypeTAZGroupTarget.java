@@ -13,9 +13,9 @@ public class SpaceTypeTAZGroupTarget
         implements ExpectedValue
 {
 
-    private final int          groupNumber;
-    private final Set          group;
-    private final int          spaceType;
+    private int                groupNumber;
+    private Set                group;
+    private int                spaceType;
     private double             modelledValue;
     private double[]           derivs;
     public static final String NAME = "grouptarg";
@@ -52,16 +52,10 @@ public class SpaceTypeTAZGroupTarget
             double expectedNewSpace)
     {
         // Must be in the correct TAZ to be counted.
-        final SSessionJdbc session = SSessionJdbc.getThreadLocalSession();
-        if (!appliesToCurrentParcel())
-        {
-            return 0;
-        }
+        SSessionJdbc session = SSessionJdbc.getThreadLocalSession();
+        if (!appliesToCurrentParcel()) return 0;
         // Must be of the correct spacetype to be counted.
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (spaceType != spacetype) return 0;
         return expectedAddedSpace + expectedNewSpace;
     }
 
@@ -69,14 +63,8 @@ public class SpaceTypeTAZGroupTarget
     public double getModelledTotalNewDerivativeWRTAddedSpace(int spacetype,
             double expectedAddedSpace, double expectedNewSpace)
     {
-        if (!appliesToCurrentParcel())
-        {
-            return 0;
-        }
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (!appliesToCurrentParcel()) return 0;
+        if (spaceType != spacetype) return 0;
         return 1;
     }
 
@@ -84,14 +72,8 @@ public class SpaceTypeTAZGroupTarget
     public double getModelledTotalNewDerivativeWRTNewSpace(int spacetype,
             double expectedAddedSpace, double expectedNewSpace)
     {
-        if (!appliesToCurrentParcel())
-        {
-            return 0;
-        }
-        if (spaceType != spacetype)
-        {
-            return 0;
-        }
+        if (!appliesToCurrentParcel()) return 0;
+        if (spaceType != spacetype) return 0;
         return 1;
     }
 

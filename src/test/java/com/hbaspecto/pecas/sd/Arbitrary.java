@@ -9,12 +9,8 @@ import com.pb.common.datafile.TableDataSet;
 
 public class Arbitrary
 {
-    private Arbitrary()
-    {
-        //not called
-    }
-    
-    // A temporary class for testing simple code snippets.
+    // A temporary class for testing simple code
+    // snippets.
     public static void main(String[] args) throws IOException
     {
         final TableDataSet blah = new TableDataSet();
