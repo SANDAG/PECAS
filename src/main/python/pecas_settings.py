@@ -86,9 +86,9 @@ codepath=scendir+"AllYears/Code"
 
 gravity_exponent = -2.0
 
-pecasjar="PecasV2.7_r3005.jar"
-commonbasejar="common-base_r2884.jar"
-simpleormjar="simple_orm_r3004.jar"
+pecasjar="sandag_pecas.jar"
+commonbasejar="common-base-1.0-PECAS.jar"
+simpleormjar="simpleorm-3.x.jar"
 flItaz="TAZ"
 flIcommodity="Commodity"
 flIquantity="Quantity"
