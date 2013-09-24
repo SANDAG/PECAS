@@ -1,9 +1,6 @@
 package com.hbaspecto.pecas.sd.estimation;
 
 import org.apache.log4j.Logger;
-import simpleorm.sessionjdbc.SSessionJdbc;
-import com.hbaspecto.pecas.land.Tazs;
-import com.hbaspecto.pecas.sd.ZoningRulesI;
 
 public class SpaceGroupRenovationTarget
         extends RenovationTarget

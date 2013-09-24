@@ -1,14 +1,17 @@
 /*
  * Copyright 2005 HBA Specto Incorpoated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.zones;
 
@@ -18,7 +21,7 @@ import java.util.Random;
 import org.apache.log4j.Logger;
 import com.pb.common.datafile.TableDataSet;
 
-abstract public class AbstractZone
+public abstract class AbstractZone
         implements UnitOfLand, Comparable
 {
 
@@ -74,8 +77,10 @@ abstract public class AbstractZone
     }
 
     /*
-     * public void addNewGridCell(GridCell c) { myGridCells.add(c); changeSpaceQuantity(c.currentDevelopment, c.amountOfDevelopment);
-     * changeSpaceUse(c.currentDevelopment, c.amountOfDevelopment - c.vacantDevelopment); }
+     * public void addNewGridCell(GridCell c) { myGridCells.add(c);
+     * changeSpaceQuantity(c.currentDevelopment, c.amountOfDevelopment);
+     * changeSpaceUse(c.currentDevelopment, c.amountOfDevelopment -
+     * c.vacantDevelopment); }
      */
     private void checkSpaceAccountingArray(int dtID)
     {
@@ -92,37 +97,57 @@ abstract public class AbstractZone
     }
 
     /**
-     * Goes through the grid cells that have the development type and finds out how many vacant parcels or vacant space there is.
+     * Goes through the grid cells that have the development type and finds out
+     * how many vacant parcels or vacant space there is.
      */
 
     /*
-     * public PriceVacancy getPriceVacancySize(DevelopmentTypeInterface dt) { int dtID = dt.getID(); checkSpaceAccountingArray(dtID); return
+     * public PriceVacancy getPriceVacancySize(DevelopmentTypeInterface dt) {
+     * int dtID = dt.getID(); checkSpaceAccountingArray(dtID); return
      * priceVacancies[dtID] ; }
      */
     /*
-     * void updateVacancies(DevelopmentTypeInterface dt) { int dtID = dt.getID(); checkSpaceAccountingArray(dtID); Iterator it =
-     * myGridCells.iterator(); double oldVacancy = priceVacancies[dtID].vacancy; double oldSize = priceVacancies[dtID].totalSize;
-     * priceVacancies[dtID].vacancy = 0; priceVacancies[dtID].totalSize=0; while (it.hasNext()) { GridCell gc = (GridCell)it.next(); if
-     * (gc.getCurrentDevelopment().equals(dt)) { priceVacancies[dtID].vacancy += gc.getVacantDevelopment(); priceVacancies[dtID].totalSize +=
-     * gc.getAmountOfDevelopment(); } } if (Math.abs(priceVacancies[dtID].vacancy - oldVacancy) > .01)
-     * logger.warn("Warning -- vacancy of "+dt+" changed in zone "+this); if (Math.abs(priceVacancies[dtID].totalSize - oldSize)> 0.01)
+     * void updateVacancies(DevelopmentTypeInterface dt) { int dtID =
+     * dt.getID(); checkSpaceAccountingArray(dtID); Iterator it =
+     * myGridCells.iterator(); double oldVacancy = priceVacancies[dtID].vacancy;
+     * double oldSize = priceVacancies[dtID].totalSize;
+     * priceVacancies[dtID].vacancy = 0; priceVacancies[dtID].totalSize=0; while
+     * (it.hasNext()) { GridCell gc = (GridCell)it.next(); if
+     * (gc.getCurrentDevelopment().equals(dt)) { priceVacancies[dtID].vacancy +=
+     * gc.getVacantDevelopment(); priceVacancies[dtID].totalSize +=
+     * gc.getAmountOfDevelopment(); } } if
+     * (Math.abs(priceVacancies[dtID].vacancy - oldVacancy) > .01)
+     * logger.warn("Warning -- vacancy of "+dt+" changed in zone "+this); if
+     * (Math.abs(priceVacancies[dtID].totalSize - oldSize)> 0.01)
      * logger.warn("Warning -- size of "+dt+" changed in zone "+this); }
      */
     /*
-     * static private double calcAveragePrice(DevelopmentTypeInterface dt) { double retval; Double thePrice = (Double)spacePrices.get(dt); if
-     * (thePrice == null) { double avg = 0; int numFound = 0; for (int z = 0; z < allZones.length; z++) { Double priceElsewhere =
-     * (Double)allZones[z].spacePrices.get(dt); if (priceElsewhere != null) { avg = (avg * numFound + priceElsewhere.doubleValue()) / (numFound + 1);
-     * numFound++; } } retval = avg; } else { retval = thePrice.doubleValue(); } return retval; }
+     * static private double calcAveragePrice(DevelopmentTypeInterface dt) {
+     * double retval; Double thePrice = (Double)spacePrices.get(dt); if
+     * (thePrice == null) { double avg = 0; int numFound = 0; for (int z = 0; z
+     * < allZones.length; z++) { Double priceElsewhere =
+     * (Double)allZones[z].spacePrices.get(dt); if (priceElsewhere != null) {
+     * avg = (avg * numFound + priceElsewhere.doubleValue()) / (numFound + 1);
+     * numFound++; } } retval = avg; } else { retval = thePrice.doubleValue(); }
+     * return retval; }
      */
     /*
-     * public GridCell.FloorspaceChunk assignAGridCell(EconomicUnit forMe, DevelopmentTypeInterface dt) throws CantFindRoomException {
-     * GridCell.FloorspaceChunk aLot = null; PriceVacancy pv = getPriceVacancySize(dt); double gridCellSelectorVacancy = Math.random()*pv.vacancy;
-     * double accumulatedVacancy = 0; if (gridCellSelectorVacancy <=0) throw new CantFindRoomException("Zero vacancy for "+dt+" in "+this); Iterator
-     * gci = myGridCells.iterator(); while (gci.hasNext()) { GridCell gc = (GridCell) gci.next(); if (gc.currentDevelopment.equals(dt)) {
-     * accumulatedVacancy += gc.vacantDevelopment; if (accumulatedVacancy > gridCellSelectorVacancy) { aLot = gc.giveMeSomeSpace(forMe); if
-     * (aLot!=null) break; } } } if (aLot == null) { logger.warn("Cant find room in PECASZone "+this); // PriceVacancy pvbase = new PriceVacancy();
-     * logger.warn(forMe+ " needs "+forMe.spaceNeeded(dt)+" of "+dt); throw new CantFindRoomException("Can't find a suitable grid cell in PECASZone "
-     * + this); } return aLot; }
+     * public GridCell.FloorspaceChunk assignAGridCell(EconomicUnit forMe,
+     * DevelopmentTypeInterface dt) throws CantFindRoomException {
+     * GridCell.FloorspaceChunk aLot = null; PriceVacancy pv =
+     * getPriceVacancySize(dt); double gridCellSelectorVacancy =
+     * Math.random()*pv.vacancy; double accumulatedVacancy = 0; if
+     * (gridCellSelectorVacancy <=0) throw new
+     * CantFindRoomException("Zero vacancy for "+dt+" in "+this); Iterator gci =
+     * myGridCells.iterator(); while (gci.hasNext()) { GridCell gc = (GridCell)
+     * gci.next(); if (gc.currentDevelopment.equals(dt)) { accumulatedVacancy +=
+     * gc.vacantDevelopment; if (accumulatedVacancy > gridCellSelectorVacancy) {
+     * aLot = gc.giveMeSomeSpace(forMe); if (aLot!=null) break; } } } if (aLot
+     * == null) { logger.warn("Cant find room in PECASZone "+this); //
+     * PriceVacancy pvbase = new PriceVacancy(); logger.warn(forMe+
+     * " needs "+forMe.spaceNeeded(dt)+" of "+dt); throw new
+     * CantFindRoomException("Can't find a suitable grid cell in PECASZone " +
+     * this); } return aLot; }
      */
     static public AbstractZone findZone(UnitOfLand l)
     {
@@ -158,9 +183,11 @@ abstract public class AbstractZone
     };
 
     /*
-     * public void gridCellDevelopmentUpdate(double elapsedTime) { // message #1.1 to eachGridCell:com.pb.despair.ld.GridCell //
-     * eachGridCell.makeRedevelopmentDecision(); Iterator it = myGridCells.iterator(); while (it.hasNext()) { GridCell g = (GridCell) it.next();
-     * g.makeRedevelopmentDecision(elapsedTime); } }
+     * public void gridCellDevelopmentUpdate(double elapsedTime) { // message
+     * #1.1 to eachGridCell:com.pb.despair.ld.GridCell //
+     * eachGridCell.makeRedevelopmentDecision(); Iterator it =
+     * myGridCells.iterator(); while (it.hasNext()) { GridCell g = (GridCell)
+     * it.next(); g.makeRedevelopmentDecision(elapsedTime); } }
      */
 
     public static void createTazArray(int numZones)
@@ -179,11 +206,14 @@ abstract public class AbstractZone
     }
 
     /*
-     * public void changeSpaceUse(DevelopmentTypeInterface dt, float spaceChange) { int dtID = dt.getID(); checkSpaceAccountingArray(dtID);
+     * public void changeSpaceUse(DevelopmentTypeInterface dt, float
+     * spaceChange) { int dtID = dt.getID(); checkSpaceAccountingArray(dtID);
      * priceVacancies[dtID].vacancy-=spaceChange; }
      * 
-     * public void changeSpaceQuantity(DevelopmentTypeInterface dt, double spaceChange) { int dtID = dt.getID(); checkSpaceAccountingArray(dtID);
-     * priceVacancies[dtID].totalSize+=spaceChange; priceVacancies[dtID].vacancy+=spaceChange; }
+     * public void changeSpaceQuantity(DevelopmentTypeInterface dt, double
+     * spaceChange) { int dtID = dt.getID(); checkSpaceAccountingArray(dtID);
+     * priceVacancies[dtID].totalSize+=spaceChange;
+     * priceVacancies[dtID].vacancy+=spaceChange; }
      */
 
     @Override
@@ -213,7 +243,9 @@ abstract public class AbstractZone
         }
         return allZonesByUserNumber[zoneUserNumber];
         /*
-         * for (int z = 0; z<allZones.length; z++) { if (allZones[z].getZoneUserNumber() == zoneUserNumber) return allZones[z]; } return null;
+         * for (int z = 0; z<allZones.length; z++) { if
+         * (allZones[z].getZoneUserNumber() == zoneUserNumber) return
+         * allZones[z]; } return null;
          */
     }
 
@@ -223,10 +255,11 @@ abstract public class AbstractZone
     private static AbstractZone[] allZonesByUserNumber;
     public final int              zoneIndex;
     private PriceVacancy[]        priceVacancies;
-    static protected Random       theRandom   = new java.util.Random();
+    protected static Random       theRandom   = new java.util.Random();
 
     /**
-     * Goes through the grid cells that have the development type and finds out how many vacant parcels or vacant space there is.
+     * Goes through the grid cells that have the development type and finds out
+     * how many vacant parcels or vacant space there is.
      */
     public static class PriceVacancy
     {

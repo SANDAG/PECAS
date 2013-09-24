@@ -3,14 +3,17 @@
  * 
  * Copyright 2003-2008 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.landSynth;
 
@@ -39,7 +42,8 @@ import com.pb.common.util.ResourceUtil;
 /**
  * @author jabraham
  * 
- *         To change the template for this generated type comment go to Window>Preferences>Java>Code Generation>Code and Comments
+ *         To change the template for this generated type comment go to
+ *         Window>Preferences>Java>Code Generation>Code and Comments
  */
 public abstract class AssignSquareFeetToParcel
 {
@@ -272,7 +276,8 @@ public abstract class AssignSquareFeetToParcel
             // Statement getSqFtStatement =
             // conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);
             final Statement getSqFtStatement = getConnection("SetupInventory").createStatement(
-                    ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY); // SQLite only
+                    ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY); // SQLite
+                                                                              // only
             // supports
             // TYPE_FORWARD_ONLY
             // cursors
@@ -457,11 +462,16 @@ public abstract class AssignSquareFeetToParcel
                     statement2.close();
 
                     /*
-                     * //coeffs.last(); int number = 2 ;// coeffs.getRow(); //coeffs.first();
+                     * //coeffs.last(); int number = 2 ;// coeffs.getRow();
+                     * //coeffs.first();
                      * 
-                     * String[] fields = new String[number]; double[] coeffValues = new double[number]; double[] farCoeffs = new double[number]; int
-                     * fieldNum = 0; do { fields[fieldNum] = coeffs.getString("FIELDVALUE"); coeffValues[fieldNum] = coeffs.getDouble("MATCH");
-                     * farCoeffs[fieldNum] = coeffs.getDouble("FARTARGET"); fieldNum++; } while (coeffs.next());
+                     * String[] fields = new String[number]; double[]
+                     * coeffValues = new double[number]; double[] farCoeffs =
+                     * new double[number]; int fieldNum = 0; do {
+                     * fields[fieldNum] = coeffs.getString("FIELDVALUE");
+                     * coeffValues[fieldNum] = coeffs.getDouble("MATCH");
+                     * farCoeffs[fieldNum] = coeffs.getDouble("FARTARGET");
+                     * fieldNum++; } while (coeffs.next());
                      */
                     final String[] fields = new String[fieldsList.size()];
                     final double[] coeffValues = new double[coeffValuesList.size()];
@@ -532,7 +542,8 @@ public abstract class AssignSquareFeetToParcel
 
     /**
      * @param zoneNumber
-     *            : A sequential number to indicate the number of zones processed by the thread.
+     *            : A sequential number to indicate the number of zones
+     *            processed by the thread.
      * @param stmt
      *            :
      * @param taz
@@ -902,8 +913,9 @@ public abstract class AssignSquareFeetToParcel
     }
 
     /**
-     * If a parcel has changed, it's scores may have changed as well. This method removes the parcel from each of the sorted lists and reinserts it so
-     * that it is again in score order.
+     * If a parcel has changed, it's scores may have changed as well. This
+     * method removes the parcel from each of the sorted lists and reinserts it
+     * so that it is again in score order.
      * 
      * @param theParcel
      */

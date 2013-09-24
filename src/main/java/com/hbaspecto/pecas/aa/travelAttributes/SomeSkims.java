@@ -1,14 +1,17 @@
 /*
  * Copyright 2005 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.aa.travelAttributes;
 
@@ -22,7 +25,8 @@ import com.pb.common.matrix.Matrix;
 import com.pb.common.matrix.ZipMatrixReader;
 
 /**
- * A class that reads in peak auto skims and facilitates zone pair disutility calculations
+ * A class that reads in peak auto skims and facilitates zone pair disutility
+ * calculations
  * 
  * @author John Abraham, Joel Freedman
  * 
@@ -192,9 +196,11 @@ public class SomeSkims
      * Adds a table data set of skims into the set of skims that are available
      * 
      * @param s
-     *            the table dataset of skims. There must be a column called "origin" and another column called "destination"
+     *            the table dataset of skims. There must be a column called
+     *            "origin" and another column called "destination"
      * @param fieldsToAdd
-     *            the names of the fields from which to create matrices from, all other fields will be ignored.
+     *            the names of the fields from which to create matrices from,
+     *            all other fields will be ignored.
      */
     public void addTableDataSetSkims(TableDataSet s, String[] fieldsToAdd, int maxZoneNumber)
     {
@@ -315,7 +321,9 @@ public class SomeSkims
     /*
      * (non-Javadoc)
      * 
-     * @see com.pb.models.pecas.TransportKnowledge#getUtility(com.pb.models.pecas .AbstractZone, com.pb.models.pecas.AbstractZone,
+     * @see
+     * com.pb.models.pecas.TransportKnowledge#getUtility(com.pb.models.pecas
+     * .AbstractZone, com.pb.models.pecas.AbstractZone,
      * com.pb.models.pecas.TravelUtilityCalculatorInterface, boolean)
      */
     @Override
@@ -334,7 +342,9 @@ public class SomeSkims
     /*
      * (non-Javadoc)
      * 
-     * @see com.pb.models.pecas.TransportKnowledge#getUtilityComponents(com.pb.models .pecas.AbstractZone, com.pb.models.pecas.AbstractZone,
+     * @see
+     * com.pb.models.pecas.TransportKnowledge#getUtilityComponents(com.pb.models
+     * .pecas.AbstractZone, com.pb.models.pecas.AbstractZone,
      * com.pb.models.pecas.TravelUtilityCalculatorInterface, boolean)
      */
     @Override

@@ -4,13 +4,13 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import com.hbaspecto.discreteChoiceModelling.Coefficient;
-import com.hbaspecto.pecas.land.LandInventory;
-import com.hbaspecto.pecas.sd.ZoningRulesI;
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
+import com.hbaspecto.discreteChoiceModelling.Coefficient;
+import com.hbaspecto.pecas.land.LandInventory;
+import com.hbaspecto.pecas.sd.ZoningRulesI;
 
 public class ExpectedTargetModel
         implements DifferentiableModel
@@ -36,8 +36,10 @@ public class ExpectedTargetModel
     public Vector getTargetValues(List<EstimationTarget> targets, Vector params)
             throws OptimizationException
     {
-        // Do target value and derivative calculations at the same time, only if they
-        // have not already been done for this combination of targets and parameters.
+        // Do target value and derivative calculations at the same time, only if
+        // they
+        // have not already been done for this combination of targets and
+        // parameters.
         if (!(targets.equals(lastTargetValues) && equals(params, lastParamValues)))
             calculateAllValues(targets, params);
         lastTargetValues.clear();
@@ -88,7 +90,8 @@ public class ExpectedTargetModel
 
         Matrix expValuesJacobian = matrix.getDerivatives();
         // Convert these back to targets.
-        // loop over all exepcted values, and internally set their derivatives with respect to coefficients.
+        // loop over all exepcted values, and internally set their derivatives
+        // with respect to coefficients.
         for (int i = 0; i < expValues.size(); i++)
         {
             double[] derivatives = new double[myCoeffs.size()];
@@ -96,8 +99,10 @@ public class ExpectedTargetModel
                 derivatives[j] = expValuesJacobian.get(i, j);
             expValueObjects.get(i).setDerivatives(derivatives);
         }
-        // loop over targets and calculate derivatives with respect to coefficients, note
-        // most targets have only one expected value but some don't so that's why
+        // loop over targets and calculate derivatives with respect to
+        // coefficients, note
+        // most targets have only one expected value but some don't so that's
+        // why
         // it needs to be in this separate loop.
         jacobian = new DenseMatrix(targets.size(), myCoeffs.size());
         for (int i = 0; i < targets.size(); i++)

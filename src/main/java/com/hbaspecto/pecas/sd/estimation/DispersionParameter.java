@@ -3,8 +3,9 @@ package com.hbaspecto.pecas.sd.estimation;
 import com.hbaspecto.pecas.sd.SpaceTypesI;
 
 /**
- * A coefficient representing a dispersion parameter. Dispersion parameters are calibrated assuming a log-normal prior, so they apply a natural
- * logarithm transformation.
+ * A coefficient representing a dispersion parameter. Dispersion parameters are
+ * calibrated assuming a log-normal prior, so they apply a natural logarithm
+ * transformation.
  * 
  */
 public abstract class DispersionParameter
@@ -68,7 +69,8 @@ public abstract class DispersionParameter
     }
 
     /**
-     * Returns the demolish/derelict dispersion parameter for the given spacetype.
+     * Returns the demolish/derelict dispersion parameter for the given
+     * spacetype.
      */
     public static SpaceTypeCoefficient getDemolishDerelictDisp(int spacetype)
     {
@@ -82,7 +84,8 @@ public abstract class DispersionParameter
     }
 
     /**
-     * Returns the renovate/add space/build new dispersion parameter for the given spacetype.
+     * Returns the renovate/add space/build new dispersion parameter for the
+     * given spacetype.
      */
     public static SpaceTypeCoefficient getRenovateAddNewDisp(int spacetype)
     {
@@ -96,7 +99,8 @@ public abstract class DispersionParameter
     }
 
     /**
-     * Returns the add space/build new dispersion parameter for the given spacetype.
+     * Returns the add space/build new dispersion parameter for the given
+     * spacetype.
      */
     public static SpaceTypeCoefficient getAddNewDisp(int spacetype)
     {
@@ -124,7 +128,8 @@ public abstract class DispersionParameter
     }
 
     /**
-     * Returns the building intensity dispersion parameter for the given spacetype.
+     * Returns the building intensity dispersion parameter for the given
+     * spacetype.
      */
     public static SpaceTypeCoefficient getIntensityDisp(int spacetype)
     {
@@ -139,7 +144,7 @@ public abstract class DispersionParameter
 
     // Types of dispersion parameters.
 
-    private static class NoChangeDispersion
+    private static final class NoChangeDispersion
             extends DispersionParameter
     {
         private NoChangeDispersion(int spacetype)
@@ -162,7 +167,7 @@ public abstract class DispersionParameter
         }
     }
 
-    private static class ChangeOptionsDispersion
+    private static final class ChangeOptionsDispersion
             extends DispersionParameter
     {
         private ChangeOptionsDispersion(int spacetype)
@@ -185,7 +190,7 @@ public abstract class DispersionParameter
         }
     }
 
-    private static class DemolishDerelictDispersion
+    private static final class DemolishDerelictDispersion
             extends DispersionParameter
     {
         private DemolishDerelictDispersion(int spacetype)
@@ -208,7 +213,7 @@ public abstract class DispersionParameter
         }
     }
 
-    private static class RenovateAddNewDispersion
+    private static final class RenovateAddNewDispersion
             extends DispersionParameter
     {
         private RenovateAddNewDispersion(int spacetype)
@@ -231,7 +236,7 @@ public abstract class DispersionParameter
         }
     }
 
-    private static class AddNewDispersion
+    private static final class AddNewDispersion
             extends DispersionParameter
     {
         private AddNewDispersion(int spacetype)
@@ -254,7 +259,7 @@ public abstract class DispersionParameter
         }
     }
 
-    private static class NewTypeDispersion
+    private static final class NewTypeDispersion
             extends DispersionParameter
     {
         private NewTypeDispersion(int spacetype)
@@ -277,7 +282,7 @@ public abstract class DispersionParameter
         }
     }
 
-    private static class IntensityDispersion
+    private static final class IntensityDispersion
             extends DispersionParameter
     {
         private IntensityDispersion(int spacetype)

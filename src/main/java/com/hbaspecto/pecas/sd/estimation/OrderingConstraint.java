@@ -6,8 +6,10 @@ import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
 
 /**
- * A constraint on the ordering of two parameters, enforcing an inequality between the two. The penalty function for this constraint is
- * <i>a</i>/<i>h</i>, where <i>a</i> is the looseness parameter and <i>h</i> is the distance between the two parameters.
+ * A constraint on the ordering of two parameters, enforcing an inequality
+ * between the two. The penalty function for this constraint is
+ * <i>a</i>/<i>h</i>, where <i>a</i> is the looseness parameter and <i>h</i> is
+ * the distance between the two parameters.
  * 
  * @author Graham
  * 
@@ -26,11 +28,14 @@ public class OrderingConstraint
      * Constructs an <code>OrderingConstraint</code> with the given properties.
      * 
      * @param firstParam
-     *            The index of the first parameter that the constraint will apply to.
+     *            The index of the first parameter that the constraint will
+     *            apply to.
      * @param secondParam
-     *            The index of the second parameter that the constraint will apply to.
+     *            The index of the second parameter that the constraint will
+     *            apply to.
      * @param greaterThan
-     *            True if the first parameter must be greater than the second; false if the first parameter must be less than the second.
+     *            True if the first parameter must be greater than the second;
+     *            false if the first parameter must be less than the second.
      */
     public OrderingConstraint(int firstParam, int secondParam, boolean greaterThan)
     {

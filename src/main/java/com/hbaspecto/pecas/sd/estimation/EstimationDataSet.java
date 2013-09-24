@@ -126,7 +126,8 @@ public class EstimationDataSet
             if (devEvn.get_Eventtype().trim().equals("A"))
             {
                 choice = findClosestSample(devEvn.get_NewSpaceQuantity());
-                // // FIXME: there should be a better system for finding the choice code
+                // // FIXME: there should be a better system for finding the
+                // choice code
                 updateTheChoiceCode(choice + 4, choice + 4);
             }
         }
@@ -156,9 +157,11 @@ public class EstimationDataSet
         {
             if (devEvn.get_Eventtype().trim().equals("C"))
             {
-                // sampled quantities should be saved only for the new space type chosed.
+                // sampled quantities should be saved only for the new space
+                // type chosed.
                 choice = findClosestSample(devEvn.get_NewSpaceQuantity());
-                // FIXME: there should be a better system for finding the choice code
+                // FIXME: there should be a better system for finding the choice
+                // code
                 int seqChoiceCode = (devEvn.get_NewSpaceIypeId() * 5) + 4 + choice;
                 int choiceCode = (devEvn.get_NewSpaceIypeId() * 100) + choice;
                 updateTheChoiceCode(choiceCode, seqChoiceCode);
@@ -202,7 +205,8 @@ public class EstimationDataSet
         estimationRow.add(new Long(l.getPECASParcelNumber()));
         estimationRow.add(new String(l.getParcelId()));
         estimationRow.add(new Integer(year)); // year
-        estimationRow.add(new Integer(choice)); // Choice. From permit data; default 1. Index=3
+        estimationRow.add(new Integer(choice)); // Choice. From permit data;
+                                                // default 1. Index=3
         estimationRow.add(new Integer(luz)); // LUZ
         estimationRow.add(l.getTaz());
         estimationRow.add(new Integer(-1)); // Jurisdiction
@@ -217,7 +221,8 @@ public class EstimationDataSet
         estimationRow.add(new Double(l.getLandArea()));
         int buildingAge = year - l.getYearBuilt();
         estimationRow.add(new Integer(buildingAge)); // Age of exiting space
-        estimationRow.add(new Double(observationWeight)); // Observation weight; default 1
+        estimationRow.add(new Double(observationWeight)); // Observation weight;
+                                                          // default 1
         estimationRow.add(new Integer(choice)); // Sequential choice code.
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Integer(0)); // Blank field
@@ -232,7 +237,8 @@ public class EstimationDataSet
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Double(l.getQuantity()));
-        estimationRow.add(new Double(l.getQuantity() / l.getLandArea())); // existing FAR
+        estimationRow.add(new Double(l.getQuantity() / l.getLandArea())); // existing
+                                                                          // FAR
         double rent = 0;
         double cost = 0;
         SpaceTypesI dt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l.getCoverage());
@@ -240,8 +246,10 @@ public class EstimationDataSet
         {
 
             int age = ZoningRulesI.currentYear - l.getYearBuilt();
-            // these next two lines are for reference when building the keep-the-same alternative, where age is non-zero.
-            // No change alternative implies that the space is one year older. Therefore, adjust the the rent and the maintenance cost.
+            // these next two lines are for reference when building the
+            // keep-the-same alternative, where age is non-zero.
+            // No change alternative implies that the space is one year older.
+            // Therefore, adjust the the rent and the maintenance cost.
             rent = l.getPrice(dt.getSpaceTypeID(), ZoningRulesI.currentYear, ZoningRulesI.baseYear)
                     * dt.getRentDiscountFactor(age);
             rent = rent * l.getQuantity() / l.getLandArea();
@@ -274,7 +282,8 @@ public class EstimationDataSet
 
         int isPermissible = 1;
         if (!zoning.get_DemolitionPossibilities() || dt.isVacant()) isPermissible = -1;
-        estimationRow.add(new Integer(isPermissible)); // Alternative permissible (Zoning)
+        estimationRow.add(new Integer(isPermissible)); // Alternative
+                                                       // permissible (Zoning)
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Integer(0)); // amount of space
@@ -313,11 +322,13 @@ public class EstimationDataSet
         int isPermissible = 1;
         if (!zoning.get_DerelictionPossibilities() || l.isDerelict() || dt.isVacant())
             isPermissible = -1;
-        estimationRow.add(new Integer(isPermissible)); // Alternative permissible (Zoning)
+        estimationRow.add(new Integer(isPermissible)); // Alternative
+                                                       // permissible (Zoning)
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Double(l.getQuantity())); // amount of space
-        estimationRow.add(new Double(l.getQuantity() / l.getLandArea())); // existing FAR
+        estimationRow.add(new Double(l.getQuantity() / l.getLandArea())); // existing
+                                                                          // FAR
         estimationRow.add(new Integer(0)); // rent
         estimationRow.add(new Integer(0)); // maintenance cost
         estimationRow.add(new Integer(0)); // Demolish cost
@@ -345,11 +356,13 @@ public class EstimationDataSet
         SpaceTypesI dt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(l.getCoverage());
         int isPermissible = 1;
         if (!zoning.get_RenovationPossibilities() || dt.isVacant()) isPermissible = -1;
-        estimationRow.add(new Integer(isPermissible)); // Alternative permissible (Zoning)
+        estimationRow.add(new Integer(isPermissible)); // Alternative
+                                                       // permissible (Zoning)
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Integer(0)); // Blank field
         estimationRow.add(new Double(l.getQuantity())); // amount of space
-        estimationRow.add(new Double(l.getQuantity() / l.getLandArea())); // existing FAR
+        estimationRow.add(new Double(l.getQuantity() / l.getLandArea())); // existing
+                                                                          // FAR
 
         double rent = 0;
         double cost = 0;
@@ -382,9 +395,12 @@ public class EstimationDataSet
 
         double prepCost = 0;
         /*
-         * if (l.isBrownfield()){ //Ask John: What if land is not brownfield?? prepCost is 0 SSessionJdbc tempSession =
-         * SSessionJdbc.getThreadLocalSession(); TransitionCostCodes costCodes = tempSession.mustFind(TransitionCostCodes.meta,
-         * l.get_CostScheduleId()); prepCost = costCodes.get_BrownFieldCleanupCost(); }
+         * if (l.isBrownfield()){ //Ask John: What if land is not brownfield??
+         * prepCost is 0 SSessionJdbc tempSession =
+         * SSessionJdbc.getThreadLocalSession(); TransitionCostCodes costCodes =
+         * tempSession.mustFind(TransitionCostCodes.meta,
+         * l.get_CostScheduleId()); prepCost =
+         * costCodes.get_BrownFieldCleanupCost(); }
          *//* Brownfield cleanup costs are only on new development */
 
         estimationRow.add(new Double(prepCost)); // site prep
@@ -418,7 +434,8 @@ public class EstimationDataSet
         {
             maximumFAR = Math.min(dt.get_MaxIntensity(),
                     zoningPermissions.get_MaxIntensityPermitted());
-            // can't build less than is already there as part of the "Add More" alternative
+            // can't build less than is already there as part of the "Add More"
+            // alternative
             minimumFAR = Math.max(dt.get_MinIntensity(),
                     Math.max(currentFAR, zoningPermissions.get_MinIntensityPermitted()));
         }
@@ -426,7 +443,8 @@ public class EstimationDataSet
         if (minimumFAR > maximumFAR) maximumFAR = minimumFAR;
         if (!zoningRules.get_AdditionPossibilities() || dt.isVacant() || l.isDerelict()
                 || isParcelFull) isPermissible = -1;
-        estimationRow.add(new Integer(isPermissible)); // Alternative permissible (Zoning)
+        estimationRow.add(new Integer(isPermissible)); // Alternative
+                                                       // permissible (Zoning)
         estimationRow.add(new Double(minimumFAR)); // min FAR
         estimationRow.add(new Double(maximumFAR)); // max FAR
 
@@ -439,7 +457,9 @@ public class EstimationDataSet
 
         estimationRow.add(new Double(addedQuantity)); // amount of space added
         double newTotalQnty = l.getQuantity() + addedQuantity;
-        estimationRow.add(new Double(newTotalQnty / l.getLandArea())); // FAR after addition
+        estimationRow.add(new Double(newTotalQnty / l.getLandArea())); // FAR
+                                                                       // after
+                                                                       // addition
 
         double spaceValue = 0;
         if (!dt.isVacant() && !l.isDerelict())
@@ -493,8 +513,10 @@ public class EstimationDataSet
             }
             if (servicingRequired > l.getAvailableServiceCode())
             {
-                // ENHANCEMENT don't hard code the two servicing code integer interpretations
-                // ENHANCEMENT put future servicing xref into xref table instead of inparcel table.
+                // ENHANCEMENT don't hard code the two servicing code integer
+                // interpretations
+                // ENHANCEMENT put future servicing xref into xref table instead
+                // of inparcel table.
                 if (servicingRequired == 1)
                 {
                     sitePrepCost += costCodes.get_LowCapacityServicesInstallationCost();
@@ -557,7 +579,8 @@ public class EstimationDataSet
         }
 
         if (!zoningRules.get_AdditionPossibilities()) isPermissible = -1;
-        estimationRow.add(new Integer(isPermissible)); // Alternative permissible (Zoning)
+        estimationRow.add(new Integer(isPermissible)); // Alternative
+                                                       // permissible (Zoning)
         estimationRow.add(new Double(minimumFAR)); // min FAR
         estimationRow.add(new Double(maximumFAR)); // max FAR
 
@@ -597,9 +620,11 @@ public class EstimationDataSet
 
         // TODO: account for ongoing fees too, if they exist
         double fees = 0;
-        fees += df.get_DevelopmentFeePerUnitSpaceInitial();// + df.get_DevelopmentFeePerUnitSpaceOngoing();
+        fees += df.get_DevelopmentFeePerUnitSpaceInitial();// +
+                                                           // df.get_DevelopmentFeePerUnitSpaceOngoing();
         fees *= quantity / l.getLandArea();
-        fees += df.get_DevelopmentFeePerUnitLandInitial();// + df.get_DevelopmentFeePerUnitLandOngoing();
+        fees += df.get_DevelopmentFeePerUnitLandInitial();// +
+                                                          // df.get_DevelopmentFeePerUnitLandOngoing();
 
         double sitePrep = 0;
         if (l.isBrownfield())
@@ -616,8 +641,10 @@ public class EstimationDataSet
         }
         if (servicingRequired > l.getAvailableServiceCode())
         {
-            // ENHANCEMENT don't hard code the two servicing code integer interpretations
-            // ENHANCEMENT put future servicing xref into xref table instead of inparcel table.
+            // ENHANCEMENT don't hard code the two servicing code integer
+            // interpretations
+            // ENHANCEMENT put future servicing xref into xref table instead of
+            // inparcel table.
             if (servicingRequired == 1)
             {
                 sitePrep += costCodes.get_LowCapacityServicesInstallationCost();

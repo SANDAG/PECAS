@@ -1,11 +1,6 @@
 package com.hbaspecto.pecas.sd;
 
 import java.util.ResourceBundle;
-import simpleorm.sessionjdbc.SSessionJdbc;
-import com.hbaspecto.pecas.land.Parcels;
-import com.hbaspecto.pecas.land.PostgreSQLLandInventory;
-import com.hbaspecto.pecas.land.SimpleORMLandInventory;
-import com.hbaspecto.pecas.sd.ZoningRulesI;
 import com.hbaspecto.pecas.sd.estimation.CSVEstimationReader;
 import com.pb.common.util.ResourceUtil;
 

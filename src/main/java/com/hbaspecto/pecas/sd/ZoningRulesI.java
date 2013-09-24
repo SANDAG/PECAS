@@ -1,27 +1,20 @@
 /*
  * Copyright 2007 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.sd;
 
-import com.hbaspecto.discreteChoiceModelling.Alternative;
-import com.hbaspecto.discreteChoiceModelling.Coefficient;
-import com.hbaspecto.discreteChoiceModelling.LogitModel;
-import com.hbaspecto.pecas.*;
-import com.hbaspecto.pecas.land.LandInventory;
-import com.hbaspecto.pecas.sd.estimation.EstimationMatrix;
-import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
-import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
-import com.hbaspecto.pecas.sd.orm.TransitionCostCodes;
-import com.hbaspecto.pecas.sd.orm.ZoningRulesI_gen;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -31,13 +24,26 @@ import no.uib.cipr.matrix.Vector;
 import org.apache.log4j.Logger;
 import simpleorm.dataset.SQuery;
 import simpleorm.sessionjdbc.SSessionJdbc;
+import com.hbaspecto.discreteChoiceModelling.Alternative;
+import com.hbaspecto.discreteChoiceModelling.Coefficient;
+import com.hbaspecto.discreteChoiceModelling.LogitModel;
+import com.hbaspecto.pecas.ChoiceModelOverflowException;
+import com.hbaspecto.pecas.NoAlternativeAvailable;
+import com.hbaspecto.pecas.land.LandInventory;
+import com.hbaspecto.pecas.sd.estimation.EstimationMatrix;
+import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
+import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
+import com.hbaspecto.pecas.sd.orm.TransitionCostCodes;
+import com.hbaspecto.pecas.sd.orm.ZoningRulesI_gen;
 
 /**
- * A class that represents the regulations that control the DevelopmentTypes that are allowed to occur on a parcel. The regulations are stored in a
- * map (lookup) by development type.
+ * A class that represents the regulations that control the DevelopmentTypes
+ * that are allowed to occur on a parcel. The regulations are stored in a map
+ * (lookup) by development type.
  * 
- * Each ZoningScheme also builds itself a DiscreteChoice model that can be used to monte carlo simulate specific construction actions from within the
- * set of allowable possibilities.
+ * Each ZoningScheme also builds itself a DiscreteChoice model that can be used
+ * to monte carlo simulate specific construction actions from within the set of
+ * allowable possibilities.
  * 
  * @author John Abraham
  */
@@ -55,7 +61,8 @@ public class ZoningRulesI
     static double                     servicingCostPerUnit       = 13.76;
 
     /**
-     * This is the storage for the zoning regulations for the zoning scheme. Each ZoningRegulation describes what is allowed (and hence possible) for
+     * This is the storage for the zoning regulations for the zoning scheme.
+     * Each ZoningRegulation describes what is allowed (and hence possible) for
      * a particular DevelopmentType.
      */
     private List<ZoningPermissions>   zoning;
@@ -69,11 +76,14 @@ public class ZoningRulesI
     static double                     amortizationFactor         = 1.0 / 30;
     public static LandInventory       land                       = null;
 
-    // these three variables are used in the alternative classes in the logit model,
+    // these three variables are used in the alternative classes in the logit
+    // model,
     // so they need to be set before the logitmodel is used.
 
-    // this is just a temporary place to store the current parcel's development type,
-    // TODO should be removed from this class as it's not directly related to zoning.
+    // this is just a temporary place to store the current parcel's development
+    // type,
+    // TODO should be removed from this class as it's not directly related to
+    // zoning.
     SpaceTypesI                       existingDT;
 
     // is mapped to zoning_rules_code
@@ -126,7 +136,8 @@ public class ZoningRulesI
                     + l.parcelToString());
         }
         boolean doIt = land.isDevelopable();
-        if (!doIt) return; // don't do development if it's impossible to develop!
+        if (!doIt) return; // don't do development if it's impossible to
+                           // develop!
 
         setDispersionParameters();
 
@@ -134,8 +145,10 @@ public class ZoningRulesI
         LogitModel developChoice = getMyLogitModel();
 
         developNewOptions.setConstantUtility(existingDT.get_NewFromTransitionConst());
-        // If we are considering land n acres at a time, then when a parcel is greater than n acres we need to
-        // call monteCarloElementalChoice repeatedly. There may also need to be some special treatment for parcels that are
+        // If we are considering land n acres at a time, then when a parcel is
+        // greater than n acres we need to
+        // call monteCarloElementalChoice repeatedly. There may also need to be
+        // some special treatment for parcels that are
         // much less than n acres.
         //
         double originalLandArea = land.getLandArea();
@@ -174,8 +187,10 @@ public class ZoningRulesI
         }
         if (originalLandArea > land.getLandArea())
         {
-            // if the original parcel area is bigger than the current land area, it means
-            // that the parcel was split. Therefore, we need to write out the remaining parcel area.
+            // if the original parcel area is bigger than the current land area,
+            // it means
+            // that the parcel was split. Therefore, we need to write out the
+            // remaining parcel area.
             ZoningRulesI.land.getDevelopmentLogger().logRemainingOfSplitParcel(land);
 
         }
@@ -281,7 +296,8 @@ public class ZoningRulesI
                 // if this didn't work, use this:
                 SpaceTypesI whatWeCouldBuild = SpaceTypesI
                         .getAlreadyCreatedSpaceTypeBySpaceTypeID(zp.get_SpaceTypeId());
-                // SpaceTypesI whatWeCouldBuild = zp.get_SPACE_TYPES_I(SSessionJdbc.getThreadLocalSession());
+                // SpaceTypesI whatWeCouldBuild =
+                // zp.get_SPACE_TYPES_I(SSessionJdbc.getThreadLocalSession());
                 if (!whatWeCouldBuild.isVacant())
                 {
                     Alternative aNewSpaceAlternative;
@@ -351,7 +367,8 @@ public class ZoningRulesI
     public ZoningPermissions checkZoningForSpaceType(SpaceTypeInterface dt)
     {
 
-        // cache the items not found, otherwise SimpleORM will continually check the database to look for them
+        // cache the items not found, otherwise SimpleORM will continually check
+        // the database to look for them
         if (notAllowedSpaceTypes.contains(dt)) return null;
 
         SSessionJdbc session = land.getSession();
@@ -407,7 +424,8 @@ public class ZoningRulesI
                     + l.parcelToString());
         }
         boolean doIt = land.isDevelopable();
-        if (!doIt) return; // no contribution to identified targets if it's impossible to develop!
+        if (!doIt) return; // no contribution to identified targets if it's
+                           // impossible to develop!
 
         insertDispersionParameterObjects();
 
@@ -416,12 +434,15 @@ public class ZoningRulesI
 
         developNewOptions.setConstantUtilityAsCoeff(SpaceTypeCoefficient
                 .getNewFromTransitionConst(land.getCoverage()));
-        // If we are considering land n acres at a time, then when a parcel is greater than n acres we need to
-        // call monteCarloElementalChoice repeatedly. There may also need to be some special treatment for parcels that are
+        // If we are considering land n acres at a time, then when a parcel is
+        // greater than n acres we need to
+        // call monteCarloElementalChoice repeatedly. There may also need to be
+        // some special treatment for parcels that are
         // much less than n acres.
         //
         double originalLandArea = land.getLandArea();
-        // for (int sampleTimes=0;sampleTimes <= originalLandArea/land.getMaxParcelSize();sampleTimes++) {
+        // for (int sampleTimes=0;sampleTimes <=
+        // originalLandArea/land.getMaxParcelSize();sampleTimes++) {
         try
         {
             List<ExpectedValue> expValues = values.getTargetsApplicableToCurrentParcel();
@@ -459,7 +480,8 @@ public class ZoningRulesI
                     + l.parcelToString());
         }
         boolean doIt = land.isDevelopable();
-        if (!doIt) return; // no contribution to identified targets if it's impossible to develop!
+        if (!doIt) return; // no contribution to identified targets if it's
+                           // impossible to develop!
 
         insertDispersionParameterObjects();
 
@@ -468,12 +490,15 @@ public class ZoningRulesI
 
         developNewOptions.setConstantUtilityAsCoeff(SpaceTypeCoefficient
                 .getNewFromTransitionConst(land.getCoverage()));
-        // If we are considering land n acres at a time, then when a parcel is greater than n acres we need to
-        // call monteCarloElementalChoice repeatedly. There may also need to be some special treatment for parcels that are
+        // If we are considering land n acres at a time, then when a parcel is
+        // greater than n acres we need to
+        // call monteCarloElementalChoice repeatedly. There may also need to be
+        // some special treatment for parcels that are
         // much less than n acres.
         //
         double originalLandArea = land.getLandArea();
-        // for (int sampleTimes=0;sampleTimes <= originalLandArea/land.getMaxParcelSize();sampleTimes++) {
+        // for (int sampleTimes=0;sampleTimes <=
+        // originalLandArea/land.getMaxParcelSize();sampleTimes++) {
         try
         {
             List<ExpectedValue> expValues = partialDerivatives

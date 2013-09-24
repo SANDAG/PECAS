@@ -6,8 +6,10 @@ import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
 
 /**
- * A constraint that fixes a parameter at a given value. The penalty function is <i>h</i><sup>2</sup>/sqrt(<i>a</i>), where <i>a</i> is the looseness
- * parameter and <i>h</i> is the distance between the parameter and the fixed value.
+ * A constraint that fixes a parameter at a given value. The penalty function is
+ * <i>h</i><sup>2</sup>/sqrt(<i>a</i>), where <i>a</i> is the looseness
+ * parameter and <i>h</i> is the distance between the parameter and the fixed
+ * value.
  * 
  * @author Graham
  * 

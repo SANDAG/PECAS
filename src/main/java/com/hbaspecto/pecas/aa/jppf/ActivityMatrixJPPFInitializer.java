@@ -41,11 +41,13 @@ class ActivityMatrixJPPFInitializer
     int                                 nCols;
 
     /**
-     * CommodityZUtilities of buying (price-weighted accessibility measures) by commodity and zone for buying stuff
+     * CommodityZUtilities of buying (price-weighted accessibility measures) by
+     * commodity and zone for buying stuff
      */
     double[][]                          commodityBuyingUtilities;
     /**
-     * CommodityZUtilities of selling (price-weighted accessibility measures) by commodity and zone for selling stuff
+     * CommodityZUtilities of selling (price-weighted accessibility measures) by
+     * commodity and zone for selling stuff
      */
     double[][]                          commoditySellingUtilities;
 

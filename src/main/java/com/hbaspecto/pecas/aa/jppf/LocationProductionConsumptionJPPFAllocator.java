@@ -33,11 +33,13 @@ class LocationProductionConsumptionJPPFAllocator
      */
     double                      totalQuantity;
     /**
-     * CommodityZUtilities of buying (price-weighted accessibility measures) by commodity and zone for buying stuff
+     * CommodityZUtilities of buying (price-weighted accessibility measures) by
+     * commodity and zone for buying stuff
      */
     double[][]                  commodityBuyingUtilities;
     /**
-     * CommodityZUtilities of selling (price-weighted accessibility measures) by commodity and zone for selling stuff
+     * CommodityZUtilities of selling (price-weighted accessibility measures) by
+     * commodity and zone for selling stuff
      */
     double[][]                  commoditySellingUtilities;
 
@@ -46,8 +48,9 @@ class LocationProductionConsumptionJPPFAllocator
     /* transient */
 
     /**
-     * Location to hold the activity we are dealing with, transient so that it is not sent as part of the message, rather it is retrieved from the
-     * name of the Activty instead.
+     * Location to hold the activity we are dealing with, transient so that it
+     * is not sent as part of the message, rather it is retrieved from the name
+     * of the Activty instead.
      */
     transient AggregateActivity activity = null;
 
@@ -211,7 +214,8 @@ class LocationProductionConsumptionJPPFAllocator
     }
 
     /**
-     * Constructor to create the LocationProductionConsumption allocator on the client machine, will be serialized and sent over to the node.
+     * Constructor to create the LocationProductionConsumption allocator on the
+     * client machine, will be serialized and sent over to the node.
      * 
      * @param a
      *            the activity we are dealing with

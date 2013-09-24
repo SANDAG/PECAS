@@ -3,14 +3,17 @@
  * 
  * Copyright 2005 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.sd;
 
@@ -20,18 +23,15 @@ import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
 import simpleorm.dataset.SQuery;
 import simpleorm.sessionjdbc.SSessionJdbc;
-import com.pb.common.datafile.TableDataReader;
+import com.hbaspecto.pecas.land.LandInventory;
 import com.pb.common.datafile.TableDataSet;
 import com.pb.common.datafile.TableDataSetCollection;
-import com.pb.common.matrix.HashtableAlphaToBeta;
 import com.pb.common.util.ResourceUtil;
-import com.hbaspecto.pecas.land.LandInventory;
-import com.hbaspecto.pecas.land.SimpleORMLandInventory;
-import com.hbaspecto.pecas.zones.AbstractZone;
 
 /**
- * @author Abdel An example of a SD model indepedent of what type of land inventory is used. it is an absrtact class that has some common code that
- *         can be used by lot of different implementation.
+ * @author Abdel An example of a SD model indepedent of what type of land
+ *         inventory is used. it is an absrtact class that has some common code
+ *         that can be used by lot of different implementation.
  */
 public abstract class SDModel
 {
@@ -74,7 +74,9 @@ public abstract class SDModel
         land.applyDevelopmentChanges();
         writeOutInventoryTable(realDevelopmentTypesI);
 
-        // TableDataSet crossTabbed= TableDataSetCrosstabber.crossTabDataset(outputDatabase, "FloorspaceI", "FloorspaceZone", "Commodity",
+        // TableDataSet crossTabbed=
+        // TableDataSetCrosstabber.crossTabDataset(outputDatabase,
+        // "FloorspaceI", "FloorspaceZone", "Commodity",
         // "Quantity");
         // crossTabbed.setName("ZonalFloorspaceData");
         // outputDatabase.addTableDataSet(crossTabbed);
@@ -107,19 +109,25 @@ public abstract class SDModel
     public abstract void setUp();
 
     /**
-     * Runs through the inventory simulating development NOTE only works with TableDataSetLandInventory, if your land inventory is of some other type
+     * Runs through the inventory simulating development NOTE only works with
+     * TableDataSetLandInventory, if your land inventory is of some other type
      * you'll have to write your own code to iterate through all the land.
      */
     public abstract void simulateDevelopment();
 
     /*
-     * { TableDataSetLandInventory tdsLand = (TableDataSetLandInventory) land; ZoningScheme.openLogFile(logFilePath); ZoningScheme currentScheme =
-     * null; int zoneNumberColumn = zoneNumbers.checkColumnPosition("AlphaZone"); tdsLand.setToBeforeFirst(); while (tdsLand.advanceToNext()) { //
-     * long zoneNumber = (long) zoneNumbers.getValueAt(row,zoneNumberColumn); // long[] parcelNumbers = tdsLand.getId2Numbers(zoneNumber); // for
-     * (long parcelSequence=0;parcelSequence<parcelNumbers.length;parcelSequence++) { // long parcel = parcelNumbers[(int) parcelSequence];
-     * currentScheme = ZoningScheme.getZoningSchemeByIndex(land.getZoningRulesCode()); if (currentScheme == null) { ZoningScheme.logBadZoning(land); }
-     * else { currentScheme.doDevelopment(land); } } // might need this next line just to be safe. tdsLand.writeAndReclaimMemory();
-     * ZoningScheme.closeLogFile();
+     * { TableDataSetLandInventory tdsLand = (TableDataSetLandInventory) land;
+     * ZoningScheme.openLogFile(logFilePath); ZoningScheme currentScheme = null;
+     * int zoneNumberColumn = zoneNumbers.checkColumnPosition("AlphaZone");
+     * tdsLand.setToBeforeFirst(); while (tdsLand.advanceToNext()) { // long
+     * zoneNumber = (long) zoneNumbers.getValueAt(row,zoneNumberColumn); //
+     * long[] parcelNumbers = tdsLand.getId2Numbers(zoneNumber); // for (long
+     * parcelSequence=0;parcelSequence<parcelNumbers.length;parcelSequence++) {
+     * // long parcel = parcelNumbers[(int) parcelSequence]; currentScheme =
+     * ZoningScheme.getZoningSchemeByIndex(land.getZoningRulesCode()); if
+     * (currentScheme == null) { ZoningScheme.logBadZoning(land); } else {
+     * currentScheme.doDevelopment(land); } } // might need this next line just
+     * to be safe. tdsLand.writeAndReclaimMemory(); ZoningScheme.closeLogFile();
      * 
      * }
      */
@@ -128,7 +136,9 @@ public abstract class SDModel
         TableDataSet landInventoryTable = land.summarizeInventory();
         landInventoryTable.setName("FloorspaceI");
         outputDatabase.addTableDataSet(landInventoryTable);
-        // TableDataSet crossTabbed = TableDataSetCrosstabber.crossTabDataset(outputDatabase, landInventoryTable.getName(), "TAZ", "Commodity",
+        // TableDataSet crossTabbed =
+        // TableDataSetCrosstabber.crossTabDataset(outputDatabase,
+        // landInventoryTable.getName(), "TAZ", "Commodity",
         // "Quantity");
         // crossTabbed.setName("ZonalFloorspace");
         // outputDatabase.addTableDataSet(crossTabbed);
@@ -153,11 +163,13 @@ public abstract class SDModel
     // logger.info("Reading Floorspace Zones");
     // floorspaceZoneCrossref = new HashtableAlphaToBeta();
     // for (int zRow = 1; zRow <= alphaZoneTable.getRowCount(); zRow++) {
-    // Integer floorspaceZone = new Integer( (int) alphaZoneTable.getValueAt(zRow, "AlphaZone"));
+    // Integer floorspaceZone = new Integer( (int)
+    // alphaZoneTable.getValueAt(zRow, "AlphaZone"));
     // int pecasZoneInt = (int) alphaZoneTable.getValueAt(zRow,"PECASZone");
     // AbstractZone pecasZone = AbstractZone.findZoneByUserNumber(pecasZoneInt);
     // if (pecasZone != null) {
-    // // don't add in bogus records -- there might be land use zones that aren't covered by the spatial IO model
+    // // don't add in bogus records -- there might be land use zones that
+    // aren't covered by the spatial IO model
     // Integer pecasZoneInteger = new Integer(pecasZoneInt);
     // floorspaceZoneCrossref.put(floorspaceZone,pecasZoneInteger);
     // } else {
@@ -174,7 +186,8 @@ public abstract class SDModel
     // currentYear = Integer.valueOf(args[0]) + Integer.valueOf(args[1]);
     // } catch (Exception e) {
     // e.printStackTrace();
-    // throw new RuntimeException("Put base year and time interval on command line" +
+    // throw new
+    // RuntimeException("Put base year and time interval on command line" +
     // "\n For example, 1990 1");
     // }
     // myLD.setUp();

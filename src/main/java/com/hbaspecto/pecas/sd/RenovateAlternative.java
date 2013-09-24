@@ -9,18 +9,14 @@ import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
 import org.apache.log4j.Logger;
-import simpleorm.sessionjdbc.SSessionJdbc;
 import com.hbaspecto.discreteChoiceModelling.Coefficient;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
-import com.hbaspecto.pecas.land.ParcelInterface;
 import com.hbaspecto.pecas.land.LandInventory.NotSplittableException;
+import com.hbaspecto.pecas.land.ParcelInterface;
 import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
 import com.hbaspecto.pecas.sd.estimation.RenovationTarget;
 import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
-import com.hbaspecto.pecas.sd.orm.DevelopmentFees;
-import com.hbaspecto.pecas.sd.orm.TransitionCostCodes;
-import com.hbaspecto.pecas.sd.orm.TransitionCosts;
 
 /**
  * @author Abdel
@@ -59,7 +55,8 @@ public class RenovateAlternative
 
         double Trhjp = getUtilityPerUnitLand();
 
-        // TODO T(hjp) and Tr(hjp) could be different for different ranges of j, for now assume constant values
+        // TODO T(hjp) and Tr(hjp) could be different for different ranges of j,
+        // for now assume constant values
 
         double result = Thjp * ZoningRulesI.land.getQuantity() / ZoningRulesI.land.getLandArea()
                 + Trhjp;
@@ -106,7 +103,8 @@ public class RenovateAlternative
         if (size > ZoningRulesI.land.getMaxParcelSize())
         {
             // If development occurs on a parcel that is greater than n acres,
-            // split off n acres into a new "pseudo parcel" and add the new pseudo parcel into the database
+            // split off n acres into a new "pseudo parcel" and add the new
+            // pseudo parcel into the database
             int splits = ((int) (size / ZoningRulesI.land.getMaxParcelSize())) + 1;
             double parcelSizes = size / splits;
             ParcelInterface newBit;
@@ -186,13 +184,15 @@ public class RenovateAlternative
     public Vector getUtilityDerivativesWRTParameters(List<Coefficient> cs)
             throws NoAlternativeAvailable, ChoiceModelOverflowException
     {
-        // If parcel is derelict, derivative wrt renovate derelict constant is 1, all others are 0.
+        // If parcel is derelict, derivative wrt renovate derelict constant is
+        // 1, all others are 0.
         // Otherwise, derivative wrt renovate constant is 1, all others are 0.
         Vector derivatives = new DenseVector(cs.size());
         if (getExistingSpaceType().isVacant()) return derivatives;
 
         Coefficient renovateConst = getTransitionConstant();
-        // depending on whether parcel is derelict or not it will be sensitive to a different parameter
+        // depending on whether parcel is derelict or not it will be sensitive
+        // to a different parameter
         int index = cs.indexOf(renovateConst);
         if (index >= 0) derivatives.set(index, 1);
         return derivatives;
@@ -204,22 +204,27 @@ public class RenovateAlternative
     {
         Matrix m = new DenseMatrix(ts.size(), cs.size());
 
-        return m; // Quantity of renovation actually does not change with parameters.
+        return m; // Quantity of renovation actually does not change with
+                  // parameters.
 
-        // SpaceTypesI myDt = SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(ZoningRulesI.land.getCoverage());
-        // if (myDt.isVacant()) return m; // can't renovate vacant parcel, no derivative
+        // SpaceTypesI myDt =
+        // SpaceTypesI.getAlreadyCreatedSpaceTypeBySpaceTypeID(ZoningRulesI.land.getCoverage());
+        // if (myDt.isVacant()) return m; // can't renovate vacant parcel, no
+        // derivative
         //
         // int spacetype = myDt.get_SpaceTypeId();
         //
         // double quantity = ZoningRulesI.land.getQuantity();
         //
-        // // Build vector of derivatives of the targets with respect to the expected renovated space.
+        // // Build vector of derivatives of the targets with respect to the
+        // expected renovated space.
         // Matrix dTdE = new DenseMatrix(ts.size(), 1);
         // int i = 0;
         // for(ExpectedValue value : ts) {
         // if (value instanceof RenovationTarget) {
         // RenovationTarget redevTarget = (RenovationTarget) value;
-        // dTdE.set(i,0,redevTarget.getModelledRenovateDerivativeForParcel(spacetype, quantity));
+        // dTdE.set(i,0,redevTarget.getModelledRenovateDerivativeForParcel(spacetype,
+        // quantity));
         // }
         // i++;
         // }
@@ -227,7 +232,8 @@ public class RenovateAlternative
         // // Scale by land area because of the chain rule ?
         // //dTdE.scale(ZoningRulesI.land.getLandArea());
         //
-        // // Build vector of derivatives of the expected added space with respect to the parameters.
+        // // Build vector of derivatives of the expected added space with
+        // respect to the parameters.
         // Matrix dEdt = new DenseMatrix(1, cs.size());
         // int renovateIndex = cs.indexOf(getTransitionConstant());
         // if(renovateIndex >= 0) dEdt.set(0, renovateIndex, quantity);

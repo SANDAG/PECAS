@@ -1,20 +1,22 @@
 package com.hbaspecto.pecas.sd.orm;
 
-import simpleorm.dataset.*;
-import simpleorm.utils.*;
-import simpleorm.sessionjdbc.SSessionJdbc;
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.ResourceBundle;
 import org.apache.log4j.Logger;
+import simpleorm.dataset.SFieldDouble;
+import simpleorm.dataset.SFieldFlags;
+import simpleorm.dataset.SFieldInteger;
+import simpleorm.dataset.SFieldString;
+import simpleorm.dataset.SRecordInstance;
+import simpleorm.dataset.SRecordMeta;
+import simpleorm.sessionjdbc.SSessionJdbc;
 import com.hbaspecto.pecas.land.ExchangeResults;
-import com.hbaspecto.pecas.land.Parcels;
 import com.pb.common.util.ResourceUtil;
 
 /**
  * Base class of table exchange_results.<br>
- * Do not rerun the SimpleORMGenerator, as this class has been modified to not use final static members for the meta and the field definition.
- * Generated on Fri Sep 25 16:13:29 MDT 2009
+ * Do not rerun the SimpleORMGenerator, as this class has been modified to not
+ * use final static members for the meta and the field definition. Generated on
+ * Fri Sep 25 16:13:29 MDT 2009
  ***/
 public abstract class ExchangeResults_gen
         extends SRecordInstance

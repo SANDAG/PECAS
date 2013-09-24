@@ -56,7 +56,8 @@ public class AveragePriceSurplusDerivativeMatrixJPPF
                     commoditySellingUtilities[comNum][zones[z].zoneIndex] = szu.getUtility(1.0);
                 } catch (final ChoiceModelOverflowException e)
                 {
-                    final String msg = "Problem calculating commodity zutilities, these should have been precalculated so this error shouldn't appear here";
+                    final String msg = "Problem calculating commodity zutilities, these should have been "
+                            + "precalculated so this error shouldn't appear here";
                     logger.fatal(msg, e);
                     System.out.println(msg);
                     e.printStackTrace();

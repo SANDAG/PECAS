@@ -12,9 +12,12 @@ public abstract class DevelopmentAlternative
 {
     static Logger               logger         = Logger.getLogger(DevelopmentAlternative.class);
 
-    // If the per space utility is less than this value in absolute, it will be considered equal to zero.
-    // This strange value of epsilon balances between the various sensitive methods, providing acceptable error in all of them.
-    // (if epsilon is too high, the approximation of utility = 0 is too rough and causes errors in some outputs;
+    // If the per space utility is less than this value in absolute, it will be
+    // considered equal to zero.
+    // This strange value of epsilon balances between the various sensitive
+    // methods, providing acceptable error in all of them.
+    // (if epsilon is too high, the approximation of utility = 0 is too rough
+    // and causes errors in some outputs;
     // if epsilon is too low, some methods suffer large roundoff error).
     private static final double epsilon        = 8e-6;
     private static final int    NUM_INT_PARAMS = 5;
@@ -34,9 +37,12 @@ public abstract class DevelopmentAlternative
         return arg * arg * arg;
     }
 
-    // Takes an array of row vectors and an array of matrices (which must be the same length k), multiplies
-    // each vector by the corresponding matrix, and aggregates the resulting row vectors into a new matrix.
-    // The vectors must be 1 by m, the matrices must be m by n (where n is any integer).
+    // Takes an array of row vectors and an array of matrices (which must be the
+    // same length k), multiplies
+    // each vector by the corresponding matrix, and aggregates the resulting row
+    // vectors into a new matrix.
+    // The vectors must be 1 by m, the matrices must be m by n (where n is any
+    // integer).
     // Returns a k by n matrix.
     private static Matrix multiplyAndAggregate(int k, int m, int n, Matrix[] vectors,
             Matrix[] matrices)
@@ -59,7 +65,8 @@ public abstract class DevelopmentAlternative
         return result;
     }
 
-    // Removes degenerate ranges, storing the new parameters in the provided arrays.
+    // Removes degenerate ranges, storing the new parameters in the provided
+    // arrays.
     private static void removeInvalidRanges(int numRanges, int numProperRanges,
             int lowestValidRange, int highestValidRange, double[] intensityPoints,
             double[] perSpaceAdjustments, double[] perLandAdjustments,
@@ -83,7 +90,8 @@ public abstract class DevelopmentAlternative
             properIntensityPoints[i] = intensityPoints[i + lowestValidRange];
     }
 
-    // Method that restores the actual relationships to the original parameters when degenerate ranges are removed.
+    // Method that restores the actual relationships to the original parameters
+    // when degenerate ranges are removed.
     private static Vector transformDerivativesForValidRanges(Vector derivs, int numRanges,
             int lowestValidRange, int highestValidRange, double[] perSpaceAdjustments,
             double[] perLandAdjustments, double[] stepPoints, double dispersion)
@@ -122,7 +130,8 @@ public abstract class DevelopmentAlternative
                 result.add(newFirstPerLandPos + i + 1, oldresult.get(firstPerLandPos + i));
             // The dispersion parameter.
             result.add(newDispersionPos, oldresult.get(dispersionPos));
-            // The transformation dependencies of the new first per-land adjustment.
+            // The transformation dependencies of the new first per-land
+            // adjustment.
             result.add(newFirstPerLandPos, oldresult.get(firstPerLandPos));
             result.add(newFirstPerSpacePos, stepPoints[currentMin] * oldresult.get(firstPerLandPos));
             result.add(newFirstPerSpacePos + 1,
@@ -172,15 +181,18 @@ public abstract class DevelopmentAlternative
     }
 
     /**
-     * This method does the integration over the range of the intensities, returning the total weight over the range of intensities (space-per-land)
+     * This method does the integration over the range of the intensities,
+     * returning the total weight over the range of intensities (space-per-land)
      * that are allowed.
      * 
      * @param perSpace
      *            utility per unit space (typically rent-cost per square foot)
      * @param perLand
-     *            utility per unit land (typically any fees or costs associated with preparing land, independent of building size)
+     *            utility per unit land (typically any fees or costs associated
+     *            with preparing land, independent of building size)
      * @param landSize
-     *            size of land (not currently used, as it is a "per unit land" value)
+     *            size of land (not currently used, as it is a "per unit land"
+     *            value)
      * @return total weight over the range of allowed intensities.
      */
     protected static double integrateOverIntensityRange(double perSpace, double perLand,
@@ -189,7 +201,8 @@ public abstract class DevelopmentAlternative
         // Equation 91
         // double atQmax = zoningReg.get_MaxIntensityPermitted();
         // double atQmin = zoningReg.get_MinIntensityPermitted();
-        // double idp = theNewSpaceTypeToBeBuilt.get_IntensityDispersionParameter();
+        // double idp =
+        // theNewSpaceTypeToBeBuilt.get_IntensityDispersionParameter();
         double atQmax = maxIntensity;
         double atQmin = minIntensity;
         double idp = dispersion;
@@ -250,7 +263,8 @@ public abstract class DevelopmentAlternative
             i--;
         int highestValidRange = i;
 
-        // If there are no degenerate ranges, we can proceed to the calculations.
+        // If there are no degenerate ranges, we can proceed to the
+        // calculations.
         if (lowestValidRange == 0 && highestValidRange == numRanges - 1)
             return sampleIntensityProperRanges(dispersionParameter, landArea, utilityPerUnitSpace,
                     utilityPerUnitLand, intensityPoints, perSpaceAdjustments, perLandAdjustments);
@@ -275,8 +289,12 @@ public abstract class DevelopmentAlternative
             double[] perSpaceAdjustments, double[] perLandAdjustments)
     {
         double uniformRandomNumber = Math.random();
-        double[] Dplus = new double[intensityPoints.length]; // indefinite integral just below boundary
-        double[] Dminus = new double[intensityPoints.length]; // indefinite integral just above boundary
+        double[] Dplus = new double[intensityPoints.length]; // indefinite
+                                                             // integral just
+                                                             // below boundary
+        double[] Dminus = new double[intensityPoints.length]; // indefinite
+                                                              // integral just
+                                                              // above boundary
         double[] D = new double[intensityPoints.length];
         double netUtility = utilityPerUnitLand;
         for (int point = 0; point < intensityPoints.length; point++)
@@ -286,7 +304,8 @@ public abstract class DevelopmentAlternative
                 perSpace += perSpaceAdjustments[Math.max(0, point - 1)];
                 if (perSpace == 0)
                 {
-                    // have to consider the possibility of costs cancelling out and being exactly zero
+                    // have to consider the possibility of costs cancelling out
+                    // and being exactly zero
                     Dminus[point] = intensityPoints[point] * landArea
                             * Math.exp(dispersionParameter * netUtility);
                 } else
@@ -303,7 +322,8 @@ public abstract class DevelopmentAlternative
                     D[point] = 0;
                 } else
                 {
-                    // definite integral for full region up to intensityPoints[point]
+                    // definite integral for full region up to
+                    // intensityPoints[point]
                     D[point] = Dminus[point] - Dplus[point - 1] + D[point - 1];
                 }
             }
@@ -330,7 +350,8 @@ public abstract class DevelopmentAlternative
         {
             if (highPoint < intensityPoints.length - 1)
             {
-                // subtract this out in general, but not in the first loop because we never added it in for Dplus at the top boundary
+                // subtract this out in general, but not in the first loop
+                // because we never added it in for Dplus at the top boundary
                 netUtility -= perLandAdjustments[highPoint];
             }
             if (D[highPoint - 1] < uniformRandomNumber * D[intensityPoints.length - 1])
@@ -387,14 +408,16 @@ public abstract class DevelopmentAlternative
     }
 
     /**
-     * Returns the expected maximum utility over the allowed intensity range, with one step point in the (otherwise linear) utility function.
+     * Returns the expected maximum utility over the allowed intensity range,
+     * with one step point in the (otherwise linear) utility function.
      * 
      * @param perSpace
      *            The utility per unit floor area ratio.
      * @param perLand
      *            The utility per unit land area.
      * @param landSize
-     *            The total size of the land (currently not used - the method deals with utility per land area).
+     *            The total size of the land (currently not used - the method
+     *            deals with utility per land area).
      * @param stepPoint
      *            The FAR at which the step discontinuity occurs.
      * @param stepPointAdjustment
@@ -437,7 +460,8 @@ public abstract class DevelopmentAlternative
         return result;
     }
 
-    // For this method, intensityPoints MUST be in strictly non-descending order.
+    // For this method, intensityPoints MUST be in strictly non-descending
+    // order.
     private static double getCompositeUtilityProperRanges(double dispersionParameter,
             double landArea, double utilityPerUnitSpace, double utilityPerUnitLand,
             double[] intensityPoints, double[] perSpaceAdjustments, double[] perLandAdjustments)
@@ -477,29 +501,44 @@ public abstract class DevelopmentAlternative
     }
 
     /**
-     * Returns the expected maximum utility per unit land area over the allowed intensity range. The utility function is piecewise linear, and is
-     * defined by the parameters <code>utilityPerUnitSpace</code>, <code>utilityPerUnitLand</code>, <code>intensityPoints</code>,
-     * <code>perSpaceAdjustments</code>, and <code>perLandAdjustments</code>. If there are <i>w</i> linear subranges, <code>intensityPoints</code>
-     * must have length <i>w</i>+1, while <code>perSpaceAdjustments</code> and <code>perLandAdjustments</code> must have length <i>w</i>.
+     * Returns the expected maximum utility per unit land area over the allowed
+     * intensity range. The utility function is piecewise linear, and is defined
+     * by the parameters <code>utilityPerUnitSpace</code>,
+     * <code>utilityPerUnitLand</code>, <code>intensityPoints</code>,
+     * <code>perSpaceAdjustments</code>, and <code>perLandAdjustments</code>. If
+     * there are <i>w</i> linear subranges, <code>intensityPoints</code> must
+     * have length <i>w</i>+1, while <code>perSpaceAdjustments</code> and
+     * <code>perLandAdjustments</code> must have length <i>w</i>.
      * 
      * @param dispersionParameter
-     *            The dispersion parameter for the choice over the possible intensities.
+     *            The dispersion parameter for the choice over the possible
+     *            intensities.
      * @param landArea
      *            The area of the parcel.
      * @param utilityPerUnitSpace
      *            The base utility of each unit area of floorspace.
      * @param utilityPerUnitLand
-     *            The base utility of each unit area of land - i.e. the component of utility that does not depend on the amount of floorspace.
+     *            The base utility of each unit area of land - i.e. the
+     *            component of utility that does not depend on the amount of
+     *            floorspace.
      * @param intensityPoints
-     *            The boundary points for the subranges as FARs. The first and last elements are the minimum and maximum allowed FAR while the other
-     *            points are the boundaries between the different subranges. The boundary points must be properly ordered - i.e. each boundary point
-     *            must be no less than the previous boundary point. The minimum and maximum, however, may be out of order with respect to the boundary
-     *            points, meaning that some of the ranges are disallowed entirely.
+     *            The boundary points for the subranges as FARs. The first and
+     *            last elements are the minimum and maximum allowed FAR while
+     *            the other points are the boundaries between the different
+     *            subranges. The boundary points must be properly ordered - i.e.
+     *            each boundary point must be no less than the previous boundary
+     *            point. The minimum and maximum, however, may be out of order
+     *            with respect to the boundary points, meaning that some of the
+     *            ranges are disallowed entirely.
      * @param perSpaceAdjustments
-     *            The adjustment to the utility per unit area of floorspace for each subrange.
+     *            The adjustment to the utility per unit area of floorspace for
+     *            each subrange.
      * @param perLandAdjustments
-     *            The step sizes at each boundary point - i.e. the difference between the utility just above the boundary point and the utility just
-     *            below it. The first element applies at the minimum FAR, so it is effectively a global adjustment to the utility.
+     *            The step sizes at each boundary point - i.e. the difference
+     *            between the utility just above the boundary point and the
+     *            utility just below it. The first element applies at the
+     *            minimum FAR, so it is effectively a global adjustment to the
+     *            utility.
      * @return The composite utility.
      */
     protected static double getCompositeUtility(double dispersionParameter, double landArea,
@@ -545,7 +584,8 @@ public abstract class DevelopmentAlternative
             i--;
         int highestValidRange = i;
 
-        // If there are no degenerate ranges, we can proceed to the calculations.
+        // If there are no degenerate ranges, we can proceed to the
+        // calculations.
         if (lowestValidRange == 0 && highestValidRange == numRanges - 1)
             return getCompositeUtilityProperRanges(dispersionParameter, landArea,
                     utilityPerUnitSpace, utilityPerUnitLand, intensityPoints, perSpaceAdjustments,
@@ -594,8 +634,10 @@ public abstract class DevelopmentAlternative
             double landweight = Math.exp(dispersion * perLand);
             double maxutil = dispersion * maxIntensity * perSpace;
             double minutil = dispersion * minIntensity * perSpace;
-            // This method is particularly erratic in the face of nearly zero space utility.
-            // To keep precision, the formula is rearranged to make use of the expm1 method.
+            // This method is particularly erratic in the face of nearly zero
+            // space utility.
+            // To keep precision, the formula is rearranged to make use of the
+            // expm1 method.
             double maxweight = Math.expm1(maxutil);
             double minweight = Math.expm1(minutil);
             double weightdiff = minweight - maxweight;
@@ -655,7 +697,8 @@ public abstract class DevelopmentAlternative
     }
 
     // Returns a numRanges by 5 matrix as an array of 1 by 5 matrices
-    // (there are 5 integral parameters: perSpace, perLand, minIntensity, maxIntensity, dispersion).
+    // (there are 5 integral parameters: perSpace, perLand, minIntensity,
+    // maxIntensity, dispersion).
     private static Matrix[] getUtilityDerivativesWRTIntegralParameters(int numRanges,
             double[] perSpaces, double[] perLands, double[] minIntensities,
             double[] maxIntensities, double dispersion)
@@ -720,7 +763,8 @@ public abstract class DevelopmentAlternative
         return result;
     }
 
-    // Returns an array of numRanges matrices. Each matrix is 5 by (numRanges * 3 + 2).
+    // Returns an array of numRanges matrices. Each matrix is 5 by (numRanges *
+    // 3 + 2).
     private static Matrix[] getIntegralParameterDerivativesWRTParameters(int numRanges,
             double[] perSpaceAdjustments, double[] perLandAdjustments, double[] stepPoints,
             double dispersion)
@@ -760,7 +804,8 @@ public abstract class DevelopmentAlternative
         return result;
     }
 
-    // Returns the derivatives in the order: wrt step point, wrt below step point adjustment, wrt above step point adjustment,
+    // Returns the derivatives in the order: wrt step point, wrt below step
+    // point adjustment, wrt above step point adjustment,
     // wrt step point adjustment, wrt dispersion parameter.
     /**
      * @deprecated
@@ -896,7 +941,8 @@ public abstract class DevelopmentAlternative
         for (int i = 0; i < numCoeffs; i++)
             vector.set(i, result.get(0, i));
 
-        // Add direct dependency of the composite utility on the dispersion parameter.
+        // Add direct dependency of the composite utility on the dispersion
+        // parameter.
         double integralsum = 0;
         for (int i = 0; i < numRanges; i++)
             integralsum += integrals[i];
@@ -907,29 +953,43 @@ public abstract class DevelopmentAlternative
     }
 
     /**
-     * Returns the partial derivatives of the composite utility with respect to each parameter. The utility function is defined as in
+     * Returns the partial derivatives of the composite utility with respect to
+     * each parameter. The utility function is defined as in
      * <code>getCompositeUtility()</code>.
      * 
      * @param dispersionParameter
-     *            The dispersion parameter for the choice over the possible intensities.
+     *            The dispersion parameter for the choice over the possible
+     *            intensities.
      * @param landArea
      *            The area of the parcel.
      * @param utilityPerUnitSpace
      *            The base utility of each unit area of floorspace.
      * @param utilityPerUnitLand
-     *            The base utility of each unit area of land - i.e. the component of utility that does not depend on the amount of floorspace.
+     *            The base utility of each unit area of land - i.e. the
+     *            component of utility that does not depend on the amount of
+     *            floorspace.
      * @param intensityPoints
-     *            The boundary points for the subranges as FARs. The first and last elements are the minimum and maximum allowed FAR while the other
-     *            points are the boundaries between the different subranges. The boundary points must be properly ordered - i.e. each boundary point
-     *            must be no less than the previous boundary point. The minimum and maximum, however, may be out of order with respect to the boundary
-     *            points, meaning that some of the ranges are disallowed entirely.
+     *            The boundary points for the subranges as FARs. The first and
+     *            last elements are the minimum and maximum allowed FAR while
+     *            the other points are the boundaries between the different
+     *            subranges. The boundary points must be properly ordered - i.e.
+     *            each boundary point must be no less than the previous boundary
+     *            point. The minimum and maximum, however, may be out of order
+     *            with respect to the boundary points, meaning that some of the
+     *            ranges are disallowed entirely.
      * @param perSpaceAdjustments
-     *            The adjustment to the utility per unit area of floorspace for each subrange.
+     *            The adjustment to the utility per unit area of floorspace for
+     *            each subrange.
      * @param perLandAdjustments
-     *            The step sizes at each boundary point - i.e. the difference between the utility just above the boundary point and the utility just
-     *            below it. The first element applies at the minimum FAR, so it is effectively a global adjustment to the utility.
-     * @return The derivatives with respect to each parameter, with the parameters in the following order: the boundary points, the per-space
-     *         adjustments, the per-land adjustments, and the dispersion parameter.
+     *            The step sizes at each boundary point - i.e. the difference
+     *            between the utility just above the boundary point and the
+     *            utility just below it. The first element applies at the
+     *            minimum FAR, so it is effectively a global adjustment to the
+     *            utility.
+     * @return The derivatives with respect to each parameter, with the
+     *         parameters in the following order: the boundary points, the
+     *         per-space adjustments, the per-land adjustments, and the
+     *         dispersion parameter.
      * @see getCompositeUtility.
      */
     protected static Vector getUtilityDerivativesWRTParameters(double dispersionParameter,
@@ -975,7 +1035,8 @@ public abstract class DevelopmentAlternative
             i--;
         int highestValidRange = i;
 
-        // If there are no degenerate ranges, we can proceed to the calculations.
+        // If there are no degenerate ranges, we can proceed to the
+        // calculations.
         if (lowestValidRange == 0 && highestValidRange == numRanges - 1)
             return getUtilityDerivativesWRTParametersProperRanges(dispersionParameter, landArea,
                     utilityPerUnitSpace, utilityPerUnitLand, intensityPoints, perSpaceAdjustments,
@@ -995,7 +1056,8 @@ public abstract class DevelopmentAlternative
                 landArea, utilityPerUnitSpace, utilityPerUnitLand, properIntensityPoints,
                 properPerSpaceAdjustments, properPerLandAdjustments);
 
-        // The above vector will be too small. Add zeroes to positions corresponding to invalid ranges (since these parameters
+        // The above vector will be too small. Add zeroes to positions
+        // corresponding to invalid ranges (since these parameters
         // will not affect the utility).
         Vector restored = transformDerivativesForValidRanges(result, numRanges, lowestValidRange,
                 highestValidRange, perSpaceAdjustments, perLandAdjustments, intensityPoints,
@@ -1003,7 +1065,8 @@ public abstract class DevelopmentAlternative
         return restored;
     }
 
-    // Return the expected FAR in one intensity range, not yet normalized by the total area under the allowed range.
+    // Return the expected FAR in one intensity range, not yet normalized by the
+    // total area under the allowed range.
     protected static double getExpectedFARSum(double perSpace, double perLand, double landSize,
             double minIntensity, double maxIntensity, double dispersion)
     {
@@ -1101,27 +1164,39 @@ public abstract class DevelopmentAlternative
     }
 
     /**
-     * Returns the expected development intensity over the allowed intensity range. The utility function is defined as in
+     * Returns the expected development intensity over the allowed intensity
+     * range. The utility function is defined as in
      * <code>getCompositeUtility()</code>.
      * 
      * @param dispersionParameter
-     *            The dispersion parameter for the choice over the possible intensities.
+     *            The dispersion parameter for the choice over the possible
+     *            intensities.
      * @param landArea
      *            The area of the parcel.
      * @param utilityPerUnitSpace
      *            The base utility of each unit area of floorspace.
      * @param utilityPerUnitLand
-     *            The base utility of each unit area of land - i.e. the component of utility that does not depend on the amount of floorspace.
+     *            The base utility of each unit area of land - i.e. the
+     *            component of utility that does not depend on the amount of
+     *            floorspace.
      * @param intensityPoints
-     *            The boundary points for the subranges as FARs. The first and last elements are the minimum and maximum allowed FAR while the other
-     *            points are the boundaries between the different subranges. The boundary points must be properly ordered - i.e. each boundary point
-     *            must be no less than the previous boundary point. The minimum and maximum, however, may be out of order with respect to the boundary
-     *            points, meaning that some of the ranges are disallowed entirely.
+     *            The boundary points for the subranges as FARs. The first and
+     *            last elements are the minimum and maximum allowed FAR while
+     *            the other points are the boundaries between the different
+     *            subranges. The boundary points must be properly ordered - i.e.
+     *            each boundary point must be no less than the previous boundary
+     *            point. The minimum and maximum, however, may be out of order
+     *            with respect to the boundary points, meaning that some of the
+     *            ranges are disallowed entirely.
      * @param perSpaceAdjustments
-     *            The adjustment to the utility per unit area of floorspace for each subrange.
+     *            The adjustment to the utility per unit area of floorspace for
+     *            each subrange.
      * @param perLandAdjustments
-     *            The step sizes at each boundary point - i.e. the difference between the utility just above the boundary point and the utility just
-     *            below it. The first element applies at the minimum FAR, so it is effectively a global adjustment to the utility.
+     *            The step sizes at each boundary point - i.e. the difference
+     *            between the utility just above the boundary point and the
+     *            utility just below it. The first element applies at the
+     *            minimum FAR, so it is effectively a global adjustment to the
+     *            utility.
      * @return The expected FAR.
      * @see getCompositeUtility.
      */
@@ -1168,7 +1243,8 @@ public abstract class DevelopmentAlternative
             i--;
         int highestValidRange = i;
 
-        // If there are no degenerate ranges, we can proceed to the calculations.
+        // If there are no degenerate ranges, we can proceed to the
+        // calculations.
         if (lowestValidRange == 0 && highestValidRange == numRanges - 1)
             return getExpectedFARProperRanges(dispersionParameter, landArea, utilityPerUnitSpace,
                     utilityPerUnitLand, intensityPoints, perSpaceAdjustments, perLandAdjustments);
@@ -1191,7 +1267,8 @@ public abstract class DevelopmentAlternative
     // Returns a 1 by numRanges matrix.
     private static Matrix getExpectedFARDerivativesWRTExpectedFARSums(int numRanges)
     {
-        // The total expected FAR is simply the sum of the FAR sum in each range, so these are all 1.
+        // The total expected FAR is simply the sum of the FAR sum in each
+        // range, so these are all 1.
         double[] result = new double[numRanges];
         for (int i = 0; i < numRanges; i++)
             result[i] = 1;
@@ -1341,7 +1418,8 @@ public abstract class DevelopmentAlternative
         }
     }
 
-    // Finds the direct partial derivatives of the expected FAR sum with respect to the integral parameters.
+    // Finds the direct partial derivatives of the expected FAR sum with respect
+    // to the integral parameters.
     // Returns a numRanges by 5 matrix as an array of 1 by 5 matrices.
     private static Matrix[] getExpectedFARSumDerivativesWRTIntegralParameters(int numRanges,
             double[] integrals, double[] perSpaces, double[] perLands, double[] minIntensities,
@@ -1497,7 +1575,8 @@ public abstract class DevelopmentAlternative
                     minFARs[i], maxFARs[i], dispersionParameter);
         }
 
-        // Component of partial derivatives through dependency on utility integrals.
+        // Component of partial derivatives through dependency on utility
+        // integrals.
         Matrix[] dadt = getIntegralParameterDerivativesWRTParameters(numRanges,
                 perSpaceAdjustments, perLandAdjustments, intensityPoints, dispersionParameter);
         Matrix[] dIda = getUtilityDerivativesWRTIntegralParameters(numRanges, perSpaces, perLands,
@@ -1508,12 +1587,14 @@ public abstract class DevelopmentAlternative
         Matrix dIedt = new DenseMatrix(numRanges, numCoeffs);
         dIedt = dIedI.mult(dIdt, dIedt);
 
-        // Component of partial derivatives through direct dependency of expected value on parameters.
+        // Component of partial derivatives through direct dependency of
+        // expected value on parameters.
         Matrix[] dIeda = getExpectedFARSumDerivativesWRTIntegralParameters(numRanges, integrals,
                 perSpaces, perLands, minFARs, maxFARs, dispersionParameter);
         dIedt.add(multiplyAndAggregate(numRanges, NUM_INT_PARAMS, numCoeffs, dIeda, dadt));
 
-        // Multiply by the dependency of expected value on the expected value for each range.
+        // Multiply by the dependency of expected value on the expected value
+        // for each range.
         Matrix dEdIe = getExpectedFARDerivativesWRTExpectedFARSums(numRanges);
         Matrix result = new DenseMatrix(1, numCoeffs);
         result = dEdIe.mult(dIedt, result);
@@ -1527,29 +1608,43 @@ public abstract class DevelopmentAlternative
     }
 
     /**
-     * Returns the partial derivatives of the expected intensity with respect to each parameter. The utility function is defined as in
+     * Returns the partial derivatives of the expected intensity with respect to
+     * each parameter. The utility function is defined as in
      * <code>getCompositeUtility()</code>.
      * 
      * @param dispersionParameter
-     *            The dispersion parameter for the choice over the possible intensities.
+     *            The dispersion parameter for the choice over the possible
+     *            intensities.
      * @param landArea
      *            The area of the parcel.
      * @param utilityPerUnitSpace
      *            The base utility of each unit area of floorspace.
      * @param utilityPerUnitLand
-     *            The base utility of each unit area of land - i.e. the component of utility that does not depend on the amount of floorspace.
+     *            The base utility of each unit area of land - i.e. the
+     *            component of utility that does not depend on the amount of
+     *            floorspace.
      * @param intensityPoints
-     *            The boundary points for the subranges as FARs. The first and last elements are the minimum and maximum allowed FAR while the other
-     *            points are the boundaries between the different subranges. The boundary points must be properly ordered - i.e. each boundary point
-     *            must be no less than the previous boundary point. The minimum and maximum, however, may be out of order with respect to the boundary
-     *            points, meaning that some of the ranges are disallowed entirely.
+     *            The boundary points for the subranges as FARs. The first and
+     *            last elements are the minimum and maximum allowed FAR while
+     *            the other points are the boundaries between the different
+     *            subranges. The boundary points must be properly ordered - i.e.
+     *            each boundary point must be no less than the previous boundary
+     *            point. The minimum and maximum, however, may be out of order
+     *            with respect to the boundary points, meaning that some of the
+     *            ranges are disallowed entirely.
      * @param perSpaceAdjustments
-     *            The adjustment to the utility per unit area of floorspace for each subrange.
+     *            The adjustment to the utility per unit area of floorspace for
+     *            each subrange.
      * @param perLandAdjustments
-     *            The step sizes at each boundary point - i.e. the difference between the utility just above the boundary point and the utility just
-     *            below it. The first element applies at the minimum FAR, so it is effectively a global adjustment to the utility.
-     * @return The derivatives with respect to each parameter, with the parameters in the following order: the boundary points, the per-space
-     *         adjustments, the per-land adjustments, and the dispersion parameter.
+     *            The step sizes at each boundary point - i.e. the difference
+     *            between the utility just above the boundary point and the
+     *            utility just below it. The first element applies at the
+     *            minimum FAR, so it is effectively a global adjustment to the
+     *            utility.
+     * @return The derivatives with respect to each parameter, with the
+     *         parameters in the following order: the boundary points, the
+     *         per-space adjustments, the per-land adjustments, and the
+     *         dispersion parameter.
      * @see getCompositeUtility.
      */
     protected static Vector getExpectedFARDerivativesWRTParameters(double dispersionParameter,
@@ -1595,7 +1690,8 @@ public abstract class DevelopmentAlternative
             i--;
         int highestValidRange = i;
 
-        // If there are no degenerate ranges, we can proceed to the calculations.
+        // If there are no degenerate ranges, we can proceed to the
+        // calculations.
         if (lowestValidRange == 0 && highestValidRange == numRanges - 1)
             return getExpectedFARDerivativesWRTParametersProperRanges(dispersionParameter,
                     landArea, utilityPerUnitSpace, utilityPerUnitLand, intensityPoints,
@@ -1615,7 +1711,8 @@ public abstract class DevelopmentAlternative
                 landArea, utilityPerUnitSpace, utilityPerUnitLand, properIntensityPoints,
                 properPerSpaceAdjustments, properPerLandAdjustments);
 
-        // The above vector will be too small. Add zeroes to positions corresponding to invalid ranges (since these parameters
+        // The above vector will be too small. Add zeroes to positions
+        // corresponding to invalid ranges (since these parameters
         // will not affect the utility).
         Vector restored = transformDerivativesForValidRanges(result, numRanges, lowestValidRange,
                 highestValidRange, perSpaceAdjustments, perLandAdjustments, intensityPoints,

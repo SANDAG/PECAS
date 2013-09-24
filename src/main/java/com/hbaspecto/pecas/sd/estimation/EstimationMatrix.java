@@ -16,7 +16,8 @@ import com.hbaspecto.discreteChoiceModelling.Coefficient;
 public class EstimationMatrix
 {
     private final Vector              expvalues;
-    // Rows of targets, columns of coefficients, linearized relationship between targets and coefficients
+    // Rows of targets, columns of coefficients, linearized relationship between
+    // targets and coefficients
     private final Matrix              derivatives;
 
     private final List<ExpectedValue> expValues;
@@ -52,7 +53,8 @@ public class EstimationMatrix
     }
 
     /**
-     * Adds the specified values, element by element, to the cumulative totals for the derivatives.
+     * Adds the specified values, element by element, to the cumulative totals
+     * for the derivatives.
      * 
      * @param component
      * @throws IndexOutOfBoundsException
@@ -80,7 +82,8 @@ public class EstimationMatrix
     }
 
     /**
-     * Returns an immutable list holding the targets. The list has a back-map from target objects to indices, so calls to <code>indexOf</code> and
+     * Returns an immutable list holding the targets. The list has a back-map
+     * from target objects to indices, so calls to <code>indexOf</code> and
      * <code>contains</code> have constant time performance.
      * 
      * @return An immutable list of targets.
@@ -91,10 +94,12 @@ public class EstimationMatrix
     }
 
     /**
-     * Returns an immutable list (similar to <code>getTargets</code>) containing only those targets that proclaim themselves to be valid on the
-     * current parcel.
+     * Returns an immutable list (similar to <code>getTargets</code>) containing
+     * only those targets that proclaim themselves to be valid on the current
+     * parcel.
      * 
-     * @return An immutable list of the targets applicable to the current parcel.
+     * @return An immutable list of the targets applicable to the current
+     *         parcel.
      */
     public List<ExpectedValue> getTargetsApplicableToCurrentParcel()
     {
@@ -106,8 +111,10 @@ public class EstimationMatrix
     }
 
     /**
-     * Returns an immutable list holding the coefficients. The list has a back-map from coefficient objects to indices, so calls to
-     * <code>indexOf</code> and <code>contains</code> have constant time performance.
+     * Returns an immutable list holding the coefficients. The list has a
+     * back-map from coefficient objects to indices, so calls to
+     * <code>indexOf</code> and <code>contains</code> have constant time
+     * performance.
      * 
      * @return An immutable list of targets.
      */
@@ -128,7 +135,7 @@ public class EstimationMatrix
 
     // A wrapper around another list that prevents it from being
     // modified and provides fast lookup via a back-map.
-    private class BackMapList<E>
+    private final class BackMapList<E>
             implements List<E>
     {
         private List<E>           contents;

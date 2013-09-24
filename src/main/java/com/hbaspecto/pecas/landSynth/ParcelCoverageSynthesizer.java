@@ -50,7 +50,7 @@ public class ParcelCoverageSynthesizer
         }
         threadCount = ResourceUtil.getIntegerProperty(props, "ThreadCount", 1);
 
-        final ParcelCoverageSynthesizer mySquareFeetToParcel[] = new ParcelCoverageSynthesizer[threadCount];
+        final ParcelCoverageSynthesizer[] mySquareFeetToParcel = new ParcelCoverageSynthesizer[threadCount];
 
         // TODO figure out something other than a LoadingQueue (don't want a
         // fixed size); we don't

@@ -4,14 +4,14 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.Logger;
-import com.hbaspecto.discreteChoiceModelling.Coefficient;
 import no.uib.cipr.matrix.DenseCholesky;
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.DenseVector;
+import no.uib.cipr.matrix.Matrices;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
-import no.uib.cipr.matrix.Matrices;
+import org.apache.log4j.Logger;
+import com.hbaspecto.discreteChoiceModelling.Coefficient;
 
 public class GaussBayesianObjective
         implements ObjectiveFunction

@@ -286,7 +286,7 @@ public class TestMarquardtMinimizer
         assertEquals(14.3776, minnyTheMarquardtMinimizer.getCurrentObjectiveValue(), 0.0001);
     }
 
-    private static class TestModel
+    private static final class TestModel
             implements DifferentiableModel
     {
         List<Coefficient> myCoeffs;
@@ -362,7 +362,7 @@ public class TestMarquardtMinimizer
         }
     }
 
-    private static class TestAlternative
+    private static final class TestAlternative
             extends DevelopmentAlternative
     {
         private final Coefficient   intensityDispersion;
@@ -485,7 +485,7 @@ public class TestMarquardtMinimizer
         }
     }
 
-    private static class TestCoefficient
+    private static final class TestCoefficient
             implements Coefficient
     {
         private final String myName;
@@ -540,7 +540,7 @@ public class TestMarquardtMinimizer
 
     }
 
-    private static class TestTarget
+    private static final class TestTarget
             extends EstimationTarget
             implements ExpectedValue
     {

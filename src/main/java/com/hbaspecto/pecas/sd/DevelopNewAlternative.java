@@ -3,14 +3,17 @@
  * 
  * Copyright 2005 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.sd;
 
@@ -25,13 +28,15 @@ import com.hbaspecto.discreteChoiceModelling.Coefficient;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
 import com.hbaspecto.pecas.land.LandInventory;
-import com.hbaspecto.pecas.land.ParcelInterface;
 import com.hbaspecto.pecas.land.LandInventory.NotSplittableException;
+import com.hbaspecto.pecas.land.ParcelInterface;
 import com.hbaspecto.pecas.sd.estimation.DemolitionTarget;
 import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
 import com.hbaspecto.pecas.sd.estimation.SpaceTypeCoefficient;
 import com.hbaspecto.pecas.sd.estimation.TransitionConstant;
-import com.hbaspecto.pecas.sd.orm.*;
+import com.hbaspecto.pecas.sd.orm.DevelopmentFees;
+import com.hbaspecto.pecas.sd.orm.TransitionCostCodes;
+import com.hbaspecto.pecas.sd.orm.TransitionCosts;
 
 public class DevelopNewAlternative
         extends DevelopmentAlternative
@@ -44,7 +49,11 @@ public class DevelopNewAlternative
     private final ZoningRulesI scheme;
     final SpaceTypesI          theNewSpaceTypeToBeBuilt;
     final ZoningPermissions    zoningReg;
-    double                     sizeTerm;                                                           // size term for change alternatives.
+    double                     sizeTerm;                                                           // size
+                                                                                                    // term
+                                                                                                    // for
+                                                                                                    // change
+                                                                                                    // alternatives.
 
     // Parameters stored as coefficients.
     private Coefficient        dispersionCoeff;
@@ -56,7 +65,8 @@ public class DevelopNewAlternative
 
     private Coefficient        transitionCoeff;
 
-    // Variables that store parameters for the DevelopmentAlternatives utility methods.
+    // Variables that store parameters for the DevelopmentAlternatives utility
+    // methods.
     private double             dispersion;
     private double             landArea;
     private double             existingQuantity;
@@ -150,7 +160,8 @@ public class DevelopNewAlternative
      */
     public double getUtilityNoSizeEffect() throws ChoiceModelOverflowException
     {
-        // with continuous intensity options, this is V(tilde)(h)/l in equation 90
+        // with continuous intensity options, this is V(tilde)(h)/l in equation
+        // 90
         // note NOT v(tilde)(h) but divided by land size PLUS
         // the transition constant
         if (utilityCached) return lastUtility;
@@ -175,10 +186,12 @@ public class DevelopNewAlternative
                             + utilityPerLand + "; Thjp=" + utilityPerSpace + "; " + minimumFAR
                             + "<FAR<" + maximumFAR + " landsize=" + landArea);
         }
-        result += transitionConstant; // the from-to transition constant in the transitionconstantsi table
+        result += transitionConstant; // the from-to transition constant in the
+                                      // transitionconstantsi table
         // TODO We want to adjust the costs, not the utility.
         result += theNewSpaceTypeToBeBuilt.getUtilityConstructionAdjustment();
-        result += newToTransitionConstant; // the transition constant for all new construction of this type;
+        result += newToTransitionConstant; // the transition constant for all
+                                           // new construction of this type;
         if (caching) utilityCached = true;
         lastUtility = result;
         return lastUtility;
@@ -193,7 +206,8 @@ public class DevelopNewAlternative
             constCostPerUnitSpace += zoningReg.get_PenaltyAcknowledgedSpace();
 
         // FIXME: CosnstructionCosts should be adjusted here.
-        // FIXME: if CapacityConstraint is ON: AdjTrCost = TrCost * theNewSpaceTypeToBeBuilt.get_CostAdjustmentFactor();
+        // FIXME: if CapacityConstraint is ON: AdjTrCost = TrCost *
+        // theNewSpaceTypeToBeBuilt.get_CostAdjustmentFactor();
 
         constCostPerUnitSpace += df.get_DevelopmentFeePerUnitSpaceInitial();
         double annualCost = constCostPerUnitSpace * ZoningRulesI.amortizationFactor;
@@ -251,8 +265,10 @@ public class DevelopNewAlternative
         int servicingRequired = zoningReg.get_ServicesRequirement();
         if (servicingRequired > ZoningRulesI.land.getAvailableServiceCode())
         {
-            // ENHANCEMENT don't hard code the two servicing code integer interpretations
-            // ENHANCEMENT put future servicing xref into xref table instead of inparcel table.
+            // ENHANCEMENT don't hard code the two servicing code integer
+            // interpretations
+            // ENHANCEMENT put future servicing xref into xref table instead of
+            // inparcel table.
             if (servicingRequired == 1)
             {
                 cost += costCodes.get_LowCapacityServicesInstallationCost();
@@ -282,14 +298,16 @@ public class DevelopNewAlternative
         if (size > ZoningRulesI.land.getMaxParcelSize())
         {
             // If development occurs on a parcel that is greater than n acres,
-            // split off n acres into a new "pseudo parcel" and add the new pseudo parcel into the database
+            // split off n acres into a new "pseudo parcel" and add the new
+            // pseudo parcel into the database
             int splits = ((int) (size / ZoningRulesI.land.getMaxParcelSize())) + 1;
             double parcelSizes = size / splits;
             ParcelInterface newBit;
             try
             {
                 newBit = ZoningRulesI.land.splitParcel(parcelSizes);
-                // System.out.println("Land Area after carving newBit out: "+ ZoningRulesI.land.getLandArea());
+                // System.out.println("Land Area after carving newBit out: "+
+                // ZoningRulesI.land.getLandArea());
             } catch (NotSplittableException e)
             {
                 logger.fatal("Can't split parcel " + e);
@@ -329,7 +347,9 @@ public class DevelopNewAlternative
             int servicing = ZoningRulesI.land.getAvailableServiceCode();
 
             /*
-             * float servicingNeeded = (float) (newDevQuantity*dt.getServicingRequirement()); if (servicingNeeded >servicing)
+             * float servicingNeeded = (float)
+             * (newDevQuantity*dt.getServicingRequirement()); if
+             * (servicingNeeded >servicing)
              * ZoningRulesI.land.putServiceLevel(servicingNeeded);
              */
             int servicingNeeded = zoningReg.get_ServicesRequirement();
@@ -380,7 +400,8 @@ public class DevelopNewAlternative
         boolean canBuild = setUpParameters();
         int spacetype = theNewSpaceTypeToBeBuilt.get_SpaceTypeId();
 
-        double expectedAddedSpace = 0; // Never any added space in a develop new alternative.
+        double expectedAddedSpace = 0; // Never any added space in a develop new
+                                       // alternative.
         double expectedNewSpace;
 
         // If no construction is possible, the expected new space is 0.
@@ -422,7 +443,8 @@ public class DevelopNewAlternative
         if (utilDerivCached) return lastUtilDeriv.copy();
         boolean canBuild = setUpParameters();
 
-        // If no construction is possible, the utility is always negative infinity. Just return all zeroes.
+        // If no construction is possible, the utility is always negative
+        // infinity. Just return all zeroes.
         if (!canBuild) return new DenseVector(cs.size());
 
         Vector results = getUtilityDerivativesWRTParameters(dispersion, landArea, utilityPerSpace,
@@ -439,7 +461,8 @@ public class DevelopNewAlternative
         int transitionIndex = cs.indexOf(transitionCoeff);
         int newToIndex = cs.indexOf(newToTransitionCoeff);
         if (stepPointIndex >= 0) vector.set(stepPointIndex, results.get(1));
-        // These ones have to be multiplied by the amortization factor because of the chain rule.
+        // These ones have to be multiplied by the amortization factor because
+        // of the chain rule.
         if (belowStepPointIndex >= 0) vector.set(belowStepPointIndex, results.get(3) * a);
         if (aboveStepPointIndex >= 0) vector.set(aboveStepPointIndex, results.get(4) * a);
         if (stepPointAmountIndex >= 0) vector.set(stepPointAmountIndex, results.get(6) * a);
@@ -459,16 +482,19 @@ public class DevelopNewAlternative
         boolean canBuild = setUpParameters();
         int spacetype = theNewSpaceTypeToBeBuilt.get_SpaceTypeId();
 
-        // If no construction is possible, the expected new space is always zero, so the overall
+        // If no construction is possible, the expected new space is always
+        // zero, so the overall
         // derivatives are all zero.
         if (!canBuild) return new DenseMatrix(ts.size(), cs.size());
 
         double expectedFAR = getExpectedFAR(dispersion, landArea, utilityPerSpace, utilityPerLand,
                 intensityPoints, perSpaceAdjustments, perLandAdjustments);
-        double expectedAddedSpace = 0; // Never any added space in a develop new alternative.
+        double expectedAddedSpace = 0; // Never any added space in a develop new
+                                       // alternative.
         double expectedNewSpace = expectedFAR * ZoningRulesI.land.getLandArea();
 
-        // Build vector of derivatives of the targets with respect to the expected new space.
+        // Build vector of derivatives of the targets with respect to the
+        // expected new space.
         Matrix dTdE = new DenseMatrix(ts.size(), 1);
         int i = 0;
         for (ExpectedValue value : ts)
@@ -485,7 +511,8 @@ public class DevelopNewAlternative
                 utilityPerSpace, utilityPerLand, intensityPoints, perSpaceAdjustments,
                 perLandAdjustments);
 
-        // Build vector of derivatives of the expected new space with respect to the parameters.
+        // Build vector of derivatives of the expected new space with respect to
+        // the parameters.
         Matrix dEdt = new DenseMatrix(1, cs.size());
         double a = ZoningRulesI.amortizationFactor;
         int stepPointIndex = cs.indexOf(stepPointCoeff);
@@ -494,7 +521,8 @@ public class DevelopNewAlternative
         int stepPointAmountIndex = cs.indexOf(stepPointAmountCoeff);
         int dispersionIndex = cs.indexOf(dispersionCoeff);
         if (stepPointIndex >= 0) dEdt.set(0, stepPointIndex, results.get(1));
-        // These ones have to be multiplied by the amortization factor because of the chain rule.
+        // These ones have to be multiplied by the amortization factor because
+        // of the chain rule.
         if (belowStepPointIndex >= 0) dEdt.set(0, belowStepPointIndex, results.get(3) * a);
         if (aboveStepPointIndex >= 0) dEdt.set(0, aboveStepPointIndex, results.get(4) * a);
         if (stepPointAmountIndex >= 0) dEdt.set(0, stepPointAmountIndex, results.get(6) * a);

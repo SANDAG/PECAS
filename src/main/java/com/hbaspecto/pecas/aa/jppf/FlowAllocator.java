@@ -180,7 +180,8 @@ class FlowAllocator
     }
 
     /*
-     * Set the in memory objects based on the class double[] attributes. Does the opposite of what was done when the FlowAllocator was created with
+     * Set the in memory objects based on the class double[] attributes. Does
+     * the opposite of what was done when the FlowAllocator was created with
      * createFlowAllocator.
      * 
      * Runs on the node.
@@ -311,8 +312,9 @@ class FlowAllocator
     }
 
     /**
-     * Creates the flow object and populates its double array input objects from the in-memory objects. Runs on the Client machine Does the opposite
-     * of setInputValuesInCommodityAndExchangeObjects
+     * Creates the flow object and populates its double array input objects from
+     * the in-memory objects. Runs on the Client machine Does the opposite of
+     * setInputValuesInCommodityAndExchangeObjects
      * 
      * @param c
      * @return

@@ -5,7 +5,7 @@ import simpleorm.sessionjdbc.SSessionJdbc;
 import com.hbaspecto.discreteChoiceModelling.Coefficient;
 import com.hbaspecto.pecas.sd.SpaceTypesI;
 
-public class TransitionConstant
+public final class TransitionConstant
         implements Coefficient
 {
     private int                                                                 spacetype1;

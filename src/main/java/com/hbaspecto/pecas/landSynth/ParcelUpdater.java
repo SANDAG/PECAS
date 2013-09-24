@@ -122,7 +122,7 @@ public class ParcelUpdater
                     // conn.commit();
                 }
                 count++;
-            }// end of while
+            } // end of while
             statement.close();
             AssignSquareFeetToParcel.closeConnection(conn, "Closing connection for Updater");
 
