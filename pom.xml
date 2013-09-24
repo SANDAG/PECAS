@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <groupId>org.sandag</groupId>
     <artifactId>pecas</artifactId>
-    <version>13.0.0</version>  
+    <version>13.0.0</version>
     <name>SANDAG PECAS</name>
 
     <profiles>
@@ -43,8 +43,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-  
-  <reporting>
+
+    <reporting>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -57,7 +57,7 @@
             </plugin>
         </plugins>
     </reporting>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -121,7 +121,24 @@
                                 </resource>
                             </resources>
                         </configuration>
-                    </execution>                    
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${project.build.directory}/${project.name}/${project.version}/pecasRun/AllYears/Outputs" />
+                            </target>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -143,7 +160,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>            
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -162,17 +179,18 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>./</classpathPrefix>
-                            <!--<mainClass>com.hbaspecto.pecas.aa.control.AAControl</mainClass>-->
-                            <!--<mainClass>com.hbaspecto.pecas.sd.StandardSDModel</mainClass>-->
+                            <!--<mainClass>com.hbaspecto.pecas.aa.control.AAControl</mainClass> -->
+                            <!--<mainClass>com.hbaspecto.pecas.sd.StandardSDModel</mainClass> -->
                             <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                         </manifest>
                         <manifestEntries>
-                            <Built-By>San Diego Association of Governments</Built-By>
+                            <Built-By>San Diego Association of
+                                Governments</Built-By>
                             <Class-Path>../conf</Class-Path>
                         </manifestEntries>
                     </archive>
                 </configuration>
-            </plugin>        
+            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -245,24 +263,24 @@
             <groupId>com.microsoft</groupId>
             <artifactId>sql-jdbc-4</artifactId>
             <version>3.0</version>
-        </dependency>        
+        </dependency>
     </dependencies>
-  
-  <distributionManagement>
-    <snapshotRepository>
-      <id>nexus-snapshots</id>
-      <name>Snapshots</name>
-      <url>http://svn.sandag.org:8081/nexus/content/repositories/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Snapshots</name>
+            <url>http://svn.sandag.org:8081/nexus/content/repositories/snapshots</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
         <repository>
             <id>nexus-releases</id>
             <name>Releases</name>
             <url>http://svn.sandag.org:8081/nexus/content/repositories/releases</url>
         </repository>
     </distributionManagement>
-  
-    <repositories>        
+
+    <repositories>
         <repository>
             <id>mvn-repository</id>
             <name>MVN Repository</name>
