@@ -6,7 +6,9 @@ package com.hbaspecto.pecas.sd.orm;
  * class
  **/
 
-public class LocalEffects extends LocalEffects_gen implements
-		java.io.Serializable {
+public class LocalEffects
+        extends LocalEffects_gen
+        implements java.io.Serializable
+{
 
 }

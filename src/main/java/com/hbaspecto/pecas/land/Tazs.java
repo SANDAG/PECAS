@@ -2,10 +2,8 @@ package com.hbaspecto.pecas.land;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import simpleorm.dataset.SQuery;
 import simpleorm.sessionjdbc.SSessionJdbc;
-
 import com.hbaspecto.pecas.sd.orm.Tazs_gen;
 
 /**
@@ -14,53 +12,64 @@ import com.hbaspecto.pecas.sd.orm.Tazs_gen;
  * class
  **/
 
-public class Tazs extends Tazs_gen implements java.io.Serializable {
-	private static boolean isCachedAlready = false;
+public class Tazs
+        extends Tazs_gen
+        implements java.io.Serializable
+{
+    private static boolean isCachedAlready = false;
 
-	public static ArrayList<Integer> getZoneNumbers(SSessionJdbc session) {
-		// SSessionJdbc session = SSessionJdbc.getThreadLocalSession();
-		final List<Tazs> tazs = getAllTazRecords(session);
+    public static ArrayList<Integer> getZoneNumbers(SSessionJdbc session)
+    {
+        // SSessionJdbc session = SSessionJdbc.getThreadLocalSession();
+        final List<Tazs> tazs = getAllTazRecords(session);
 
-		final ArrayList<Integer> zoneNumbersInt = new ArrayList<Integer>();
+        final ArrayList<Integer> zoneNumbersInt = new ArrayList<Integer>();
 
-		for (int i = 0; i < tazs.size(); i++) {
-			zoneNumbersInt.add(tazs.get(i).get_TazNumber());
-		}
-		return zoneNumbersInt;
-	}
+        for (int i = 0; i < tazs.size(); i++)
+        {
+            zoneNumbersInt.add(tazs.get(i).get_TazNumber());
+        }
+        return zoneNumbersInt;
+    }
 
-	/**
-	 * @param session
-	 * @return
-	 */
-	private static List<Tazs> getAllTazRecords(SSessionJdbc session) {
+    /**
+     * @param session
+     * @return
+     */
+    private static List<Tazs> getAllTazRecords(SSessionJdbc session)
+    {
 
-		final SQuery<Tazs> qry = new SQuery<Tazs>(Tazs_gen.meta);
-		boolean wasBegun = true;
-		if (!session.hasBegun()) {
-			session.begin();
-			wasBegun = false;
-		}
-		final List<Tazs> tazs = session.query(qry);
-		isCachedAlready = true;
-		if (!wasBegun) {
-			session.commit();
-		}
-		return tazs;
-	}
+        final SQuery<Tazs> qry = new SQuery<Tazs>(Tazs_gen.meta);
+        boolean wasBegun = true;
+        if (!session.hasBegun())
+        {
+            session.begin();
+            wasBegun = false;
+        }
+        final List<Tazs> tazs = session.query(qry);
+        isCachedAlready = true;
+        if (!wasBegun)
+        {
+            session.commit();
+        }
+        return tazs;
+    }
 
-	private static Tazs getTazRecord(SSessionJdbc session, int tazNumber) {
+    private static Tazs getTazRecord(SSessionJdbc session, int tazNumber)
+    {
 
-		if (!isCachedAlready) {
-			getAllTazRecords(session);
-		}
+        if (!isCachedAlready)
+        {
+            getAllTazRecords(session);
+        }
 
-		final Tazs oneTaz = session.getDataSet().find(meta, tazNumber);
-		return oneTaz;
-	}
+        final Tazs oneTaz = session.getDataSet().find(meta, tazNumber);
+        return oneTaz;
+    }
 
-	public static Tazs getTazRecord(int tazNumber) {
-		return getTazRecord(SSessionJdbc.getThreadLocalSession(), tazNumber);
-	}
+    public static Tazs getTazRecord(int tazNumber)
+    {
+        return getTazRecord(SSessionJdbc.getThreadLocalSession(), tazNumber);
+    }
 
 }

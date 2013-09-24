@@ -1,27 +1,27 @@
 ZoneNumber,Commodity,SupplyFunctionMidpointFactor,SupplyFunctionMidpointPrice,SupplyFunctionDeltaFactor,SupplyFunctionSlopeFactor,SupplyFunctionEta,NoQuantityPrice,NoQuantitySlope,MonitorExchange,OversupplyPrice,OversupplyExponent,OversupplyAmount
--1,Agriculture and Mining Space,0.15,0.6,0.7,0.0045,0.9,9.8,-10,FALSE,100,3,125
--1,Light Industrial Space,0.15,0.6,0.7,0.0045,0.9,9.8,-10,FALSE,100,3,125
--1,Heavy Industry Space,0.2,0.9,0.65,0.007,1,7.88,-10,FALSE,100,3,125
--1,Office Space,0.2,2,0.6,0.004,0.5,22.71,-10,FALSE,100,3,125
--1,Retail Space,0.35,5.5,0.5,0.0025,0.5,24.73,-10,FALSE,100,3,125
--1,Depot Space,0.35,5.5,0.5,0.0025,0.5,9.8,-10,FALSE,100,3,125
--1,Hotel Space,0.35,5.5,0.5,0.0025,0.5,24.73,-10,FALSE,100,3,125
--1,Primary Schools,0.2,2,0.6,0.004,0.5,9.8,-10,FALSE,100,3,125
--1,Secondary Schools,0.2,2,0.6,0.004,0.5,9.8,-10,FALSE,100,3,125
--1,Post-Secondary Institution Space,0.2,2,0.6,0.004,0.5,22.71,-10,FALSE,100,3,125
--1,College Dormitory Space,0.45,1,0.5,0.001,5,9.8,-10,FALSE,100,3,125
--1,Health Care Space,0.2,2,0.6,0.004,0.5,22.71,-10,FALSE,100,3,125
--1,Religious Space,0.35,5.5,0.5,0.0025,0.5,9.8,-10,FALSE,100,3,125
--1,Recreation Space,0.35,5.5,0.5,0.0025,0.5,9.8,-10,FALSE,100,3,125
--1,Active Park Space,0.35,5.5,0.5,0.0025,0.5,24.73,-10,FALSE,100,3,125
--1,Government Operations Space,0.2,2,0.6,0.004,0.5,22.71,-10,FALSE,100,3,125
--1,Spaced Rural Residential Economy,0.45,1,0.5,0.001,2,28.07,-10,FALSE,100,3,125
--1,Spaced Rural Residential Luxury,0.45,1,0.5,0.001,2,28.07,-10,FALSE,100,3,125
--1,Single Family Detached Residential Economy,0.45,1,0.5,0.001,2,22.57,-10,FALSE,100,3,125
--1,Single Family Detached Residential Luxury,0.45,1,0.5,0.001,2,22.57,-10,FALSE,100,3,125
--1,Single Family Attached Residential Economy,0.45,1,0.5,0.001,2,22.49,-10,FALSE,100,3,125
--1,Single Family Attached Residential Luxury,0.45,1,0.5,0.001,2,22.49,-10,FALSE,100,3,125
--1,Multi-Family Residential Economy,0.47,0.95,0.5,0.001,2,19.33,-10,FALSE,100,3,125
--1,Multi-Family Residential Luxury,0.47,0.95,0.5,0.001,2,19.33,-10,FALSE,100,3,125
--1,Mobile Home Residential,0.45,1,0.5,0.001,2,10,-10,FALSE,100,3,125
--1,Military Residential (Non GQ),0.45,1,0.5,0.001,2,10,-10,FALSE,100,3,125
+-1,Agriculture and Mining Space,0.15,0.6,0.7,0.0045,0.9,9.8,-10,FALSE,100,3,100
+-1,Light Industrial Space,0.15,0.6,0.7,0.0045,0.9,9.8,-10,FALSE,100,3,100
+-1,Heavy Industry Space,0.2,0.9,0.65,0.007,1,7.88,-10,FALSE,100,3,100
+-1,Office Space,0.2,2,0.6,0.004,0.5,22.71,-10,FALSE,100,3,100
+-1,Retail Space,0.35,5.5,0.5,0.0025,0.5,24.73,-10,FALSE,100,3,100
+-1,Depot Space,0.35,5.5,0.5,0.0025,0.5,9.8,-10,FALSE,100,3,100
+-1,Hotel Space,0.35,5.5,0.5,0.0025,0.5,24.73,-10,FALSE,100,3,100
+-1,Primary Schools,0.2,2,0.6,0.004,0.5,9.8,-10,FALSE,100,3,100
+-1,Secondary Schools,0.2,2,0.6,0.004,0.5,9.8,-10,FALSE,100,3,100
+-1,Post-Secondary Institution Space,0.2,2,0.6,0.004,0.5,22.71,-10,FALSE,100,3,100
+-1,College Dormitory Space,0.45,1,0.5,0.001,5,9.8,-10,FALSE,100,3,100
+-1,Health Care Space,0.2,2,0.6,0.004,0.5,22.71,-10,FALSE,100,3,100
+-1,Religious Space,0.35,5.5,0.5,0.0025,0.5,9.8,-10,FALSE,100,3,100
+-1,Recreation Space,0.35,5.5,0.5,0.0025,0.5,9.8,-10,FALSE,100,3,100
+-1,Active Park Space,0.35,5.5,0.5,0.0025,0.5,24.73,-10,FALSE,100,3,100
+-1,Government Operations Space,0.2,2,0.6,0.004,0.5,22.71,-10,FALSE,100,3,100
+-1,Spaced Rural Residential Economy,0.45,1,0.5,0.001,2,28.07,-10,FALSE,100,3,100
+-1,Spaced Rural Residential Luxury,0.45,1,0.5,0.001,2,28.07,-10,FALSE,100,3,100
+-1,Single Family Detached Residential Economy,0.45,1,0.5,0.001,2,22.57,-10,FALSE,100,3,100
+-1,Single Family Detached Residential Luxury,0.45,1,0.5,0.001,2,22.57,-10,FALSE,100,3,100
+-1,Single Family Attached Residential Economy,0.45,1,0.5,0.001,2,22.49,-10,FALSE,100,3,100
+-1,Single Family Attached Residential Luxury,0.45,1,0.5,0.001,2,22.49,-10,FALSE,100,3,100
+-1,Multi-Family Residential Economy,0.47,0.95,0.5,0.001,2,19.33,-10,FALSE,100,3,100
+-1,Multi-Family Residential Luxury,0.47,0.95,0.5,0.001,2,19.33,-10,FALSE,100,3,100
+-1,Mobile Home Residential,0.45,1,0.5,0.001,2,10,-10,FALSE,100,3,100
+-1,Military Residential (Non GQ),0.45,1,0.5,0.001,2,10,-10,FALSE,100,3,100

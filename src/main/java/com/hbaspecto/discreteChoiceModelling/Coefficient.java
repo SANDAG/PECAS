@@ -8,56 +8,57 @@ package com.hbaspecto.discreteChoiceModelling;
  * Coefficients should not override equals() or hashCode().
  * 
  */
-public interface Coefficient {
+public interface Coefficient
+{
 
-	/**
-	 * Retrieves the coefficient's value.
-	 * 
-	 * @return The value.
-	 */
-	public double getValue();
+    /**
+     * Retrieves the coefficient's value.
+     * 
+     * @return The value.
+     */
+    double getValue();
 
-	/**
-	 * Changes the coefficient's value.
-	 * 
-	 * @param v
-	 *          The new value.
-	 */
-	public void setValue(double v);
+    /**
+     * Changes the coefficient's value.
+     * 
+     * @param v
+     *            The new value.
+     */
+    void setValue(double v);
 
-	/**
-	 * Retrieves the coefficient's transformed value.
-	 * 
-	 * @return The transformed value.
-	 */
-	public double getTransformedValue();
+    /**
+     * Retrieves the coefficient's transformed value.
+     * 
+     * @return The transformed value.
+     */
+    double getTransformedValue();
 
-	/**
-	 * Sets the coefficient's transformed value.
-	 * 
-	 * @param v
-	 *          The new transformed value.
-	 */
-	public void setTransformedValue(double v);
+    /**
+     * Sets the coefficient's transformed value.
+     * 
+     * @param v
+     *            The new transformed value.
+     */
+    void setTransformedValue(double v);
 
-	/**
-	 * Finds the derivative of the transformed value of the coefficient with
-	 * respect to its internal value.
-	 * 
-	 * @return The derivative at the current value.
-	 */
-	public double getTransformationDerivative();
+    /**
+     * Finds the derivative of the transformed value of the coefficient with
+     * respect to its internal value.
+     * 
+     * @return The derivative at the current value.
+     */
+    double getTransformationDerivative();
 
-	/**
-	 * Finds the derivative of the internal value of the coefficient with respect
-	 * to its transformed value.
-	 * 
-	 * @return The derivative at the current value.
-	 */
-	public double getInverseTransformationDerivative();
+    /**
+     * Finds the derivative of the internal value of the coefficient with
+     * respect to its transformed value.
+     * 
+     * @return The derivative at the current value.
+     */
+    double getInverseTransformationDerivative();
 
-	/**
-	 * Returns the coefficient's name.
-	 */
-	public String getName();
+    /**
+     * Returns the coefficient's name.
+     */
+    String getName();
 }

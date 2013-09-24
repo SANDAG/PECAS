@@ -1,0 +1,58 @@
+ZoneNumber,Commodity,BuyingSize,SellingSize,SpecifiedExchange,ImportFunctionMidpoint,ImportFunctionMidpointPrice,ExportFunctionMidpoint,ExportFunctionMidpointPrice,ImportFunctionDelta,ImportFunctionSlope,ImportFunctionEta,ExportFunctionDelta,ExportFunctionSlope,ExportFunctionEta,MonitorExchange
+-1,Agriculture output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Utilities output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Utilities Office Support,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Construction of Buildings output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Construction of Buildings Office Support,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Construction Non-Building (including mining) output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Construction Non-Building (including mining) Office Support,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Manufacturing output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Manufacturing Office Support,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Wholesale and Warehousing output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Transportation Activity output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Retail Activity output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Professional and Business Services output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Professional and Business Services (Building Maintenance) output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Private Education K-12 output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Private Education Post K-12 and Other output,1,1,FALSE,1.00E+07,1,1.00E+07,1,1.00E+07,1.00E+07,10,-1.00E+07,-1.00E+07,10,FALSE
+-1,Health Services output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Amusement Services (events tracks theme parks country clubs) output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Personal Services Office Based output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Personal Services Retail Based output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Restaurants and Bars Activity output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Private Households output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Hotels Activity output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Religious Activity output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,State and Local Government Enterprises Activity output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+1,Public Education K-12 output,1,1,TRUE,1.00E+08,1,1.00E+08,1,1.00E+08,1.00E+08,10,-1.00E+08,-1.00E+08,10,FALSE
+1,Public Education Post K-12 and Other output,1,1,TRUE,1.00E+08,1,1.00E+08,1,1.00E+08,1.00E+08,10,-1.00E+08,-1.00E+08,10,FALSE
+-1,State and Local Non-Education Activity output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,State and Local Non-Education Activity Office Support,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+1,Federal Military Activity output,1,1,TRUE,1.00E+08,1,1.00E+08,1,1.00E+08,1.00E+08,10,-1.00E+08,-1.00E+08,10,FALSE
+-1,Federal Non-Military Activity output,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Owner-Occupied Dwellings Management and Maintenance,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Scrap and Other,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+1,Adjustments,1,1,TRUE,1.00E+08,1,1.00E+08,1,1.00E+08,1.00E+08,10,-1.00E+08,-1.00E+08,10,FALSE
+-1,K-12 Instruction,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Air Pollution,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Water Pollution,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Solid Waste,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+1,Payroll Tax Receipts,1,1,TRUE,1.50E+10,1,1.50E+10,1,1.50E+10,1.50E+10,10,-1.50E+10,-1.50E+10,10,FALSE
+1,Other Tax Receipts,1,1,TRUE,1.50E+10,1,1.50E+10,1,1.50E+10,1.50E+10,10,-1.50E+10,-1.50E+10,10,FALSE
+1,Other Property Income Receipts,1,1,TRUE,1.50E+10,1,1.50E+10,1,1.50E+10,1.50E+10,10,-1.50E+10,-1.50E+10,10,FALSE
+1,Indirect Business Tax Receipts,1,1,TRUE,1.50E+10,1,1.50E+10,1,1.50E+10,1.50E+10,10,-1.50E+10,-1.50E+10,10,FALSE
+1,Capital Investment Certificates,1,1,TRUE,1.50E+10,1,1.50E+10,1,1.50E+10,1.50E+10,10,-1.50E+10,-1.50E+10,10,FALSE
+1,Investment Earnings Receipts,1,1,TRUE,1.50E+10,1,1.50E+10,1,1.50E+10,1.50E+10,10,-1.50E+10,-1.50E+10,10,FALSE
+1,Government Support Receipts,1,1,TRUE,1.50E+09,1,1.50E+09,1,1.50E+09,1.50E+09,10,-1.50E+09,-1.50E+09,10,FALSE
+1,Other Transfers and Adjustments Receipts,1,1,TRUE,1.50E+10,1,1.50E+10,1,1.50E+10,1.50E+10,10,-1.50E+10,-1.50E+10,10,FALSE
+-1,Management Business Science and Arts Labor,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Services Labor,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Work at Home Labor,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Sales and Office Labor,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Natural Resources Construction and Maintenance Labor,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Production Transportation and Material Moving Labor,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Military Labor,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,Post K-12 and Other Instruction,1,1,FALSE,1.00E+06,1,1.00E+06,1,1.00E+06,1.00E+06,10,-1.00E+06,-1.00E+06,10,FALSE
+-1,ResUnitSF,1,1,FALSE,-600,200,1,0,30000,3.00E-04,0.002,0,-1.00E-04,0,FALSE
+-1,ResUnitMF,1,1,FALSE,-600,200,1,0,30000,3.00E-04,0.002,0,-1.00E-04,0,FALSE
+-1,ResUnitMH,1,1,FALSE,-600,200,1,0,30000,3.00E-04,0.002,0,-1.00E-04,0,FALSE

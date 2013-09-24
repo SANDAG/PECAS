@@ -1,14 +1,17 @@
 /*
  * Copyright 2007 HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
- * under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.hbaspecto.pecas.aa.control;
 
@@ -33,7 +36,8 @@ import com.pb.common.datafile.TableDataSet;
 import com.pb.common.util.ResourceUtil;
 
 /**
- * This is a specific version of the Pre Processor which sets up an activity allocation model using, among other things, a spreadsheet of production
+ * This is a specific version of the Pre Processor which sets up an activity
+ * allocation model using, among other things, a spreadsheet of production
  * technology options called "TechnologyOptionsI"
  * 
  * @author John Abraham
@@ -100,7 +104,8 @@ public class AASetupWithTechnologySubstitution
             {
                 final String msg = "Can't find column "
                         + optionWeightColumnName
-                        + " in TechnologyOptions, if you are new to using Automatic Technology SizeTerms you might have to rename the OptionSize column";
+                        + " in TechnologyOptions, if you are new to using Automatic Technology SizeTerms you might"
+                        + " have to rename the OptionSize column";
                 logger.fatal(msg);
                 throw new RuntimeException(msg);
 
@@ -177,7 +182,8 @@ public class AASetupWithTechnologySubstitution
                         {
                             final String error = "Column \""
                                     + columnName
-                                    + "\" in TechnologyOptionsI does not properly specify the make or use of a commodity -- could be a misspelled commodity name";
+                                    + "\" in TechnologyOptionsI does not properly specify the make or use of a "
+                                    + "commodity -- could be a misspelled commodity name";
                             logger.fatal(error);
                             throw new RuntimeException(error);
                         }
@@ -223,8 +229,10 @@ public class AASetupWithTechnologySubstitution
         logitTechnologyChoice = true;
 
         /*
-         * ActivitiesW is not used anymore. Use ActivitiesI or ActivityTotalsI instead. check if ActivitiesW exist, else use ActivitiesI ptab=
-         * loadTableDataSet("ActivitiesW","aa.current.data", false); if (ptab== null) ptab = loadTableDataSet("ActivitiesI","aa.base.data");
+         * ActivitiesW is not used anymore. Use ActivitiesI or ActivityTotalsI
+         * instead. check if ActivitiesW exist, else use ActivitiesI ptab=
+         * loadTableDataSet("ActivitiesW","aa.current.data", false); if (ptab==
+         * null) ptab = loadTableDataSet("ActivitiesI","aa.base.data");
          */
 
         ptab = loadTableDataSet("ActivitiesI", "aa.base.data", true);
@@ -240,7 +248,8 @@ public class AASetupWithTechnologySubstitution
         }
         if (zonalData == null)
         {
-            logger.info("no ActivitiesZonalValuesI or ActivitiesZonalValuesW in aa.base.data or aa.current.data, trying to get zonal data from previous run (ActivityLocations in aa.previous.data)");
+            logger.info("no ActivitiesZonalValuesI or ActivitiesZonalValuesW in aa.base.data or aa.current.data, "
+                    + "trying to get zonal data from previous run (ActivityLocations in aa.previous.data)");
             zonalData = loadTableDataSet("ActivityLocations", "aa.previous.data", false);
         }
         final Hashtable activityZonalHashtable = new Hashtable();
@@ -298,7 +307,8 @@ public class AASetupWithTechnologySubstitution
             {
                 if (ptab.getValueAt(pRow, otherLambdaColumn) != lambda)
                 {
-                    final String msg = "Using LogitTechnologyChoice but ConsumptionSubstitutionNesting column is present and is not set to be the same and ProductionSubstitutionNesting";
+                    final String msg = "Using LogitTechnologyChoice but ConsumptionSubstitutionNesting column is "
+                            + "present and is not set to be the same and ProductionSubstitutionNesting";
                     logger.fatal(msg);
                     throw new RuntimeException(msg);
                 }
@@ -308,7 +318,9 @@ public class AASetupWithTechnologySubstitution
             {
                 if (ptab.getBooleanValueAt(pRow, "NonModelledProduction"))
                 {
-                    final String error = "NonModelledProduction set to TRUE in ActivitiesI.  Ignored because you are using TechnologyOptionsI where you specify all technology options directly.  Remove this column from ActivitiesI";
+                    final String error = "NonModelledProduction set to TRUE in ActivitiesI.  Ignored because you are "
+                            + "using TechnologyOptionsI where you specify all technology options directly. "
+                            + " Remove this column from ActivitiesI";
                     logger.error(error);
                 }
             }
@@ -316,7 +328,9 @@ public class AASetupWithTechnologySubstitution
             {
                 if (ptab.getBooleanValueAt(pRow, "NonModelledConsumption"))
                 {
-                    final String error = "NonModelledConsumption set to TRUE in ActivitiesI.  Ignored because you are using TechnologyOptionsI where you specify all technology options directly.  Remove this column from ActivitiesI";
+                    final String error = "NonModelledConsumption set to TRUE in ActivitiesI.  Ignored because "
+                            + "you are using TechnologyOptionsI where you specify all technology options directly.  "
+                            + "Remove this column from ActivitiesI";
                     logger.error(error);
                 }
             }

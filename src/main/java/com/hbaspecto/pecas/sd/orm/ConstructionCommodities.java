@@ -3,7 +3,6 @@ package com.hbaspecto.pecas.sd.orm;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import simpleorm.dataset.SQuery;
 import simpleorm.sessionjdbc.SSessionJdbc;
 
@@ -13,44 +12,51 @@ import simpleorm.sessionjdbc.SSessionJdbc;
  * class
  **/
 
-public class ConstructionCommodities extends ConstructionCommodities_gen
-		implements java.io.Serializable {
+public class ConstructionCommodities
+        extends ConstructionCommodities_gen
+        implements java.io.Serializable
+{
 
-	public static ArrayList<String> getAllConstCommodityNames() {
-		final ArrayList<String> names = new ArrayList<String>();
-		final SQuery<ConstructionCommodities> qry = new SQuery<ConstructionCommodities>(
-				ConstructionCommodities_gen.meta);
+    public static ArrayList<String> getAllConstCommodityNames()
+    {
+        ArrayList<String> names = new ArrayList<String>();
+        SQuery<ConstructionCommodities> qry = new SQuery<ConstructionCommodities>(
+                ConstructionCommodities.meta);
 
-		final SSessionJdbc session = SSessionJdbc.getThreadLocalSession();
-		final List<ConstructionCommodities> list = session.query(qry);
-		final Iterator<ConstructionCommodities> itr = list.iterator();
-		while (itr.hasNext()) {
-			names.add(itr.next().get_CcCommodityName());
-		}
-		return names;
-	}
+        SSessionJdbc session = SSessionJdbc.getThreadLocalSession();
+        List<ConstructionCommodities> list = session.query(qry);
+        Iterator<ConstructionCommodities> itr = list.iterator();
+        while (itr.hasNext())
+        {
+            names.add(itr.next().get_CcCommodityName());
+        }
+        return names;
+    }
 
-	/*
-	 * public static ArrayList<String> getConstCommodityNamesBySpaceTypesGroup(int
-	 * spaceTypesGroupID){ ArrayList<String> names = new ArrayList<String>();
-	 * SQuery<ConstructionCommodities> qry = new SQuery<ConstructionCommodities>(
-	 * ConstructionCommodities.meta).eq(ConstructionCommodities
-	 * .SpaceTypesGroupId, spaceTypesGroupID);
-	 * 
-	 * SSessionJdbc session = SSessionJdbc.getThreadLocalSession();
-	 * List<ConstructionCommodities> list = session.query(qry);
-	 * Iterator<ConstructionCommodities> itr = list.iterator(); while
-	 * (itr.hasNext()){ names.add(itr.next().get_CcCommodityName()); } return
-	 * names; }
-	 */
-	public static List<ConstructionCommodities> getConstCommodityBySpaceTypesGroup(
-			SSessionJdbc session, int spaceTypesGroupID) {
+    /*
+     * public static ArrayList<String>
+     * getConstCommodityNamesBySpaceTypesGroup(int spaceTypesGroupID){
+     * ArrayList<String> names = new ArrayList<String>();
+     * SQuery<ConstructionCommodities> qry = new
+     * SQuery<ConstructionCommodities>(
+     * ConstructionCommodities.meta).eq(ConstructionCommodities
+     * .SpaceTypesGroupId, spaceTypesGroupID);
+     * 
+     * SSessionJdbc session = SSessionJdbc.getThreadLocalSession();
+     * List<ConstructionCommodities> list = session.query(qry);
+     * Iterator<ConstructionCommodities> itr = list.iterator(); while
+     * (itr.hasNext()){ names.add(itr.next().get_CcCommodityName()); } return
+     * names; }
+     */
+    public static List<ConstructionCommodities> getConstCommodityBySpaceTypesGroup(
+            SSessionJdbc session, int spaceTypesGroupID)
+    {
 
-		final SQuery<ConstructionCommodities> qry = new SQuery<ConstructionCommodities>(
-				ConstructionCommodities_gen.meta).eq(
-				ConstructionCommodities_gen.SpaceTypesGroupId, spaceTypesGroupID);
-		final List<ConstructionCommodities> list = session.query(qry);
+        SQuery<ConstructionCommodities> qry = new SQuery<ConstructionCommodities>(
+                ConstructionCommodities.meta).eq(ConstructionCommodities.SpaceTypesGroupId,
+                spaceTypesGroupID);
+        List<ConstructionCommodities> list = session.query(qry);
 
-		return list;
-	}
+        return list;
+    }
 }

@@ -6,7 +6,9 @@ package com.hbaspecto.pecas.sd.orm;
  * class
  **/
 
-public class TransitionCostCodes extends TransitionCostCodes_gen implements
-		java.io.Serializable {
+public class TransitionCostCodes
+        extends TransitionCostCodes_gen
+        implements java.io.Serializable
+{
 
 }

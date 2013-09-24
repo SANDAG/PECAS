@@ -17,40 +17,41 @@ import no.uib.cipr.matrix.Vector;
  * @author Graham
  * 
  */
-public interface Constraint {
+public interface Constraint
+{
 
-	/**
-	 * Returns the value of the penalty function at the given parameter values.
-	 * 
-	 * @param params
-	 *          The parameter values.
-	 * @param looseness
-	 *          The looseness parameter.
-	 * @return The value of the penalty function.
-	 */
-	public double getPenaltyFunction(Vector params, double looseness);
+    /**
+     * Returns the value of the penalty function at the given parameter values.
+     * 
+     * @param params
+     *            The parameter values.
+     * @param looseness
+     *            The looseness parameter.
+     * @return The value of the penalty function.
+     */
+    double getPenaltyFunction(Vector params, double looseness);
 
-	/**
-	 * Returns the gradient of the penalty function with respect to the
-	 * parameters, at the given parameter values.
-	 * 
-	 * @param params
-	 *          The parameter values.
-	 * @param looseness
-	 *          The looseness parameter.
-	 * @return The gradient of the penalty function.
-	 */
-	public Vector getPenaltyFunctionGradient(Vector params, double looseness);
+    /**
+     * Returns the gradient of the penalty function with respect to the
+     * parameters, at the given parameter values.
+     * 
+     * @param params
+     *            The parameter values.
+     * @param looseness
+     *            The looseness parameter.
+     * @return The gradient of the penalty function.
+     */
+    Vector getPenaltyFunctionGradient(Vector params, double looseness);
 
-	/**
-	 * Returns the Hessian of the penalty function with respect to the parameters,
-	 * at the given parameter values.
-	 * 
-	 * @param params
-	 *          The parameter values.
-	 * @param looseness
-	 *          The looseness parameter.
-	 * @return The Hessian matrix.
-	 */
-	public Matrix getPenaltyFunctionHessian(Vector params, double looseness);
+    /**
+     * Returns the Hessian of the penalty function with respect to the
+     * parameters, at the given parameter values.
+     * 
+     * @param params
+     *            The parameter values.
+     * @param looseness
+     *            The looseness parameter.
+     * @return The Hessian matrix.
+     */
+    Matrix getPenaltyFunctionHessian(Vector params, double looseness);
 }
