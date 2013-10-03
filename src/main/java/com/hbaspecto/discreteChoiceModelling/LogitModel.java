@@ -362,7 +362,7 @@ public class LogitModel
             {
                 throw new NoAlternativeAvailable();
             }
-            final double selector = SeededRandom.getRandomFloat() * sum;
+            final double selector = SeededRandom.getRandom() * sum;
             sum = 0;
             for (i = 0; i < weights.length; i++)
             {
@@ -409,7 +409,7 @@ public class LogitModel
             {
                 throw new NoAlternativeAvailable();
             }
-            final double selector = SeededRandom.getRandomFloat() * sum;
+            final double selector = SeededRandom.getRandom() * sum;
             sum = 0;
             for (i = 0; i < weights.length; i++)
             {
@@ -531,7 +531,7 @@ public class LogitModel
             utilities[alt] = Math.exp(utilities[alt]);
             denominator += utilities[alt];
         }
-        final double selector = SeededRandom.getRandomFloat() * denominator;
+        final double selector = SeededRandom.getRandom() * denominator;
         double cumulator = 0;
         for (alt = 0; alt < utilities.length; alt++)
         {

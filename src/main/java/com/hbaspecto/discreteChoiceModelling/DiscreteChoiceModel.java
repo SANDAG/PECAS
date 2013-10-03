@@ -51,10 +51,9 @@ public abstract class DiscreteChoiceModel
             ChoiceModelOverflowException
     {
         Alternative a = monteCarloChoice(r);
-        final SeededRandom newRandom = new SeededRandom();
         while (a instanceof DiscreteChoiceModel)
         {
-            a = ((DiscreteChoiceModel) a).monteCarloChoice(newRandom.getRandomFloat());
+            a = ((DiscreteChoiceModel) a).monteCarloChoice((long) (1000 * SeededRandom.getRandom()));
         }
         return a;
     }

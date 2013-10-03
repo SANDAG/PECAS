@@ -54,7 +54,6 @@ public abstract class SDModel
     static String                     referencePath;
     protected static String           outputPath;
     protected static String           gridPath;
-    static SeededRandom               seededRandom;
     protected static int              defaultSeed = 2002;
 
     protected TableDataSetCollection  outputDatabase = null;

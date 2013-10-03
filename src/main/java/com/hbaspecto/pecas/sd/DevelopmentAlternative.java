@@ -7,7 +7,6 @@ import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
 import org.apache.log4j.Logger;
 import com.hbaspecto.discreteChoiceModelling.ParameterSearchAlternative;
-import com.hbaspecto.pecas.sd.StandardSDModel;
 
 public abstract class DevelopmentAlternative
         implements ParameterSearchAlternative

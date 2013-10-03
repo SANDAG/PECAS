@@ -198,10 +198,10 @@ public class StandardSDModel
         landDatabaseDriver = ResourceUtil.checkAndGetProperty(rbSD, "LandJDBCDriver");
         
         int seed = ResourceUtil.getIntegerProperty(rbSD, "randomSeed", defaultSeed);
-        if (seed == defaultSeed)
-        {
-            logger.warn("No random seed provided. Using default value of " + defaultSeed);
-        }
+//        if (seed == defaultSeed)
+//        {
+//            logger.warn("No random seed provided. Using default value of " + defaultSeed);
+//        }
         SeededRandom.setSeed(seed);
         
         try
