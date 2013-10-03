@@ -1,11 +1,13 @@
 package com.hbaspecto.pecas.sd;
 
+import com.pb.common.util.SeededRandom;
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
 import org.apache.log4j.Logger;
 import com.hbaspecto.discreteChoiceModelling.ParameterSearchAlternative;
+import com.hbaspecto.pecas.sd.StandardSDModel;
 
 public abstract class DevelopmentAlternative
         implements ParameterSearchAlternative
@@ -287,8 +289,8 @@ public abstract class DevelopmentAlternative
     private static double sampleIntensityProperRanges(double dispersionParameter, double landArea,
             double utilityPerUnitSpace, double utilityPerUnitLand, double[] intensityPoints,
             double[] perSpaceAdjustments, double[] perLandAdjustments)
-    {
-        double uniformRandomNumber = Math.random();
+    {   
+        double uniformRandomNumber = SeededRandom.getRandom();
         double[] Dplus = new double[intensityPoints.length]; // indefinite
                                                              // integral just
                                                              // below boundary

@@ -27,6 +27,7 @@ import com.hbaspecto.pecas.land.LandInventory;
 import com.pb.common.datafile.TableDataSet;
 import com.pb.common.datafile.TableDataSetCollection;
 import com.pb.common.util.ResourceUtil;
+import com.pb.common.util.SeededRandom;
 
 /**
  * @author Abdel An example of a SD model indepedent of what type of land
@@ -53,6 +54,8 @@ public abstract class SDModel
     static String                     referencePath;
     protected static String           outputPath;
     protected static String           gridPath;
+    static SeededRandom               seededRandom;
+    protected static int              defaultSeed = 2002;
 
     protected TableDataSetCollection  outputDatabase = null;
     protected TableDataSet            zoneNumbers    = null;

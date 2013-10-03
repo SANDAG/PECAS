@@ -15,7 +15,7 @@
  */
 package com.hbaspecto.discreteChoiceModelling;
 
-import java.util.Random;
+import com.pb.common.util.SeededRandom;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
 
@@ -51,10 +51,10 @@ public abstract class DiscreteChoiceModel
             ChoiceModelOverflowException
     {
         Alternative a = monteCarloChoice(r);
-        final Random newRandom = new Random(new Double(r * 1000).longValue());
+        final SeededRandom newRandom = new SeededRandom();
         while (a instanceof DiscreteChoiceModel)
         {
-            a = ((DiscreteChoiceModel) a).monteCarloChoice(newRandom.nextDouble());
+            a = ((DiscreteChoiceModel) a).monteCarloChoice(newRandom.getRandomFloat());
         }
         return a;
     }

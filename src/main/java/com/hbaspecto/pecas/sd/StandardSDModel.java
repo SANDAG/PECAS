@@ -57,6 +57,7 @@ import com.pb.common.datafile.TableDataSetCollection;
 import com.pb.common.datafile.TableDataWriter;
 import com.pb.common.sql.JDBCConnection;
 import com.pb.common.util.ResourceUtil;
+import com.pb.common.util.SeededRandom;
 
 public class StandardSDModel
         extends SDModel
@@ -195,6 +196,14 @@ public class StandardSDModel
         inputTableReader = jdbcInputTableReader;
         inputTableWriter = jdbcInputTableWriter;
         landDatabaseDriver = ResourceUtil.checkAndGetProperty(rbSD, "LandJDBCDriver");
+        
+        int seed = ResourceUtil.getIntegerProperty(rbSD, "randomSeed", defaultSeed);
+        if (seed == defaultSeed)
+        {
+            logger.warn("No random seed provided. Using default value of " + defaultSeed);
+        }
+        SeededRandom.setSeed(seed);
+        
         try
         {
             Class.forName(landDatabaseDriver).newInstance();
