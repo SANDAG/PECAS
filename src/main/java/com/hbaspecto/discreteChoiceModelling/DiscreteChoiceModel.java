@@ -53,7 +53,7 @@ public abstract class DiscreteChoiceModel
         Alternative a = monteCarloChoice(r);
         while (a instanceof DiscreteChoiceModel)
         {
-            a = ((DiscreteChoiceModel) a).monteCarloChoice((long) (1000 * SeededRandom.getRandom()));
+            a = ((DiscreteChoiceModel) a).monteCarloChoice(SeededRandom.getRandom());
         }
         return a;
     }

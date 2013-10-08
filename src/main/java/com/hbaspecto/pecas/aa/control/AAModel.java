@@ -196,6 +196,7 @@ public class AAModel
             commoditySpecificScalingAdjustment = csa;
             logger.info("*   Commodity specific adjustment set to " + csa);
         }
+        
 
     }
 

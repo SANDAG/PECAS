@@ -10,6 +10,7 @@ import com.pb.common.datafile.TableDataSet;
 import com.pb.common.matrix.AlphaToBetaInterface;
 import com.pb.common.matrix.Matrix;
 import com.pb.common.matrix.StringIndexedNDimensionalMatrix;
+import com.pb.common.util.SeededRandom;
 
 public class TripCalculator
 {
@@ -236,7 +237,7 @@ public class TripCalculator
         {
             return (int) (lambda + 0.5);
         }
-        final double random = Math.random();
+        final double random = SeededRandom.getRandom();
         if (lambda > useNormalAt)
         {
             // use normal approximation
