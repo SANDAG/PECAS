@@ -27,7 +27,6 @@ import com.hbaspecto.pecas.land.LandInventory;
 import com.pb.common.datafile.TableDataSet;
 import com.pb.common.datafile.TableDataSetCollection;
 import com.pb.common.util.ResourceUtil;
-import com.pb.common.util.SeededRandom;
 
 /**
  * @author Abdel An example of a SD model indepedent of what type of land

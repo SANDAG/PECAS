@@ -69,6 +69,8 @@ public class StandardSDModel
 
     protected static transient Logger logger        = Logger.getLogger(StandardSDModel.class);
 
+    public static int seed;
+
     protected String                  landDatabaseUser;
 
     protected String                  landDatabasePassword, databaseSchema;
@@ -197,11 +199,7 @@ public class StandardSDModel
         inputTableWriter = jdbcInputTableWriter;
         landDatabaseDriver = ResourceUtil.checkAndGetProperty(rbSD, "LandJDBCDriver");
         
-        int seed = ResourceUtil.getIntegerProperty(rbSD, "randomSeed", defaultSeed);
-//        if (seed == defaultSeed)
-//        {
-//            logger.warn("No random seed provided. Using default value of " + defaultSeed);
-//        }
+        seed = ResourceUtil.getIntegerProperty(rbSD, "randomSeed", defaultSeed);
         SeededRandom.setSeed(seed);
         
         try
