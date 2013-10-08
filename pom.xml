@@ -107,6 +107,22 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>copy-output-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/${project.name}/${project.version}/pecasRun/AllYears/Outputs</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>                    
+                    <execution>
                         <id>copy-python-resources</id>
                         <phase>package</phase>
                         <goals>
@@ -120,23 +136,6 @@
                                     <filtering>true</filtering>
                                 </resource>
                             </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.7</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <mkdir dir="${project.build.directory}/${project.name}/${project.version}/pecasRun/AllYears/Outputs" />
-                            </target>
                         </configuration>
                     </execution>
                 </executions>
