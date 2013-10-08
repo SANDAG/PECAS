@@ -105,23 +105,7 @@
                                 </resource>
                             </resources>
                         </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-output-resources</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/${project.name}/${project.version}/pecasRun/AllYears/Outputs</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>src/main/resources</directory>
-                                    <filtering>true</filtering>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>                    
+                    </execution>              
                     <execution>
                         <id>copy-python-resources</id>
                         <phase>package</phase>

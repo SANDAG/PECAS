@@ -199,7 +199,7 @@ public class StandardSDModel
         inputTableWriter = jdbcInputTableWriter;
         landDatabaseDriver = ResourceUtil.checkAndGetProperty(rbSD, "LandJDBCDriver");
         
-        seed = ResourceUtil.getIntegerProperty(rbSD, "randomSeed", defaultSeed);
+        seed = ResourceUtil.getIntegerProperty(rbSD, "randomSeed", randomSeed);
         SeededRandom.setSeed(seed);
         
         try

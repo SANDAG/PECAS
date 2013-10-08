@@ -53,7 +53,6 @@ public abstract class SDModel
     static String                     referencePath;
     protected static String           outputPath;
     protected static String           gridPath;
-    protected static int              defaultSeed = 2002;
 
     protected TableDataSetCollection  outputDatabase = null;
     protected TableDataSet            zoneNumbers    = null;
@@ -64,6 +63,7 @@ public abstract class SDModel
     protected static TableDataSet     realDevelopmentTypesI;
 
     // protected HashtableAlphaToBeta floorspaceZoneCrossref;
+    protected static int              randomSeed = (int) (Math.random()*5000);
 
     public void runSD(int currentYear, int baseYear, ResourceBundle rb)
     {
