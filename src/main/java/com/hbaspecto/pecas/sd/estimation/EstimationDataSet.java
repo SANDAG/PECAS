@@ -17,6 +17,7 @@ import com.hbaspecto.pecas.sd.orm.ObservedDevelopmentEvents;
 import com.hbaspecto.pecas.sd.orm.TransitionCostCodes;
 import com.hbaspecto.pecas.sd.orm.TransitionCosts;
 import com.pb.common.datafile.GeneralDecimalFormat;
+import com.pb.common.util.SeededRandom;
 
 public class EstimationDataSet
 {
@@ -98,7 +99,7 @@ public class EstimationDataSet
         if (devEvn == null)
         {
             observationWeight = 1 / SAMPLE_RATIO;
-            if (Math.random() >= SAMPLE_RATIO)
+            if (SeededRandom.getRandom() >= SAMPLE_RATIO)
             {
                 estimationRow = null;
                 return;
