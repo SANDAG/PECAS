@@ -517,7 +517,8 @@ public class AAModel
         }
         final long startTime = System.currentTimeMillis();
         boolean nanPresent = false;
-        Commodity.clearAllCommodityExchangeQuantities();// iterates through the
+        Commodity.clearAllCommodityExchangeQuantities();
+        // iterates through the
         // exchange objects
         // inside the commodity
         // objects and sets the sell, buy qtys and the derivatives to 0

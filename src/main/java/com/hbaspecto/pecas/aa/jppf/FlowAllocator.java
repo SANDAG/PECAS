@@ -188,7 +188,7 @@ class FlowAllocator
      */
     public void setInputValuesInCommodityAndExchangeObjects() throws OverflowException
     {
-        commodity.clearAllExchangeQuantities();// iterates through the exchange
+        commodity.clearAllExchangeQuantities(); // iterates through the exchange
         // objects
         // inside the commodity
         // object and sets the sell, buy qtys, surplus and the derivatives to 0

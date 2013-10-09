@@ -621,10 +621,10 @@ public class EstimationDataSet
 
         // TODO: account for ongoing fees too, if they exist
         double fees = 0;
-        fees += df.get_DevelopmentFeePerUnitSpaceInitial();// +
+        fees += df.get_DevelopmentFeePerUnitSpaceInitial(); // +
                                                            // df.get_DevelopmentFeePerUnitSpaceOngoing();
         fees *= quantity / l.getLandArea();
-        fees += df.get_DevelopmentFeePerUnitLandInitial();// +
+        fees += df.get_DevelopmentFeePerUnitLandInitial(); // +
                                                           // df.get_DevelopmentFeePerUnitLandOngoing();
 
         double sitePrep = 0;

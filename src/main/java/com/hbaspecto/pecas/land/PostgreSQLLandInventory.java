@@ -82,7 +82,7 @@ public class PostgreSQLLandInventory
                     + "fp.is_brownfield, "
                     +
                     // ceil((random())* 250 ) as randnum
-                    "ceil((random( " + seed +"))* " + N + " ) as randnum " + "INTO parcels_temp " + "FROM "
+                    "ceil((random( " + seed + "))* " + N + " ) as randnum " + "INTO parcels_temp " + "FROM "
                     + Parcels_gen.meta.getTableName() + " fp, " + "most_recent_zoning_year z, "
                     + "most_recent_fee_year f, " + "most_recent_cost_year c, "
                     + "parcel_zoning_xref zxref, " + "parcel_fee_xref feexref, "

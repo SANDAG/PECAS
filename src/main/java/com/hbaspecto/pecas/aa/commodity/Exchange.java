@@ -284,7 +284,7 @@ public class Exchange
                 } else
                 {
                     productionOrConsumptionPoint = sellingToExchangeFlows[i];
-                    quantity = sellingQuantities[i];// these are positive values
+                    quantity = sellingQuantities[i]; // these are positive values
                     lastCalculatedSellingTotal += quantity;
                     if (monitor && productionOrConsumptionPoint != null)
                     {

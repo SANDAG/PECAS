@@ -533,14 +533,14 @@ public class GridCellSynthesizer
             space = spaceParam;
             if (space <= 0)
             {
-                space = 0;// just to be sure.
+                space = 0; // just to be sure.
             }
             if (observedLand <= 0)
             {
                 cells = 0;
                 if (space > 0)
                 {
-                    intensity = maxIntensity * 1.01;// this will make us borrow
+                    intensity = maxIntensity * 1.01; // this will make us borrow
                     // later.
                 } else
                 {

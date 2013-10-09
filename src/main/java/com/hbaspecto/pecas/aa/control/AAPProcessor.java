@@ -188,11 +188,11 @@ public abstract class AAPProcessor
         // betapkdist.zip
         setUpProductionActivities(); // read in ActivitiesI.csv and initalize an
         // array of aggregate activities
-        setUpExchangesAndZUtilities();// read in ExchangeImportExportI.csv,
+        setUpExchangesAndZUtilities(); // read in ExchangeImportExportI.csv,
         // create an 'Exchanges'
         // table data set and link the exchanges to commodities.
         setExchangePrices();
-        setUpMakeAndUse();// read in MakeUseI.csv and create a 'MakeUse' table
+        setUpMakeAndUse(); // read in MakeUseI.csv and create a 'MakeUse' table
         // data set.
         // Or in case of AASetupWithTechnologySubstitution
         // class, it reads TechnologyOptionsI.csv
