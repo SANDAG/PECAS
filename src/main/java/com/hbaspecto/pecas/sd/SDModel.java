@@ -63,7 +63,6 @@ public abstract class SDModel
     protected static TableDataSet     realDevelopmentTypesI;
 
     // protected HashtableAlphaToBeta floorspaceZoneCrossref;
-    protected static int              randomSeed = (int) (Math.random()*5000);
 
     public void runSD(int currentYear, int baseYear, ResourceBundle rb)
     {

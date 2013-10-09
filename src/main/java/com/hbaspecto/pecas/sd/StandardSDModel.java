@@ -65,17 +65,19 @@ public class StandardSDModel
 
     static boolean                    excelLandDatabase;
 
-    static boolean                    useSQLParcels = false;
+    static boolean                    useSQLParcels       = false;
 
-    protected static transient Logger logger        = Logger.getLogger(StandardSDModel.class);
+    protected static transient Logger logger              = Logger.getLogger(StandardSDModel.class);
 
-    public static int seed;
+    public static int                 seed;
 
     protected String                  landDatabaseUser;
 
     protected String                  landDatabasePassword, databaseSchema;
 
     private TableDataFileWriter       writer;
+
+    private static final int          DEFAULT_RANDOM_SEED = 1;
 
     public static void main(String[] args)
     {
@@ -198,10 +200,10 @@ public class StandardSDModel
         inputTableReader = jdbcInputTableReader;
         inputTableWriter = jdbcInputTableWriter;
         landDatabaseDriver = ResourceUtil.checkAndGetProperty(rbSD, "LandJDBCDriver");
-        
-        seed = ResourceUtil.getIntegerProperty(rbSD, "randomSeed", randomSeed);
+
+        seed = ResourceUtil.getIntegerProperty(rbSD, "randomSeed", DEFAULT_RANDOM_SEED);
         SeededRandom.setSeed(seed);
-        
+
         try
         {
             Class.forName(landDatabaseDriver).newInstance();

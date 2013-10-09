@@ -40,6 +40,7 @@ import com.pb.common.model.Alternative;
 import com.pb.common.model.ObservedChoiceProbabilities;
 import com.pb.common.sql.JDBCConnection;
 import com.pb.common.util.ResourceUtil;
+import com.pb.common.util.SeededRandom;
 
 /**
  * This class creates grid cells in a zone based on the aggregate
@@ -77,7 +78,6 @@ public class GridCellSynthesizer
 
     ResourceBundle                                       ldRb;
 
-    java.util.Random                                     myRandom;
     private TableDataSet                                 landQuantityTable;
     private TableDataSet                                 yrBuiltProbTable;
     private TableDataSet                                 zoningAcres;
@@ -118,8 +118,6 @@ public class GridCellSynthesizer
 
     public void initialize(ResourceBundle ldRb)
     {
-
-        myRandom = new java.util.Random();
         this.ldRb = ldRb;
         final String myDirectory = ldRb.getString("input.file.path");
 
@@ -996,7 +994,7 @@ public class GridCellSynthesizer
                         yearBuiltArray[row] = selectYearBuilt(taz); // YearBuilt
                     }
 
-                    final double selector = Math.random() * rowTotals[d];
+                    final double selector = SeededRandom.getRandom() * rowTotals[d];
                     double sum = 0;
                     final int[] location = new int[2];
                     location[0] = d;
