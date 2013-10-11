@@ -57,7 +57,7 @@ public class JppfAAModel
         // objects and sets the sell, buy qtys and the derivatives to 0, in
         // anticipation of
         // receiving new values as a result of the JPPF task
-        Commodity.clearAllCommodityExchangeQuantities();// iterates through the
+        Commodity.clearAllCommodityExchangeQuantities(); // iterates through the
 
         final Iterator allComms = AbstractCommodity.getAllCommodities().iterator();
         List<JPPFTask> flowAllocators = new ArrayList<JPPFTask>();

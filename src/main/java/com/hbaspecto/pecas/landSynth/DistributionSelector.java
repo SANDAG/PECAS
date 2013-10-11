@@ -15,6 +15,7 @@
  */
 package com.hbaspecto.pecas.landSynth;
 
+import org.apache.log4j.Logger;
 import com.pb.common.util.SeededRandom;
 
 /**
@@ -29,6 +30,7 @@ import com.pb.common.util.SeededRandom;
 public class DistributionSelector
 {
 
+    protected static transient Logger logger              = Logger.getLogger(DistributionSelector.class);
     /**
      * The method assumes that the probability array sums to 1
      * 
@@ -41,6 +43,7 @@ public class DistributionSelector
     public static int getMonteCarloSelection(double[] probabilities) throws RuntimeException
     {
         final double randomNumber = SeededRandom.getRandom();
+        logger.debug("-----RANDOM NUMBER: " + randomNumber + "----------"); 
         final int returnValue = -1;
 
         double sum = 0.00;
@@ -76,6 +79,7 @@ public class DistributionSelector
     public static int getMonteCarloSelection(float[] probabilities) throws RuntimeException
     {
         final float randomNumber = SeededRandom.getRandomFloat();
+        logger.debug("-----RANDOM NUMBER: " + randomNumber + "----------"); 
         final int returnValue = -1;
 
         float sum = 0.0f;
@@ -108,6 +112,7 @@ public class DistributionSelector
     public static double selectFromUniformDistribution(double a, double b)
     {
         final double randomNumber = SeededRandom.getRandom();
+        logger.debug("-----RANDOM NUMBER: " + randomNumber + "----------"); 
         return a + (b - a) * randomNumber;
     }
 }

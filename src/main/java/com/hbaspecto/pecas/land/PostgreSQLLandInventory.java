@@ -26,6 +26,7 @@ import org.postgresql.PGConnection;
 import org.postgresql.copy.CopyManager;
 import com.hbaspecto.pecas.sd.DevelopmentLog;
 import com.hbaspecto.pecas.sd.orm.Parcels_gen;
+import com.hbaspecto.pecas.sd.StandardSDModel;
 import com.pb.common.util.ResourceUtil;
 
 public class PostgreSQLLandInventory
@@ -64,6 +65,7 @@ public class PostgreSQLLandInventory
 
             final boolean fetchParcelsByTaz = ResourceUtil.getBooleanProperty(rbSD,
                     "FetchParcelsByTaz", false);
+            int seed = StandardSDModel.seed;        
 
             final int N = numberOfBatches;
             statement.execute("SELECT fp.parcel_id, "
@@ -80,7 +82,7 @@ public class PostgreSQLLandInventory
                     + "fp.is_brownfield, "
                     +
                     // ceil((random())* 250 ) as randnum
-                    "ceil((random())* " + N + " ) as randnum " + "INTO parcels_temp " + "FROM "
+                    "ceil((random( " + seed + "))* " + N + " ) as randnum " + "INTO parcels_temp " + "FROM "
                     + Parcels_gen.meta.getTableName() + " fp, " + "most_recent_zoning_year z, "
                     + "most_recent_fee_year f, " + "most_recent_cost_year c, "
                     + "parcel_zoning_xref zxref, " + "parcel_fee_xref feexref, "

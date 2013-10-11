@@ -17,7 +17,6 @@ package com.hbaspecto.pecas.zones;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 import org.apache.log4j.Logger;
 import com.pb.common.datafile.TableDataSet;
 
@@ -255,7 +254,6 @@ public abstract class AbstractZone
     private static AbstractZone[] allZonesByUserNumber;
     public final int              zoneIndex;
     private PriceVacancy[]        priceVacancies;
-    protected static Random       theRandom   = new java.util.Random();
 
     /**
      * Goes through the grid cells that have the development type and finds out

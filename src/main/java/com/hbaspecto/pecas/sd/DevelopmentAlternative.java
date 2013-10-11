@@ -1,5 +1,6 @@
 package com.hbaspecto.pecas.sd;
 
+import com.pb.common.util.SeededRandom;
 import no.uib.cipr.matrix.DenseMatrix;
 import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Matrix;
@@ -287,8 +288,9 @@ public abstract class DevelopmentAlternative
     private static double sampleIntensityProperRanges(double dispersionParameter, double landArea,
             double utilityPerUnitSpace, double utilityPerUnitLand, double[] intensityPoints,
             double[] perSpaceAdjustments, double[] perLandAdjustments)
-    {
-        double uniformRandomNumber = Math.random();
+    {   
+        double uniformRandomNumber = SeededRandom.getRandom();
+        logger.debug("-----RANDOM NUMBER: " + uniformRandomNumber + "----------"); 
         double[] Dplus = new double[intensityPoints.length]; // indefinite
                                                              // integral just
                                                              // below boundary

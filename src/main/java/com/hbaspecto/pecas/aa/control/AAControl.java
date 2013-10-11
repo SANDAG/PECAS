@@ -1,17 +1,14 @@
 /*
  * Copyright 2005 PB Consult Inc and HBA Specto Incorporated
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a
+ * copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations
+ * under the License.
  */
 package com.hbaspecto.pecas.aa.control;
 
@@ -25,10 +22,10 @@ import com.hbaspecto.pecas.aa.AAStatusLogger;
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
 import com.pb.common.util.ResourceUtil;
+import com.pb.common.util.SeededRandom;
 
 /**
- * This class runs aa. It loads the data, instantiates the AAModel and writes
- * out the data at the end of aa.
+ * This class runs aa. It loads the data, instantiates the AAModel and writes out the data at the end of aa.
  * 
  * @author Christi Willison
  * @version Mar 16, 2004
@@ -36,22 +33,25 @@ import com.pb.common.util.ResourceUtil;
  */
 public class AAControl
 {
-    protected static Logger      logger             = Logger.getLogger(AAControl.class);
+    protected static final int   DEFAULT_RANDOM_SEED = 1;
+    protected static Logger      logger              = Logger.getLogger(AAControl.class);
     private final int            timePeriod;
     private final ResourceBundle aaRb;
     protected AAPProcessor       aaReaderWriter;
-    protected int                exitValue          = 1;                                // 1=aa
-                                                                                         // exited
-                                                                                         // with
-                                                                                         // errors
-                                                                                         // i.o.w.
-                                                                                         // didn't
+    protected int                exitValue           = 1;                                // 1=aa
+                                                                                          // exited
+                                                                                          // with
+                                                                                          // errors
+                                                                                          // i.o.w.
+                                                                                          // didn't
+    protected static int         seed;
     // converge, 0=aa exited without errors iow.
     // converged
     private int                  constraintIteration;
     private double               newMeritMeasure;
     private AAModel              aa;
-    private boolean              secondIterationRun = false;
+    private boolean              secondIterationRun  = false;
+    
 
     public AAControl(Class pProcessorClass, ResourceBundle aaRb)
     {
@@ -117,8 +117,7 @@ public class AAControl
     }
 
     /**
-     * This method performs the price search to try to clear all markets for all
-     * commodities
+     * This method performs the price search to try to clear all markets for all commodities
      * 
      * @return 0 if it all worked, >0 otherwise
      */
@@ -545,8 +544,7 @@ public class AAControl
     }
 
     /**
-     * Run PECAS AA module. Note this is duplicated in AAModel.startModel(), if
-     * you change here please change it there too.
+     * Run PECAS AA module. Note this is duplicated in AAModel.startModel(), if you change here please change it there too.
      * 
      * @param args
      */
@@ -598,6 +596,10 @@ public class AAControl
             throw new RuntimeException(
                     "usage: com.pb.models.pecas.AAControl [baseYear timeInterval]");
         }
+        
+        seed = ResourceUtil.getIntegerProperty(aaRb, "randomSeed", DEFAULT_RANDOM_SEED);
+        SeededRandom.setSeed(seed);
+                
         try
         {
             aa.runModelPerhapsWithConstraints();

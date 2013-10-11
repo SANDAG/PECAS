@@ -24,6 +24,7 @@ import no.uib.cipr.matrix.DenseVector;
 import no.uib.cipr.matrix.Matrix;
 import no.uib.cipr.matrix.Vector;
 import org.apache.log4j.Logger;
+import com.pb.common.util.SeededRandom;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
 import com.hbaspecto.pecas.sd.estimation.ExpectedValue;
@@ -361,7 +362,9 @@ public class LogitModel
             {
                 throw new NoAlternativeAvailable();
             }
-            final double selector = Math.random() * sum;
+            double randomNum = SeededRandom.getRandom();
+            logger.debug("-----RANDOM NUMBER: " + randomNum + "----------"); 
+            final double selector = randomNum * sum;
             sum = 0;
             for (i = 0; i < weights.length; i++)
             {
@@ -408,7 +411,9 @@ public class LogitModel
             {
                 throw new NoAlternativeAvailable();
             }
-            final double selector = randomNumber * sum;
+            double randomNum = SeededRandom.getRandom();
+            logger.debug("-----RANDOM NUMBER: " + randomNum + "----------"); 
+            final double selector = randomNum * sum;
             sum = 0;
             for (i = 0; i < weights.length; i++)
             {
@@ -530,7 +535,9 @@ public class LogitModel
             utilities[alt] = Math.exp(utilities[alt]);
             denominator += utilities[alt];
         }
-        final double selector = Math.random() * denominator;
+        double randomNum = SeededRandom.getRandom();
+        logger.debug("-----RANDOM NUMBER: " + randomNum + "----------"); 
+        final double selector = randomNum * denominator;
         double cumulator = 0;
         for (alt = 0; alt < utilities.length; alt++)
         {
