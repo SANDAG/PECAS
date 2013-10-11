@@ -105,7 +105,7 @@
                                 </resource>
                             </resources>
                         </configuration>
-                    </execution>
+                    </execution>              
                     <execution>
                         <id>copy-python-resources</id>
                         <phase>package</phase>
@@ -120,23 +120,6 @@
                                     <filtering>true</filtering>
                                 </resource>
                             </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.7</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <mkdir dir="${project.build.directory}/${project.name}/${project.version}/pecasRun/AllYears/Outputs" />
-                            </target>
                         </configuration>
                     </execution>
                 </executions>

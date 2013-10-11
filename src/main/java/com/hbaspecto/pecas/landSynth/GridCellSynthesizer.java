@@ -40,6 +40,7 @@ import com.pb.common.model.Alternative;
 import com.pb.common.model.ObservedChoiceProbabilities;
 import com.pb.common.sql.JDBCConnection;
 import com.pb.common.util.ResourceUtil;
+import com.pb.common.util.SeededRandom;
 
 /**
  * This class creates grid cells in a zone based on the aggregate
@@ -53,16 +54,9 @@ public class GridCellSynthesizer
     private static Logger           logger          = Logger.getLogger(GridCellSynthesizer.class);
     protected static long           gridCellCounter = 1;
 
-    protected static LandCategory[] landCategories;                                               // needs
-                                                                                                   // to
-                                                                                                   // be
-                                                                                                   // static
-                                                                                                   // since
-
-    // each type needs access to
-    // the forestry/protected
-    // and ag lands (for
-    // borrowing)
+    // needs to be static since each type needs access to
+    // the forestry/protected and ag lands (for borrowing)
+    protected static LandCategory[] landCategories;
 
     public static void main(String[] args)
     {
@@ -77,7 +71,6 @@ public class GridCellSynthesizer
 
     ResourceBundle                                       ldRb;
 
-    java.util.Random                                     myRandom;
     private TableDataSet                                 landQuantityTable;
     private TableDataSet                                 yrBuiltProbTable;
     private TableDataSet                                 zoningAcres;
@@ -118,8 +111,6 @@ public class GridCellSynthesizer
 
     public void initialize(ResourceBundle ldRb)
     {
-
-        myRandom = new java.util.Random();
         this.ldRb = ldRb;
         final String myDirectory = ldRb.getString("input.file.path");
 
@@ -535,14 +526,14 @@ public class GridCellSynthesizer
             space = spaceParam;
             if (space <= 0)
             {
-                space = 0;// just to be sure.
+                space = 0; // just to be sure.
             }
             if (observedLand <= 0)
             {
                 cells = 0;
                 if (space > 0)
                 {
-                    intensity = maxIntensity * 1.01;// this will make us borrow
+                    intensity = maxIntensity * 1.01; // this will make us borrow
                     // later.
                 } else
                 {
@@ -996,7 +987,9 @@ public class GridCellSynthesizer
                         yearBuiltArray[row] = selectYearBuilt(taz); // YearBuilt
                     }
 
-                    final double selector = Math.random() * rowTotals[d];
+                    double randomNum = SeededRandom.getRandom();
+                    logger.debug("-----RANDOM NUMBER: " + randomNum + "----------");
+                    final double selector = randomNum * rowTotals[d];
                     double sum = 0;
                     final int[] location = new int[2];
                     location[0] = d;

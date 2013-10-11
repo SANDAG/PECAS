@@ -35,7 +35,7 @@ public class ParcelsTemp
         System.out.println("Getting parcels with random number: " + RandomNumber);
 
         final SQuery<ParcelsTemp> query = new SQuery<ParcelsTemp>(ParcelsTemp_gen.meta).eq(Randnum,
-                RandomNumber);
+                RandomNumber).descending(PecasParcelNum);
 
         final List<ParcelsTemp> parcelsWithCurrentNumber = session.query(query);
 
