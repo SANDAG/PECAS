@@ -15,15 +15,18 @@
  */
 package com.hbaspecto.discreteChoiceModelling;
 
+import org.apache.log4j.Logger;
 import com.pb.common.util.SeededRandom;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
+import com.hbaspecto.pecas.sd.StandardSDModel;
 
 /**
  * 
  */
 public abstract class DiscreteChoiceModel
 {
+    protected static transient Logger logger              = Logger.getLogger(DiscreteChoiceModel.class);
     /** Picks one of the alternatives based on the logit model probabilities */
     public abstract Alternative monteCarloChoice() throws NoAlternativeAvailable,
             ChoiceModelOverflowException;
@@ -53,7 +56,9 @@ public abstract class DiscreteChoiceModel
         Alternative a = monteCarloChoice(r);
         while (a instanceof DiscreteChoiceModel)
         {
-            a = ((DiscreteChoiceModel) a).monteCarloChoice(SeededRandom.getRandom());
+            double randomNum = SeededRandom.getRandom();
+            logger.debug("-----RANDOM NUMBER: " + randomNum + "----------"); 
+            a = ((DiscreteChoiceModel) a).monteCarloChoice(randomNum);
         }
         return a;
     }

@@ -238,6 +238,7 @@ public class TripCalculator
             return (int) (lambda + 0.5);
         }
         final double random = SeededRandom.getRandom();
+        logger.debug("-----RANDOM NUMBER: " + random + "----------"); 
         if (lambda > useNormalAt)
         {
             // use normal approximation

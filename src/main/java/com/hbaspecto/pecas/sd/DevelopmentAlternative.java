@@ -290,6 +290,7 @@ public abstract class DevelopmentAlternative
             double[] perSpaceAdjustments, double[] perLandAdjustments)
     {   
         double uniformRandomNumber = SeededRandom.getRandom();
+        logger.debug("-----RANDOM NUMBER: " + uniformRandomNumber + "----------"); 
         double[] Dplus = new double[intensityPoints.length]; // indefinite
                                                              // integral just
                                                              // below boundary

@@ -6,10 +6,12 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.apache.log4j.Logger;
 import simpleorm.sessionjdbc.SSessionJdbc;
 import com.hbaspecto.pecas.land.LandInventory;
 import com.hbaspecto.pecas.land.Tazs;
 import com.hbaspecto.pecas.sd.SpaceTypesI;
+import com.hbaspecto.pecas.sd.StandardSDModel;
 import com.hbaspecto.pecas.sd.ZoningPermissions;
 import com.hbaspecto.pecas.sd.ZoningRulesI;
 import com.hbaspecto.pecas.sd.orm.DevelopmentFees;
@@ -22,13 +24,15 @@ import com.pb.common.util.SeededRandom;
 public class EstimationDataSet
 {
     // private static ArrayList estimationRows = new ArrayList();
-    private ArrayList             estimationRow = null;
-    private double[]              sampledQntys;
-    private final int             NUM_SAMPLES   = 5;
-    private final double          SAMPLE_RATIO;
-    private static BufferedWriter estimationBuffer;
-    private String                fileNameAndPath;
-    private NumberFormat          nf            = new GeneralDecimalFormat("#.####E0", 1E7, 1E-2);
+    private ArrayList                 estimationRow = null;
+    private double[]                  sampledQntys;
+    private final int                 NUM_SAMPLES   = 5;
+    private final double              SAMPLE_RATIO;
+    private static BufferedWriter     estimationBuffer;
+    private String                    fileNameAndPath;
+    protected static transient Logger logger        = Logger.getLogger(EstimationDataSet.class);
+    private NumberFormat              nf            = new GeneralDecimalFormat("#.####E0", 1E7,
+                                                            1E-2);
 
     public EstimationDataSet(String fileNameAndPath, double sampleRatio)
     {
@@ -99,7 +103,9 @@ public class EstimationDataSet
         if (devEvn == null)
         {
             observationWeight = 1 / SAMPLE_RATIO;
-            if (SeededRandom.getRandom() >= SAMPLE_RATIO)
+            double randomNum = SeededRandom.getRandom();
+            logger.debug("-----RANDOM NUMBER: " + randomNum + "----------"); 
+            if (randomNum >= SAMPLE_RATIO)
             {
                 estimationRow = null;
                 return;
@@ -622,10 +628,10 @@ public class EstimationDataSet
         // TODO: account for ongoing fees too, if they exist
         double fees = 0;
         fees += df.get_DevelopmentFeePerUnitSpaceInitial(); // +
-                                                           // df.get_DevelopmentFeePerUnitSpaceOngoing();
+                                                            // df.get_DevelopmentFeePerUnitSpaceOngoing();
         fees *= quantity / l.getLandArea();
         fees += df.get_DevelopmentFeePerUnitLandInitial(); // +
-                                                          // df.get_DevelopmentFeePerUnitLandOngoing();
+                                                           // df.get_DevelopmentFeePerUnitLandOngoing();
 
         double sitePrep = 0;
         if (l.isBrownfield())

@@ -54,16 +54,9 @@ public class GridCellSynthesizer
     private static Logger           logger          = Logger.getLogger(GridCellSynthesizer.class);
     protected static long           gridCellCounter = 1;
 
-    protected static LandCategory[] landCategories;                                               // needs
-                                                                                                   // to
-                                                                                                   // be
-                                                                                                   // static
-                                                                                                   // since
-
-    // each type needs access to
-    // the forestry/protected
-    // and ag lands (for
-    // borrowing)
+    // needs to be static since each type needs access to
+    // the forestry/protected and ag lands (for borrowing)
+    protected static LandCategory[] landCategories;
 
     public static void main(String[] args)
     {
@@ -994,7 +987,9 @@ public class GridCellSynthesizer
                         yearBuiltArray[row] = selectYearBuilt(taz); // YearBuilt
                     }
 
-                    final double selector = SeededRandom.getRandom() * rowTotals[d];
+                    double randomNum = SeededRandom.getRandom();
+                    logger.debug("-----RANDOM NUMBER: " + randomNum + "----------");
+                    final double selector = randomNum * rowTotals[d];
                     double sum = 0;
                     final int[] location = new int[2];
                     location[0] = d;
