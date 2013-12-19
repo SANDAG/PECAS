@@ -28,9 +28,12 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
 import org.apache.log4j.Logger;
+
 import com.hbaspecto.models.FutureObject;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
+import com.hbaspecto.pecas.IResource;
 import com.hbaspecto.pecas.ModelDidntWorkException;
 import com.hbaspecto.pecas.NoAlternativeAvailable;
 import com.hbaspecto.pecas.OverflowException;
@@ -42,6 +45,7 @@ import com.hbaspecto.pecas.aa.commodity.Commodity;
 import com.hbaspecto.pecas.aa.commodity.CommodityZUtility;
 import com.hbaspecto.pecas.aa.commodity.Exchange;
 import com.pb.common.util.ResourceUtil;
+
 import drasys.or.linear.algebra.Algebra;
 import drasys.or.linear.algebra.CroutPivot;
 import drasys.or.matrix.DenseMatrix;
@@ -1223,7 +1227,7 @@ public class AAModel
      * This is duplicated code from AAControl.main(). If you change this code
      * please change AAControl.main() as well.
      */
-    public void startModel(int baseYear, int timeInterval)
+    public void startModel(int baseYear, int timeInterval, IResource resourceUtil)
     {
         final String pProcessorClass = ResourceUtil.getProperty(aaRb, "pprocessor.class");
         logger.info("PECAS will be using the " + pProcessorClass + " for pre and post processing");
@@ -1237,7 +1241,7 @@ public class AAModel
         }
         try
         {
-            aa.runModelPerhapsWithConstraints();
+            aa.runModelPerhapsWithConstraints(resourceUtil);
         } catch (final ModelDidntWorkException e)
         {
             logger.fatal("AA model did not work, " + e);

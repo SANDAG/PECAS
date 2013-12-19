@@ -15,9 +15,13 @@ package com.hbaspecto.pecas.aa.control;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ResourceBundle;
+
 import org.apache.log4j.Logger;
+
+import com.hbaspecto.pecas.IResource;
 import com.hbaspecto.pecas.ModelDidntWorkException;
 import com.hbaspecto.pecas.OverflowException;
+import com.hbaspecto.pecas.Resource;
 import com.hbaspecto.pecas.aa.AAStatusLogger;
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
@@ -102,13 +106,13 @@ public class AAControl
         aaReaderWriter.setBaseYear(baseYear);
     }
 
-    public void readData()
+    public void readData(IResource resourceUtil)
     {
         logger.info("Reading data and setting up for PECAS run");
         AAStatusLogger.logText("Reading data and setting up for PECAS run");
         final long startTime = System.currentTimeMillis();
         aaReaderWriter.doProjectSpecificInputProcessing();
-        aaReaderWriter.setUpAA();
+        aaReaderWriter.setUpAA(resourceUtil);
         AAPProcessor.isSetup = true;
         logger.info("Setup is complete. Time in seconds: "
                 + (System.currentTimeMillis() - startTime) / 1000.0);
@@ -531,12 +535,12 @@ public class AAControl
         return false;
     }
 
-    public void writeData()
+    public void writeData(IResource resourceUtil)
     {
         logger.info("Writing out results - this takes up to 15 minutes");
         AAStatusLogger.logText("Writing out results");
         final long startTime = System.currentTimeMillis();
-        aaReaderWriter.writeOutputs();
+        aaReaderWriter.writeOutputs(resourceUtil);
         logger.info("Output has been written. Time in seconds: "
                 + (System.currentTimeMillis() - startTime) / 1000.0);
         AAStatusLogger.logText("Output has been written");
@@ -602,7 +606,8 @@ public class AAControl
                 
         try
         {
-            aa.runModelPerhapsWithConstraints();
+            IResource resourceUtil = new Resource();
+            aa.runModelPerhapsWithConstraints(resourceUtil);
         } catch (final ModelDidntWorkException e)
         {
             System.exit(1);
@@ -625,11 +630,11 @@ public class AAControl
         System.exit(aa.exitValue);
     }
 
-    void runModelPerhapsWithConstraints() throws ModelDidntWorkException
+    void runModelPerhapsWithConstraints(IResource resourceUtil) throws ModelDidntWorkException
     {
         writeCopyrightStatement();
-        readData();
-        aaReaderWriter.readInHistogramSpecifications();
+        readData(resourceUtil);
+        aaReaderWriter.readInHistogramSpecifications(resourceUtil);
         final boolean constrainedRun = ResourceUtil.getBooleanProperty(aaRb, "constrained", false);
         if (constrainedRun)
         {
@@ -641,25 +646,25 @@ public class AAControl
                     "constraint.smoothing", 1);
             // aaReaderWriter.maxConstantChange=
             // ResourceUtil.getDoubleProperty(aaRb,"constraint.maxConstantChange",2.5);
-            aaReaderWriter.setupActivityConstraints();
+            aaReaderWriter.setupActivityConstraints(resourceUtil);
 
             AggregateActivity.setForceConstraints(true);
             setConstraintIteration(1);
             int didThisWork = runAAToFindPrices();
-            writeData();
+            writeData(resourceUtil);
             if (didThisWork != 0)
             {
                 logger.fatal("Stopping constraint process; AA didn't converge");
                 throw new RuntimeException("Stopping constraint process; AA didn't converge");
             }
             aa.updateActivityZonalConstantsBasedOnConstraints(constraintSmoothing);
-            aaReaderWriter.writeLocationTable("LatestActivityConstants");
+            aaReaderWriter.writeLocationTable("LatestActivityConstants", resourceUtil);
             logger.info("Now checking to make sure constraints are matched");
             setConstraintIteration(2);
             AggregateActivity.setForceConstraints(false);
             setSecondIterationRun(true);
             didThisWork = runAAToFindPrices();
-            writeData();
+            writeData(resourceUtil);
             if (!AAModel.checkConstraints(ResourceUtil.getDoubleProperty(aaRb,
                     "constraint.tolerance", 0.001)))
             {
@@ -668,7 +673,7 @@ public class AAControl
         } else
         {
             runAAToFindPrices();
-            writeData();
+            writeData(resourceUtil);
         }
     }
 
