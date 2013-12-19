@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 import java.util.ResourceBundle;
+
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
+import com.hbaspecto.pecas.IResource;
 import com.hbaspecto.pecas.aa.activities.ActivityInLocationWithLogitTechnologyChoice;
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
 import com.hbaspecto.pecas.aa.activities.ProductionActivity;
@@ -48,13 +50,13 @@ public class AASetupWithTechnologySubstitution
 {
 
     @Override
-    public void writeTechnologyChoice()
+    public void writeTechnologyChoice(IResource resourceUtil)
     {
 
         // now write out technology option proportions
         try
         {
-            final PrintWriter out = new PrintWriter(new FileWriter(getOutputPath()
+            final PrintWriter out = new PrintWriter(new FileWriter(getOutputPath(resourceUtil)
                     + "TechnologyChoice.csv"));
             out.println("Activity,Zone,Option,Utility,Constant,BaseUtility,SizeUtility,Size,Probability");
             for (final ProductionActivity p : ProductionActivity.getAllProductionActivities())
@@ -90,10 +92,10 @@ public class AASetupWithTechnologySubstitution
     }
 
     @Override
-    protected void setUpMakeAndUse()
+    protected void setUpMakeAndUse(IResource resourceUtil)
     {
         logger.info("Setting up TechnologyOptionsI table");
-        final TableDataSet technologyOptions = loadTechnologyOptionsTable();
+        final TableDataSet technologyOptions = loadTechnologyOptionsTable(resourceUtil);
 
         String optionWeightColumnName = "OptionSize";
         if (ResourceUtil.getBooleanProperty(aaRb, "aa.automaticTechnologySizeTerms"))
@@ -199,29 +201,31 @@ public class AASetupWithTechnologySubstitution
     }
 
     /**
+     * @param resourceUtil 
      * @return
      */
-    protected TableDataSet loadTechnologyOptionsTable()
+    protected TableDataSet loadTechnologyOptionsTable(IResource resourceUtil)
     {
         final TableDataSet technologyOptions = loadTableDataSet("TechnologyOptionsI",
-                "aa.base.data");
+                "aa.base.data", resourceUtil);
         return technologyOptions;
     }
 
     @Override
-    protected void setUpProductionActivities()
+    protected void setUpProductionActivities(IResource resourceUtil)
     {
         logger.info("Setting up Production Activities");
-        readActivitiesAndActivityZonalValues();
+        readActivitiesAndActivityZonalValues(resourceUtil);
 
-        readActivityTotals();
+        readActivityTotals(resourceUtil);
 
     }
 
     /**
+     * @param resourceUtil 
 	 * 
 	 */
-    protected void readActivitiesAndActivityZonalValues()
+    protected void readActivitiesAndActivityZonalValues(IResource resourceUtil)
     {
         int numMissingZonalValueErrors = 0;
         TableDataSet ptab = null;
@@ -235,12 +239,12 @@ public class AASetupWithTechnologySubstitution
          * null) ptab = loadTableDataSet("ActivitiesI","aa.base.data");
          */
 
-        ptab = loadTableDataSet("ActivitiesI", "aa.base.data", true);
-        zonalData = loadTableDataSet("ActivitiesZonalValuesW", "aa.current.data", false);
+        ptab = loadTableDataSet("ActivitiesI", "aa.base.data", true, resourceUtil);
+        zonalData = loadTableDataSet("ActivitiesZonalValuesW", "aa.current.data", false, resourceUtil);
 
         if (zonalData == null)
         {
-            zonalData = loadTableDataSet("ActivitiesZonalValuesI", "aa.base.data", false);
+            zonalData = loadTableDataSet("ActivitiesZonalValuesI", "aa.base.data", false, resourceUtil);
         }
         if (ptab == null)
         {
@@ -250,7 +254,7 @@ public class AASetupWithTechnologySubstitution
         {
             logger.info("no ActivitiesZonalValuesI or ActivitiesZonalValuesW in aa.base.data or aa.current.data, "
                     + "trying to get zonal data from previous run (ActivityLocations in aa.previous.data)");
-            zonalData = loadTableDataSet("ActivityLocations", "aa.previous.data", false);
+            zonalData = loadTableDataSet("ActivityLocations", "aa.previous.data", false, resourceUtil);
         }
         final Hashtable activityZonalHashtable = new Hashtable();
         if (zonalData == null)
@@ -373,13 +377,14 @@ public class AASetupWithTechnologySubstitution
     }
 
     /**
+     * @param resourceUtil 
 	 * 
 	 */
-    protected void readActivityTotals()
+    protected void readActivityTotals(IResource resourceUtil)
     {
         // Set up activity totals out of separate table.
         final TableDataSet activityTotalsTable = loadTableDataSet("ActivityTotalsI",
-                "aa.current.data");
+                "aa.current.data", resourceUtil);
         for (int row = 1; row <= activityTotalsTable.getRowCount(); row++)
         {
             final String name = activityTotalsTable.getStringValueAt(row, "Activity");
@@ -396,29 +401,29 @@ public class AASetupWithTechnologySubstitution
     }
 
     @Override
-    protected double[][] readFloorspace()
+    protected double[][] readFloorspace(IResource resourceUtil)
     {
         logger.info("Reading Floorspace File");
         if (maxAlphaZone == 0)
         {
-            readFloorspaceZones();
+            readFloorspaceZones(resourceUtil);
         }
-        TableDataSet floorspaceTable = loadTableDataSet("FloorspaceW", "aa.floorspace.data", false);
+        TableDataSet floorspaceTable = loadTableDataSet("FloorspaceW", "aa.floorspace.data", false, resourceUtil);
         if (floorspaceTable == null)
         {
-            floorspaceTable = loadTableDataSet("FloorspaceI", "aa.floorspace.data", false);
+            floorspaceTable = loadTableDataSet("FloorspaceI", "aa.floorspace.data", false, resourceUtil);
         }
         if (floorspaceTable == null)
         {
-            floorspaceTable = loadTableDataSet("Floorspace", "aa.floorspace.data", false);
+            floorspaceTable = loadTableDataSet("Floorspace", "aa.floorspace.data", false, resourceUtil);
         }
         if (floorspaceTable == null)
         {
             logger.error("Can't find FloorspaceI in the directory specified by the aa.floorspace.data property, looking in aa.base.data");
-            floorspaceTable = loadTableDataSet("FloorspaceI", "aa.base.data", false);
+            floorspaceTable = loadTableDataSet("FloorspaceI", "aa.base.data", false, resourceUtil);
             if (floorspaceTable == null)
             {
-                floorspaceTable = loadTableDataSet("Floorspace", "aa.base.data", true);
+                floorspaceTable = loadTableDataSet("Floorspace", "aa.base.data", true, resourceUtil);
             }
         }
         if (floorspaceTable == null)
@@ -490,7 +495,7 @@ public class AASetupWithTechnologySubstitution
     }
 
     @Override
-    protected TableDataSet loadTableDataSet(String tableName, String source, boolean check)
+    protected TableDataSet loadTableDataSet(String tableName, String source, boolean check, IResource resourceUtil)
     {
         // TODO make sure this is consistent with approach in Ohio and Oregon
         // use SQL Inputs.
@@ -540,7 +545,7 @@ public class AASetupWithTechnologySubstitution
         {
             return table;
         }
-        return super.loadTableDataSet(tableName, source, check);
+        return super.loadTableDataSet(tableName, source, check, resourceUtil);
     }
 
 }

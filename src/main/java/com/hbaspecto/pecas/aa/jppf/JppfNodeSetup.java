@@ -18,8 +18,12 @@ package com.hbaspecto.pecas.aa.jppf;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
 import org.apache.log4j.Logger;
 import org.jppf.task.storage.DataProvider;
+
+import com.hbaspecto.pecas.IResource;
+import com.hbaspecto.pecas.Resource;
 import com.hbaspecto.pecas.aa.control.AAPProcessor;
 
 /**
@@ -99,8 +103,8 @@ public class JppfNodeSetup
 
             aaReaderWriter.setResourceBundles(aar);
             aaReaderWriter.setTimePeriod(timeInterval);
-
-            aaReaderWriter.setUpAA();
+            IResource resourceUtil = new Resource();
+            aaReaderWriter.setUpAA(resourceUtil);
             logger.info("Setup is complete. Time in seconds: "
                     + (System.currentTimeMillis() - startTime) / 1000);
             AAPProcessor.isSetup = true;
