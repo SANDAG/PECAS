@@ -11,13 +11,11 @@ public class FakeNonTransportableExchange extends NonTransportableExchange {
 		super(com, zone);
 	}
 
-	public CommodityZUtility[] GetBuyingFlow()
-	{
+	public CommodityZUtility[] GetBuyingFlow() {
 		return buyingFromExchangeFlows;
 	}
-	
-	public CommodityZUtility[] GetSellingFlow()
-	{
+
+	public CommodityZUtility[] GetSellingFlow() {
 		return sellingToExchangeFlows;
 	}
 }

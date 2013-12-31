@@ -101,39 +101,39 @@ public class TestAAPProcessor extends AAPProcessor {
 		return util;
 	}
 
-	public void callSetUpExchangesAndZUtilities(
-			IResource resourceUtil) {
+	public void callSetUpExchangesAndZUtilities(IResource resourceUtil) {
 		setUpExchangesAndZUtilities(resourceUtil);
-		
+
 	}
-	
+
 	@Override
 	protected TableDataSet loadTableDataSet(String tableName, String source,
-			boolean check, IResource resourceUtil)
-	{
+			boolean check, IResource resourceUtil) {
 		TableDataSet table = null;
-		if (useExchange == 0 && source.compareTo("aa.current.data") == 0)
-		{
+		if (useExchange == 0 && source.compareTo("aa.current.data") == 0) {
 			String[][] f = new String[4][17];
-			String[] monitorExchanges = {"true", "true", "false", "false"};
-			String[] commodities = {"One", "One", "Two", "Two"};
-			String[] specifiedExchanges = {"true", "false", "true", "false"};
-			for (int i = 0; i < 4; i++)
-			{
-				String[] row = {"", monitorExchanges[i], commodities[i], "", "", "", specifiedExchanges[i],
-						"", "", "", "", "", "", "", "", "", ""};
+			String[] monitorExchanges = { "true", "true", "false", "false" };
+			String[] commodities = { "One", "One", "Two", "Two" };
+			String[] specifiedExchanges = { "true", "false", "true", "false" };
+			for (int i = 0; i < 4; i++) {
+				String[] row = { "", monitorExchanges[i], commodities[i], "",
+						"", "", specifiedExchanges[i], "", "", "", "", "", "",
+						"", "", "", "" };
 				f[i] = row;
 			}
-			
-			//HashMap<String, float> row = new HashMap<String, String>();
-			//row.put("Price", "1.0");
-			String[] columns = {"Price", "MonitorExchange", "Commodity", "ZoneNumber", "BuyingSize", 
-					"SellingSize", "SpecifiedExchange", "ImportFunctionMidpoint", "ImportFunctionMidpointPrice",
-					"ImportFunctionEta", "ImportFunctionDelta", "ImportFunctionSlope", "ExportFunctionMidpoint",
-					"ExportFunctionMidpointPrice","ExportFunctionEta", "ExportFunctionDelta","ExportFunctionSlope"
-			};
-			
-			float[] zoneNumbers = {0f, 1f, 0f, 1f};
+
+			// HashMap<String, float> row = new HashMap<String, String>();
+			// row.put("Price", "1.0");
+			String[] columns = { "Price", "MonitorExchange", "Commodity",
+					"ZoneNumber", "BuyingSize", "SellingSize",
+					"SpecifiedExchange", "ImportFunctionMidpoint",
+					"ImportFunctionMidpointPrice", "ImportFunctionEta",
+					"ImportFunctionDelta", "ImportFunctionSlope",
+					"ExportFunctionMidpoint", "ExportFunctionMidpointPrice",
+					"ExportFunctionEta", "ExportFunctionDelta",
+					"ExportFunctionSlope" };
+
+			float[] zoneNumbers = { 0f, 1f, 0f, 1f };
 			table = TableDataSet.create(f, columns);
 			table.setColumnAsFloat(1, new float[4]);
 			table.setColumnAsFloat(4, zoneNumbers);
@@ -149,38 +149,38 @@ public class TestAAPProcessor extends AAPProcessor {
 			table.setColumnAsFloat(15, new float[4]);
 			table.setColumnAsFloat(16, new float[4]);
 			table.setColumnAsFloat(17, new float[4]);
-			
-			for(float r = 1; r <= 4; r++)
-			{
+
+			for (float r = 1; r <= 4; r++) {
 				table.setValueAt((int) r, "Price", r * 1.1f);
 				table.setValueAt((int) r, "BuyingSize", r * 1.2f);
 				table.setValueAt((int) r, "SellingSize", r * 1.3f);
-				for( float y = 8; y <= 17; y++)
-				table.setValueAt((int) r, (int)y, (r * (1.0f + y / 10)));
+				for (float y = 8; y <= 17; y++)
+					table.setValueAt((int) r, (int) y, (r * (1.0f + y / 10)));
 			}
-		}
-		else if (useExchange == 1 && source.compareTo("aa.base.data") == 0)
-		{
+		} else if (useExchange == 1 && source.compareTo("aa.base.data") == 0) {
 			String[][] f = new String[4][17];
-			String[] monitorExchanges = {"true", "true", "false", "false"};
-			String[] commodities = {"One", "One", "Two", "Two"};
-			String[] specifiedExchanges = {"true", "false", "true", "false"};
-			for (int i = 0; i < 4; i++)
-			{
-				String[] row = {"", monitorExchanges[i], commodities[i], "", "", "", specifiedExchanges[i],
-						"", "", "", "", "", "", "", "", "", ""};
+			String[] monitorExchanges = { "true", "true", "false", "false" };
+			String[] commodities = { "One", "One", "Two", "Two" };
+			String[] specifiedExchanges = { "true", "false", "true", "false" };
+			for (int i = 0; i < 4; i++) {
+				String[] row = { "", monitorExchanges[i], commodities[i], "",
+						"", "", specifiedExchanges[i], "", "", "", "", "", "",
+						"", "", "", "" };
 				f[i] = row;
 			}
-			
-			//HashMap<String, float> row = new HashMap<String, String>();
-			//row.put("Price", "1.0");
-			String[] columns = {"Price", "MonitorExchange", "Commodity", "ZoneNumber", "BuyingSize", 
-					"SellingSize", "SpecifiedExchange", "ImportFunctionMidpoint", "ImportFunctionMidpointPrice",
-					"ImportFunctionEta", "ImportFunctionDelta", "ImportFunctionSlope", "ExportFunctionMidpoint",
-					"ExportFunctionMidpointPrice","ExportFunctionEta", "ExportFunctionDelta","ExportFunctionSlope"
-			};
-			
-			float[] zoneNumbers = {0f, 1f, 0f, 1f};
+
+			// HashMap<String, float> row = new HashMap<String, String>();
+			// row.put("Price", "1.0");
+			String[] columns = { "Price", "MonitorExchange", "Commodity",
+					"ZoneNumber", "BuyingSize", "SellingSize",
+					"SpecifiedExchange", "ImportFunctionMidpoint",
+					"ImportFunctionMidpointPrice", "ImportFunctionEta",
+					"ImportFunctionDelta", "ImportFunctionSlope",
+					"ExportFunctionMidpoint", "ExportFunctionMidpointPrice",
+					"ExportFunctionEta", "ExportFunctionDelta",
+					"ExportFunctionSlope" };
+
+			float[] zoneNumbers = { 0f, 1f, 0f, 1f };
 			table = TableDataSet.create(f, columns);
 			table.setColumnAsFloat(1, new float[4]);
 			table.setColumnAsFloat(4, zoneNumbers);
@@ -196,35 +196,35 @@ public class TestAAPProcessor extends AAPProcessor {
 			table.setColumnAsFloat(15, new float[4]);
 			table.setColumnAsFloat(16, new float[4]);
 			table.setColumnAsFloat(17, new float[4]);
-			
-			for(float r = 1; r <= 4; r++)
-			{
+
+			for (float r = 1; r <= 4; r++) {
 				table.setValueAt((int) r, "Price", r * 5f);
 			}
-		}
-		else if (useExchange == 2)
-		{
-			//Invalid Commodity
+		} else if (useExchange == 2) {
+			// Invalid Commodity
 			String[][] f = new String[4][17];
-			String[] monitorExchanges = {"true", "true", "false", "false"};
-			String[] commodities = {"One", "Wrong", "Two", "Two"};
-			String[] specifiedExchanges = {"true", "false", "true", "false"};
-			for (int i = 0; i < 4; i++)
-			{
-				String[] row = {"", monitorExchanges[i], commodities[i], "", "", "", specifiedExchanges[i],
-						"", "", "", "", "", "", "", "", "", ""};
+			String[] monitorExchanges = { "true", "true", "false", "false" };
+			String[] commodities = { "One", "Wrong", "Two", "Two" };
+			String[] specifiedExchanges = { "true", "false", "true", "false" };
+			for (int i = 0; i < 4; i++) {
+				String[] row = { "", monitorExchanges[i], commodities[i], "",
+						"", "", specifiedExchanges[i], "", "", "", "", "", "",
+						"", "", "", "" };
 				f[i] = row;
 			}
-			
-			//HashMap<String, float> row = new HashMap<String, String>();
-			//row.put("Price", "1.0");
-			String[] columns = {"Price", "MonitorExchange", "Commodity", "ZoneNumber", "BuyingSize", 
-					"SellingSize", "SpecifiedExchange", "ImportFunctionMidpoint", "ImportFunctionMidpointPrice",
-					"ImportFunctionEta", "ImportFunctionDelta", "ImportFunctionSlope", "ExportFunctionMidpoint",
-					"ExportFunctionMidpointPrice","ExportFunctionEta", "ExportFunctionDelta","ExportFunctionSlope"
-			};
-			
-			float[] zoneNumbers = {0f, 1f, 0f, 1f};
+
+			// HashMap<String, float> row = new HashMap<String, String>();
+			// row.put("Price", "1.0");
+			String[] columns = { "Price", "MonitorExchange", "Commodity",
+					"ZoneNumber", "BuyingSize", "SellingSize",
+					"SpecifiedExchange", "ImportFunctionMidpoint",
+					"ImportFunctionMidpointPrice", "ImportFunctionEta",
+					"ImportFunctionDelta", "ImportFunctionSlope",
+					"ExportFunctionMidpoint", "ExportFunctionMidpointPrice",
+					"ExportFunctionEta", "ExportFunctionDelta",
+					"ExportFunctionSlope" };
+
+			float[] zoneNumbers = { 0f, 1f, 0f, 1f };
 			table = TableDataSet.create(f, columns);
 			table.setColumnAsFloat(1, new float[4]);
 			table.setColumnAsFloat(4, zoneNumbers);
@@ -240,38 +240,38 @@ public class TestAAPProcessor extends AAPProcessor {
 			table.setColumnAsFloat(15, new float[4]);
 			table.setColumnAsFloat(16, new float[4]);
 			table.setColumnAsFloat(17, new float[4]);
-			
-			for(float r = 1; r <= 4; r++)
-			{
+
+			for (float r = 1; r <= 4; r++) {
 				table.setValueAt((int) r, "Price", r * 1.1f);
 				table.setValueAt((int) r, "BuyingSize", r * 1.2f);
 				table.setValueAt((int) r, "SellingSize", r * 1.3f);
-				for( float y = 8; y <= 17; y++)
-				table.setValueAt((int) r, (int)y, (r * (1.0f + y / 10)));
+				for (float y = 8; y <= 17; y++)
+					table.setValueAt((int) r, (int) y, (r * (1.0f + y / 10)));
 			}
-		}
-		else if (useExchange == 3)
-		{
-			//Invalid Zone
+		} else if (useExchange == 3) {
+			// Invalid Zone
 			String[][] f = new String[4][17];
-			String[] monitorExchanges = {"true", "true", "false", "false"};
-			String[] commodities = {"One", "One", "Two", "Two"};
-			String[] specifiedExchanges = {"true", "false", "true", "false"};
-			for (int i = 0; i < 4; i++)
-			{
-				String[] row = {"", monitorExchanges[i], commodities[i], "", "", "", specifiedExchanges[i],
-						"", "", "", "", "", "", "", "", "", ""};
+			String[] monitorExchanges = { "true", "true", "false", "false" };
+			String[] commodities = { "One", "One", "Two", "Two" };
+			String[] specifiedExchanges = { "true", "false", "true", "false" };
+			for (int i = 0; i < 4; i++) {
+				String[] row = { "", monitorExchanges[i], commodities[i], "",
+						"", "", specifiedExchanges[i], "", "", "", "", "", "",
+						"", "", "", "" };
 				f[i] = row;
 			}
-			
-			//HashMap<String, float> row = new HashMap<String, String>();
-			//row.put("Price", "1.0");
-			String[] columns = {"Price", "MonitorExchange", "Commodity", "ZoneNumber", "BuyingSize", 
-					"SellingSize", "SpecifiedExchange", "ImportFunctionMidpoint", "ImportFunctionMidpointPrice",
-					"ImportFunctionEta", "ImportFunctionDelta", "ImportFunctionSlope", "ExportFunctionMidpoint",
-					"ExportFunctionMidpointPrice","ExportFunctionEta", "ExportFunctionDelta","ExportFunctionSlope"
-			};
-			float[] zoneNumbers = {0f, 1f, 0f, 75f};
+
+			// HashMap<String, float> row = new HashMap<String, String>();
+			// row.put("Price", "1.0");
+			String[] columns = { "Price", "MonitorExchange", "Commodity",
+					"ZoneNumber", "BuyingSize", "SellingSize",
+					"SpecifiedExchange", "ImportFunctionMidpoint",
+					"ImportFunctionMidpointPrice", "ImportFunctionEta",
+					"ImportFunctionDelta", "ImportFunctionSlope",
+					"ExportFunctionMidpoint", "ExportFunctionMidpointPrice",
+					"ExportFunctionEta", "ExportFunctionDelta",
+					"ExportFunctionSlope" };
+			float[] zoneNumbers = { 0f, 1f, 0f, 75f };
 			table = TableDataSet.create(f, columns);
 			table.setColumnAsFloat(1, new float[4]);
 			table.setColumnAsFloat(4, zoneNumbers);
@@ -287,39 +287,39 @@ public class TestAAPProcessor extends AAPProcessor {
 			table.setColumnAsFloat(15, new float[4]);
 			table.setColumnAsFloat(16, new float[4]);
 			table.setColumnAsFloat(17, new float[4]);
-			
-			for(float r = 1; r <= 4; r++)
-			{
+
+			for (float r = 1; r <= 4; r++) {
 				table.setValueAt((int) r, "Price", r * 1.1f);
 				table.setValueAt((int) r, "BuyingSize", r * 1.2f);
 				table.setValueAt((int) r, "SellingSize", r * 1.3f);
-				for( float y = 8; y <= 17; y++)
-				table.setValueAt((int) r, (int)y, (r * (1.0f + y / 10)));
+				for (float y = 8; y <= 17; y++)
+					table.setValueAt((int) r, (int) y, (r * (1.0f + y / 10)));
 			}
-		}
-		else if (useExchange == 4)
-		{
-			//No Price
+		} else if (useExchange == 4) {
+			// No Price
 			String[][] f = new String[4][17];
-			String[] monitorExchanges = {"true", "true", "false", "false"};
-			String[] commodities = {"One", "One", "Two", "Two"};
-			String[] specifiedExchanges = {"true", "false", "true", "false"};
-			for (int i = 0; i < 4; i++)
-			{
-				String[] row = {"", monitorExchanges[i], commodities[i], "", "", "", specifiedExchanges[i],
-						"", "", "", "", "", "", "", "", "", ""};
+			String[] monitorExchanges = { "true", "true", "false", "false" };
+			String[] commodities = { "One", "One", "Two", "Two" };
+			String[] specifiedExchanges = { "true", "false", "true", "false" };
+			for (int i = 0; i < 4; i++) {
+				String[] row = { "", monitorExchanges[i], commodities[i], "",
+						"", "", specifiedExchanges[i], "", "", "", "", "", "",
+						"", "", "", "" };
 				f[i] = row;
 			}
-			
-			//HashMap<String, float> row = new HashMap<String, String>();
-			//row.put("Price", "1.0");
-			String[] columns = {"P", "MonitorExchange", "Commodity", "ZoneNumber", "BuyingSize", 
-					"SellingSize", "SpecifiedExchange", "ImportFunctionMidpoint", "ImportFunctionMidpointPrice",
-					"ImportFunctionEta", "ImportFunctionDelta", "ImportFunctionSlope", "ExportFunctionMidpoint",
-					"ExportFunctionMidpointPrice","ExportFunctionEta", "ExportFunctionDelta","ExportFunctionSlope"
-			};
-			
-			float[] zoneNumbers = {0f, 1f, 0f, 1f};
+
+			// HashMap<String, float> row = new HashMap<String, String>();
+			// row.put("Price", "1.0");
+			String[] columns = { "P", "MonitorExchange", "Commodity",
+					"ZoneNumber", "BuyingSize", "SellingSize",
+					"SpecifiedExchange", "ImportFunctionMidpoint",
+					"ImportFunctionMidpointPrice", "ImportFunctionEta",
+					"ImportFunctionDelta", "ImportFunctionSlope",
+					"ExportFunctionMidpoint", "ExportFunctionMidpointPrice",
+					"ExportFunctionEta", "ExportFunctionDelta",
+					"ExportFunctionSlope" };
+
+			float[] zoneNumbers = { 0f, 1f, 0f, 1f };
 			table = TableDataSet.create(f, columns);
 			table.setColumnAsFloat(1, new float[4]);
 			table.setColumnAsFloat(4, zoneNumbers);
@@ -335,39 +335,38 @@ public class TestAAPProcessor extends AAPProcessor {
 			table.setColumnAsFloat(15, new float[4]);
 			table.setColumnAsFloat(16, new float[4]);
 			table.setColumnAsFloat(17, new float[4]);
-			
-			for(float r = 1; r <= 4; r++)
-			{
-				//table.setValueAt((int) r, "Price", r * 1.1f);
+
+			for (float r = 1; r <= 4; r++) {
+				// table.setValueAt((int) r, "Price", r * 1.1f);
 				table.setValueAt((int) r, "BuyingSize", r * 1.2f);
 				table.setValueAt((int) r, "SellingSize", r * 1.3f);
-				for( float y = 8; y <= 17; y++)
-				table.setValueAt((int) r, (int)y, (r * (1.0f + y / 10)));
+				for (float y = 8; y <= 17; y++)
+					table.setValueAt((int) r, (int) y, (r * (1.0f + y / 10)));
 			}
-		}
-		else if (useExchange == 5)
-		{
-			//No Montor
+		} else if (useExchange == 5) {
+			// No Montor
 			String[][] f = new String[4][17];
-			String[] monitorExchanges = {"true", "true", "false", "false"};
-			String[] commodities = {"One", "One", "Two", "Two"};
-			String[] specifiedExchanges = {"true", "false", "true", "false"};
-			for (int i = 0; i < 4; i++)
-			{
-				String[] row = {"", monitorExchanges[i], commodities[i], "", "", "", specifiedExchanges[i],
-						"", "", "", "", "", "", "", "", "", ""};
+			String[] monitorExchanges = { "true", "true", "false", "false" };
+			String[] commodities = { "One", "One", "Two", "Two" };
+			String[] specifiedExchanges = { "true", "false", "true", "false" };
+			for (int i = 0; i < 4; i++) {
+				String[] row = { "", monitorExchanges[i], commodities[i], "",
+						"", "", specifiedExchanges[i], "", "", "", "", "", "",
+						"", "", "", "" };
 				f[i] = row;
 			}
-			
-			//HashMap<String, float> row = new HashMap<String, String>();
-			//row.put("Price", "1.0");
-			String[] columns = {"Price", "M", "Commodity", "ZoneNumber", "BuyingSize", 
-					"SellingSize", "SpecifiedExchange", "ImportFunctionMidpoint", "ImportFunctionMidpointPrice",
-					"ImportFunctionEta", "ImportFunctionDelta", "ImportFunctionSlope", "ExportFunctionMidpoint",
-					"ExportFunctionMidpointPrice","ExportFunctionEta", "ExportFunctionDelta","ExportFunctionSlope"
-			};
-			
-			float[] zoneNumbers = {0f, 1f, 0f, 1f};
+
+			// HashMap<String, float> row = new HashMap<String, String>();
+			// row.put("Price", "1.0");
+			String[] columns = { "Price", "M", "Commodity", "ZoneNumber",
+					"BuyingSize", "SellingSize", "SpecifiedExchange",
+					"ImportFunctionMidpoint", "ImportFunctionMidpointPrice",
+					"ImportFunctionEta", "ImportFunctionDelta",
+					"ImportFunctionSlope", "ExportFunctionMidpoint",
+					"ExportFunctionMidpointPrice", "ExportFunctionEta",
+					"ExportFunctionDelta", "ExportFunctionSlope" };
+
+			float[] zoneNumbers = { 0f, 1f, 0f, 1f };
 			table = TableDataSet.create(f, columns);
 			table.setColumnAsFloat(1, new float[4]);
 			table.setColumnAsFloat(4, zoneNumbers);
@@ -383,39 +382,39 @@ public class TestAAPProcessor extends AAPProcessor {
 			table.setColumnAsFloat(15, new float[4]);
 			table.setColumnAsFloat(16, new float[4]);
 			table.setColumnAsFloat(17, new float[4]);
-			
-			for(float r = 1; r <= 4; r++)
-			{
+
+			for (float r = 1; r <= 4; r++) {
 				table.setValueAt((int) r, "Price", r * 1.1f);
 				table.setValueAt((int) r, "BuyingSize", r * 1.2f);
 				table.setValueAt((int) r, "SellingSize", r * 1.3f);
-				for( float y = 8; y <= 17; y++)
-				table.setValueAt((int) r, (int)y, (r * (1.0f + y / 10)));
+				for (float y = 8; y <= 17; y++)
+					table.setValueAt((int) r, (int) y, (r * (1.0f + y / 10)));
 			}
-		}
-		else if (useExchange == 6)
-		{
-			//Missing Zone
+		} else if (useExchange == 6) {
+			// Missing Zone
 			String[][] f = new String[4][17];
-			String[] monitorExchanges = {"true", "true", "false", "false"};
-			String[] commodities = {"One", "One", "Two", "Two"};
-			String[] specifiedExchanges = {"true", "false", "true", "false"};
-			for (int i = 0; i < 4; i++)
-			{
-				String[] row = {"", monitorExchanges[i], commodities[i], "", "", "", specifiedExchanges[i],
-						"", "", "", "", "", "", "", "", "", ""};
+			String[] monitorExchanges = { "true", "true", "false", "false" };
+			String[] commodities = { "One", "One", "Two", "Two" };
+			String[] specifiedExchanges = { "true", "false", "true", "false" };
+			for (int i = 0; i < 4; i++) {
+				String[] row = { "", monitorExchanges[i], commodities[i], "",
+						"", "", specifiedExchanges[i], "", "", "", "", "", "",
+						"", "", "", "" };
 				f[i] = row;
 			}
-			
-			//HashMap<String, float> row = new HashMap<String, String>();
-			//row.put("Price", "1.0");
-			String[] columns = {"Price", "MonitorExchange", "Commodity", "ZoneNumber", "BuyingSize", 
-					"SellingSize", "SpecifiedExchange", "ImportFunctionMidpoint", "ImportFunctionMidpointPrice",
-					"ImportFunctionEta", "ImportFunctionDelta", "ImportFunctionSlope", "ExportFunctionMidpoint",
-					"ExportFunctionMidpointPrice","ExportFunctionEta", "ExportFunctionDelta","ExportFunctionSlope"
-			};
-			
-			float[] zoneNumbers = {-1f, 1f, 0f, 1f};
+
+			// HashMap<String, float> row = new HashMap<String, String>();
+			// row.put("Price", "1.0");
+			String[] columns = { "Price", "MonitorExchange", "Commodity",
+					"ZoneNumber", "BuyingSize", "SellingSize",
+					"SpecifiedExchange", "ImportFunctionMidpoint",
+					"ImportFunctionMidpointPrice", "ImportFunctionEta",
+					"ImportFunctionDelta", "ImportFunctionSlope",
+					"ExportFunctionMidpoint", "ExportFunctionMidpointPrice",
+					"ExportFunctionEta", "ExportFunctionDelta",
+					"ExportFunctionSlope" };
+
+			float[] zoneNumbers = { -1f, 1f, 0f, 1f };
 			table = TableDataSet.create(f, columns);
 			table.setColumnAsFloat(1, new float[4]);
 			table.setColumnAsFloat(4, zoneNumbers);
@@ -431,40 +430,41 @@ public class TestAAPProcessor extends AAPProcessor {
 			table.setColumnAsFloat(15, new float[4]);
 			table.setColumnAsFloat(16, new float[4]);
 			table.setColumnAsFloat(17, new float[4]);
-			
-			for(float r = 1; r <= 4; r++)
-			{
+
+			for (float r = 1; r <= 4; r++) {
 				table.setValueAt((int) r, "Price", r * 1.1f);
 				table.setValueAt((int) r, "BuyingSize", r * 1.2f);
 				table.setValueAt((int) r, "SellingSize", r * 1.3f);
-				for( float y = 8; y <= 17; y++)
-				table.setValueAt((int) r, (int)y, (r * (1.0f + y / 10)));
+				for (float y = 8; y <= 17; y++)
+					table.setValueAt((int) r, (int) y, (r * (1.0f + y / 10)));
 			}
 		}
-		
-		else if (useExchange == 7)
-		{
-			//Missing Zone
+
+		else if (useExchange == 7) {
+			// Missing Zone
 			String[][] f = new String[1][17];
-			String[] monitorExchanges = {"false"};
-			String[] commodities = {"One"};
-			String[] specifiedExchanges = {"false"};
-			for (int i = 0; i < 1; i++)
-			{
-				String[] row = {"", monitorExchanges[i], commodities[i], "", "", "", specifiedExchanges[i],
-						"", "", "", "", "", "", "", "", "", ""};
+			String[] monitorExchanges = { "false" };
+			String[] commodities = { "One" };
+			String[] specifiedExchanges = { "false" };
+			for (int i = 0; i < 1; i++) {
+				String[] row = { "", monitorExchanges[i], commodities[i], "",
+						"", "", specifiedExchanges[i], "", "", "", "", "", "",
+						"", "", "", "" };
 				f[i] = row;
 			}
-			
-			//HashMap<String, float> row = new HashMap<String, String>();
-			//row.put("Price", "1.0");
-			String[] columns = {"Price", "MonitorExchange", "Commodity", "ZoneNumber", "BuyingSize", 
-					"SellingSize", "SpecifiedExchange", "ImportFunctionMidpoint", "ImportFunctionMidpointPrice",
-					"ImportFunctionEta", "ImportFunctionDelta", "ImportFunctionSlope", "ExportFunctionMidpoint",
-					"ExportFunctionMidpointPrice","ExportFunctionEta", "ExportFunctionDelta","ExportFunctionSlope"
-			};
-			
-			float[] zoneNumbers = {-1f};
+
+			// HashMap<String, float> row = new HashMap<String, String>();
+			// row.put("Price", "1.0");
+			String[] columns = { "Price", "MonitorExchange", "Commodity",
+					"ZoneNumber", "BuyingSize", "SellingSize",
+					"SpecifiedExchange", "ImportFunctionMidpoint",
+					"ImportFunctionMidpointPrice", "ImportFunctionEta",
+					"ImportFunctionDelta", "ImportFunctionSlope",
+					"ExportFunctionMidpoint", "ExportFunctionMidpointPrice",
+					"ExportFunctionEta", "ExportFunctionDelta",
+					"ExportFunctionSlope" };
+
+			float[] zoneNumbers = { -1f };
 			table = TableDataSet.create(f, columns);
 			table.setColumnAsFloat(1, new float[1]);
 			table.setColumnAsFloat(4, zoneNumbers);
@@ -480,34 +480,33 @@ public class TestAAPProcessor extends AAPProcessor {
 			table.setColumnAsFloat(15, new float[1]);
 			table.setColumnAsFloat(16, new float[1]);
 			table.setColumnAsFloat(17, new float[1]);
-			
-			for(float r = 1; r <= 1; r++)
-			{
+
+			for (float r = 1; r <= 1; r++) {
 				table.setValueAt((int) r, "Price", r * 1.1f);
 				table.setValueAt((int) r, "BuyingSize", r * 1.2f);
 				table.setValueAt((int) r, "SellingSize", r * 1.3f);
-				for( float y = 8; y <= 17; y++)
-				table.setValueAt((int) r, (int)y, (r * (1.0f + y / 10)));
+				for (float y = 8; y <= 17; y++)
+					table.setValueAt((int) r, (int) y, (r * (1.0f + y / 10)));
 			}
 		}
-		
+
 		return table;
 	}
-	
+
 	@Override
-	protected SingleParameterFunction GetLinearFunction(
-			float midpoint, float midpointPrice,
-			float lambda, float delta,
-			float slope) {
-		return new FakeLogisticPlusLinearFunction(midpoint, midpointPrice, lambda, delta, slope);
+	protected SingleParameterFunction GetLinearFunction(float midpoint,
+			float midpointPrice, float lambda, float delta, float slope) {
+		return new FakeLogisticPlusLinearFunction(midpoint, midpointPrice,
+				lambda, delta, slope);
 	}
 
 	protected int useExchange = 0;
+
 	public void setUseExchange(int i) {
 		useExchange = i;
-		
+
 	}
-	
+
 	@Override
 	protected Exchange CreateNonTransportableExchange(Commodity c,
 			PECASZone pecasZone) {
@@ -515,7 +514,8 @@ public class TestAAPProcessor extends AAPProcessor {
 	}
 
 	@Override
-	protected Exchange CreateExchange(Commodity c, PECASZone pecasZone, int length) {
+	protected Exchange CreateExchange(Commodity c, PECASZone pecasZone,
+			int length) {
 
 		return new FakeExchange(c, pecasZone, zones.length);
 	}

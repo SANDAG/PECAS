@@ -513,121 +513,39 @@ public abstract class AAPProcessor {
 		}
 	}
 
+	class ExchangeInputData {
+		String commodity;
+		int zone;
+		float buyingSize;
+		float sellingSize;
+		boolean specifiedExchange;
+		char exchangeType;
+		float importFunctionMidpoint;
+		float importFunctionMidpointPrice;
+		float importFunctionLambda;
+		float importFunctionDelta;
+		float importFunctionSlope;
+		float exportFunctionMidpoint;
+		float exportFunctionMidpointPrice;
+		float exportFunctionLambda;
+		float exportFunctionDelta;
+		float exportFunctionSlope;
+		boolean monitorExchange;
+		double price;
+
+	}
+
 	protected void setUpExchangesAndZUtilities(IResource resourceUtil) {
 		logger.info("Setting up Exchanges and ZUtilitites");
-		int numExchangeNotFoundErrors = 0;
-		TableDataSet exchanges = loadTableDataSet("ExchangeImportExportI",
-				"aa.current.data", false, resourceUtil);
-		if (exchanges == null) {
-			logger.info("Did not find ExchangeImportExportI in aa.current.data, looking in aa.base.data");
-			exchanges = loadTableDataSet("ExchangeImportExportI",
-					"aa.base.data", true, resourceUtil);
-		} else {
-			logger.info("Found year-specific ExchangeImportExportI in current year (aa.current.data)");
-		}
-		final HashMap exchangeTempStorage = new HashMap();
-		class ExchangeInputData {
-			String commodity;
-			int zone;
-			float buyingSize;
-			float sellingSize;
-			boolean specifiedExchange;
-			char exchangeType;
-			float importFunctionMidpoint;
-			float importFunctionMidpointPrice;
-			float importFunctionLambda;
-			float importFunctionDelta;
-			float importFunctionSlope;
-			float exportFunctionMidpoint;
-			float exportFunctionMidpointPrice;
-			float exportFunctionLambda;
-			float exportFunctionDelta;
-			float exportFunctionSlope;
-			boolean monitorExchange;
-			double price;
+		TableDataSet exchanges = getTableDataSet(resourceUtil);
 
-		}
-		final int priceColumn = exchanges.getColumnPosition("Price");
-		if (priceColumn == -1) {
-			logger.info("No price data in ExchangeImportExport table");
-		}
-		final int monitorColumn = exchanges
-				.getColumnPosition("MonitorExchange");
-		if (monitorColumn == -1) {
-			logger.warn("No MonitorExchange column in ExchangeImportExport table -- not monitoring any exchanges");
-		}
-		for (int row = 1; row <= exchanges.getRowCount(); row++) {
-			final String key = exchanges.getStringValueAt(row, "Commodity")
-					+ "$"
-					+ String.valueOf((int) exchanges.getValueAt(row,
-							"ZoneNumber"));
-			final ExchangeInputData exInputData = new ExchangeInputData();
-			exInputData.commodity = exchanges
-					.getStringValueAt(row, "Commodity");
-			if (Commodity.retrieveCommodity(exInputData.commodity) == null) {
-				logger.fatal("Invalid commodity name " + exInputData.commodity
-						+ " in ExchangeImportExportI");
-				throw new RuntimeException("Invalid commodity name "
-						+ exInputData.commodity + " in ExchangeImportExportI");
-			}
-			exInputData.zone = (int) exchanges.getValueAt(row, "ZoneNumber");
-			if (exInputData.zone != -1) {
-				if (AbstractZone.findZoneByUserNumber(exInputData.zone) == null) {
-					logger.fatal("Invalid zone number " + exInputData.zone
-							+ " in ExchangeImportExportTable");
-					throw new RuntimeException("Invalid zone number "
-							+ exInputData.zone
-							+ " in ExchangeImportExportTable");
-				}
-			}
-			exInputData.buyingSize = exchanges.getValueAt(row, "BuyingSize");
-			exInputData.sellingSize = exchanges.getValueAt(row, "SellingSize");
-			final String ses = exchanges.getStringValueAt(row,
-					"SpecifiedExchange");
-			if (ses.equalsIgnoreCase("true")) {
-				exInputData.specifiedExchange = true;
-			} else {
-				exInputData.specifiedExchange = false;
-			}
-			exInputData.importFunctionMidpoint = exchanges.getValueAt(row,
-					"ImportFunctionMidpoint");
-			exInputData.importFunctionMidpointPrice = exchanges.getValueAt(row,
-					"ImportFunctionMidpointPrice");
-			exInputData.importFunctionLambda = exchanges.getValueAt(row,
-					"ImportFunctionEta");
-			exInputData.importFunctionDelta = exchanges.getValueAt(row,
-					"ImportFunctionDelta");
-			exInputData.importFunctionSlope = exchanges.getValueAt(row,
-					"ImportFunctionSlope");
-			exInputData.exportFunctionMidpoint = exchanges.getValueAt(row,
-					"ExportFunctionMidpoint");
-			exInputData.exportFunctionMidpointPrice = exchanges.getValueAt(row,
-					"ExportFunctionMidpointPrice");
-			exInputData.exportFunctionLambda = exchanges.getValueAt(row,
-					"ExportFunctionEta");
-			exInputData.exportFunctionDelta = exchanges.getValueAt(row,
-					"ExportFunctionDelta");
-			exInputData.exportFunctionSlope = exchanges.getValueAt(row,
-					"ExportFunctionSlope");
-			if (monitorColumn == -1) {
-				exInputData.monitorExchange = false;
-			} else {
-				final String monitor = exchanges.getStringValueAt(row,
-						monitorColumn);
-				if (monitor.equalsIgnoreCase("true")) {
-					exInputData.monitorExchange = true;
-				} else {
-					exInputData.monitorExchange = false;
-				}
-			}
-			if (priceColumn != -1) {
-				exInputData.price = exchanges.getValueAt(row, priceColumn);
-			} else {
-				exInputData.price = Commodity.retrieveCommodity(
-						exInputData.commodity).getExpectedPrice();
-			}
-			exchangeTempStorage.put(key, exInputData);
-		}
+		final HashMap exchangeTempStorage = createExchangeMap(exchanges);
+
+		processExchanges(exchangeTempStorage);
+	}
+
+	private void processExchanges(HashMap exchangeTempStorage) {
+		int numExchangeNotFoundErrors = 0;
 		final Iterator comit = AbstractCommodity.getAllCommodities().iterator();
 		while (comit.hasNext()) {
 			final Commodity c = (Commodity) comit.next();
@@ -721,36 +639,143 @@ public abstract class AAPProcessor {
 						+ " -- now linking exchanges to production and consumption for "
 						+ zones.length + " zones");
 			}
-			for (int z = 0; z < zones.length; z++) {
-				if (z % 100 == 0) {
-					if (logger.isDebugEnabled()) {
-						logger.debug(" " + z + "("
-								+ zones[z].getZoneUserNumber() + ")");
-					}
-				}
-				if (c.exchangeType == 'c' || c.exchangeType == 's'
-						|| c.exchangeType == 'a') {
-					final CommodityZUtility czu = c.retrieveCommodityZUtility(
-							zones[z], true);
-					// CommodityZUtility czu = (CommodityZUtility)
-					// zones[z].getSellingCommodityZUtilities().get(c); // get
-					// the selling zutility again
-					czu.addAllExchanges(); // add in all the other exchanges for
-					// that commodity
-				}
-				if (c.exchangeType == 'p' || c.exchangeType == 's'
-						|| c.exchangeType == 'a') {
-					final CommodityZUtility czu = c.retrieveCommodityZUtility(
-							zones[z], false);
-					// CommodityZUtility czu = (CommodityZUtility)
-					// zones[z].getBuyingCommodityZUtilities().get(c); // get
-					// the buying zutility again
-					czu.addAllExchanges(); // add in all the other exchanges for
-					// that commodity
-				}
-			}
+			addExchanges(c);
 
 		}
+
+	}
+
+	private void addExchanges(Commodity c) {
+		for (int z = 0; z < zones.length; z++) {
+			if (z % 100 == 0) {
+				if (logger.isDebugEnabled()) {
+					logger.debug(" " + z + "(" + zones[z].getZoneUserNumber()
+							+ ")");
+				}
+			}
+			if (c.exchangeType == 'c' || c.exchangeType == 's'
+					|| c.exchangeType == 'a') {
+				final CommodityZUtility czu = c.retrieveCommodityZUtility(
+						zones[z], true);
+				// CommodityZUtility czu = (CommodityZUtility)
+				// zones[z].getSellingCommodityZUtilities().get(c); // get
+				// the selling zutility again
+				czu.addAllExchanges(); // add in all the other exchanges for
+				// that commodity
+			}
+			if (c.exchangeType == 'p' || c.exchangeType == 's'
+					|| c.exchangeType == 'a') {
+				final CommodityZUtility czu = c.retrieveCommodityZUtility(
+						zones[z], false);
+				// CommodityZUtility czu = (CommodityZUtility)
+				// zones[z].getBuyingCommodityZUtilities().get(c); // get
+				// the buying zutility again
+				czu.addAllExchanges(); // add in all the other exchanges for
+				// that commodity
+			}
+		}
+
+	}
+
+	private TableDataSet getTableDataSet(IResource resourceUtil) {
+		TableDataSet exchanges = loadTableDataSet("ExchangeImportExportI",
+				"aa.current.data", false, resourceUtil);
+		if (exchanges == null) {
+			logger.info("Did not find ExchangeImportExportI in aa.current.data, looking in aa.base.data");
+			exchanges = loadTableDataSet("ExchangeImportExportI",
+					"aa.base.data", true, resourceUtil);
+		} else {
+			logger.info("Found year-specific ExchangeImportExportI in current year (aa.current.data)");
+		}
+
+		return exchanges;
+	}
+
+	protected HashMap createExchangeMap(TableDataSet exchanges) {
+		HashMap exchangeTempStorage = new HashMap();
+		final int priceColumn = exchanges.getColumnPosition("Price");
+		if (priceColumn == -1) {
+			logger.info("No price data in ExchangeImportExport table");
+		}
+		final int monitorColumn = exchanges
+				.getColumnPosition("MonitorExchange");
+		if (monitorColumn == -1) {
+			logger.warn("No MonitorExchange column in ExchangeImportExport table -- not monitoring any exchanges");
+		}
+		for (int row = 1; row <= exchanges.getRowCount(); row++) {
+			final String key = exchanges.getStringValueAt(row, "Commodity")
+					+ "$"
+					+ String.valueOf((int) exchanges.getValueAt(row,
+							"ZoneNumber"));
+			final ExchangeInputData exInputData = new ExchangeInputData();
+			exInputData.commodity = exchanges
+					.getStringValueAt(row, "Commodity");
+			if (Commodity.retrieveCommodity(exInputData.commodity) == null) {
+				logger.fatal("Invalid commodity name " + exInputData.commodity
+						+ " in ExchangeImportExportI");
+				throw new RuntimeException("Invalid commodity name "
+						+ exInputData.commodity + " in ExchangeImportExportI");
+			}
+			exInputData.zone = (int) exchanges.getValueAt(row, "ZoneNumber");
+			if (exInputData.zone != -1) {
+				if (AbstractZone.findZoneByUserNumber(exInputData.zone) == null) {
+					logger.fatal("Invalid zone number " + exInputData.zone
+							+ " in ExchangeImportExportTable");
+					throw new RuntimeException("Invalid zone number "
+							+ exInputData.zone
+							+ " in ExchangeImportExportTable");
+				}
+			}
+			exInputData.buyingSize = exchanges.getValueAt(row, "BuyingSize");
+			exInputData.sellingSize = exchanges.getValueAt(row, "SellingSize");
+			final String ses = exchanges.getStringValueAt(row,
+					"SpecifiedExchange");
+			if (ses.equalsIgnoreCase("true")) {
+				exInputData.specifiedExchange = true;
+			} else {
+				exInputData.specifiedExchange = false;
+			}
+			exInputData.importFunctionMidpoint = exchanges.getValueAt(row,
+					"ImportFunctionMidpoint");
+			exInputData.importFunctionMidpointPrice = exchanges.getValueAt(row,
+					"ImportFunctionMidpointPrice");
+			exInputData.importFunctionLambda = exchanges.getValueAt(row,
+					"ImportFunctionEta");
+			exInputData.importFunctionDelta = exchanges.getValueAt(row,
+					"ImportFunctionDelta");
+			exInputData.importFunctionSlope = exchanges.getValueAt(row,
+					"ImportFunctionSlope");
+			exInputData.exportFunctionMidpoint = exchanges.getValueAt(row,
+					"ExportFunctionMidpoint");
+			exInputData.exportFunctionMidpointPrice = exchanges.getValueAt(row,
+					"ExportFunctionMidpointPrice");
+			exInputData.exportFunctionLambda = exchanges.getValueAt(row,
+					"ExportFunctionEta");
+			exInputData.exportFunctionDelta = exchanges.getValueAt(row,
+					"ExportFunctionDelta");
+			exInputData.exportFunctionSlope = exchanges.getValueAt(row,
+					"ExportFunctionSlope");
+			if (monitorColumn == -1) {
+				exInputData.monitorExchange = false;
+			} else {
+				final String monitor = exchanges.getStringValueAt(row,
+						monitorColumn);
+				if (monitor.equalsIgnoreCase("true")) {
+					exInputData.monitorExchange = true;
+				} else {
+					exInputData.monitorExchange = false;
+				}
+			}
+			if (priceColumn != -1) {
+				exInputData.price = exchanges.getValueAt(row, priceColumn);
+			} else {
+				exInputData.price = Commodity.retrieveCommodity(
+						exInputData.commodity).getExpectedPrice();
+			}
+			exchangeTempStorage.put(key, exInputData);
+		}
+
+		return exchangeTempStorage;
 	}
 
 	protected Exchange CreateNonTransportableExchange(Commodity c,
@@ -758,17 +783,16 @@ public abstract class AAPProcessor {
 		return new NonTransportableExchange(c, pecasZone);
 	}
 
-	protected Exchange CreateExchange(Commodity c, PECASZone pecasZone, int length) {
+	protected Exchange CreateExchange(Commodity c, PECASZone pecasZone,
+			int length) {
 
 		return new Exchange(c, pecasZone, zones.length);
 	}
 
-	protected SingleParameterFunction GetLinearFunction(
-			float midpoint, float midpointPrice,
-			float lambda, float delta,
-			float slope) {
-		return new LogisticPlusLinearFunction(
-				midpoint, midpointPrice, lambda, delta, slope);
+	protected SingleParameterFunction GetLinearFunction(float midpoint,
+			float midpointPrice, float lambda, float delta, float slope) {
+		return new LogisticPlusLinearFunction(midpoint, midpointPrice, lambda,
+				delta, slope);
 	}
 
 	protected void setExchangePrices(IResource resourceUtil) {

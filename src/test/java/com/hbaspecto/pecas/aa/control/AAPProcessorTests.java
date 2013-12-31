@@ -819,8 +819,9 @@ public class AAPProcessorTests {
 
 			Assert.assertEquals(1, buyFlow.length);
 			Assert.assertEquals(1, sellFlow.length);
-			
-			Assert.assertEquals((int)zoneNumbers[i], buyFlow[0].getTaz().zoneIndex);			
+
+			Assert.assertEquals((int) zoneNumbers[i],
+					buyFlow[0].getTaz().zoneIndex);
 		}
 
 	}

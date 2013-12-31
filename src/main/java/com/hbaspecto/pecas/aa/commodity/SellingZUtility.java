@@ -28,50 +28,41 @@ import com.hbaspecto.pecas.zones.PECASZone;
  * 
  * @author John Abraham
  */
-public class SellingZUtility
-        extends CommodityZUtility
-{
+public class SellingZUtility extends CommodityZUtility {
 
-    public SellingZUtility(Commodity c, PECASZone t, TravelUtilityCalculatorInterface tp)
-    {
-        super(c, t, tp);
-        c.addSellingZUtility(this);
-        // t.addSellingZUtility(this, c);
-    }
+	public SellingZUtility(Commodity c, PECASZone t,
+			TravelUtilityCalculatorInterface tp) {
+		super(c, t, tp);
+		c.addSellingZUtility(this);
+		// t.addSellingZUtility(this, c);
+	}
 
-    @Override
-    public String toString()
-    {
-        return "SellingZUtility" + super.toString();
-    };
+	@Override
+	public String toString() {
+		return "SellingZUtility" + super.toString();
+	};
 
-    @Override
-    public void allocateQuantityToFlowsAndExchanges() throws OverflowException
-    {
-        try
-        {
-            myFlows.setAggregateQuantity(getQuantity(), getDerivative());
-        } catch (final ChoiceModelOverflowException e)
-        {
-            throw new OverflowException(e.toString());
-        }
+	@Override
+	public void allocateQuantityToFlowsAndExchanges() throws OverflowException {
+		try {
+			myFlows.setAggregateQuantity(getQuantity(), getDerivative());
+		} catch (final ChoiceModelOverflowException e) {
+			throw new OverflowException(e.toString());
+		}
 
-    }
+	}
 
-    @Override
-    public void addAllExchanges()
-    {
-        final Iterator it = myCommodity.getAllExchanges().iterator();
-        while (it.hasNext())
-        {
-            final Exchange x = (Exchange) it.next();
-            x.addFlowIfNotAlreadyThere(this, false);
-        }
-    }
+	@Override
+	public void addAllExchanges() {
+		final Iterator it = myCommodity.getAllExchanges().iterator();
+		while (it.hasNext()) {
+			final Exchange x = (Exchange) it.next();
+			x.addFlowIfNotAlreadyThere(this, false);
+		}
+	}
 
-    @Override
-    public void addExchange(Exchange x)
-    {
-        x.addFlowIfNotAlreadyThere(this, false);
-    }
+	@Override
+	public void addExchange(Exchange x) {
+		x.addFlowIfNotAlreadyThere(this, false);
+	}
 }
