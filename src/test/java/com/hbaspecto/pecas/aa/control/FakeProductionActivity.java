@@ -63,7 +63,7 @@ public class FakeProductionActivity extends ProductionActivity {
 					throws NoAlternativeAvailable {
 				double[] amounts = new double[buyingZUtilities.length];
 				for (int i = 0; i < amounts.length; i++)
-					amounts[i] = .5 * (double) i;
+					amounts[i] = 1.5 * (double) i;
 
 				return amounts;
 			}

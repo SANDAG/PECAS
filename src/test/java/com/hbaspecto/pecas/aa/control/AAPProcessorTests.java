@@ -148,8 +148,8 @@ public class AAPProcessorTests {
 
 					String line = prod.myNumber + "," + z + ","
 							+ com.commodityNumber + "," + "M" + ","
-							+ (.5 * (double) c) + "," + (double) c + ","
-							+ ((double) z * 10 + 1 + p) * (double) c / 2 + "\n";
+							+ (1.5 * (double) c) + "," + (double) c + ","
+							+ ((double) z * 10 + 1 + p) * (double) c * 1.5 + "\n";
 					expectedZonalString += line;
 				}
 			}
@@ -190,8 +190,8 @@ public class AAPProcessorTests {
 					Commodity com = (Commodity) iter.next();
 
 					String line = prod.name + "," + z + "," + com.name + ","
-							+ "M" + "," + (.5 * (double) c) + "," + (double) c
-							+ "," + ((double) z * 10 + 1 + p) * (double) c / 2
+							+ "M" + "," + (1.5 * (double) c) + "," + (double) c
+							+ "," + ((double) z * 10 + 1 + p) * (double) c * 1.5
 							+ "\n";
 					expectedZonalString += line;
 				}
@@ -277,7 +277,7 @@ public class AAPProcessorTests {
 
 					indices[3] = "M";
 
-					consumption = (float) (.5 * (float) c);
+					consumption = (float) (1.5 * (float) c);
 					Assert.assertEquals(consumption,
 							zonalMakeUseCoefficients.getValue(indices), delta);
 
@@ -285,7 +285,7 @@ public class AAPProcessorTests {
 					Assert.assertEquals(buying, utilities.getValue(indices),
 							delta);
 
-					quantity = ((float) z * 10 + 1 + p) * (float) c / 2;
+					quantity = ((float) z * 10 + 1 + p) * (float) c * 1.5f;
 					Assert.assertEquals(quantity, quantities.getValue(indices),
 							delta);
 				}
@@ -306,9 +306,9 @@ public class AAPProcessorTests {
 
 		String aggregateString = processor._aggregateMakeUseWriter.toString();
 		String expectedZonalString = "Activity,Commodity,MorU,Coefficient,StdDev,Amount\n"
-				+ "one,Two,M,0.5,0.0,52.5\n"
+				+ "one,Two,M,1.5,0.0,157.5\n"
 				+ "one,Two,U,0.5,0.0,52.5\n"
-				+ "two,Two,M,0.5,0.0,55.0\n" + "two,Two,U,0.5,0.0,55.0\n";
+				+ "two,Two,M,1.5,0.0,165.0\n" + "two,Two,U,0.5,0.0,55.0\n";
 
 		Assert.assertEquals(expectedZonalString, aggregateString);
 	}

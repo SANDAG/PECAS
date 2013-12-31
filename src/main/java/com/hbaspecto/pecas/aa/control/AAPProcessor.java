@@ -62,6 +62,7 @@ import com.hbaspecto.pecas.aa.commodity.NonTransportableExchange;
 import com.hbaspecto.pecas.aa.commodity.SellingZUtility;
 import com.hbaspecto.pecas.aa.control.io.CommodityExporter;
 import com.hbaspecto.pecas.aa.control.io.ProductionActivityExporter;
+import com.hbaspecto.pecas.aa.technologyChoice.CommodityQuantities;
 import com.hbaspecto.pecas.aa.technologyChoice.ConsumptionFunction;
 import com.hbaspecto.pecas.aa.technologyChoice.LogitTechnologyChoice;
 import com.hbaspecto.pecas.aa.technologyChoice.LogitTechnologyChoiceConsumptionFunction;
@@ -1672,151 +1673,11 @@ public abstract class AAPProcessor {
 				int nonZeroZones = 0;
 
 				for (int z = 0; z < p.getMyDistribution().length; z++) {
-					final double[] buyingZUtilities = CalculateBuyingZUtilities(
-							cf, allZones[z]);
-
-					final double[] sellingZUtilities = CalculateSellingZUtilities(
-							pf, allZones[z]);
-					double[] consumptionAmounts = null;
-					double[] productionAmounts = null;
-					final double activityAmount = p.getMyDistribution()[z]
-							.getQuantity();
-					try {
-						consumptionAmounts = cf.calcAmounts(buyingZUtilities,
-								sellingZUtilities, z);
-						productionAmounts = pf.calcAmounts(buyingZUtilities,
-								sellingZUtilities, z);
-					} catch (final NoAlternativeAvailable e) {
-						if (activityAmount != 0) {
-							logger.error(p.getMyDistribution()[z]
-									+ " has no valid production/consumption functions but has quantity "
-									+ activityAmount);
-						} // else {
-						consumptionAmounts = new double[buyingZUtilities.length];
-						productionAmounts = new double[sellingZUtilities.length];
-						// }
-					}
-					if (activityAmount != 0) {
-						nonZeroZones++;
-					}
-
-					final String[] indices = new String[4];
-					indices[0] = p.name;
-					indices[1] = Integer.toString(allZones[z]
-							.getZoneUserNumber());
-					indices[3] = "U";
-
-					for (int c = 0; c < cf.size(); c++) {
-						final AbstractCommodity com = cf.commodityAt(c);
-						if (com != null) {
-							if (ascii) {
-								if (stringsInZonalMakeUse) {
-									zMakeUseFile.write(p.name + ",");
-								} else {
-									zMakeUseFile.write(p.getNumber() + ",");
-								}
-								zMakeUseFile.write(allZones[z]
-										.getZoneUserNumber() + ",");
-								if (stringsInZonalMakeUse) {
-									zMakeUseFile.write(com.getName() + ",");
-								} else {
-									zMakeUseFile.write(com.commodityNumber
-											+ ",");
-								}
-								zMakeUseFile.write("U,");
-								zMakeUseFile.write(consumptionAmounts[c] + ",");
-								zMakeUseFile.write(buyingZUtilities[c] + ",");
-								zMakeUseFile.write(activityAmount
-										* consumptionAmounts[c] + "\n");
-							}
-							indices[2] = com.getName();
-							zonalMakeUseCoefficients.setValue(
-									(float) consumptionAmounts[c], indices);
-							if (binary) {
-								utilities.setValue((float) buyingZUtilities[c],
-										indices);
-								quantities
-										.setValue(
-												(float) (activityAmount * consumptionAmounts[c]),
-												indices);
-							}
-
-							// stuff for average and standard deviation
-							final double usedAmount = activityAmount
-									* consumptionAmounts[c];
-							usedAmounts[com.commodityNumber] += usedAmount;
-							if (activityAmount != 0) {
-								if (nonZeroZones == 1) {
-									usedA[com.commodityNumber] = consumptionAmounts[c];
-									usedQ[com.commodityNumber] = 0;
-								} else {
-									final double oldUsedA = usedA[com.commodityNumber];
-									usedA[com.commodityNumber] = oldUsedA
-											+ (consumptionAmounts[c] - oldUsedA)
-											/ nonZeroZones;
-									usedQ[com.commodityNumber] = usedQ[com.commodityNumber]
-											+ (consumptionAmounts[c] - oldUsedA)
-											* (consumptionAmounts[c] - usedA[com.commodityNumber]);
-								}
-							}
-						}
-					}
-					indices[3] = "M";
-					for (int c = 0; c < pf.size(); c++) {
-						final AbstractCommodity com = pf.commodityAt(c);
-						if (com != null) {
-							if (ascii) {
-								if (stringsInZonalMakeUse) {
-									zMakeUseFile.write(p.name + ",");
-								} else {
-									zMakeUseFile.write(p.getNumber() + ",");
-								}
-								zMakeUseFile.write(allZones[z]
-										.getZoneUserNumber() + ",");
-								if (stringsInZonalMakeUse) {
-									zMakeUseFile.write(com.getName() + ",");
-								} else {
-									zMakeUseFile.write(com.commodityNumber
-											+ ",");
-								}
-								zMakeUseFile.write("M,");
-								zMakeUseFile.write(productionAmounts[c] + ",");
-								zMakeUseFile.write(sellingZUtilities[c] + ",");
-								zMakeUseFile.write(activityAmount
-										* productionAmounts[c] + "\n");
-							}
-							indices[2] = com.getName();
-							zonalMakeUseCoefficients.setValue(
-									(float) productionAmounts[c], indices);
-							if (binary) {
-								utilities.setValue(
-										(float) sellingZUtilities[c], indices);
-								quantities
-										.setValue(
-												(float) (activityAmount * productionAmounts[c]),
-												indices);
-							}
-
-							// stuff for average and standard deviation
-							final double madeAmount = activityAmount
-									* productionAmounts[c];
-							madeAmounts[com.commodityNumber] += madeAmount;
-							if (activityAmount != 0) {
-								if (nonZeroZones == 1) {
-									madeA[com.commodityNumber] = productionAmounts[c];
-									madeQ[com.commodityNumber] = 0;
-								} else {
-									final double oldMadeA = madeA[com.commodityNumber];
-									madeA[com.commodityNumber] = oldMadeA
-											+ (productionAmounts[c] - oldMadeA)
-											/ nonZeroZones;
-									madeQ[com.commodityNumber] = madeQ[com.commodityNumber]
-											+ (productionAmounts[c] - oldMadeA)
-											* (productionAmounts[c] - madeA[com.commodityNumber]);
-								}
-							}
-						}
-					}
+					nonZeroZones = WriteZonalMakeUseCoefficientsForZone(
+							allZones[z], pf, cf, z, p, ascii, binary,
+							nonZeroZones, stringsInZonalMakeUse, zMakeUseFile,
+							utilities, quantities, usedAmounts, usedA, usedQ,
+							madeAmounts, madeA, madeQ);
 				} // end of zone loop
 				final Iterator commodityIterator = AbstractCommodity
 						.getAllCommodities().iterator();
@@ -1875,6 +1736,142 @@ public abstract class AAPProcessor {
 			}
 		}
 	} // end writeZonalMakeUse
+
+	private int WriteZonalMakeUseCoefficientsForZone(PECASZone zone,
+			ProductionFunction pf, ConsumptionFunction cf, int z,
+			ProductionActivity p, boolean ascii, boolean binary,
+			int nonZeroZones, boolean stringsInZonalMakeUse,
+			BufferedWriter zMakeUseFile,
+			StringIndexedNDimensionalMatrix utilities,
+			StringIndexedNDimensionalMatrix quantities, double[] usedAmounts,
+			double[] usedA, double[] usedQ, double[] madeAmounts,
+			double[] madeA, double[] madeQ) throws OverflowException,
+			IOException {
+		final double[] buyingZUtilities = CalculateBuyingZUtilities(cf, zone);
+
+		final double[] sellingZUtilities = CalculateSellingZUtilities(pf, zone);
+		double[] consumptionAmounts = null;
+		double[] productionAmounts = null;
+		final double activityAmount = p.getMyDistribution()[z].getQuantity();
+		try {
+			consumptionAmounts = cf.calcAmounts(buyingZUtilities,
+					sellingZUtilities, z);
+			productionAmounts = pf.calcAmounts(buyingZUtilities,
+					sellingZUtilities, z);
+		} catch (final NoAlternativeAvailable e) {
+			if (activityAmount != 0) {
+				logger.error(p.getMyDistribution()[z]
+						+ " has no valid production/consumption functions but has quantity "
+						+ activityAmount);
+			} // else {
+			consumptionAmounts = new double[buyingZUtilities.length];
+			productionAmounts = new double[sellingZUtilities.length];
+			// }
+		}
+		if (activityAmount != 0) {
+			nonZeroZones++;
+		}
+
+		final String[] indices = new String[4];
+		indices[0] = p.name;
+		indices[1] = Integer.toString(zone.getZoneUserNumber());
+		indices[3] = "U";
+
+		// WriteCommodities(zMakeUseFile, cf, ascii, binary,
+		// stringsInZonalMakeUse, p, zone, productionAmounts, productionAmounts,
+		// activityAmount, indices, consumptionAmounts, quantities, quantities,
+		// , productionAmounts, productionAmounts, productionAmounts,
+		// activityAmount);
+		WriteCommodities(zMakeUseFile, cf, ascii, binary,
+				stringsInZonalMakeUse, p, zone, consumptionAmounts,
+				sellingZUtilities, activityAmount, indices, utilities,
+				quantities, buyingZUtilities, usedAmounts, usedA, usedQ,
+				nonZeroZones, "U");
+
+		indices[3] = "M";
+		WriteCommodities(zMakeUseFile, pf, ascii, binary,
+				stringsInZonalMakeUse, p, zone, productionAmounts,
+				sellingZUtilities, activityAmount, indices, utilities,
+				quantities, buyingZUtilities, madeAmounts, madeA, madeQ,
+				nonZeroZones, "M");
+
+		return nonZeroZones;
+
+	}
+
+	private void WriteCommodities(BufferedWriter zMakeUseFile,
+			CommodityQuantities cf, boolean ascii, boolean binary,
+			boolean stringsInZonalMakeUse, ProductionActivity p,
+			AbstractZone zone, double[] amounts, double[] sellingZUtilities,
+			double activityAmount, String[] indices,
+			StringIndexedNDimensionalMatrix utilities,
+			StringIndexedNDimensionalMatrix quantities,
+			double[] buyingZUtilities, double[] actionAmounts, double[] a,
+			double[] q, int nonZeroZones, String letter) throws IOException {
+		for (int c = 0; c < cf.size(); c++) {
+			final AbstractCommodity com = cf.commodityAt(c);
+			if (com != null) {
+				if (ascii) {
+					WriteCommodityAscii(stringsInZonalMakeUse, zMakeUseFile, p,
+							zone, com, amounts[c],
+							sellingZUtilities[c], activityAmount, letter);
+				}
+				indices[2] = com.getName();
+				zonalMakeUseCoefficients.setValue(
+						(float) amounts[c], indices);
+				if (binary) {
+					utilities.setValue((float) buyingZUtilities[c], indices);
+					quantities.setValue(
+							(float) (activityAmount * amounts[c]),
+							indices);
+				}
+
+				// stuff for average and standard deviation
+				final double usedAmount = activityAmount
+						* amounts[c];
+				actionAmounts[com.commodityNumber] += usedAmount;
+				if (activityAmount != 0) {
+					if (nonZeroZones == 1) {
+						a[com.commodityNumber] = amounts[c];
+						q[com.commodityNumber] = 0;
+					} else {
+						final double oldUsedA = a[com.commodityNumber];
+						a[com.commodityNumber] = oldUsedA
+								+ (amounts[c] - oldUsedA)
+								/ nonZeroZones;
+						q[com.commodityNumber] = q[com.commodityNumber]
+								+ (amounts[c] - oldUsedA)
+								* (amounts[c] - a[com.commodityNumber]);
+					}
+				}
+			}
+		}
+
+	}
+
+	private void WriteCommodityAscii(boolean stringsInZonalMakeUse,
+			BufferedWriter zMakeUseFile, ProductionActivity p,
+			AbstractZone zone, AbstractCommodity com, double amount,
+			double sellingZUtility, double activityAmount, String letter)
+			throws IOException {
+
+		if (stringsInZonalMakeUse) {
+			zMakeUseFile.write(p.name + ",");
+		} else {
+			zMakeUseFile.write(p.getNumber() + ",");
+		}
+		zMakeUseFile.write(zone.getZoneUserNumber() + ",");
+		if (stringsInZonalMakeUse) {
+			zMakeUseFile.write(com.getName() + ",");
+		} else {
+			zMakeUseFile.write(com.commodityNumber + ",");
+		}
+		zMakeUseFile.write(letter + ",");
+		zMakeUseFile.write(amount + ",");
+		zMakeUseFile.write(sellingZUtility + ",");
+		zMakeUseFile.write(activityAmount * amount + "\n");
+
+	}
 
 	private void writeCommodityAndActivityFiles(IResource resourceUtil) {
 		try {
