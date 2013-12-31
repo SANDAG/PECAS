@@ -27,7 +27,7 @@ import com.hbaspecto.pecas.zones.AbstractZone;
 public abstract class AbstractCommodity
 {
 
-    private static int                                  nextCommodityNumber     = 0;
+    protected static int                                  nextCommodityNumber     = 0;
     public final int                                    commodityNumber;
     protected static final HashMap                      allCommoditiesHashmap   = new HashMap();
     protected static final ArrayList<AbstractCommodity> allCommoditiesArrayList = new ArrayList<AbstractCommodity>();

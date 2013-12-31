@@ -43,6 +43,7 @@ import org.apache.log4j.Logger;
 
 import com.hbaspecto.functions.LogisticPlusLinearFunction;
 import com.hbaspecto.functions.LogisticPlusLinearWithOverrideFunction;
+import com.hbaspecto.functions.SingleParameterFunction;
 import com.hbaspecto.matrix.SparseMatrix;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.IResource;
@@ -512,9 +513,171 @@ public abstract class AAPProcessor {
 		}
 	}
 
+	class ExchangeInputData {
+		String commodity;
+		int zone;
+		float buyingSize;
+		float sellingSize;
+		boolean specifiedExchange;
+		char exchangeType;
+		float importFunctionMidpoint;
+		float importFunctionMidpointPrice;
+		float importFunctionLambda;
+		float importFunctionDelta;
+		float importFunctionSlope;
+		float exportFunctionMidpoint;
+		float exportFunctionMidpointPrice;
+		float exportFunctionLambda;
+		float exportFunctionDelta;
+		float exportFunctionSlope;
+		boolean monitorExchange;
+		double price;
+
+	}
+
 	protected void setUpExchangesAndZUtilities(IResource resourceUtil) {
 		logger.info("Setting up Exchanges and ZUtilitites");
+		TableDataSet exchanges = getTableDataSet(resourceUtil);
+
+		final HashMap exchangeTempStorage = createExchangeMap(exchanges);
+
+		processExchanges(exchangeTempStorage);
+	}
+
+	private void processExchanges(HashMap exchangeTempStorage) {
 		int numExchangeNotFoundErrors = 0;
+		final Iterator comit = AbstractCommodity.getAllCommodities().iterator();
+		while (comit.hasNext()) {
+			final Commodity c = (Commodity) comit.next();
+			for (int z = 0; z < zones.length; z++) {
+				final SellingZUtility szu = new SellingZUtility(c, zones[z],
+						c.getCommodityTravelPreferences());
+				final BuyingZUtility bzu = new BuyingZUtility(c, zones[z],
+						c.getCommodityTravelPreferences());
+				szu.setDispersionParameter(c
+						.getDefaultSellingDispersionParameter());
+				bzu.setDispersionParameter(c
+						.getDefaultBuyingDispersionParameter());
+				String key = c.name + "$" + zones[z].getZoneUserNumber();
+				ExchangeInputData exData = (ExchangeInputData) exchangeTempStorage
+						.get(key);
+				boolean found = true;
+				if (exData == null) {
+					// try to find the default values for this commodity
+					key = c.name + "$" + "-1";
+					exData = (ExchangeInputData) exchangeTempStorage.get(key);
+					if (exData == null) {
+						found = false;
+					}
+					// else {
+					// logger.info("Using default exchange data for commodity "
+					// + c + " zone " + zones[z].getZoneUserNumber());
+					// }
+				}
+				boolean specifiedExchange = false;
+				if (found) {
+					specifiedExchange = exData.specifiedExchange;
+				}
+				if (c.exchangeType != 's' || specifiedExchange) {
+					Exchange xc;
+					if (c.exchangeType == 'n') {
+						xc = CreateNonTransportableExchange(c, zones[z]);
+					} else {
+						xc = CreateExchange(c, zones[z], zones.length);
+					}
+					if (!found) {
+						// backup default data.
+						if (++numExchangeNotFoundErrors < 20
+								&& !c.isFloorspaceCommodity()) {
+							logger.info("Can't locate size term for Commodity "
+									+ c
+									+ " zone "
+									+ zones[z].getZoneUserNumber()
+									+ " using 1.0 for size terms and setting imports/exports to zero");
+						}
+						if (numExchangeNotFoundErrors == 20) {
+							logger.warn("Surpressing further warnings on missing size terms");
+						}
+						xc.setBuyingSizeTerm(1.0);
+						xc.setSellingSizeTerm(1.0);
+						xc.setImportFunction(Commodity.zeroFunction);
+						xc.setExportFunction(Commodity.zeroFunction);
+						xc.setPrice(c.getExpectedPrice());
+					} else {
+						xc.setBuyingSizeTerm(exData.buyingSize);
+						xc.setSellingSizeTerm(exData.sellingSize);
+						xc.setImportFunction(GetLinearFunction(
+								exData.importFunctionMidpoint,
+								exData.importFunctionMidpointPrice,
+								exData.importFunctionLambda,
+								exData.importFunctionDelta,
+								exData.importFunctionSlope));
+						xc.setExportFunction(GetLinearFunction(
+								exData.exportFunctionMidpoint,
+								exData.exportFunctionMidpointPrice,
+								exData.exportFunctionLambda,
+								exData.exportFunctionDelta,
+								exData.exportFunctionSlope));
+						if (exData.monitorExchange) {
+							xc.monitor = true;
+						}
+						xc.setPrice(exData.price);
+					}
+					if (c.exchangeType == 'p' || c.exchangeType == 'a'
+							|| c.exchangeType == 'n') {
+						szu.addExchange(xc);
+					}
+					if (c.exchangeType == 'c' || c.exchangeType == 'a'
+							|| c.exchangeType == 'n') {
+						bzu.addExchange(xc);
+					}
+				}
+			}
+			if (logger.isDebugEnabled()) {
+				logger.debug("Created all exchanges for commodity "
+						+ c
+						+ " -- now linking exchanges to production and consumption for "
+						+ zones.length + " zones");
+			}
+			addExchanges(c);
+
+		}
+
+	}
+
+	private void addExchanges(Commodity c) {
+		for (int z = 0; z < zones.length; z++) {
+			if (z % 100 == 0) {
+				if (logger.isDebugEnabled()) {
+					logger.debug(" " + z + "(" + zones[z].getZoneUserNumber()
+							+ ")");
+				}
+			}
+			if (c.exchangeType == 'c' || c.exchangeType == 's'
+					|| c.exchangeType == 'a') {
+				final CommodityZUtility czu = c.retrieveCommodityZUtility(
+						zones[z], true);
+				// CommodityZUtility czu = (CommodityZUtility)
+				// zones[z].getSellingCommodityZUtilities().get(c); // get
+				// the selling zutility again
+				czu.addAllExchanges(); // add in all the other exchanges for
+				// that commodity
+			}
+			if (c.exchangeType == 'p' || c.exchangeType == 's'
+					|| c.exchangeType == 'a') {
+				final CommodityZUtility czu = c.retrieveCommodityZUtility(
+						zones[z], false);
+				// CommodityZUtility czu = (CommodityZUtility)
+				// zones[z].getBuyingCommodityZUtilities().get(c); // get
+				// the buying zutility again
+				czu.addAllExchanges(); // add in all the other exchanges for
+				// that commodity
+			}
+		}
+
+	}
+
+	private TableDataSet getTableDataSet(IResource resourceUtil) {
 		TableDataSet exchanges = loadTableDataSet("ExchangeImportExportI",
 				"aa.current.data", false, resourceUtil);
 		if (exchanges == null) {
@@ -524,28 +687,12 @@ public abstract class AAPProcessor {
 		} else {
 			logger.info("Found year-specific ExchangeImportExportI in current year (aa.current.data)");
 		}
-		final HashMap exchangeTempStorage = new HashMap();
-		class ExchangeInputData {
-			String commodity;
-			int zone;
-			float buyingSize;
-			float sellingSize;
-			boolean specifiedExchange;
-			char exchangeType;
-			float importFunctionMidpoint;
-			float importFunctionMidpointPrice;
-			float importFunctionLambda;
-			float importFunctionDelta;
-			float importFunctionSlope;
-			float exportFunctionMidpoint;
-			float exportFunctionMidpointPrice;
-			float exportFunctionLambda;
-			float exportFunctionDelta;
-			float exportFunctionSlope;
-			boolean monitorExchange;
-			double price;
 
-		}
+		return exchanges;
+	}
+
+	protected HashMap createExchangeMap(TableDataSet exchanges) {
+		HashMap exchangeTempStorage = new HashMap();
 		final int priceColumn = exchanges.getColumnPosition("Price");
 		if (priceColumn == -1) {
 			logger.info("No price data in ExchangeImportExport table");
@@ -627,129 +774,25 @@ public abstract class AAPProcessor {
 			}
 			exchangeTempStorage.put(key, exInputData);
 		}
-		final Iterator comit = AbstractCommodity.getAllCommodities().iterator();
-		while (comit.hasNext()) {
-			final Commodity c = (Commodity) comit.next();
-			for (int z = 0; z < zones.length; z++) {
-				final SellingZUtility szu = new SellingZUtility(c, zones[z],
-						c.getCommodityTravelPreferences());
-				final BuyingZUtility bzu = new BuyingZUtility(c, zones[z],
-						c.getCommodityTravelPreferences());
-				szu.setDispersionParameter(c
-						.getDefaultSellingDispersionParameter());
-				bzu.setDispersionParameter(c
-						.getDefaultBuyingDispersionParameter());
-				String key = c.name + "$" + zones[z].getZoneUserNumber();
-				ExchangeInputData exData = (ExchangeInputData) exchangeTempStorage
-						.get(key);
-				boolean found = true;
-				if (exData == null) {
-					// try to find the default values for this commodity
-					key = c.name + "$" + "-1";
-					exData = (ExchangeInputData) exchangeTempStorage.get(key);
-					if (exData == null) {
-						found = false;
-					}
-					// else {
-					// logger.info("Using default exchange data for commodity "
-					// + c + " zone " + zones[z].getZoneUserNumber());
-					// }
-				}
-				boolean specifiedExchange = false;
-				if (found) {
-					specifiedExchange = exData.specifiedExchange;
-				}
-				if (c.exchangeType != 's' || specifiedExchange) {
-					Exchange xc;
-					if (c.exchangeType == 'n') {
-						xc = new NonTransportableExchange(c, zones[z]);
-					} else {
-						xc = new Exchange(c, zones[z], zones.length);
-					}
-					if (!found) {
-						// backup default data.
-						if (++numExchangeNotFoundErrors < 20
-								&& !c.isFloorspaceCommodity()) {
-							logger.info("Can't locate size term for Commodity "
-									+ c
-									+ " zone "
-									+ zones[z].getZoneUserNumber()
-									+ " using 1.0 for size terms and setting imports/exports to zero");
-						}
-						if (numExchangeNotFoundErrors == 20) {
-							logger.warn("Surpressing further warnings on missing size terms");
-						}
-						xc.setBuyingSizeTerm(1.0);
-						xc.setSellingSizeTerm(1.0);
-						xc.setImportFunction(Commodity.zeroFunction);
-						xc.setExportFunction(Commodity.zeroFunction);
-						xc.setPrice(c.getExpectedPrice());
-					} else {
-						xc.setBuyingSizeTerm(exData.buyingSize);
-						xc.setSellingSizeTerm(exData.sellingSize);
-						xc.setImportFunction(new LogisticPlusLinearFunction(
-								exData.importFunctionMidpoint,
-								exData.importFunctionMidpointPrice,
-								exData.importFunctionLambda,
-								exData.importFunctionDelta,
-								exData.importFunctionSlope));
-						xc.setExportFunction(new LogisticPlusLinearFunction(
-								exData.exportFunctionMidpoint,
-								exData.exportFunctionMidpointPrice,
-								exData.exportFunctionLambda,
-								exData.exportFunctionDelta,
-								exData.exportFunctionSlope));
-						if (exData.monitorExchange) {
-							xc.monitor = true;
-						}
-						xc.setPrice(exData.price);
-					}
-					if (c.exchangeType == 'p' || c.exchangeType == 'a'
-							|| c.exchangeType == 'n') {
-						szu.addExchange(xc);
-					}
-					if (c.exchangeType == 'c' || c.exchangeType == 'a'
-							|| c.exchangeType == 'n') {
-						bzu.addExchange(xc);
-					}
-				}
-			}
-			if (logger.isDebugEnabled()) {
-				logger.debug("Created all exchanges for commodity "
-						+ c
-						+ " -- now linking exchanges to production and consumption for "
-						+ zones.length + " zones");
-			}
-			for (int z = 0; z < zones.length; z++) {
-				if (z % 100 == 0) {
-					if (logger.isDebugEnabled()) {
-						logger.debug(" " + z + "("
-								+ zones[z].getZoneUserNumber() + ")");
-					}
-				}
-				if (c.exchangeType == 'c' || c.exchangeType == 's'
-						|| c.exchangeType == 'a') {
-					final CommodityZUtility czu = c.retrieveCommodityZUtility(
-							zones[z], true);
-					// CommodityZUtility czu = (CommodityZUtility)
-					// zones[z].getSellingCommodityZUtilities().get(c); // get
-					// the selling zutility again
-					czu.addAllExchanges(); // add in all the other exchanges for
-					// that commodity
-				}
-				if (c.exchangeType == 'p' || c.exchangeType == 's'
-						|| c.exchangeType == 'a') {
-					final CommodityZUtility czu = c.retrieveCommodityZUtility(
-							zones[z], false);
-					// CommodityZUtility czu = (CommodityZUtility)
-					// zones[z].getBuyingCommodityZUtilities().get(c); // get
-					// the buying zutility again
-					czu.addAllExchanges(); // add in all the other exchanges for
-					// that commodity
-				}
-			}
 
-		}
+		return exchangeTempStorage;
+	}
+
+	protected Exchange CreateNonTransportableExchange(Commodity c,
+			PECASZone pecasZone) {
+		return new NonTransportableExchange(c, pecasZone);
+	}
+
+	protected Exchange CreateExchange(Commodity c, PECASZone pecasZone,
+			int length) {
+
+		return new Exchange(c, pecasZone, zones.length);
+	}
+
+	protected SingleParameterFunction GetLinearFunction(float midpoint,
+			float midpointPrice, float lambda, float delta, float slope) {
+		return new LogisticPlusLinearFunction(midpoint, midpointPrice, lambda,
+				delta, slope);
 	}
 
 	protected void setExchangePrices(IResource resourceUtil) {
