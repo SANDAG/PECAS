@@ -9,15 +9,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.hbaspecto.functions.LogisticPlusLinearFunction;
+import com.hbaspecto.functions.SingleParameterFunction;
 import com.hbaspecto.pecas.IResource;
 import com.hbaspecto.pecas.aa.activities.ProductionActivity;
 import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
+import com.hbaspecto.pecas.aa.commodity.CommodityZUtility;
+import com.hbaspecto.pecas.aa.commodity.Exchange;
+import com.hbaspecto.pecas.aa.commodity.NonTransportableExchange;
 import com.hbaspecto.pecas.zones.AbstractZone;
 import com.hbaspecto.pecas.zones.PECASZone;
+import com.pb.common.matrix.Matrix;
 import com.pb.common.matrix.StringIndexedNDimensionalMatrix;
 
 public class AAPProcessorTests {
@@ -29,6 +36,11 @@ public class AAPProcessorTests {
 
 	@BeforeClass
 	public static void setup() {
+		setupZone();
+		setupCommoditites();
+	}
+
+	public static void setupZone() {
 		_allZones = GetAllTestZones();
 
 		_productionActivities = new ArrayList<ProductionActivity>();
@@ -40,10 +52,32 @@ public class AAPProcessorTests {
 			_productionActivities.get(1).setDistribution(_allZones[z],
 					z * 10 + 2);
 		}
+	}
 
+	public static void setupCommoditites() {
 		_commodities = new ArrayList<AbstractCommodity>();
 		_commodities.add(Commodity.createOrRetrieveCommodity("One", 'c'));
 		_commodities.add(Commodity.createOrRetrieveCommodity("Two", 'p'));
+		((Commodity) _commodities.get(0)).setExpectedPrice(4.5);
+		((Commodity) _commodities.get(1)).setExpectedPrice(5.5);
+	}
+
+	public static void setupCommodititesS() {
+		FakeCommodity.clearCommodities();
+		_commodities = new ArrayList<AbstractCommodity>();
+		_commodities.add(Commodity.createOrRetrieveCommodity("One", 's'));
+		_commodities.add(Commodity.createOrRetrieveCommodity("Two", 's'));
+		((Commodity) _commodities.get(0)).setExpectedPrice(4.5);
+		((Commodity) _commodities.get(1)).setExpectedPrice(5.5);
+	}
+
+	public static void setupCommodititesN() {
+		FakeCommodity.clearCommodities();
+		_commodities = new ArrayList<AbstractCommodity>();
+		_commodities.add(Commodity.createOrRetrieveCommodity("One", 'n'));
+		_commodities.add(Commodity.createOrRetrieveCommodity("Two", 'n'));
+		((Commodity) _commodities.get(0)).setExpectedPrice(4.5);
+		((Commodity) _commodities.get(1)).setExpectedPrice(5.5);
 	}
 
 	@Test
@@ -294,4 +328,506 @@ public class AAPProcessorTests {
 		return new FakeResourceUtil();
 	}
 
+	@Test
+	public void TestAAProcessorSetUpExchangesAndZUtilities() {
+		clearExchanges();
+		TestAAPProcessor processor = new TestAAPProcessor();
+		FakeResourceUtil fakeResourceUtil = (FakeResourceUtil) createFakeResourceUtil();
+		processor.zones = _allZones;
+		processor.setUseExchange(0);
+		processor.callSetUpExchangesAndZUtilities(fakeResourceUtil);
+		String[] monitorExchanges = { "true", "true", "false", "false" };
+		String[] specifiedExchanges = { "true", "false", "true", "false" };
+
+		float[] zoneNumbers = { 0f, 1f, 0f, 1f, 0f };
+		String[] commodities = { "One", "One", "Two", "Two" };
+
+		Exchange[] exchanges = {
+				((Commodity) _commodities.get(0)).getExchange(0),
+				((Commodity) _commodities.get(0)).getExchange(1),
+				((Commodity) _commodities.get(1)).getExchange(0),
+				((Commodity) _commodities.get(1)).getExchange(1) };
+		for (float x = 1; x < 5; x++) {
+			int i = (int) x - 1;
+			Exchange exchange = exchanges[i];
+			Assert.assertEquals(Boolean.parseBoolean(monitorExchanges[i]),
+					exchange.monitor);
+			Assert.assertEquals(x * 1.1, exchange.getPrice(), delta);
+			Assert.assertEquals(x * 1.2, exchange.getBuyingSizeTerm(), delta);
+			Assert.assertEquals(x * 1.3, exchange.getSellingSizeTerm(), delta);
+			FakeLogisticPlusLinearFunction fInput = new FakeLogisticPlusLinearFunction(
+					(x * 1.8), (x * 1.9), (x * 2.0), (x * 2.1), (x * 2.2));
+			FakeLogisticPlusLinearFunction importFunction = (FakeLogisticPlusLinearFunction) exchange
+					.getImportFunction();
+			Assert.assertEquals(fInput.getY0(), importFunction.getY0(), delta);
+			Assert.assertEquals(fInput.getX0(), importFunction.getX0(), delta);
+			Assert.assertEquals(fInput.getDelta(), importFunction.getDelta(),
+					delta);
+			Assert.assertEquals(fInput.getLambda(), importFunction.getLambda(),
+					delta);
+			Assert.assertEquals(fInput.getSlope(), importFunction.getSlope(),
+					delta);
+
+			FakeLogisticPlusLinearFunction fOutput = new FakeLogisticPlusLinearFunction(
+					(x * 2.3), (x * 2.4), (x * 2.5), (x * 2.6), (x * 2.7));
+			FakeLogisticPlusLinearFunction exportFunction = (FakeLogisticPlusLinearFunction) exchange
+					.getExportFunction();
+			Assert.assertEquals(fOutput.getY0(), exportFunction.getY0(), delta);
+			Assert.assertEquals(fOutput.getX0(), exportFunction.getX0(), delta);
+			Assert.assertEquals(fOutput.getDelta(), exportFunction.getDelta(),
+					delta);
+			Assert.assertEquals(fOutput.getLambda(),
+					exportFunction.getLambda(), delta);
+			Assert.assertEquals(fOutput.getSlope(), exportFunction.getSlope(),
+					delta);
+
+			Assert.assertEquals(_commodities.get(i / 2), exchange.myCommodity);
+
+			FakeExchange fe = (FakeExchange) exchange;
+			CommodityZUtility[] buyFlow = fe.GetBuyingFlow();
+			CommodityZUtility[] sellFlow = fe.GetSellingFlow();
+
+			for (int j = 0; j < 4; j++) {
+				if (i < 2) {
+					// One buying, all selling
+					Assert.assertNotNull(sellFlow[j]);
+					if (i == j)
+						Assert.assertNotNull(buyFlow[j]);
+					else
+						Assert.assertNull(buyFlow[j]);
+				} else {
+					// One selling, all buying
+					Assert.assertNotNull(buyFlow[j]);
+					if (i % 2 == j)
+						Assert.assertNotNull(sellFlow[j]);
+					else
+						Assert.assertNull(sellFlow[j]);
+				}
+			}
+
+		}
+	}
+
+	@Test
+	public void TestAAProcessorSetUpExchangesAndZUtilitiesSecondExchange() {
+		clearExchanges();
+		TestAAPProcessor processor = new TestAAPProcessor();
+		FakeResourceUtil fakeResourceUtil = (FakeResourceUtil) createFakeResourceUtil();
+		processor.zones = _allZones;
+		processor.setUseExchange(1);
+		processor.callSetUpExchangesAndZUtilities(fakeResourceUtil);
+		String[] monitorExchanges = { "true", "true", "false", "false" };
+		String[] specifiedExchanges = { "true", "false", "true", "false" };
+
+		float[] zoneNumbers = { 0f, 1f, 0f, 1f, 0f };
+		String[] commodities = { "One", "One", "Two", "Two", "One" };
+
+		Exchange[] exchanges = {
+				((Commodity) _commodities.get(0)).getExchange(0),
+				((Commodity) _commodities.get(0)).getExchange(1),
+				((Commodity) _commodities.get(1)).getExchange(0),
+				((Commodity) _commodities.get(1)).getExchange(1) };
+		for (float x = 1; x < 5; x++) {
+			int i = (int) x - 1;
+			Exchange exchange = exchanges[i];
+			Assert.assertEquals(x * 5, exchange.getPrice(), delta);
+		}
+
+	}
+
+	private void clearExchanges() {
+		for (Iterator i = _commodities.iterator(); i.hasNext();) {
+			Commodity c = (Commodity) i.next();
+			c.getAllExchanges().clear();
+		}
+
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void TestAAProcessorSetUpExchangesAndZUtilitiesBadCommodity() {
+		clearExchanges();
+		TestAAPProcessor processor = new TestAAPProcessor();
+		FakeResourceUtil fakeResourceUtil = (FakeResourceUtil) createFakeResourceUtil();
+		processor.zones = _allZones;
+		processor.setUseExchange(2);
+		processor.callSetUpExchangesAndZUtilities(fakeResourceUtil);
+
+	}
+
+	@Test(expected = RuntimeException.class)
+	public void TestAAProcessorSetUpExchangesAndZUtilitiesBadZone() {
+		clearExchanges();
+		TestAAPProcessor processor = new TestAAPProcessor();
+		FakeResourceUtil fakeResourceUtil = (FakeResourceUtil) createFakeResourceUtil();
+		processor.zones = _allZones;
+		processor.setUseExchange(3);
+		processor.callSetUpExchangesAndZUtilities(fakeResourceUtil);
+
+	}
+
+	@Test
+	public void TestAAProcessorSetUpExchangesAndZUtilitiesNoPrice() {
+		clearExchanges();
+		TestAAPProcessor processor = new TestAAPProcessor();
+		FakeResourceUtil fakeResourceUtil = (FakeResourceUtil) createFakeResourceUtil();
+		processor.zones = _allZones;
+		processor.setUseExchange(4);
+		processor.callSetUpExchangesAndZUtilities(fakeResourceUtil);
+		String[] monitorExchanges = { "true", "true", "false", "false" };
+		String[] specifiedExchanges = { "true", "false", "true", "false" };
+
+		float[] zoneNumbers = { 0f, 1f, 0f, 1f, 0f };
+		String[] commodities = { "One", "One", "Two", "Two", "One" };
+
+		Exchange[] exchanges = {
+				((Commodity) _commodities.get(0)).getExchange(0),
+				((Commodity) _commodities.get(0)).getExchange(1),
+				((Commodity) _commodities.get(1)).getExchange(0),
+				((Commodity) _commodities.get(1)).getExchange(1) };
+		for (float x = 1; x < 5; x++) {
+			int i = (int) x - 1;
+			Exchange exchange = exchanges[i];
+			Assert.assertEquals(Boolean.parseBoolean(monitorExchanges[i]),
+					exchange.monitor);
+			Assert.assertEquals(
+					((Commodity) _commodities.get(i / 2)).getExpectedPrice(),
+					exchange.getPrice(), delta);
+			Assert.assertEquals(x * 1.2, exchange.getBuyingSizeTerm(), delta);
+			Assert.assertEquals(x * 1.3, exchange.getSellingSizeTerm(), delta);
+			FakeLogisticPlusLinearFunction fInput = new FakeLogisticPlusLinearFunction(
+					(x * 1.8), (x * 1.9), (x * 2.0), (x * 2.1), (x * 2.2));
+			FakeLogisticPlusLinearFunction importFunction = (FakeLogisticPlusLinearFunction) exchange
+					.getImportFunction();
+			Assert.assertEquals(fInput.getY0(), importFunction.getY0(), delta);
+			Assert.assertEquals(fInput.getX0(), importFunction.getX0(), delta);
+			Assert.assertEquals(fInput.getDelta(), importFunction.getDelta(),
+					delta);
+			Assert.assertEquals(fInput.getLambda(), importFunction.getLambda(),
+					delta);
+			Assert.assertEquals(fInput.getSlope(), importFunction.getSlope(),
+					delta);
+
+			FakeLogisticPlusLinearFunction fOutput = new FakeLogisticPlusLinearFunction(
+					(x * 2.3), (x * 2.4), (x * 2.5), (x * 2.6), (x * 2.7));
+			FakeLogisticPlusLinearFunction exportFunction = (FakeLogisticPlusLinearFunction) exchange
+					.getExportFunction();
+			Assert.assertEquals(fOutput.getY0(), exportFunction.getY0(), delta);
+			Assert.assertEquals(fOutput.getX0(), exportFunction.getX0(), delta);
+			Assert.assertEquals(fOutput.getDelta(), exportFunction.getDelta(),
+					delta);
+			Assert.assertEquals(fOutput.getLambda(),
+					exportFunction.getLambda(), delta);
+			Assert.assertEquals(fOutput.getSlope(), exportFunction.getSlope(),
+					delta);
+
+			Assert.assertEquals(_commodities.get(i / 2), exchange.myCommodity);
+
+		}
+	}
+
+	@Test
+	public void TestAAProcessorSetUpExchangesAndZUtilitiesNoMonitor() {
+		clearExchanges();
+		TestAAPProcessor processor = new TestAAPProcessor();
+		FakeResourceUtil fakeResourceUtil = (FakeResourceUtil) createFakeResourceUtil();
+		processor.zones = _allZones;
+		processor.setUseExchange(5);
+		processor.callSetUpExchangesAndZUtilities(fakeResourceUtil);
+		String[] monitorExchanges = { "true", "true", "false", "false" };
+
+		float[] zoneNumbers = { 0f, 1f, 0f, 1f, 0f };
+		String[] commodities = { "One", "One", "Two", "Two", "One" };
+
+		Exchange[] exchanges = {
+				((Commodity) _commodities.get(0)).getExchange(0),
+				((Commodity) _commodities.get(0)).getExchange(1),
+				((Commodity) _commodities.get(1)).getExchange(0),
+				((Commodity) _commodities.get(1)).getExchange(1) };
+		for (float x = 1; x < 5; x++) {
+			int i = (int) x - 1;
+			Exchange exchange = exchanges[i];
+			Assert.assertEquals(false, exchange.monitor);
+			Assert.assertEquals(x * 1.1, exchange.getPrice(), delta);
+			Assert.assertEquals(x * 1.2, exchange.getBuyingSizeTerm(), delta);
+			Assert.assertEquals(x * 1.3, exchange.getSellingSizeTerm(), delta);
+			FakeLogisticPlusLinearFunction fInput = new FakeLogisticPlusLinearFunction(
+					(x * 1.8), (x * 1.9), (x * 2.0), (x * 2.1), (x * 2.2));
+			FakeLogisticPlusLinearFunction importFunction = (FakeLogisticPlusLinearFunction) exchange
+					.getImportFunction();
+			Assert.assertEquals(fInput.getY0(), importFunction.getY0(), delta);
+			Assert.assertEquals(fInput.getX0(), importFunction.getX0(), delta);
+			Assert.assertEquals(fInput.getDelta(), importFunction.getDelta(),
+					delta);
+			Assert.assertEquals(fInput.getLambda(), importFunction.getLambda(),
+					delta);
+			Assert.assertEquals(fInput.getSlope(), importFunction.getSlope(),
+					delta);
+
+			FakeLogisticPlusLinearFunction fOutput = new FakeLogisticPlusLinearFunction(
+					(x * 2.3), (x * 2.4), (x * 2.5), (x * 2.6), (x * 2.7));
+			FakeLogisticPlusLinearFunction exportFunction = (FakeLogisticPlusLinearFunction) exchange
+					.getExportFunction();
+			Assert.assertEquals(fOutput.getY0(), exportFunction.getY0(), delta);
+			Assert.assertEquals(fOutput.getX0(), exportFunction.getX0(), delta);
+			Assert.assertEquals(fOutput.getDelta(), exportFunction.getDelta(),
+					delta);
+			Assert.assertEquals(fOutput.getLambda(),
+					exportFunction.getLambda(), delta);
+			Assert.assertEquals(fOutput.getSlope(), exportFunction.getSlope(),
+					delta);
+
+			Assert.assertEquals(_commodities.get(i / 2), exchange.myCommodity);
+
+		}
+	}
+
+	@Test
+	public void TestAAProcessorSetUpExchangesAndZUtilitiesNoZone() {
+		// This uses the default one which is set
+		clearExchanges();
+		TestAAPProcessor processor = new TestAAPProcessor();
+		FakeResourceUtil fakeResourceUtil = (FakeResourceUtil) createFakeResourceUtil();
+		processor.zones = _allZones;
+		processor.setUseExchange(6);
+		processor.callSetUpExchangesAndZUtilities(fakeResourceUtil);
+		String[] monitorExchanges = { "true", "true", "false", "false" };
+		String[] specifiedExchanges = { "true", "false", "true", "false" };
+
+		float[] zoneNumbers = { 0f, 1f, 0f, 1f };
+		String[] commodities = { "One", "One", "Two", "Two", "One" };
+
+		Exchange[] exchanges = {
+				((Commodity) _commodities.get(0)).getExchange(0),
+				((Commodity) _commodities.get(0)).getExchange(1),
+				((Commodity) _commodities.get(1)).getExchange(0),
+				((Commodity) _commodities.get(1)).getExchange(1) };
+		for (float x = 1; x < 5; x++) {
+			int i = (int) x - 1;
+			Exchange exchange = exchanges[i];
+			Assert.assertEquals(x * 1.1, exchange.getPrice(), delta);
+			Assert.assertEquals(Boolean.parseBoolean(monitorExchanges[i]),
+					exchange.monitor);
+			Assert.assertEquals(x * 1.2, exchange.getBuyingSizeTerm(), delta);
+			Assert.assertEquals(x * 1.3, exchange.getSellingSizeTerm(), delta);
+			FakeLogisticPlusLinearFunction fInput = new FakeLogisticPlusLinearFunction(
+					(x * 1.8), (x * 1.9), (x * 2.0), (x * 2.1), (x * 2.2));
+			FakeLogisticPlusLinearFunction importFunction = (FakeLogisticPlusLinearFunction) exchange
+					.getImportFunction();
+			Assert.assertEquals(fInput.getY0(), importFunction.getY0(), delta);
+			Assert.assertEquals(fInput.getX0(), importFunction.getX0(), delta);
+			Assert.assertEquals(fInput.getDelta(), importFunction.getDelta(),
+					delta);
+			Assert.assertEquals(fInput.getLambda(), importFunction.getLambda(),
+					delta);
+			Assert.assertEquals(fInput.getSlope(), importFunction.getSlope(),
+					delta);
+
+			FakeLogisticPlusLinearFunction fOutput = new FakeLogisticPlusLinearFunction(
+					(x * 2.3), (x * 2.4), (x * 2.5), (x * 2.6), (x * 2.7));
+			FakeLogisticPlusLinearFunction exportFunction = (FakeLogisticPlusLinearFunction) exchange
+					.getExportFunction();
+			Assert.assertEquals(fOutput.getY0(), exportFunction.getY0(), delta);
+			Assert.assertEquals(fOutput.getX0(), exportFunction.getX0(), delta);
+			Assert.assertEquals(fOutput.getDelta(), exportFunction.getDelta(),
+					delta);
+			Assert.assertEquals(fOutput.getLambda(),
+					exportFunction.getLambda(), delta);
+			Assert.assertEquals(fOutput.getSlope(), exportFunction.getSlope(),
+					delta);
+
+			Assert.assertEquals(_commodities.get(i / 2), exchange.myCommodity);
+		}
+	}
+
+	@Test
+	public void TestAAProcessorSetUpExchangesAndZUtilitiesLessEntries() {
+		clearExchanges();
+		TestAAPProcessor processor = new TestAAPProcessor();
+		FakeResourceUtil fakeResourceUtil = (FakeResourceUtil) createFakeResourceUtil();
+		processor.zones = _allZones;
+		processor.setUseExchange(7);
+		processor.callSetUpExchangesAndZUtilities(fakeResourceUtil);
+		String[] monitorExchanges = { "true", "true", "false", "false" };
+		String[] specifiedExchanges = { "true", "false", "true", "false" };
+
+		float[] zoneNumbers = { 0f, 1f, 0f, 1f };
+		String[] commodities = { "One", "One", "Two", "Two", "One" };
+
+		Exchange[] exchanges = {
+				((Commodity) _commodities.get(0)).getExchange(0),
+				((Commodity) _commodities.get(0)).getExchange(1),
+				((Commodity) _commodities.get(1)).getExchange(0),
+				((Commodity) _commodities.get(1)).getExchange(1) };
+		for (float x = 1; x < 5; x++) {
+			int i = (int) x - 1;
+			Exchange exchange = exchanges[i];
+
+			if (i / 2 == 0) {
+				Assert.assertEquals(1.1, exchange.getPrice(), delta);
+				Assert.assertEquals(false, exchange.monitor);
+				Assert.assertEquals(1.2, exchange.getBuyingSizeTerm(), delta);
+				Assert.assertEquals(1.3, exchange.getSellingSizeTerm(), delta);
+				FakeLogisticPlusLinearFunction fInput = new FakeLogisticPlusLinearFunction(
+						(1.8), (1.9), (2.0), (2.1), (2.2));
+				FakeLogisticPlusLinearFunction importFunction = (FakeLogisticPlusLinearFunction) exchange
+						.getImportFunction();
+				Assert.assertEquals(fInput.getY0(), importFunction.getY0(),
+						delta);
+				Assert.assertEquals(fInput.getX0(), importFunction.getX0(),
+						delta);
+				Assert.assertEquals(fInput.getDelta(),
+						importFunction.getDelta(), delta);
+				Assert.assertEquals(fInput.getLambda(),
+						importFunction.getLambda(), delta);
+				Assert.assertEquals(fInput.getSlope(),
+						importFunction.getSlope(), delta);
+
+				FakeLogisticPlusLinearFunction fOutput = new FakeLogisticPlusLinearFunction(
+						(2.3), (2.4), (2.5), (2.6), (2.7));
+				FakeLogisticPlusLinearFunction exportFunction = (FakeLogisticPlusLinearFunction) exchange
+						.getExportFunction();
+				Assert.assertEquals(fOutput.getY0(), exportFunction.getY0(),
+						delta);
+				Assert.assertEquals(fOutput.getX0(), exportFunction.getX0(),
+						delta);
+				Assert.assertEquals(fOutput.getDelta(),
+						exportFunction.getDelta(), delta);
+				Assert.assertEquals(fOutput.getLambda(),
+						exportFunction.getLambda(), delta);
+				Assert.assertEquals(fOutput.getSlope(),
+						exportFunction.getSlope(), delta);
+			}
+
+			else {
+				Assert.assertEquals(((Commodity) _commodities.get(i / 2))
+						.getExpectedPrice(), exchange.getPrice(), delta);
+				Assert.assertEquals(false, exchange.monitor);
+				Assert.assertEquals(1, exchange.getBuyingSizeTerm(), delta);
+				Assert.assertEquals(1, exchange.getSellingSizeTerm(), delta);
+
+				Assert.assertEquals(Commodity.zeroFunction,
+						exchange.getImportFunction());
+				Assert.assertEquals(Commodity.zeroFunction,
+						exchange.getExportFunction());
+			}
+			Assert.assertEquals(_commodities.get(i / 2), exchange.myCommodity);
+
+			FakeExchange fe = (FakeExchange) exchange;
+			CommodityZUtility[] buyFlow = fe.GetBuyingFlow();
+			CommodityZUtility[] sellFlow = fe.GetSellingFlow();
+
+			for (int j = 0; j < 4; j++) {
+				if (i < 2) {
+					// One buying, all selling
+					Assert.assertNotNull(sellFlow[j]);
+					if (i == j)
+						Assert.assertNotNull(buyFlow[j]);
+					else
+						Assert.assertNull(buyFlow[j]);
+				} else {
+					// One selling, all buying
+					Assert.assertNotNull(buyFlow[j]);
+					if (i % 2 == j)
+						Assert.assertNotNull(sellFlow[j]);
+					else
+						Assert.assertNull(sellFlow[j]);
+				}
+			}
+
+		}
+	}
+
+	@Test
+	public void TestAAProcessorSetUpExchangesAndZUtilitiesLessEntriesTypeS() {
+		clearExchanges();
+		setupCommodititesS();
+		TestAAPProcessor processor = new TestAAPProcessor();
+		FakeResourceUtil fakeResourceUtil = (FakeResourceUtil) createFakeResourceUtil();
+		processor.zones = _allZones;
+		processor.setUseExchange(6);
+		processor.callSetUpExchangesAndZUtilities(fakeResourceUtil);
+		String[] monitorExchanges = { "true", "true", "false", "false" };
+		String[] specifiedExchanges = { "true", "false", "true", "false" };
+
+		float[] zoneNumbers = { 0f, 1f, 0f, 1f };
+		String[] commodities = { "One", "One", "Two", "Two" };
+
+		Exchange[] exchanges = {
+				((Commodity) _commodities.get(0)).getExchange(0),
+				((Commodity) _commodities.get(0)).getExchange(1),
+				((Commodity) _commodities.get(1)).getExchange(0),
+				((Commodity) _commodities.get(1)).getExchange(1) };
+		for (float x = 1; x < 5; x++) {
+			int i = (int) x - 1;
+			Exchange exchange = exchanges[i];
+
+			if (i % 2 == 1) {
+				Assert.assertNull(exchange);
+			}
+
+			else {
+				Assert.assertNotNull(exchange);
+				Assert.assertEquals(_commodities.get(i / 2),
+						exchange.myCommodity);
+
+				FakeExchange fe = (FakeExchange) exchange;
+				CommodityZUtility[] buyFlow = fe.GetBuyingFlow();
+				CommodityZUtility[] sellFlow = fe.GetSellingFlow();
+
+				for (int j = 0; j < 4; j++) {
+					// All all
+					Assert.assertNotNull(sellFlow[j]);
+					Assert.assertNotNull(buyFlow[j]);
+
+				}
+			}
+
+		}
+
+	}
+
+	@Test
+	public void TestAAProcessorSetUpExchangesAndZUtilitiesLessEntriesTypeN() {
+		clearExchanges();
+		setupCommodititesN();
+		TestAAPProcessor processor = new TestAAPProcessor();
+		FakeResourceUtil fakeResourceUtil = (FakeResourceUtil) createFakeResourceUtil();
+		processor.zones = _allZones;
+		processor.setUseExchange(0);
+		processor.callSetUpExchangesAndZUtilities(fakeResourceUtil);
+		String[] monitorExchanges = { "true", "true", "false", "false" };
+		String[] specifiedExchanges = { "true", "false", "true", "false" };
+
+		float[] zoneNumbers = { 0f, 1f, 0f, 1f };
+		String[] commodities = { "One", "One", "Two", "Two" };
+
+		Exchange[] exchanges = {
+				((Commodity) _commodities.get(0)).getExchange(0),
+				((Commodity) _commodities.get(0)).getExchange(1),
+				((Commodity) _commodities.get(1)).getExchange(0),
+				((Commodity) _commodities.get(1)).getExchange(1) };
+		for (float x = 1; x < 5; x++) {
+			int i = (int) x - 1;
+			Exchange exchange = exchanges[i];
+
+			Assert.assertNotNull((NonTransportableExchange) exchange);
+			Assert.assertEquals(_commodities.get(i / 2), exchange.myCommodity);
+
+			FakeNonTransportableExchange fe = (FakeNonTransportableExchange) exchange;
+			CommodityZUtility[] buyFlow = fe.GetBuyingFlow();
+			CommodityZUtility[] sellFlow = fe.GetSellingFlow();
+
+			Assert.assertEquals(1, buyFlow.length);
+			Assert.assertEquals(1, sellFlow.length);
+			
+			Assert.assertEquals((int)zoneNumbers[i], buyFlow[0].getTaz().zoneIndex);			
+		}
+
+	}
+
+	@Before
+	public void clear() {
+		FakeCommodity.clearCommodities();
+		setupCommoditites();
+	}
 }

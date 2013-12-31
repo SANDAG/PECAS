@@ -15,5 +15,12 @@ public class FakeCommodity extends AbstractCommodity {
 			throws OverflowException {
 		return 0;
 	}
+	
+	public static void clearCommodities()
+	{
+		allCommoditiesArrayList.clear();
+		allCommoditiesHashmap.clear();
+		nextCommodityNumber = 0;
+	}
 
 }

@@ -33,11 +33,11 @@ package com.hbaspecto.functions;
 public class LogisticPlusLinearFunction
         implements SingleParameterFunction
 {
-    double y0;
-    double x0;
-    double slope;
-    double lambda;
-    double delta;
+    protected double y0;
+    protected double x0;
+    protected double slope;
+    protected double lambda;
+    protected double delta;
 
     public LogisticPlusLinearFunction(double y0, double x0, double lambda, double delta,
             double slope)

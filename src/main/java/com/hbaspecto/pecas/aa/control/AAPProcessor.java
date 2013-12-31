@@ -43,6 +43,7 @@ import org.apache.log4j.Logger;
 
 import com.hbaspecto.functions.LogisticPlusLinearFunction;
 import com.hbaspecto.functions.LogisticPlusLinearWithOverrideFunction;
+import com.hbaspecto.functions.SingleParameterFunction;
 import com.hbaspecto.matrix.SparseMatrix;
 import com.hbaspecto.pecas.ChoiceModelOverflowException;
 import com.hbaspecto.pecas.IResource;
@@ -662,9 +663,9 @@ public abstract class AAPProcessor {
 				if (c.exchangeType != 's' || specifiedExchange) {
 					Exchange xc;
 					if (c.exchangeType == 'n') {
-						xc = new NonTransportableExchange(c, zones[z]);
+						xc = CreateNonTransportableExchange(c, zones[z]);
 					} else {
-						xc = new Exchange(c, zones[z], zones.length);
+						xc = CreateExchange(c, zones[z], zones.length);
 					}
 					if (!found) {
 						// backup default data.
@@ -687,13 +688,13 @@ public abstract class AAPProcessor {
 					} else {
 						xc.setBuyingSizeTerm(exData.buyingSize);
 						xc.setSellingSizeTerm(exData.sellingSize);
-						xc.setImportFunction(new LogisticPlusLinearFunction(
+						xc.setImportFunction(GetLinearFunction(
 								exData.importFunctionMidpoint,
 								exData.importFunctionMidpointPrice,
 								exData.importFunctionLambda,
 								exData.importFunctionDelta,
 								exData.importFunctionSlope));
-						xc.setExportFunction(new LogisticPlusLinearFunction(
+						xc.setExportFunction(GetLinearFunction(
 								exData.exportFunctionMidpoint,
 								exData.exportFunctionMidpointPrice,
 								exData.exportFunctionLambda,
@@ -750,6 +751,24 @@ public abstract class AAPProcessor {
 			}
 
 		}
+	}
+
+	protected Exchange CreateNonTransportableExchange(Commodity c,
+			PECASZone pecasZone) {
+		return new NonTransportableExchange(c, pecasZone);
+	}
+
+	protected Exchange CreateExchange(Commodity c, PECASZone pecasZone, int length) {
+
+		return new Exchange(c, pecasZone, zones.length);
+	}
+
+	protected SingleParameterFunction GetLinearFunction(
+			float midpoint, float midpointPrice,
+			float lambda, float delta,
+			float slope) {
+		return new LogisticPlusLinearFunction(
+				midpoint, midpointPrice, lambda, delta, slope);
 	}
 
 	protected void setExchangePrices(IResource resourceUtil) {
