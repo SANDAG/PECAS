@@ -45,4 +45,19 @@ public class Resource implements IResource{
         return ResourceUtil.getProperty(rb, string, string2);
     }
 
+	@Override
+	public int getIntegerProperty(ResourceBundle rb, String string, int i) {
+		return ResourceUtil.getIntegerProperty(rb, string, i);
+	}
+
+	@Override
+	public double getDoubleProperty(ResourceBundle rb, String string) {
+		return ResourceUtil.getDoubleProperty(rb, string);
+	}
+
+	@Override
+	public ResourceBundle getResourceBundle(String string) {
+		return ResourceUtil.getResourceBundle(string);
+	}
+
 }

@@ -22,4 +22,10 @@ public interface IResource
 
     String getProperty(ResourceBundle aaRb, String string, String string2);
 
+	int getIntegerProperty(ResourceBundle aaRb, String string, int i);
+
+	double getDoubleProperty(ResourceBundle aaRb, String string);
+
+	ResourceBundle getResourceBundle(String string);
+
 }

@@ -44,7 +44,6 @@ import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
 import com.hbaspecto.pecas.aa.commodity.CommodityZUtility;
 import com.hbaspecto.pecas.aa.commodity.Exchange;
-import com.pb.common.util.ResourceUtil;
 
 import drasys.or.linear.algebra.Algebra;
 import drasys.or.linear.algebra.CroutPivot;
@@ -135,10 +134,10 @@ public class AAModel
      * read in by AAServerTask in it's 'onStart( ) method and will subsequently
      * be passed to aaModel during the 'new aaModel(rb)' call.
      */
-    public AAModel(ResourceBundle aaRb)
+    public AAModel(IResource resourceUtil, ResourceBundle aaRb)
     {
         setResourceBundles(aaRb);
-        final String initialStepSizeString = ResourceUtil.getProperty(aaRb, "aa.initialStepSize");
+        final String initialStepSizeString = resourceUtil.getProperty(aaRb, "aa.initialStepSize");
         if (initialStepSizeString == null)
         {
             logger.info("*   No aa.initialStepSize set in properties file -- using default");
@@ -149,12 +148,12 @@ public class AAModel
             logger.info("*   Initial step size set to " + iss);
         }
 
-        minimumStepSize = ResourceUtil.getDoubleProperty(aaRb, "aa.minimumStepSize", 1.0E-4);
+        minimumStepSize = resourceUtil.getDoubleProperty(aaRb, "aa.minimumStepSize", 1.0E-4);
         logger.info("*   Minimum step size set to " + minimumStepSize);
 
-        conFac = ResourceUtil.getDoubleProperty(aaRb, "aa.ConFac");
+        conFac = resourceUtil.getDoubleProperty(aaRb, "aa.ConFac");
 
-        final String maximumStepSizeString = ResourceUtil.getProperty(aaRb, "aa.maximumStepSize");
+        final String maximumStepSizeString = resourceUtil.getProperty(aaRb, "aa.maximumStepSize");
         if (maximumStepSizeString == null)
         {
             logger.info("*   No aa.maximumStepSize set in properties file -- using default");
@@ -165,7 +164,7 @@ public class AAModel
             logger.info("*   Maximum step size set to " + mss);
         }
 
-        final String convergedString = ResourceUtil.getProperty(aaRb, "aa.converged");
+        final String convergedString = resourceUtil.getProperty(aaRb, "aa.converged");
         if (convergedString == null)
         {
             logger.info("*   No aa.converged set in properties file -- using default");
@@ -176,7 +175,7 @@ public class AAModel
             logger.info("*   Convergence tolerance set to " + converged);
         }
 
-        final String localPriceStepSizeAdjustmentString = ResourceUtil.getProperty(aaRb,
+        final String localPriceStepSizeAdjustmentString = resourceUtil.getProperty(aaRb,
                 "aa.localPriceStepSizeAdjustment");
         if (localPriceStepSizeAdjustmentString == null)
         {
@@ -189,7 +188,7 @@ public class AAModel
         }
 
         // different step sizes for stubborn commodities
-        final String commoditySpecificAdjustmentString = ResourceUtil.getProperty(aaRb,
+        final String commoditySpecificAdjustmentString = resourceUtil.getProperty(aaRb,
                 "aa.commoditySpecificAdjustment");
         if (commoditySpecificAdjustmentString == null)
         {
@@ -804,7 +803,7 @@ public class AAModel
         setExchangePrices(oldPricesC);
     }
 
-    public void calculateNewPricesUsingBlockDerivatives(boolean calcDeltaUsingDerivatives)
+    public void calculateNewPricesUsingBlockDerivatives(boolean calcDeltaUsingDerivatives, IResource resourceUtil)
     {
         // ENHANCEMENT change this to use the MTJ library for matrices instead
         // of using the ORObjects library which is not open source and is no
@@ -838,7 +837,7 @@ public class AAModel
         } catch (final Exception e)
         {
             logger.error("Can't solve average price matrix " + e);
-            writeOutMatrix(avgMatrix, e);
+            writeOutMatrix(avgMatrix, e, resourceUtil);
         }
 
         if (stepSize >= 1)
@@ -995,7 +994,7 @@ public class AAModel
                     writeOutMatrix(avgMatrix, new RuntimeException("Planning NaN price in " + x
                             + " oldPrice:" + x.getPrice() + " averagePriceChange:"
                             + averagePriceChange.elementAt(commodityNumber)
-                            + " local price change:" + deltaPricesDouble[xNum]));
+                            + " local price change:" + deltaPricesDouble[xNum]), resourceUtil);
                 }
                 if (x.monitor)
                 {
@@ -1031,18 +1030,18 @@ public class AAModel
         return false;
     }
 
-    private void writeOutMatrix(AveragePriceSurplusDerivativeMatrix avgMatrix, Exception e)
+    private void writeOutMatrix(AveragePriceSurplusDerivativeMatrix avgMatrix, Exception e, IResource resourceUtil)
     {
         logger.fatal("Having problems solving for change in average prices", e);
         logger.fatal("Writing out average price change derivative matrix to file AvgMatrix.txt");
         FileOutputStream badMatrixStream = null;
         try
         {
-            badMatrixStream = new FileOutputStream(ResourceUtil.getProperty(aaRb, "output.data")
+            badMatrixStream = new FileOutputStream(resourceUtil.getProperty(aaRb, "output.data")
                     + "AvgMatrix.txt");
         } catch (final FileNotFoundException e1)
         {
-            logger.fatal("Can't seem to open file " + ResourceUtil.getProperty(aaRb, "output.data")
+            logger.fatal("Can't seem to open file " + resourceUtil.getProperty(aaRb, "output.data")
                     + "AvgMatrix.txt");
             throw new RuntimeException(e);
         }
@@ -1229,7 +1228,7 @@ public class AAModel
      */
     public void startModel(int baseYear, int timeInterval, IResource resourceUtil)
     {
-        final String pProcessorClass = ResourceUtil.getProperty(aaRb, "pprocessor.class");
+        final String pProcessorClass = resourceUtil.getProperty(aaRb, "pprocessor.class");
         logger.info("PECAS will be using the " + pProcessorClass + " for pre and post processing");
         AAControl aa;
         try

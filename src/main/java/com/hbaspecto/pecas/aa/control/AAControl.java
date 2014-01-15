@@ -25,7 +25,6 @@ import com.hbaspecto.pecas.Resource;
 import com.hbaspecto.pecas.aa.AAStatusLogger;
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
 import com.hbaspecto.pecas.aa.commodity.Commodity;
-import com.pb.common.util.ResourceUtil;
 import com.pb.common.util.SeededRandom;
 
 /**
@@ -52,8 +51,8 @@ public class AAControl
     // converge, 0=aa exited without errors iow.
     // converged
     private int                  constraintIteration;
-    private double               newMeritMeasure;
-    private AAModel              aa;
+    protected double             newMeritMeasure;
+    protected AAModel              aa;
     private boolean              secondIterationRun  = false;
     
 
@@ -125,7 +124,7 @@ public class AAControl
      * 
      * @return 0 if it all worked, >0 otherwise
      */
-    public int runAAToFindPrices()
+    public int runAAToFindPrices(IResource resource)
     {
         logger.info("*******************************************************************************************");
         logger.info("* Beginning PECAS AA");
@@ -150,20 +149,20 @@ public class AAControl
         // specific info each time then logFrequency should be set to 1,
         // otherwise set to every 10, 50
         // or 100 iterations to reduce the amount of logging produced.
-        final int logFrequency = ResourceUtil.getIntegerProperty(aaRb, "aa.logFrequency", 1);
+        final int logFrequency = resource.getIntegerProperty(aaRb, "aa.logFrequency", 1);
         logger.info("* NOTE: Commodity Specific Merit Measures will be logged every "
                 + logFrequency + " iterations.");
 
-        final boolean isParallel = ResourceUtil.getBooleanProperty(aaRb, "aa.jppfParallel", false);
+        final boolean isParallel = resource.getBooleanProperty(aaRb, "aa.jppfParallel", false);
 
         if (isParallel)
         {
-            aa = new com.hbaspecto.pecas.aa.jppf.JppfAAModel(aaRb);
+        	aa = getParallelAAModel(resource, aaRb);
             logger.info("AA is running in multi-machine mode. To modify this configuration, refer to the "
                     + "aa.jppfParallel property in aa.properties file.");
         } else
         {
-            aa = new AAModel(aaRb);
+        	aa = getNormalAAModel(resource, aaRb);            
             logger.info("\nAA is NOT running in multi-machine mode (but is using all the cores in the current machine)."
                     + "  To modify this configuration, refer to the aa.jppfParallel property in aa.properties file.");
         }
@@ -184,16 +183,16 @@ public class AAControl
             AggregateActivity.setForceConstraints(forceConstraints);
         }
 
-        maxIterations = ResourceUtil.getIntegerProperty(aaRb, "aa.maxIterations", maxIterations);
+        maxIterations = resource.getIntegerProperty(aaRb, "aa.maxIterations", maxIterations);
         if (maxIterations == 0)
         {
             stoppingNextIteration = true;
         }
 
         // flag as to whether to calculate average price
-        final boolean calcAvgPrice = ResourceUtil.getBooleanProperty(aaRb,
+        final boolean calcAvgPrice = resource.getBooleanProperty(aaRb,
                 "aa.calculateAveragePrices", true);
-        final boolean calcDeltaUsingDerivatives = ResourceUtil.getBooleanProperty(aaRb,
+        final boolean calcDeltaUsingDerivatives = resource.getBooleanProperty(aaRb,
                 "aa.useFullExchangeDerivatives", false);
 
         logger.info("*******************************************************************************************");
@@ -242,7 +241,7 @@ public class AAControl
                     "Initial prices cause overflow -- try again changing initial prices");
         }
 
-        isCurrentlyConverged = isConverged(nIterations);
+        isCurrentlyConverged = isConverged(nIterations, resource);
 
         /******************************************************************************************************
          * Now we begin to iterate to find a solution.
@@ -285,7 +284,7 @@ public class AAControl
 
                 if (calcAvgPrice)
                 {
-                    aa.calculateNewPricesUsingBlockDerivatives(calcDeltaUsingDerivatives);
+                    aa.calculateNewPricesUsingBlockDerivatives(calcDeltaUsingDerivatives, resource);
                 } else
                 {
                     logger.error("Don't use diagonal approximation anymore, please set aa.calculateAveragePrices to"
@@ -388,7 +387,7 @@ public class AAControl
                     newMeritMeasure = Double.POSITIVE_INFINITY;
                 }
             }
-            isCurrentlyConverged = isConverged(nIterations);
+            isCurrentlyConverged = isConverged(nIterations, resource);
             if (nIterations >= maxIterations && !isCurrentlyConverged)
             {
                 stoppingNextIteration = true;
@@ -430,7 +429,15 @@ public class AAControl
         return exitValue;
     }
 
-    public static boolean checkToSeeIfUserWantsToStopModel(InputStreamReader keyboardInput)
+    protected AAModel getNormalAAModel(IResource resourceUtil, ResourceBundle aaRb) {
+    	return new AAModel(resourceUtil, aaRb);
+	}
+
+	protected AAModel getParallelAAModel(IResource resourceUtil, ResourceBundle aaRb) {
+    	return new com.hbaspecto.pecas.aa.jppf.JppfAAModel(resourceUtil, aaRb);
+	}
+
+	public static boolean checkToSeeIfUserWantsToStopModel(InputStreamReader keyboardInput)
     {
         boolean stoppingNextIteration = false;
         try
@@ -473,10 +480,10 @@ public class AAControl
                 + "  limitations under the License. \n" + "\n");
     }
 
-    private boolean isConverged(int iteration)
+    protected boolean isConverged(int iteration, IResource resource)
     {
 
-        if (ResourceUtil.getProperty(aaRb, "aa.maxTotalClearance") == null)
+        if (resource.getProperty(aaRb, "aa.maxTotalClearance") == null)
         {
             // old convergence criteria
             if (newMeritMeasure <= aa.convergenceTolerance)
@@ -490,14 +497,14 @@ public class AAControl
 
         final double averageExchangeTotal = Commodity.calcTotalAverageExchangeTotal();
         final double tClear = Math.sqrt(newMeritMeasure) / averageExchangeTotal;
-        if (tClear > ResourceUtil.getDoubleProperty(aaRb, "aa.maxTotalClearance"))
+        if (tClear > resource.getDoubleProperty(aaRb, "aa.maxTotalClearance"))
         {
             converged = false;
         }
 
-        final double largestSClear = Commodity.getLargestSClearForAllCommodities(ResourceUtil
+        final double largestSClear = Commodity.getLargestSClearForAllCommodities(resource
                 .getDoubleProperty(aaRb, "aa.ConFac"));
-        if (largestSClear > ResourceUtil.getDoubleProperty(aaRb, "aa.maxSpecificClearance"))
+        if (largestSClear > resource.getDoubleProperty(aaRb, "aa.maxSpecificClearance"))
         {
             converged = false;
         }
@@ -554,8 +561,9 @@ public class AAControl
      */
     public static void main(String[] args)
     {
-        final ResourceBundle aaRb = ResourceUtil.getResourceBundle("aa");
-        final Boolean enableStatusLogging = ResourceUtil.getBooleanProperty(aaRb,
+    	IResource resourceUtil = new Resource();
+        final ResourceBundle aaRb = resourceUtil.getResourceBundle("aa");
+        final Boolean enableStatusLogging = resourceUtil.getBooleanProperty(aaRb,
                 "aa.statusLoggingEnabled", false);
         AAStatusLogger.setModule("AA");
         if (enableStatusLogging)
@@ -565,7 +573,7 @@ public class AAControl
         {
             AAStatusLogger.disable();
         }
-        final String pProcessorClass = ResourceUtil.getProperty(aaRb, "pprocessor.class",
+        final String pProcessorClass = resourceUtil.getProperty(aaRb, "pprocessor.class",
                 AAPProcessor.class.toString());
         logger.info("PECAS will be using the " + pProcessorClass
                 + " for pre and post AA processing");
@@ -601,12 +609,11 @@ public class AAControl
                     "usage: com.pb.models.pecas.AAControl [baseYear timeInterval]");
         }
         
-        seed = ResourceUtil.getIntegerProperty(aaRb, "randomSeed", DEFAULT_RANDOM_SEED);
+        seed = resourceUtil.getIntegerProperty(aaRb, "randomSeed", DEFAULT_RANDOM_SEED);
         SeededRandom.setSeed(seed);
                 
         try
         {
-            IResource resourceUtil = new Resource();
             aa.runModelPerhapsWithConstraints(resourceUtil);
         } catch (final ModelDidntWorkException e)
         {
@@ -635,14 +642,14 @@ public class AAControl
         writeCopyrightStatement();
         readData(resourceUtil);
         aaReaderWriter.readInHistogramSpecifications(resourceUtil);
-        final boolean constrainedRun = ResourceUtil.getBooleanProperty(aaRb, "constrained", false);
+        final boolean constrainedRun = resourceUtil.getBooleanProperty(aaRb, "constrained", false);
         if (constrainedRun)
         {
             logger.info("Running in constrained mode");
             // int constraintIterations =
             // Integer.valueOf(ResourceUtil.getProperty(aaRb,
             // "constraint.iterations"));
-            final double constraintSmoothing = ResourceUtil.getDoubleProperty(aaRb,
+            final double constraintSmoothing = resourceUtil.getDoubleProperty(aaRb,
                     "constraint.smoothing", 1);
             // aaReaderWriter.maxConstantChange=
             // ResourceUtil.getDoubleProperty(aaRb,"constraint.maxConstantChange",2.5);
@@ -650,7 +657,7 @@ public class AAControl
 
             AggregateActivity.setForceConstraints(true);
             setConstraintIteration(1);
-            int didThisWork = runAAToFindPrices();
+            int didThisWork = runAAToFindPrices(resourceUtil);
             writeData(resourceUtil);
             if (didThisWork != 0)
             {
@@ -663,16 +670,16 @@ public class AAControl
             setConstraintIteration(2);
             AggregateActivity.setForceConstraints(false);
             setSecondIterationRun(true);
-            didThisWork = runAAToFindPrices();
+            didThisWork = runAAToFindPrices(resourceUtil);
             writeData(resourceUtil);
-            if (!AAModel.checkConstraints(ResourceUtil.getDoubleProperty(aaRb,
+            if (!AAModel.checkConstraints(resourceUtil.getDoubleProperty(aaRb,
                     "constraint.tolerance", 0.001)))
             {
                 throw new ModelDidntWorkException("Constraints not met");
             }
         } else
         {
-            runAAToFindPrices();
+            runAAToFindPrices(resourceUtil);
             writeData(resourceUtil);
         }
     }
