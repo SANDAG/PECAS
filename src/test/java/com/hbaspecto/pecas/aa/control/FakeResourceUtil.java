@@ -11,6 +11,9 @@ public class FakeResourceUtil implements IResource {
 	HashMap<String, String> _strings = new HashMap<String, String>();
 	HashMap<String, Boolean> _bools = new HashMap<String, Boolean>();
 	HashMap<String, Double> _doubles = new HashMap<String, Double>();
+	HashMap<String, Integer> _ints = new HashMap<String, Integer>();
+	HashMap<String, ResourceBundle> _bundles = new HashMap<String, ResourceBundle>();
+	
 	ArrayList _arrayList = new ArrayList<>();
 
 	@Override
@@ -57,5 +60,23 @@ public class FakeResourceUtil implements IResource {
 	public void setBoolean(String key, boolean value) {
 		_bools.put(key, value);
 	}
+
+	@Override
+	public int getIntegerProperty(ResourceBundle aaRb, String key, int def) {
+		if (_ints.containsKey(key))
+			return _ints.get(key);
+		return def;
+	}
+
+	@Override
+	public double getDoubleProperty(ResourceBundle aaRb, String key) {
+		return _doubles.get(key);		
+	}
+
+	@Override
+	public ResourceBundle getResourceBundle(String key) {
+		return _bundles.get(key);
+	}
+	
 
 }

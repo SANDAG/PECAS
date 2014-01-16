@@ -5,10 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
+
 import org.jppf.client.JPPFClient;
 import org.jppf.server.protocol.JPPFTask;
 import org.jppf.task.storage.DataProvider;
 import org.jppf.task.storage.MemoryMapDataProvider;
+
+import com.hbaspecto.pecas.IResource;
 import com.hbaspecto.pecas.aa.activities.AggregateActivity;
 import com.hbaspecto.pecas.aa.activities.AmountInZone;
 import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
@@ -24,9 +27,9 @@ public class JppfAAModel
     private JPPFClient   client;
     private DataProvider myDataProvider = null;
 
-    public JppfAAModel(ResourceBundle aaRb)
+    public JppfAAModel(IResource resourceUtil, ResourceBundle aaRb)
     {
-        super(aaRb);
+        super(resourceUtil, aaRb);
     }
 
     /*
