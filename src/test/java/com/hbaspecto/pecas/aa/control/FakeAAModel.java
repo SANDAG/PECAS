@@ -19,114 +19,103 @@ public class FakeAAModel extends AAModel {
 	public int _recalculateLocationConsumptionAndProductionCalled = 0;
 	public int _backUpToLastValidPricesCalled = 0;
 	public boolean _usesInfinity = false;
-	
+
 	public boolean _isNAN = false;
 	public boolean IsParallel = false;
 	public boolean _usedDerivitives = false;
 
-	public FakeAAModel(IResource resourceUtil, ResourceBundle aaRb, boolean isParallel) {
+	public FakeAAModel(IResource resourceUtil, ResourceBundle aaRb,
+			boolean isParallel) {
 		super(resourceUtil, aaRb);
 		IsParallel = isParallel;
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
-	public boolean calculateCompositeBuyAndSellUtilities()
-	{
+	public boolean calculateCompositeBuyAndSellUtilities() {
 		_calculateCompositeBuyAndSellUtilitiesCalled++;
 		return _isNAN;
 	}
-	
+
 	@Override
-	public boolean calculateLocationConsumptionAndProduction()
-	{
-		_calculateLocationConsumptionAndProductionCalled ++;
+	public boolean calculateLocationConsumptionAndProduction() {
+		_calculateLocationConsumptionAndProductionCalled++;
 		return _isNAN;
 	}
-	
+
 	@Override
-	public boolean allocateQuantitiesToFlowsAndExchanges(boolean param)
-	{
+	public boolean allocateQuantitiesToFlowsAndExchanges(boolean param) {
 		if (param)
 			_allocateQuantitiesToFlowsAndExchangesTrueCalled++;
 		else
 			_allocateQuantitiesToFlowsAndExchangesFalseCalled++;
-		
+
 		return _isNAN;
 	}
-	
+
 	@Override
-	public boolean calculateExchangeSizeTermsForSpecifiedNonFloorspace()
-	{
+	public boolean calculateExchangeSizeTermsForSpecifiedNonFloorspace() {
 		_calculateExchangeSizeTermsForSpecifiedNonFloorspaceCalled++;
-		return _isNAN;		
+		return _isNAN;
 	}
-	
+
 	@Override
-	public double calculateMeritMeasureWithLogging()
-	{
+	public double calculateMeritMeasureWithLogging() {
 		_calculateMeritMeasureWithLoggingCalled++;
 		if (_usesInfinity)
 			return Double.POSITIVE_INFINITY;
 		return _calculateMeritMeasureWithLoggingCalled;
 	}
-	
+
 	@Override
-	public double calculateMeritMeasureWithoutLogging()
-	{
+	public double calculateMeritMeasureWithoutLogging() {
 		_calculateMeritMeasureWithoutLoggingCalled++;
 		return _calculateMeritMeasureWithoutLoggingCalled;
 	}
-	
+
 	@Override
-	public void snapShotCurrentPrices()
-	{
+	public void snapShotCurrentPrices() {
 		_snapShotCurrentPricesCalled++;
 	}
 
 	@Override
-	public void calculateNewPricesUsingBlockDerivatives(boolean calcDeltaUsingDerivatives, IResource resourceUtil)
-	{
-		_usedDerivitives  = calcDeltaUsingDerivatives;
+	public void calculateNewPricesUsingBlockDerivatives(
+			boolean calcDeltaUsingDerivatives, IResource resourceUtil) {
+		_usedDerivitives = calcDeltaUsingDerivatives;
 		_calculateNewPricesUsingBlockDerivativesCalled++;
 	}
 
 	public void setNAN(boolean b) {
 		_isNAN = b;
-		
+
 	}
-	
+
 	@Override
-	public void decreaseStepSizeAndAdjustPrices()
-	{
+	public void decreaseStepSizeAndAdjustPrices() {
 		_decreaseStepSizeAndAdjustPricesCalled++;
 	}
-	
+
 	@Override
-	public void decreaseStepSizeEvenIfBelowMinimumAndAdjustPrices()
-	{
+	public void decreaseStepSizeEvenIfBelowMinimumAndAdjustPrices() {
 		_decreaseStepSizeEvenIfBelowMinimumAndAdjustPricesCalled++;
 	}
-	
+
 	@Override
-	public double getMinimumStepSize()
-    {
+	public double getMinimumStepSize() {
 		if (_usesInfinity)
 			return getStepSize();
 		else
 			return super.getMinimumStepSize();
-    }
-	
+	}
+
 	@Override
-	public boolean recalculateLocationConsumptionAndProduction()
-	{
+	public boolean recalculateLocationConsumptionAndProduction() {
 		_recalculateLocationConsumptionAndProductionCalled++;
 		return false;
 	}
-	
+
 	@Override
-	public void backUpToLastValidPrices()
-	{
+	public void backUpToLastValidPrices() {
 		_backUpToLastValidPricesCalled++;
 	}
 }
