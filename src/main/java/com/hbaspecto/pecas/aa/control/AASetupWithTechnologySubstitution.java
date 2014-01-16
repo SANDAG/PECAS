@@ -273,6 +273,8 @@ public class AASetupWithTechnologySubstitution
                 activityZonalHashtable.put(activityZone, new Integer(zRow));
             }
         }
+        
+        double epsilon =maxConstantChange = .00000000001;
 
         for (int pRow = 1; pRow <= ptab.getRowCount(); pRow++)
         {
@@ -288,7 +290,7 @@ public class AASetupWithTechnologySubstitution
             int scalingColumn = ptab.getColumnPosition("ProductionUtilityScaling");
             if (scalingColumn >= 0)
             {
-                if (ptab.getValueAt(pRow, scalingColumn) != 1.0)
+                if (!(Math.abs(ptab.getValueAt(pRow, scalingColumn) - 1.0) < epsilon))
                 {
                     final String msg = "Using LogitTechnologyChoice but ProductionUtilityScaling is not 1.0";
                     logger.fatal(msg);
@@ -298,7 +300,7 @@ public class AASetupWithTechnologySubstitution
             scalingColumn = ptab.getColumnPosition("ConsumptionUtilityScaling");
             if (scalingColumn >= 0)
             {
-                if (ptab.getValueAt(pRow, scalingColumn) != 1.0)
+                if (!(Math.abs(ptab.getValueAt(pRow, scalingColumn) - 1.0) < epsilon))
                 {
                     final String msg = "Using LogitTechnologyChoice but ConsumptionUtilityScaling is not 1.0";
                     logger.fatal(msg);
@@ -328,7 +330,7 @@ public class AASetupWithTechnologySubstitution
                     logger.error(error);
                 }
             }
-            if (ptab.getColumnPosition("NonModelledConsumption") != -1)
+            if (!(Math.abs(ptab.getColumnPosition("NonModelledConsumption") - -1.0) < epsilon))
             {
                 if (ptab.getBooleanValueAt(pRow, "NonModelledConsumption"))
                 {
