@@ -16,12 +16,17 @@ public class FakeAAModel extends AAModel {
 	public int _calculateNewPricesUsingBlockDerivativesCalled = 0;
 	public int _decreaseStepSizeAndAdjustPricesCalled = 0;
 	public int _decreaseStepSizeEvenIfBelowMinimumAndAdjustPricesCalled = 0;
+	public int _recalculateLocationConsumptionAndProductionCalled = 0;
+	public int _backUpToLastValidPricesCalled = 0;
 	public boolean _usesInfinity = false;
 	
 	public boolean _isNAN = false;
+	public boolean IsParallel = false;
+	public boolean _usedDerivitives = false;
 
-	public FakeAAModel(IResource resourceUtil, ResourceBundle aaRb) {
+	public FakeAAModel(IResource resourceUtil, ResourceBundle aaRb, boolean isParallel) {
 		super(resourceUtil, aaRb);
+		IsParallel = isParallel;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -70,7 +75,7 @@ public class FakeAAModel extends AAModel {
 	public double calculateMeritMeasureWithoutLogging()
 	{
 		_calculateMeritMeasureWithoutLoggingCalled++;
-		return _calculateMeritMeasureWithLoggingCalled;
+		return _calculateMeritMeasureWithoutLoggingCalled;
 	}
 	
 	@Override
@@ -82,6 +87,7 @@ public class FakeAAModel extends AAModel {
 	@Override
 	public void calculateNewPricesUsingBlockDerivatives(boolean calcDeltaUsingDerivatives, IResource resourceUtil)
 	{
+		_usedDerivitives  = calcDeltaUsingDerivatives;
 		_calculateNewPricesUsingBlockDerivativesCalled++;
 	}
 
@@ -110,4 +116,17 @@ public class FakeAAModel extends AAModel {
 		else
 			return super.getMinimumStepSize();
     }
+	
+	@Override
+	public boolean recalculateLocationConsumptionAndProduction()
+	{
+		_recalculateLocationConsumptionAndProductionCalled++;
+		return false;
+	}
+	
+	@Override
+	public void backUpToLastValidPrices()
+	{
+		_backUpToLastValidPricesCalled++;
+	}
 }

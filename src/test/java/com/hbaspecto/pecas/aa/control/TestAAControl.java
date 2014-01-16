@@ -15,7 +15,14 @@ public class TestAAControl extends AAControl {
 	@Override
 	protected AAModel getNormalAAModel(IResource resourceUtil, ResourceBundle aaRb) {
 		if (newModel == null)
-			newModel = new FakeAAModel(resourceUtil, aaRb);
+			newModel = new FakeAAModel(resourceUtil, aaRb, false);
+		return newModel;
+	}
+	
+	@Override
+	protected AAModel getParallelAAModel(IResource resourceUtil, ResourceBundle aaRb) {
+		if (newModel == null)
+			newModel = new FakeAAModel(resourceUtil, aaRb, true);
 		return newModel;
 	} 
 	
