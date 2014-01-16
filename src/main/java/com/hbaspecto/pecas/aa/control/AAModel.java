@@ -1289,11 +1289,13 @@ public class AAModel
                     logger.fatal(msg);
                     throw new RuntimeException(msg, e);
                 }
+                
+                double epsilon = .0000000000001;
                 for (int beta = 0; beta < amounts.length; beta++)
                 {
                     if (amounts[beta].isConstrained())
                     {
-                        if (amounts[beta].constraintQuantity != amounts[beta].quantity)
+                        if (!(Math.abs(amounts[beta].constraintQuantity - amounts[beta].quantity) < epsilon))
                         {
                             final String msg = "Problem in constraint process -- constraint quantity is unequal to quantity for "
                                     + amounts[beta];
