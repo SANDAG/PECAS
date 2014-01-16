@@ -56,25 +56,6 @@ public abstract class AbstractZone
         return allZones[index];
     }
 
-    public void writeGridCells(TableDataSet gtab)
-    {
-        final Iterator it = myGridCells.iterator();
-        while (it.hasNext())
-        {
-            // TODO Remove reference to grid cells from PECASZone -- not used
-            // gtab.insertRow(false);
-            // GridCell gc = (GridCell) it.next();
-            // gtab.setInt("PECASZone",userID);
-            // gtab.setString("DevelopmentType",gc.currentDevelopment.getName());
-            // gtab.setFloat("AmountOfDevelopment",gc.amountOfDevelopment);
-            // gtab.setFloat("AmountOfLand",gc.amountOfLand);
-            // gtab.setInt("Age",(int) gc.age);
-            // gtab.setString("ZoningScheme",gc.zoningScheme.getName());
-            // gtab.post();
-        }
-
-    }
-
     /*
      * public void addNewGridCell(GridCell c) { myGridCells.add(c);
      * changeSpaceQuantity(c.currentDevelopment, c.amountOfDevelopment);
