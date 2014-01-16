@@ -4,9 +4,9 @@ import com.hbaspecto.pecas.OverflowException;
 import com.hbaspecto.pecas.aa.commodity.AbstractCommodity;
 import com.hbaspecto.pecas.zones.AbstractZone;
 
-public class FakeCommodity extends AbstractCommodity {
+public class FakeAbstractCommodity extends AbstractCommodity {
 
-	protected FakeCommodity(String name) {
+	protected FakeAbstractCommodity(String name) {
 		super(name);
 	}
 

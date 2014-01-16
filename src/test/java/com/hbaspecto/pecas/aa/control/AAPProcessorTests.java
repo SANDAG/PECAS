@@ -63,7 +63,7 @@ public class AAPProcessorTests {
 	}
 
 	public static void setupCommodititesS() {
-		FakeCommodity.clearCommodities();
+		FakeAbstractCommodity.clearCommodities();
 		_commodities = new ArrayList<AbstractCommodity>();
 		_commodities.add(Commodity.createOrRetrieveCommodity("One", 's'));
 		_commodities.add(Commodity.createOrRetrieveCommodity("Two", 's'));
@@ -72,7 +72,7 @@ public class AAPProcessorTests {
 	}
 
 	public static void setupCommodititesN() {
-		FakeCommodity.clearCommodities();
+		FakeAbstractCommodity.clearCommodities();
 		_commodities = new ArrayList<AbstractCommodity>();
 		_commodities.add(Commodity.createOrRetrieveCommodity("One", 'n'));
 		_commodities.add(Commodity.createOrRetrieveCommodity("Two", 'n'));
@@ -828,7 +828,7 @@ public class AAPProcessorTests {
 
 	@Before
 	public void clear() {
-		FakeCommodity.clearCommodities();
+		FakeAbstractCommodity.clearCommodities();
 		setupCommoditites();
 	}
 }
