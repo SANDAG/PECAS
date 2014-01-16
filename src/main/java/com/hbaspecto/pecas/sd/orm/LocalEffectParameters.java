@@ -34,11 +34,12 @@ public class LocalEffectParameters
 
     public double applyFunction(double rent, double localEffectDistance)
     {
+    	double epsilon = .00000000001;
         localEffectDistance = Math.min(localEffectDistance, get_MaxDist());
         switch (get_FunctionType())
         {
             case 1:
-                if (localEffectDistance == get_MaxDist()) rent *= get_ThetaParameter();
+                if (Math.abs(localEffectDistance - get_MaxDist()) < epsilon) rent *= get_ThetaParameter();
                 break;
             case 2:
                 rent *= Math.exp(get_ThetaParameter() * (localEffectDistance / get_MaxDist()));
