@@ -523,14 +523,16 @@ public class LogitTechnologyChoice
         if (allSames == null)
         {
             allSames = new boolean[getUtilityDerivativesWrtCommodityUtilities()[0].length];
+            double epsilon = .000000000001;
             for (int i = 0; i < allSames.length; i++)
             {
                 allSames[i] = true;
                 double last = 0;
+                
                 for (int p = 0; p < getAlternatives().size(); p++)
                 {
                     final double current = getUtilityDerivativesWrtCommodityUtilities()[p][i];
-                    if (p != 0 && current != last)
+                    if (p != 0 && !(Math.abs(current - last) < epsilon))
                     {
                         allSames[i] = false;
                     }
