@@ -27,7 +27,7 @@ import com.hbaspecto.pecas.zones.PECASZone;
 import com.pb.common.matrix.Matrix;
 import com.pb.common.matrix.StringIndexedNDimensionalMatrix;
 
-public class AAPProcessorTests {
+public class AAPProcessorTest {
 
 	private static final float delta = 0.000001f;
 	static PECASZone[] _allZones = null;

@@ -9,7 +9,7 @@ import com.hbaspecto.pecas.aa.control.FakeExchange;
 import com.hbaspecto.pecas.aa.travelAttributes.TravelUtilityCalculatorInterface;
 import com.hbaspecto.pecas.zones.PECASZone;
 
-public class CommodityFlowArrayTests {
+public class CommodityFlowArrayTest {
 	
 	public double delta = .000000000001;
 

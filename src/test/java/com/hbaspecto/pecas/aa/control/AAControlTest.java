@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.hbaspecto.pecas.aa.commodity.Commodity;
 
-public class AAControlTests {
+public class AAControlTest {
 
 	@Test
 	public void testAAControl() {
