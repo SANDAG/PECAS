@@ -17,6 +17,7 @@ public class FakeAAModel extends AAModel {
 	public int _decreaseStepSizeAndAdjustPricesCalled = 0;
 	public int _decreaseStepSizeEvenIfBelowMinimumAndAdjustPricesCalled = 0;
 	public int _recalculateLocationConsumptionAndProductionCalled = 0;
+	public int _calculateNewPricesUsingDiagonalApproximationCalled = 0;
 	public int _backUpToLastValidPricesCalled = 0;
 	public boolean _usesInfinity = false;
 
@@ -84,6 +85,12 @@ public class FakeAAModel extends AAModel {
 		_usedDerivitives = calcDeltaUsingDerivatives;
 		_calculateNewPricesUsingBlockDerivativesCalled++;
 	}
+	
+	@Override
+	public void calculateNewPricesUsingDiagonalApproximation() {
+		_calculateNewPricesUsingDiagonalApproximationCalled++;
+	}
+	
 
 	public void setNAN(boolean b) {
 		_isNAN = b;

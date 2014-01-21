@@ -236,6 +236,8 @@ public class AAControlTest {
 		FakeAAModel model = control.GetModel();
 		Assert.assertEquals(0,
 				model._calculateNewPricesUsingBlockDerivativesCalled);
+		Assert.assertEquals(1,
+				model._calculateNewPricesUsingDiagonalApproximationCalled);
 		Assert.assertEquals(2, result);
 
 		util = new FakeResourceUtil();
@@ -246,6 +248,8 @@ public class AAControlTest {
 		Commodity.setCalculateSizeTerms(false);
 		result = control.runAAToFindPrices(util);
 		model = control.GetModel();
+		Assert.assertEquals(0,
+				model._calculateNewPricesUsingDiagonalApproximationCalled);
 		Assert.assertEquals(1,
 				model._calculateNewPricesUsingBlockDerivativesCalled);
 		Assert.assertEquals(2, result);
